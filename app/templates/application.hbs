@@ -1,3 +1,41 @@
-<h2 id="title">Welcome to Ember</h2>
 
-{{outlet}}
+<style>
+*{
+    margin:0;padding:0;
+}
+#navBar {
+    background: #55A9C4;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 52px;
+}
+#content {
+
+    min-height:1000px;
+    display: block;
+    margin-left: 62px; /*width of nav bar*/
+}
+
+</style>
+<div id="navBar" >
+    <ul>
+        <li>
+            {{#link-to 'notificationtester'}}
+            <div type="button" class="btn btn-lg"
+                    title="Notification Tester" data-toggle="tooltip"
+                    data-placement="right">
+
+              <span class="glyphicon glyphicon-cloud-download" aria-hidden="true">
+              </span>
+            </div>
+            {{/link-to}}
+        </li>
+
+    </ul>
+</div>
+
+<div id="content">
+    {{outlet}}
+</div>

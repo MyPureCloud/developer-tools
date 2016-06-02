@@ -1,0 +1,13 @@
+<h2>Notification Tester</h2>
+
+<ul>
+  {{#each model.entities as |topic|}}
+    <li><b>{{topic.id}}</b>
+        <br/>
+
+    {{topic.description}}
+    <br/><br/>
+</li>
+
+  {{/each}}
+</ul>
