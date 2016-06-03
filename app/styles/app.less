@@ -1,0 +1,56 @@
+@top-banner-height: 50px;
+
+body{
+    overflow:hidden;
+}
+
+body, html {
+    height: 100%;
+}
+
+.full-height{
+    height: 100%;
+}
+
+.height-90pct{
+    height: 90%;
+}
+
+*{
+    margin:0;padding:0;
+}
+
+.scrollable{
+    overflow-y:auto;
+    overflow-x:hidden;
+}
+
+#navBar {
+    background: rgb(15, 70, 93);
+    color: rgb(25, 151, 202);
+    position: fixed;
+    left: 0;
+    top: @top-banner-height;
+    bottom: 0;
+    width: 52px;
+
+    .glyphicon{
+        color: rgb(25, 151, 202);
+    }
+}
+
+.top-banner{
+    width:100%;
+    height:@top-banner-height;
+    background-color:rgb(85, 169, 198);
+    color:white;
+    font-family: inherit;
+    font-weight: 500;
+    font-size: 30px;
+}
+
+#content {
+    min-height:1000px;
+    display: block;
+    margin-left: 62px; /*width of nav bar*/
+}

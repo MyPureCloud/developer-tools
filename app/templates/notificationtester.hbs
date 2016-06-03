@@ -1,13 +1,94 @@
-<h2>Notification Tester</h2>
+<div class='full-height'>
 
-<ul>
-  {{#each model.entities as |topic|}}
-    <li><b>{{topic.id}}</b>
-        <br/>
 
-    {{topic.description}}
-    <br/><br/>
-</li>
+    <h2>Notification Tester</h2>
 
-  {{/each}}
-</ul>
+    <div class="container-fluid full-height" >
+        <div class="row full-height" >
+            <div class='col-md-4'>
+                <div class="panel panel-default">
+                    <div class="panel-heading"><h3 class="panel-title">Available Notification Topics</h3></div>
+                    <div class="panel-body" style='height:30vh'>
+
+                        <select onchange={{action 'selectNotificationTopic' value="target.value"}}>
+                            {{#each availableTopics as |topic index|}}
+                            <option value={{index}}>
+
+                                {{topic.id}}
+                            </option>
+                            {{/each}}
+                        </select>
+
+                        {{#if topic}}
+
+                        <br/>
+                        {{topic.description}}
+                        <br />
+                        {{input value=subscribeId class="form-control"}}
+
+                        <br />
+                        <button class='btn btn-primary' {{action 'subscribe'}}>Subscribe</button>
+                        {{/if}}
+                    </div>
+                </div>
+
+                <div class="panel panel-default" >
+                    <div class="panel-heading"><h3 class="panel-title">Subscribed Topics</h3></div>
+                    <div class="panel-body" style='height:40vh'>
+
+                        <ul class='scrollable' style='height:35vh;'>
+                            {{#each subscriptions as |topic|}}
+                            <li>
+                                {{topic}}
+                            </li>
+                            {{/each}}
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+            <div class='col-md-8 full-height' style='height:90vh' >
+                <div class="panel panel-default height-90pct" >
+                    <div class="panel-heading"><h3 class="panel-title">Received Events </h3></div>
+                    <div class="panel-body height-90pct"  >
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label>Time</label>
+                            </div>
+                            <div class="col-md-3">
+                                <label>Topic</label>
+                            </div>
+                            <div class="col-md-7">
+                                <label>Body</label>
+                            </div>
+                        </div>
+                        <div class='full-height scrollable'>
+                            {{#each receivedMessage as |message|}}
+                            <div class="row">
+                                <div class="col-md-2">
+                                    {{message.time}}
+                                </div>
+                                <div class="col-md-3">
+                                    {{message.topicName}}
+                                </div>
+                                <div class="col-md-7">
+                                    {{ message.bodyString }}
+                                </div>
+                            </div>
+                            {{/each}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--
+<div class='pull-left'>
+
+<h3>Subscribed Topics</h3>
+{{#each subscriptions as |topic|}}
+{{topic}}
+{{/each}}
+</div>
+-->
