@@ -1,5 +1,7 @@
 /* jshint node: true */
 
+var pkg = require('../package.json');
+
 module.exports = function(environment) {
     var ENV = {
         modulePrefix: 'developer-tools',
