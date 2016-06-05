@@ -63,6 +63,10 @@ module.exports = function(environment) {
 
         ENV.APP.semver = semver;
         ENV.APP.version = packageVersion;
+
+
+        ENV.baseURL = '/developer-tools/';
+        ENV.locationType = 'hash';
     }
 
     return ENV;
