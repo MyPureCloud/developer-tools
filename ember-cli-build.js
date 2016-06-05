@@ -12,7 +12,12 @@ module.exports = function(defaults) {
                   match: 'CDN_URL',
                   replacement: cdnUrl
               }]
-          }
+          },
+          fingerprint: {
+            prepend: cdnUrl,
+            exclude: ['emojify', 'leaflet', 'patches/'],
+            extensions: ['js', 'css']
+        },
 
   });
 
