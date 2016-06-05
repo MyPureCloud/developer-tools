@@ -25,9 +25,5 @@ export default Ember.Service.extend({
                 });
 
         this.set('session', session);
-    //    application.register('service:purecloud', purecloud);
-    //    application.inject('route', 'purecloud', 'service:purecloud');
-
-
     },
 });

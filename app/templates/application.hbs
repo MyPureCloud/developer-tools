@@ -1,20 +1,23 @@
 <div class='top-banner'>
-Developer Tools
+
+    {{#header-bar}}{{/header-bar}}
+
 </div>
 <div id="navBar" >
     <ul>
         <li>
-            {{#link-to 'notificationtester'}}
-            <div type="button" class="btn btn-lg"
-                    title="Notification Tester" data-toggle="tooltip"
-                    data-placement="right">
+            {{#link-to 'notificationtester' title="Notification Tester"  }}
+              <i class="fa fa-paper-plane " aria-hidden="true"></i>
+            {{/link-to}}
 
-              <span class="glyphicon glyphicon-cloud-download" aria-hidden="true">
-              </span>
-            </div>
+        </li>
+        <!--
+        <li>
+            {{#link-to 'notificationtester'}}
+                  <i class="fa fa-user" aria-hidden="true"></i>
             {{/link-to}}
         </li>
-
+-->
     </ul>
 </div>
 

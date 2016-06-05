@@ -1,3 +1,4 @@
+/* global moment */
 import Ember from 'ember';
 //http://www.programwitherik.com/ember-services-tutorial/
 export default Ember.Service.extend({
@@ -31,13 +32,13 @@ export default Ember.Service.extend({
 
         api.getAvailabletopics("description,schema").done(function(topics){
             that.set('availableTopics', topics.entities );
-        })
+        });
 
     },
     subscribe(id){
         var that = this;
         var api = this.get('purecloud').notificationsApi();
-        api.postChannelsChannelIdSubscriptions(this.get("channelId"), [{id: id}]).done(function(result){
+        api.postChannelsChannelIdSubscriptions(this.get("channelId"), [{id: id}]).done(function(){
             that.get('idList').pushObject(id);
         }).error(function(error){
             console.log(error);
@@ -45,7 +46,8 @@ export default Ember.Service.extend({
     },
     unsubscribeAll(){
         var that = this;
-        api.putChannelsChannelIdSubscriptions(this.get("channelId"), []).done(function(result){
+        var api = this.get('purecloud').notificationsApi();
+        api.putChannelsChannelIdSubscriptions(this.get("channelId"), []).done(function(){
             that.get('idList').clear();
         }).error(function(error){
             console.log(error);

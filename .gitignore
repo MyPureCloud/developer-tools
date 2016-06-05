@@ -2,6 +2,7 @@
 
 # compiled output
 /dist
+/localBuild
 /tmp
 
 # dependencies

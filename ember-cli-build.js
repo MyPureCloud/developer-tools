@@ -2,9 +2,18 @@
 /* global require, module */
 var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
+var cdnUrl = process.env.CDN_URL || '';
+
 module.exports = function(defaults) {
   var app = new EmberApp(defaults, {
-    // Add options here
+      replace: {
+              files: ['index.html'],
+              patterns: [{
+                  match: 'CDN_URL',
+                  replacement: cdnUrl
+              }]
+          }
+
   });
 
   // Use `app.import` to add additional libraries to the generated
