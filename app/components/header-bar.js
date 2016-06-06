@@ -10,5 +10,12 @@ export default Ember.Component.extend({
 
     meJson:computed('purecloud.me', function() {
         return JSON.stringify(this.get('purecloud').get('me'),null, "  ");
-    })
+    }),
+
+    showMe: false,
+    actions: {
+        toggleMe: function() {
+            this.toggleProperty('showMe');
+        }
+    }
 });

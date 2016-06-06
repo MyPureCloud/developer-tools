@@ -30,11 +30,16 @@ export default Ember.Service.extend({
 
         var that = this;
         session.authorize(oauthConfig.clientId, oauthConfig.redirect)
-                .done(function(me){
+                .done(function(){
+                    //Get All Me Expands
+                    var api = new UsersApi(session);
 
-                    console.log('auth done');
-                    console.log(me);
-                    that.set('me',me);
+                    api.getMe('geolocation,station,authorization,date,geolocationsettings,organization,presencedefinitions').done(function(me){
+                        console.log('auth done');
+                        console.log(me);
+                        that.set('me',me);
+                    });
+
                 });
 
         this.set('session', session);
