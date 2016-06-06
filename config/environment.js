@@ -21,11 +21,17 @@ module.exports = function(environment) {
             urlprefix: ''
         },
         'oauthProps': {
-            dca: {
-                clientId: ''
+            localhost: {
+                clientId: 'f2f2762f-6c8f-4f06-9f13-0560c17cef2b',
+                redirect: 'http://localhost:4200/'
             },
-            'pca-us': {
-                clientId: ''
+            inindca: {
+                clientId: 'f2f2762f-6c8f-4f06-9f13-0560c17cef2b',
+                redirect: 'https://developer.inindca.com/tools/'
+            },
+            ininpca: {
+                clientId: 'd7200ae7-b2bb-4ff6-afcf-e29ebd1d6f56',
+                redirect: 'https://developer.mypurecloud.com/tools/'
             }
         }
     };

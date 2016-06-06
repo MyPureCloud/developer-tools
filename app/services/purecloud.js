@@ -2,6 +2,9 @@
 /* global NotificationsApi */
 
 import Ember from 'ember';
+import config from '../config/environment';
+
+const ENV_REG_EXP = /(inin[dts]ca|mypurecloud|localhost)/i;
 
 export default Ember.Service.extend({
     session: null,
@@ -13,10 +16,20 @@ export default Ember.Service.extend({
     init() {
         this._super(...arguments);
 
-        var session = new PureCloudSession();
+        let env = ENV_REG_EXP.exec(window.location.hostname)[0];
+
+        let oauthConfig = config.oauthProps[env];
+
+        let purecloudEnvironment = env + ".com"
+
+        if(env == 'localhost'){
+            purecloudEnvironment = "inindca.com";
+        }
+
+        var session = new PureCloudSession(purecloudEnvironment);
 
         var that = this;
-        session.authorize('df475b64-4f4e-4f28-8fd1-eab47511e7da','http://localhost:4200/notificationtester')
+        session.authorize(oauthConfig.clientId, oauthConfig.redirect)
                 .done(function(me){
 
                     console.log('auth done');
