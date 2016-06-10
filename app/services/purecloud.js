@@ -34,7 +34,7 @@ export default Ember.Service.extend({
                     //Get All Me Expands
                     var api = new UsersApi(session);
 
-                    api.getMe('geolocation,station,authorization,date,geolocationsettings,organization,presencedefinitions').done(function(me){
+                    api.getMe('geolocation,station,date,geolocationsettings,organization,presencedefinitions').done(function(me){
                         console.log('auth done');
                         console.log(me);
                         that.set('me',me);
