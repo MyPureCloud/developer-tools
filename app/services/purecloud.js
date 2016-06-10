@@ -1,6 +1,6 @@
 /* global PureCloudSession */
 /* global NotificationsApi */
-
+/* global UsersApi */
 import Ember from 'ember';
 import config from '../config/environment';
 
@@ -20,9 +20,9 @@ export default Ember.Service.extend({
 
         let oauthConfig = config.oauthProps[env];
 
-        let purecloudEnvironment = env + ".com"
+        let purecloudEnvironment = env + ".com";
 
-        if(env == 'localhost'){
+        if(env === 'localhost'){
             purecloudEnvironment = "inindca.com";
         }
 
