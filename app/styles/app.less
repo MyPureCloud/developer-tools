@@ -1,4 +1,5 @@
 @top-banner-height: 50px;
+@nav-bar-width: 52px;
 
 body{
     overflow:hidden;
@@ -23,6 +24,15 @@ body, html {
 .scrollable{
     overflow-y:auto;
     overflow-x:hidden;
+}
+
+#developer-tools{
+    height:100%;
+    position:absolute;
+    top:@top-banner-height;
+    left:@nav-bar-width;
+    right:0px;
+    bottom:0px
 }
 
 #navBar {
