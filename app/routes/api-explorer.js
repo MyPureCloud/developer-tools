@@ -6,6 +6,7 @@ export default Ember.Route.extend({
         //return {
         //    iframeUrl: "http://mypurecloud.github.io/openapi-explorer/"
     //    }
-return "https://apps.inindca.com/openapi-explorer/#token_type=bearer&access_token=" + this.get("purecloud").get("session").authToken();
+        console.log("opening api explorer to " + window.location.search);
+        return "https://apps.inindca.com/openapi-explorer/"+ window.location.search +"#token_type=bearer&access_token=" + this.get("purecloud").get("session").authToken();
     }
 });
