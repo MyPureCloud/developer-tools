@@ -30,7 +30,7 @@ export default Ember.Service.extend({
 
         var that = this;
         let state = encodeURIComponent(window.location.href.replace(/=/g,"|"));
-
+        
         session.authorize(oauthConfig.clientId, oauthConfig.redirect, state)
                 .done(function(){
                     //debugger;
