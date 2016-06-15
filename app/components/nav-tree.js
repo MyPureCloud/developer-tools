@@ -4,7 +4,6 @@ export default Ember.Component.extend({
     purecloud: Ember.inject.service(),
     actions:{
         logOut(){
-            debugger;
             this.get('purecloud').get("session").logout();
 
             /*if(window && window.localStorage){

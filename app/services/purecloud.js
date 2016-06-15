@@ -30,13 +30,13 @@ export default Ember.Service.extend({
 
         var that = this;
         let state = encodeURIComponent(window.location.href.replace(/=/g,"|"));
-        
+
         session.authorize(oauthConfig.clientId, oauthConfig.redirect, state)
                 .done(function(){
                     //debugger;
                     var redirectTo = decodeURIComponent(session.getState()).replace(/\|/g,"=");
                     console.log("redirect to " + redirectTo);
-                    if(redirectTo && redirectTo != "null" && redirectTo != window.location.href){
+                    if(redirectTo && redirectTo !== "null" && redirectTo != window.location.href){
                         window.location.replace(redirectTo);
                     }
 
