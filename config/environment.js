@@ -29,6 +29,10 @@ module.exports = function(environment) {
                 clientId: 'f2f2762f-6c8f-4f06-9f13-0560c17cef2b',
                 redirect: 'https://developer.inindca.com/tools/'
             },
+            ininsca: {
+                clientId: 'b16c40bf-1d9d-4f59-9f1c-07e60528c659',
+                redirect: 'https://apps.ininsca.com/developer-tools/'
+            },
             mypurecloud: {
                 clientId: 'd7200ae7-b2bb-4ff6-afcf-e29ebd1d6f56',
                 redirect: 'https://developer.mypurecloud.com/tools/'
