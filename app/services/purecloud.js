@@ -36,7 +36,7 @@ export default Ember.Service.extend({
                     //debugger;
                     var redirectTo = decodeURIComponent(session.getState()).replace(/\|/g,"=");
                     console.log("redirect to " + redirectTo);
-                    if(redirectTo && redirectTo !== "null" && redirectTo != window.location.href){
+                    if(redirectTo && redirectTo !== "null" && redirectTo !== window.location.href){
                         window.location.replace(redirectTo);
                     }
 

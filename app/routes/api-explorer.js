@@ -1,4 +1,5 @@
 import Ember from 'ember';
+const ENV_REG_EXP = /(inin[dts]ca|mypurecloud|localhost)/i;
 
 export default Ember.Route.extend({
     purecloud: Ember.inject.service(),
@@ -14,7 +15,21 @@ export default Ember.Route.extend({
             search = "?" + window.location.hash.substring(window.location.hash.indexOf("share"));
         }
 
-        return "https://apps.inindca.com/openapi-explorer/"+ search +"#token_type=bearer&access_token=" + this.get("purecloud").get("session").authToken();
+        let env = ENV_REG_EXP.exec(window.location.hostname)[0];
+        let purecloudEnvironment = env + ".com";
+
+        if(env === 'localhost'){
+            purecloudEnvironment = "inindca.com";
+        }
+
+        let swagger = `openApiUrl=https://api.${purecloudEnvironment}/api/v2/docs/swagger`;
+        if(search == null || search.length === 0){
+            search = "?"+swagger;
+        }else{
+            search += "&" + swagger;
+        }
+
+        return `https://apps.${purecloudEnvironment}/openapi-explorer/${search}#token_type=bearer&access_token=` + this.get("purecloud").get("session").authToken();
 
     }
 });
