@@ -8,6 +8,7 @@ const Router = Ember.Router.extend({
 Router.map(function() {
   this.route('notificationtester');
   this.route('api-explorer');
+  this.route('codeeditor');
 });
 
 export default Router;

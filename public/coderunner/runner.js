@@ -1,0 +1,89 @@
+
+var domLoaded = false;
+
+function handleError(e) {
+    console.error(e.message + ' Line: ' + e.lineno + " Column: " + e.colno);
+}
+
+window.addEventListener("error", handleError, true);
+
+document.addEventListener('DOMContentLoaded', function() {
+	domLoaded = true;
+});
+
+function getQueryVariable(variable)
+{
+   var query = window.location.search.substring(1);
+   var vars = query.split("&");
+   for (var i=0;i<vars.length;i++) {
+           var pair = vars[i].split("=");
+           if(pair[0] == variable){return pair[1];}
+   }
+   return(false);
+}
+
+(function(){
+    if(window.console && console.log){
+        var oldLog = console.log;
+        var oldError = console.error;
+        var oldWarn = console.warn;
+        console.log = function(){
+            sendConsoleMessage("log", arguments);
+
+            Array.prototype.unshift.call(arguments, 'Code Execution: ');
+            oldLog.apply(this, arguments);
+        }
+
+        console.error = function(){
+            sendConsoleMessage("error", arguments);
+
+            Array.prototype.unshift.call(arguments, 'Code Execution: ');
+            oldError.apply(this, arguments);
+        }
+
+        console.warn = function(){
+            sendConsoleMessage("warn", arguments);
+            Array.prototype.unshift.call(arguments, 'Code Execution: ');
+            oldWarn.apply(this, arguments);
+        }
+    }
+})();
+
+function sendConsoleMessage(type, args){
+
+    parent.postMessage(JSON.stringify({
+        action: 'console',
+        type: type,
+        arguments: args
+
+    }), '*');
+}
+
+onmessage = function(evt) {
+    //console.log(evt);
+	if (true || evt.origin === 'http://localhost' || evt.origin === 'http://dabblet.com') {
+		var info = JSON.parse(evt.data);
+	    var data = info.data;
+
+        try {
+            document.body.innerHTML = document.body.innerHTML;
+            var environment = getQueryVariable('environment');
+            var debug = (getQueryVariable('debug') === 'true');
+            var authToken = getQueryVariable('auth');
+
+            data = `var session = new PureCloudSession("${environment}"); session.debug(${debug}); session.authToken("${authToken}")` + data
+
+            eval(data);
+        }
+        catch (e) {
+            var lineNumber = e.lineNumber - 30 + 1 || (e.stack.match(/<anonymous>:(\d+):\d+/) || [,])[1];
+
+            parent.postMessage(JSON.stringify({
+                action: 'runerror',
+                name: e.name,
+                message: e.message,
+                lineNumber: lineNumber
+            }), '*');
+        }
+	}
+};

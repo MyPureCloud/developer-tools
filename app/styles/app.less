@@ -1,6 +1,8 @@
 @top-banner-height: 50px;
 @nav-bar-width: 52px;
 
+@import "code-editor.less";
+
 body{
     overflow:hidden;
 }
@@ -62,7 +64,7 @@ body, html {
         font-size: 30px;
         text-align: center;
         padding:5px;
-    
+
         &:hover{
             color:rgb(85, 169, 198);
         }
@@ -103,7 +105,7 @@ body, html {
     border-bottom: lightgray 1px solid;
 }
 
-#content {
+#content  {
     min-height:1000px;
     display: block;
     margin-left: 62px; /*width of nav bar*/
