@@ -128,7 +128,9 @@ users.getMe().done(function(userObject){
 
         function receiveMessage(event)
         {
-            //console.log(event.origin);
+            if ( evt.origin !== window.location.origin) {
+                return;
+            }
 
             if(typeof(event.data) === 'object'){
                 return;
