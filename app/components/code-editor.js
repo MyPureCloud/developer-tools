@@ -4,6 +4,7 @@ var  computed = Ember.computed;
 let classTypeRegex = /new\s*$/;
 
 export default Ember.Component.extend({
+    storageService: Ember.inject.service(),
     purecloud: Ember.inject.service('purecloud'),
     messages:[{
         type: "log",
@@ -124,11 +125,18 @@ users.getMe().done(function(userObject){
     console.log("done");
 });`;
 
-        this.set("code", defaultCode);
+        let storage = this.get("storageService");
+        let code = storage.localStorageGet("code");
+
+        if(code == null || code.length ==0){
+            code = defaultCode;
+        }
+
+        this.set("code", code);
 
         function receiveMessage(event)
         {
-            if ( evt.origin !== window.location.origin) {
+            if ( event.origin !== window.location.origin) {
                 return;
             }
 
@@ -172,10 +180,15 @@ users.getMe().done(function(userObject){
     actions:{
         run(){
             this.messages.clear();
-            var iframeBody = document.getElementById('code-runner').contentWindow
+            var iframeBody = document.getElementById('code-runner').contentWindow;
+            let code = this.get("code");
+
+            let storage = this.get("storageService");
+            storage.localStorageSet("code", code);
+
             iframeBody.postMessage(JSON.stringify({
                 action: 'javascript',
-                data: this.get('code')
+                data: code
             }), '*');
         }
     }
