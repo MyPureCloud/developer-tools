@@ -60,8 +60,7 @@ function sendConsoleMessage(type, args){
 }
 
 onmessage = function(evt) {
-    //console.log(evt);
-	if (true || evt.origin === 'http://localhost' || evt.origin === 'http://dabblet.com') {
+    if ( evt.origin === window.location.origin) {
 		var info = JSON.parse(evt.data);
 	    var data = info.data;
 
@@ -71,7 +70,7 @@ onmessage = function(evt) {
             var debug = (getQueryVariable('debug') === 'true');
             var authToken = getQueryVariable('auth');
 
-            data = `var session = new PureCloudSession("${environment}"); session.debug(${debug}); session.authToken("${authToken}")` + data
+            data = `var pureCloudSession = new PureCloudSession("${environment}"); pureCloudSession.debug(${debug}); pureCloudSession.authToken("${authToken}")` + data
 
             eval(data);
         }

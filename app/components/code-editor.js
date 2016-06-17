@@ -46,7 +46,7 @@ export default Ember.Component.extend({
                         if(m.indexOf("Api") > 0 && typeof(window[m]) == "function") {
                             pureCloudClasses.push({
                                 word: m ,
-                                value: m+ "(session);",
+                                value: m+ "(pureCloudSession);",
                                 score: 100,
                                 meta: "PureCloud Class"
 
@@ -112,10 +112,10 @@ export default Ember.Component.extend({
         });
 
         let defaultCode = `//log out your current environment
-console.log(session.environment());
+console.log(pureCloudSession.environment());
 
 //use that session to interface with the API
-var users = new UsersApi(session);
+var users = new UsersApi(pureCloudSession);
 
 console.log("getting ME");
 users.getMe().done(function(userObject){
