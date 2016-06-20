@@ -52,6 +52,7 @@
         }
 
         console.error = function(){
+            sendConsoleMessage("error", arguments);
 
             Array.prototype.unshift.call(arguments, 'Code Execution: ');
             oldError.apply(this, arguments);
@@ -61,8 +62,6 @@
             sendConsoleMessage("warn", arguments);
             Array.prototype.unshift.call(arguments, 'Code Execution: ');
             oldWarn.apply(this, arguments);
-            sendConsoleMessage("error", arguments);
-
         }
     }
 
