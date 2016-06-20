@@ -1,3 +1,5 @@
+/* global ace */
+/* global PureCloudSession */
 import Ember from 'ember';
 var  computed = Ember.computed;
 
@@ -27,7 +29,6 @@ export default Ember.Component.extend({
     }),
     runToggle: false,
     aceInit: function(editor) {
-        let that = this;
         editor.setHighlightActiveLine(false);
         editor.setShowPrintMargin(false);
         editor.getSession().setTabSize(2);
@@ -52,7 +53,7 @@ export default Ember.Component.extend({
                     let pureCloudClasses = [];
 
                     for(var m in window) {
-                        if(m.indexOf("Api") > 0 && typeof(window[m]) == "function") {
+                        if(m.indexOf("Api") > 0 && typeof(window[m]) === "function") {
                             pureCloudClasses.push({
                                 word: m ,
                                 value: m + "(pureCloudSession);",
@@ -65,7 +66,7 @@ export default Ember.Component.extend({
 
                     pureCloudClasses = pureCloudClasses.sort(function compare(a, b) {
                       return a.value.localeCompare(b.value);
-                    })
+                  });
                     callback(null, pureCloudClasses);
                 }
                 else if(methodMatch){
@@ -81,12 +82,12 @@ export default Ember.Component.extend({
                         let instance = new window[apiType](session);
 
                         let functions = [];
-                        for(var m in instance) {
-                            if(typeof instance[m] == "function") {
-                                if(prefix === "" || m.indexOf(prefix) === 0){
+                        for(var i in instance) {
+                            if(typeof instance[i] === "function") {
+                                if(prefix === "" || i.indexOf(prefix) === 0){
                                     functions.push({
-                                        word: m,
-                                        value: m,
+                                        word: i,
+                                        value: i,
                                         score: 100,
                                         meta: apiType + " Function"
 
@@ -102,7 +103,7 @@ export default Ember.Component.extend({
                     }
                 }
             }
-        }
+        };
         langTools.addCompleter(methodCompleter);
     },
     init(){
@@ -113,7 +114,7 @@ export default Ember.Component.extend({
 
         this.addObserver('runToggle', function() {
             this.messages.clear();
-            var iframeBody = document.getElementById('code-runner').contentWindow
+            var iframeBody = document.getElementById('code-runner').contentWindow;
             iframeBody.postMessage(JSON.stringify({
                 action: 'javascript',
                 data: this.get('code')
@@ -136,7 +137,7 @@ users.getMe().done(function(userObject){
         let storage = this.get("storageService");
         let code = storage.localStorageGet("code");
 
-        if(code == null || code.length ==0){
+        if(code === null || code.length === 0){
             code = defaultCode;
         }
 
@@ -179,7 +180,7 @@ users.getMe().done(function(userObject){
                     message: data.message,
                     name: data.name,
                     lineNumber: data.lineNumber
-                })
+                });
             }
 
         }

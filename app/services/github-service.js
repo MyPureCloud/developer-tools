@@ -1,3 +1,4 @@
+/*global $*/
 import Ember from 'ember';
 
 export default Ember.Service.extend(Ember.Evented,{
@@ -24,10 +25,10 @@ export default Ember.Service.extend(Ember.Evented,{
                     return bSplit[2].localeCompare(aSplit[2]);
                 }
 
-          });
+            });
 
-          that.set("jsSdkReleases", releases);
-
+            that.set("jsSdkReleases", releases);
+            
             console.log(that.get("jsSdkReleases"));
         });
     }
