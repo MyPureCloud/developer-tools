@@ -4,7 +4,7 @@ import Ember from 'ember';
 export default Ember.Service.extend(Ember.Evented,{
     jsSdkReleases:[],
     init(){
-        let releases = []
+        let releases = [];
         let that = this;
         $.getJSON("https://api.github.com/repos/MyPureCloud/purecloud_api_sdk_javascript/tags").done(function(tags){
             for(var x=0;x< tags.length; x++){
@@ -28,7 +28,7 @@ export default Ember.Service.extend(Ember.Evented,{
             });
 
             that.set("jsSdkReleases", releases);
-            
+
             console.log(that.get("jsSdkReleases"));
         });
     }

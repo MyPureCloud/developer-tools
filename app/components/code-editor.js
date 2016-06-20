@@ -65,8 +65,8 @@ export default Ember.Component.extend({
                     }
 
                     pureCloudClasses = pureCloudClasses.sort(function compare(a, b) {
-                      return a.value.localeCompare(b.value);
-                  });
+                        return a.value.localeCompare(b.value);
+                    });
                     callback(null, pureCloudClasses);
                 }
                 else if(methodMatch){
@@ -97,7 +97,7 @@ export default Ember.Component.extend({
                             }
                         }
                         functions.sort(function compare(a, b) {
-                          return a.word.localeCompare(b.word);
+                            return a.word.localeCompare(b.word);
                         });
                         callback(null, functions);
                     }
@@ -137,7 +137,7 @@ users.getMe().done(function(userObject){
         let storage = this.get("storageService");
         let code = storage.localStorageGet("code");
 
-        if(code === null || code.length === 0){
+        if(code === null || typeof(code) === "undefined" || code.length === 0){
             code = defaultCode;
         }
 
