@@ -63,10 +63,14 @@
                                     <li class='log {{message.type}}'>
                                         {{#each message.messageParams as |param|}}
                                         {{#if param.isObject}}
+                                        <!--
                                         <pre>
                                             <code>{{param.value}}
                                             </code>
                                         </pre>
+-->
+                                        {{ace-editor value=param.value aceInit=aceConsoleInit class="editor "}}
+
                                         {{else}}
                                         {{param.value}}<br/>
                                         {{/if}}

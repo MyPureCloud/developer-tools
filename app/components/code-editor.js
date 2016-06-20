@@ -28,6 +28,12 @@ export default Ember.Component.extend({
         return this.get("githubService").get("jsSdkReleases");
     }),
     runToggle: false,
+    aceConsoleInit: function(editor){
+        editor.setHighlightActiveLine(false);
+        editor.setShowPrintMargin(false);
+        editor.setReadOnly(true);
+        editor.getSession().setMode("ace/mode/json");
+    },
     aceInit: function(editor) {
         editor.setHighlightActiveLine(false);
         editor.setShowPrintMargin(false);
@@ -177,7 +183,7 @@ users.getMe().done(function(userObject){
             else if (data.action === "runerror"){
                 let isObject = false;
                 if(typeof(data.message) === "object"){
-                    data.message= JSON.stringify(o, null, "  ");
+                    data.message= JSON.stringify(data.message, null, "  ");
                     isObject= true;
                 }
 
