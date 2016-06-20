@@ -19,7 +19,7 @@ export default Ember.Component.extend({
     url: computed('enableDebugging', 'selectedSdk', function() {
         let purecloud = this.get("purecloud").get("session");
         let selectedSdk = this.get("selectedSdk");
-        let url = `/coderunner/index.html?auth=${purecloud.authToken()}&debug=${this.get("enableDebugging")}&environment=${purecloud.environment()}&sdk=${selectedSdk}`;
+        let url = `coderunner/index.html?auth=${purecloud.authToken()}&debug=${this.get("enableDebugging")}&environment=${purecloud.environment()}&sdk=${selectedSdk}`;
         return url;
     }),
     sdkTags: computed('githubService.jsSdkReleases', function() {
