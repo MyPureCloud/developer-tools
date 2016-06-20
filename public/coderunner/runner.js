@@ -11,6 +11,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     var sdk = getQueryVariable('sdk');
 
+    if(sdk === null || sdk === "undefined"){
+        //don't load url if sdk is undefined
+        return;
+    }
+
 	domLoaded = true;
 
     //load PureCloud API
