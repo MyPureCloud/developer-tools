@@ -11,7 +11,7 @@ export default Ember.Component.extend({
     purecloud: Ember.inject.service('purecloud'),
     messages:[{
         type: "log",
-        messageParams: [{value:"No log message"}]
+        messageParams: [{value:"No log messages"}]
     }],
     code: '',
     enableDebugging: false,
@@ -151,7 +151,7 @@ users.getMe().done(function(userObject){
 
         function receiveMessage(event)
         {
-            if ( event.origin !== window.location.origin) {
+            if (event.origin !== "null" && event.origin !== window.location.origin) {
                 return;
             }
 
