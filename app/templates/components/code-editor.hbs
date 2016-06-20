@@ -1,0 +1,132 @@
+<div id='code-editor' class='full-height'>
+    <div class='container-fluid full-height'>
+
+        <div class='row'>
+            <div class='col-md-6'>
+                <div class='container-fluid'>
+                    <div class='row'>
+                        <div class='form-inline'>
+                            <div class='pull-left code-info'>
+                                    <a href="#" data-toggle="modal" data-target="#codeEditorModal" id='btn-run-code' class='pull-left' {{action 'showInfo'}}><i class="fa fa-info-circle" aria-hidden="true"></i></a>
+                            </div>
+
+                            <button id='btn-run-code' class='btn btn-primary pull-left' {{action 'run'}}>Run <i class="fa fa-play" aria-hidden="true"></i></button>
+                            <div class="checkbox" style='margin-left:10px; margin-top:5px;'>
+                                <label>
+                                    {{input type="checkbox" name="enableDebugging" checked=enableDebugging}}Enable SDK debugging traces
+                                </label>
+                            </div>
+
+
+                            <div class = "form-group pull-left">
+                                <label>SDK version</label>
+                                <select class="form-control"  onchange={{action 'selectSdk' value="target.value"}}>
+                                    {{#each sdkTags as |topic index|}}
+                                    <option value={{index}}>
+                                        {{topic}}
+                                    </option>
+                                    {{/each}}
+                                </select>
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class='row'>
+                        <div class="text-muted">
+
+
+                        </div>
+                    </div>
+                </div>
+
+                {{ace-editor value=code aceInit=aceInit class="editor " runToggle=runToggle}}
+            </div>
+
+            <div class='col-md-6  full-height' >
+                <div>
+                    <div>
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#console" aria-controls="console" role="tab" data-toggle="tab">Console Output</a></li>
+                            <li role="presentation"><a href="#jsdoc" aria-controls="jsdoc" role="tab" data-toggle="tab">Documentation</a></li>
+                        </ul>
+
+                        <!-- Tab panes -->
+                        <div class="tab-content" style='width:100%'>
+                            <div role="tabpanel" class="tab-pane active" id="console">
+
+                                <ul class='console-log'>
+
+                                    {{#each messages as |message|}}
+                                    <li class='log {{message.type}}'>
+                                        {{message.name}}
+                                        {{#each message.messageParams as |param|}}
+                                        {{#if param.isObject}}
+                                        <pre>
+                                            <code>{{param.value}}
+                                            </code>
+                                        </pre>
+                                        {{else}}
+                                        {{param.value}}<br/>
+                                        {{/if}}
+                                        {{/each}}
+                                        {{#if message.lineNumber}}
+                                        Line number: {{message.lineNumber}}
+                                        {{/if}}
+
+                                    </li>
+
+                                    {{/each}}
+
+                                </ul>
+
+                            </div>
+                            <div role="tabpanel" class="tab-pane" id="jsdoc">
+                                <iframe width="100%" height="100%" frameborder="0" src="https://developer.mypurecloud.com/api/rest/client-libraries/javascript-noborder/latest/" ></iframe>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<iframe id='code-runner' scrolling="no"  frameborder="0" src={{url}} class='position:absolute;height:0px;width:0px'></iframe>
+<div class="modal fade" tabindex="-1" role="dialog" id='codeEditorModal'>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Javascript Code Editor</h4>
+      </div>
+      <div class="modal-body">
+          <p>
+              Develop and test API calls using the javascript SDK and execute right from the browser.
+
+              <ul>
+
+                  <li>
+                      The variable 'pureCloudSession' is already set and authenticated for you as a PureCloudSession.
+                  </li>
+                  <li>
+          Use ctrl+space or alt+space for code completion including Javascript SDK classes and functions.
+                  </li>
+                  <li>
+                      ctrl+enter or cmd+enter will execute the code.
+                  </li>
+              </ul>
+          </p>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
