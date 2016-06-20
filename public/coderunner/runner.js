@@ -78,6 +78,9 @@
     }
 
     var ANONOMOUS_REGEX = /<anonymous>:(\d+):\d+/;
+    var PARENT_REGEX = /[^\w]parent/gm;
+    var PARENT_IN_COMMENT_REGEX = /\/\/.*[^\w]*parent/g;
+    var LINE_OFFSET = 29;
 
     window.addEventListener('message', function(evt) {
 
@@ -93,13 +96,31 @@
                 var debug = (getQueryVariable('debug') === 'true');
                 var authToken = getQueryVariable('auth');
 
+                //platform api requires us to allow-same-origin on the iframe, so we'll do some additional checks
+                //here to try and prevent parent access.  Not perfect, but better than nothing
+                var parentAccess = data.match(PARENT_REGEX);
+                if(parentAccess){
+
+                    var lines = data.split('\n');
+
+                    for(var l=0; l<lines.length; l++){
+                        if(lines[l].match(PARENT_REGEX) && !lines[l].match(PARENT_IN_COMMENT_REGEX)){
+                            throw {
+                                lineNumber: LINE_OFFSET + l + 1,
+                                name: "Parent Frame access",
+                                stack: "",
+                                message: "Can not execute script, it looks like you might be trying to access the parent window"
+                            }
+                        }
+                    }
+                }
+
                 data = 'var pureCloudSession = new PureCloudSession("' + environment+ '"); pureCloudSession.debug("' + debug+ '"); pureCloudSession.authToken("' + authToken + '");' + data
 
-                var result = eval(data);
-                console.log(result);
+                eval(data);
             }
             catch (e) {
-                var lineNumber = e.lineNumber - 30 + 1 || (e.stack.match(ANONOMOUS_REGEX) || [,])[1];
+                var lineNumber = e.lineNumber - LINE_OFFSET || (e.stack.match(ANONOMOUS_REGEX) || [,])[1];
 
                 parentWindow.postMessage(JSON.stringify({
                     action: 'runerror',
