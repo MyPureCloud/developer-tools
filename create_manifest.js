@@ -17,4 +17,4 @@ var manifest = {
     "buildNumber": process.env.BUILD_NUMBER
 };
 
-fs.writeFile("dist/manifest.son", JSON.stringify(manifest, null, "  "));
+fs.writeFile("dist/manifest.json", JSON.stringify(manifest, null, "  "));
