@@ -175,10 +175,15 @@ users.getMe().done(function(userObject){
                 that.messages.pushObject(message);
             }
             else if (data.action === "runerror"){
+                let isObject = false;
+                if(typeof(data.message) === "object"){
+                    data.message= JSON.stringify(o, null, "  ");
+                    isObject= true;
+                }
+
                 that.messages.pushObject({
                     type: "critical",
-                    message: data.message,
-                    name: data.name,
+                    messageParams: [{value: data.name + " " + data.message, isObject: isObject}],
                     lineNumber: data.lineNumber
                 });
             }

@@ -82,7 +82,7 @@ onmessage = function(evt) {
             var debug = (getQueryVariable('debug') === 'true');
             var authToken = getQueryVariable('auth');
 
-            data = 'var pureCloudSession = new PureCloudSession("' + environment+ '""); pureCloudSession.debug("' + debug+ '"); pureCloudSession.authToken("' + authToken + '");' + data
+            data = 'var pureCloudSession = new PureCloudSession("' + environment+ '"); pureCloudSession.debug("' + debug+ '"); pureCloudSession.authToken("' + authToken + '");' + data
 
             eval(data);
         }
@@ -91,6 +91,7 @@ onmessage = function(evt) {
 
             parent.postMessage(JSON.stringify({
                 action: 'runerror',
+                type: 'error',
                 name: e.name,
                 message: e.message,
                 lineNumber: lineNumber

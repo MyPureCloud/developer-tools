@@ -28,8 +28,6 @@ export default Ember.Service.extend(Ember.Evented,{
             });
 
             that.set("jsSdkReleases", releases);
-
-            console.log(that.get("jsSdkReleases"));
         });
     }
 });

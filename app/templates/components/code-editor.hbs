@@ -61,7 +61,6 @@
 
                                     {{#each messages as |message|}}
                                     <li class='log {{message.type}}'>
-                                        {{message.name}}
                                         {{#each message.messageParams as |param|}}
                                         {{#if param.isObject}}
                                         <pre>
