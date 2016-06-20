@@ -5,16 +5,32 @@
             <div class='col-md-6'>
                 <div class='container-fluid'>
                     <div class='row'>
-                        <div class='pull-left code-info'>
-                                <a href="#" data-toggle="modal" data-target="#codeEditorModal" id='btn-run-code' class='pull-left' {{action 'showInfo'}}><i class="fa fa-info-circle" aria-hidden="true"></i></a>
+                        <div class='form-inline'>
+                            <div class='pull-left code-info'>
+                                    <a href="#" data-toggle="modal" data-target="#codeEditorModal" id='btn-run-code' class='pull-left' {{action 'showInfo'}}><i class="fa fa-info-circle" aria-hidden="true"></i></a>
+                            </div>
+
+                            <button id='btn-run-code' class='btn btn-primary pull-left' {{action 'run'}}>Run <i class="fa fa-play" aria-hidden="true"></i></button>
+                            <div class="checkbox" style='margin-left:10px; margin-top:5px;'>
+                                <label>
+                                    {{input type="checkbox" name="enableDebugging" checked=enableDebugging}}Enable SDK debugging traces
+                                </label>
+                            </div>
+
+
+                            <div class = "form-group pull-left">
+                                <label>SDK version</label>
+                                <select class="form-control"  onchange={{action 'selectSdk' value="target.value"}}>
+                                    {{#each sdkTags as |topic index|}}
+                                    <option value={{index}}>
+                                        {{topic}}
+                                    </option>
+                                    {{/each}}
+                                </select>
+
+                            </div>
                         </div>
 
-                        <button id='btn-run-code' class='btn btn-primary pull-left' {{action 'run'}}>Run <i class="fa fa-play" aria-hidden="true"></i></button>
-                        <div class="checkbox pull-left">
-                            <label>
-                                {{input type="checkbox" name="enableDebugging" checked=enableDebugging}}Enable SDK debugging traces
-                            </label>
-                        </div>
 
                     </div>
                     <div class='row'>

@@ -8,7 +8,17 @@ function handleError(e) {
 window.addEventListener("error", handleError, true);
 
 document.addEventListener('DOMContentLoaded', function() {
+
+    var sdk = getQueryVariable('sdk');
+
 	domLoaded = true;
+
+    //load PureCloud API
+    var jsElm = document.createElement("script");
+    jsElm.type = "application/javascript";
+    jsElm.src = "https://sdk-cdn.mypurecloud.com/javascript/"+ sdk +"/purecloud-api.js";
+    document.body.appendChild(jsElm);
+
 });
 
 function getQueryVariable(variable)
@@ -59,6 +69,8 @@ function sendConsoleMessage(type, args){
     }), '*');
 }
 
+var ANONOMOUS_REGEX = /<anonymous>:(\d+):\d+/;
+
 onmessage = function(evt) {
     if ( evt.origin === window.location.origin) {
 		var info = JSON.parse(evt.data);
@@ -75,7 +87,7 @@ onmessage = function(evt) {
             eval(data);
         }
         catch (e) {
-            var lineNumber = e.lineNumber - 30 + 1 || (e.stack.match(/<anonymous>:(\d+):\d+/) || [,])[1];
+            var lineNumber = e.lineNumber - 30 + 1 || (e.stack.match(ANONOMOUS_REGEX) || [,])[1];
 
             parent.postMessage(JSON.stringify({
                 action: 'runerror',

@@ -5,6 +5,7 @@ let classTypeRegex = /new\s*$/;
 
 export default Ember.Component.extend({
     storageService: Ember.inject.service(),
+    githubService: Ember.inject.service(),
     purecloud: Ember.inject.service('purecloud'),
     messages:[{
         type: "log",
@@ -12,10 +13,17 @@ export default Ember.Component.extend({
     }],
     code: '',
     enableDebugging: false,
-    url: computed('enableDebugging', function() {
+    selectedSdk: null,
+    url: computed('enableDebugging', 'selectedSdk', function() {
         let purecloud = this.get("purecloud").get("session");
-        let url = `/coderunner/index.html?auth=${purecloud.authToken()}&debug=${this.get("enableDebugging")}&environment=${purecloud.environment()}`;
+        let selectedSdk = this.get("selectedSdk");
+        let url = `/coderunner/index.html?auth=${purecloud.authToken()}&debug=${this.get("enableDebugging")}&environment=${purecloud.environment()}&sdk=${selectedSdk}`;
         return url;
+    }),
+    sdkTags: computed('githubService.jsSdkReleases', function() {
+        let releases = this.get("githubService").get("jsSdkReleases");
+        this.set('selectedSdk', releases[0]);
+        return this.get("githubService").get("jsSdkReleases");
     }),
     runToggle: false,
     aceInit: function(editor) {
@@ -47,7 +55,7 @@ export default Ember.Component.extend({
                         if(m.indexOf("Api") > 0 && typeof(window[m]) == "function") {
                             pureCloudClasses.push({
                                 word: m ,
-                                value: m+ "(pureCloudSession);",
+                                value: m + "(pureCloudSession);",
                                 score: 100,
                                 meta: "PureCloud Class"
 
@@ -89,7 +97,7 @@ export default Ember.Component.extend({
                         }
                         functions.sort(function compare(a, b) {
                           return a.word.localeCompare(b.word);
-                        })
+                        });
                         callback(null, functions);
                     }
                 }
@@ -178,6 +186,10 @@ users.getMe().done(function(userObject){
         window.addEventListener("message", receiveMessage, false);
     },
     actions:{
+        selectSdk(sdkIndex) {
+            let sdk = this.get('sdkTags')[sdkIndex];
+            this.set('selectedSdk', sdk);
+        },
         run(){
             this.messages.clear();
             var iframeBody = document.getElementById('code-runner').contentWindow;
