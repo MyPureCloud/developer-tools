@@ -25,12 +25,15 @@
                         <br />
                         <button class='btn btn-primary' {{action 'subscribe'}}>Subscribe</button>
                         {{/if}}
+
                     </div>
                 </div>
 
                 <div class="panel panel-default" >
                     <div class="panel-heading"><h3 class="panel-title">Subscribed Topics</h3></div>
                     <div class="panel-body" style='height:40vh'>
+                        <button class='btn btn-primary' {{action 'subscribeToPresence'}}>Subscribe To My Presence</button>
+                        <button class='btn btn-primary' {{action 'subscribeToConversations'}}>Subscribe To My Conversations</button>
 
                         <ul class='scrollable' style='height:35vh;'>
                             {{#each subscriptions as |topic|}}
@@ -45,7 +48,11 @@
             </div>
             <div class='col-md-8 full-height' style='height:90vh' >
                 <div class="panel panel-default height-90pct" >
-                    <div class="panel-heading"><h3 class="panel-title">Received Events </h3></div>
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Received Events </h3>
+
+
+                    </div>
                     <div class="panel-body height-90pct"  >
                         <div class="row bottom-border">
                             <div class="col-md-2">
@@ -54,8 +61,11 @@
                             <div class="col-md-3">
                                 <label>Topic</label>
                             </div>
-                            <div class="col-md-7">
+                            <div class="col-md-5">
                                 <label>Body</label>
+                            </div>
+                            <div class="col-md-2">
+                            <button class='btn btn-primary btn-xs' {{action 'togglePin'}}><i class="fa fa-thumb-tack" aria-hidden="true"></i> Pin Messages</button>
                             </div>
                         </div>
                         <div class='full-height scrollable'>

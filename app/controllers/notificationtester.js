@@ -32,6 +32,19 @@ export default Ember.Controller.extend({
         },
         subscribe(){
             this.get("notificationService").subscribe(this.get("subscribeId"));
+        },
+        subscribeToPresence(){
+            let me = this.get("purecloud").me;
+
+            this.get("notificationService").subscribe(`v2.users.${me.id}.presence`);
+        },
+        subscribeToConversations(){
+            let me = this.get("purecloud").me;
+
+            this.get("notificationService").subscribe(`v2.users.${me.id}.conversationsummary`);
+        },
+        togglePin(){
+            this.get('notificationService').togglePin();
         }
     }
 
