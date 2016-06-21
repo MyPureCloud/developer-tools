@@ -6,7 +6,6 @@ export default Ember.Component.extend({
     modules: toolsModules,
     init(){
         this._super(...arguments);
-        console.log(toolsModules);
     },
     actions:{
         logOut(){
