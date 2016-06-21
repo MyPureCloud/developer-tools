@@ -3,12 +3,31 @@ const ENV_REG_EXP = /(inin[dts]ca|mypurecloud|localhost)/i;
 
 export default Ember.Route.extend({
     purecloud: Ember.inject.service(),
-    model(){
-        //return {
-        //    iframeUrl: "http://mypurecloud.github.io/openapi-explorer/"
-    //    }
-        console.log("opening api explorer to " + window.location.search);
+    analyticsService: Ember.inject.service(),
 
+    init(){
+        let that = this;
+        function receiveMessage(event)
+        {
+            if (event.origin !== "null" && event.origin !== window.location.origin) {
+                //return;
+            }
+
+            if(typeof(event.data) === 'object'){
+                return;
+            }
+            let data = JSON.parse(event.data);
+
+            if(data.action === 'anaytics'){
+                that.get("analyticsService").logExporerExecution(data.httpMethod, data.url);
+            }
+
+        }
+        window.addEventListener("message", receiveMessage, false);
+    },
+
+    model(){
+    
         let search = window.location.search;
 
         if(window.location.hash.indexOf("share")>0){

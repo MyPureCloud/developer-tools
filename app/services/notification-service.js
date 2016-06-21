@@ -4,6 +4,7 @@ import Ember from 'ember';
 export default Ember.Service.extend({
     socketService: Ember.inject.service('websockets'),
     purecloud: Ember.inject.service(),
+    analyticsService: Ember.inject.service(),
 
     idList: [],
     availableTopics: [],
@@ -36,6 +37,9 @@ export default Ember.Service.extend({
 
     },
     subscribe(id){
+        let versionlessId = id.replace("v2","");
+        this.get("analyticsService").logNotificationRegistration(versionlessId.split["."][0]);
+        
         var that = this;
         var api = this.get('purecloud').notificationsApi();
         api.postChannelsChannelIdSubscriptions(this.get("channelId"), [{id: id}]).done(function(){

@@ -78,6 +78,8 @@ module.exports = function(environment) {
 
         ENV.baseURL = '/developer-tools/';
         ENV.locationType = 'hash';
+
+        ENV.analyticsTrackingId = process.env.ANALYTICS_ID;
     }
 
     return ENV;

@@ -8,6 +8,7 @@ let classTypeRegex = /new\s*$/;
 export default Ember.Component.extend({
     storageService: Ember.inject.service(),
     githubService: Ember.inject.service(),
+    analyticsService: Ember.inject.service(),
     purecloud: Ember.inject.service('purecloud'),
     messages:[{
         type: "log",
@@ -30,6 +31,7 @@ export default Ember.Component.extend({
     runToggle: false,
     aceConsoleInit: function(editor){
         editor.setHighlightActiveLine(false);
+        editor.$blockScrolling = Infinity;
         editor.setShowPrintMargin(false);
         editor.setReadOnly(true);
         editor.getSession().setMode("ace/mode/json");
@@ -37,6 +39,7 @@ export default Ember.Component.extend({
     aceInit: function(editor) {
         editor.setHighlightActiveLine(false);
         editor.setShowPrintMargin(false);
+        editor.$blockScrolling = Infinity;
         editor.getSession().setTabSize(2);
         editor.getSession().setMode("ace/mode/javascript");
         editor.setOptions({enableBasicAutocompletion: true});
@@ -151,6 +154,7 @@ users.getMe().done(function(userObject){
 
         function receiveMessage(event)
         {
+
             if (event.origin !== "null" && event.origin !== window.location.origin) {
                 return;
             }
@@ -203,6 +207,8 @@ users.getMe().done(function(userObject){
             this.set('selectedSdk', sdk);
         },
         run(){
+            this.get("analyticsService").logCodeExecution();
+
             this.messages.clear();
             var iframeBody = document.getElementById('code-runner').contentWindow;
             let code = this.get("code");
