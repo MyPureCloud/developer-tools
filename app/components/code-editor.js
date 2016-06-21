@@ -1,6 +1,8 @@
 /* global ace */
 /* global PureCloudSession */
 import Ember from 'ember';
+import sampleCode from '../utils/sample-code';
+
 var  computed = Ember.computed;
 
 let classTypeRegex = /new\s*$/;
@@ -15,6 +17,7 @@ export default Ember.Component.extend({
         messageParams: [{value:"No log messages"}]
     }],
     code: '',
+    codeSamples: sampleCode,
     enableDebugging: false,
     selectedSdk: null,
     url: computed('enableDebugging', 'selectedSdk', function() {
@@ -130,18 +133,7 @@ export default Ember.Component.extend({
             }), '*');
         });
 
-        let defaultCode = `//log out your current environment
-console.log(pureCloudSession.environment());
-
-//use that session to interface with the API
-var users = new UsersApi(pureCloudSession);
-
-console.log("getting ME");
-users.getMe().done(function(userObject){
-    console.log("got me");
-    console.log(userObject);
-    console.log("done");
-});`;
+        let defaultCode = sampleCode[0].code;
 
         let storage = this.get("storageService");
         let code = storage.localStorageGet("code");
@@ -202,9 +194,16 @@ users.getMe().done(function(userObject){
         window.addEventListener("message", receiveMessage, false);
     },
     actions:{
-        selectSdk(sdkIndex) {
-            let sdk = this.get('sdkTags')[sdkIndex];
+        selectSdk(sdk) {
             this.set('selectedSdk', sdk);
+        },
+        loadSample(index){
+            let code = sampleCode[index].code;
+            this.set("code", code);
+
+            let editor = window.ace.edit('ace-code-editor');
+            editor.getSession().setValue(code);
+
         },
         run(){
             this.get("analyticsService").logCodeExecution();
