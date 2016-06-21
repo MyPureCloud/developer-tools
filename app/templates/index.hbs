@@ -5,30 +5,17 @@
 On the left are the tools available for helping you work with the PureCloud APIs.
 
 <table>
+    {{#each model as |module|}}
     <tr>
         <td>
-            <i class="fa fa-bolt" aria-hidden="true"></i>
+            <i class={{module.icon}} aria-hidden="true"></i>
         </td>
         <td>
-            API Explorer - Create and test Platform API calls without writing any code
+            <b>{{module.name}}</b> - {{module.description}}
         </td>
     </tr>
-    <tr>
-        <td>
-            <i class="fa fa-code-o" aria-hidden="true"></i>
-        </td>
-        <td>
-            Javascript Code Editor - Develop and test API calls using the javascript SDK and execute right from the browser.
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <i class="fa fa-paper-plane" aria-hidden="true"></i>
-        </td>
-        <td>
-            Notification Tester - Subscribe to websocket events and see the date that comes in from the websocket.
-        </td>
-    </tr>
+    {{/each}}
+
 
 </table>
 

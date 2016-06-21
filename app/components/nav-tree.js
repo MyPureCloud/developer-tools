@@ -1,16 +1,16 @@
 import Ember from 'ember';
+import toolsModules from '../utils/dev-tools-modules';
 
 export default Ember.Component.extend({
     purecloud: Ember.inject.service(),
+    modules: toolsModules,
+    init(){
+        this._super(...arguments);
+        console.log(toolsModules);
+    },
     actions:{
         logOut(){
             this.get('purecloud').get("session").logout();
-
-            /*if(window && window.localStorage){
-                delete window.localStorage.authtoken;
-            }
-
-            window.location.reload();*/
         }
     }
 });

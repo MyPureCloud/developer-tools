@@ -1,23 +1,11 @@
 <ul>
+    {{#each modules as |module|}}
     <li>
-        {{#link-to 'api-explorer' title="API Explorer"  }}
-          <i class="fa fa-bolt" aria-hidden="true"></i>
+        {{#link-to module.path title=module.title  }}
+          <i class={{module.icon}} aria-hidden="true"></i>
         {{/link-to}}
-
     </li>
-    <li>
-        {{#link-to 'codeeditor' title="Code Editor"  }}
-          <i class="fa fa-file-code-o " aria-hidden="true"></i>
-        {{/link-to}}
-
-    </li>
-    <li>
-        {{#link-to 'notificationtester' title="Notification Tester"  }}
-          <i class="fa fa-paper-plane " aria-hidden="true"></i>
-        {{/link-to}}
-
-    </li>
-
+    {{/each}}
 </ul>
 <ul id='logout'>
     <li>
