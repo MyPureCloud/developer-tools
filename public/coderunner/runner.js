@@ -114,7 +114,7 @@
                     }
                 }
 
-                data = 'var pureCloudSession = new PureCloudSession("' + environment+ '"); pureCloudSession.debug("' + debug+ '"); pureCloudSession.authToken("' + authToken + '");' + data
+                data = 'var pureCloudSession = purecloud.platform.PureCloudSession({strategy: "token",token: "' + authToken+ '", environment: "' + environment+ '"});' + data
 
                 eval(data);
             }

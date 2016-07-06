@@ -1,15 +1,13 @@
-/* global PureCloudSession */
-/* global NotificationsApi */
-/* global UsersApi */
+/* global purecloud */
 import Ember from 'ember';
 import config from '../config/environment';
 
 const ENV_REG_EXP = /(inin[dts]ca|mypurecloud|localhost)/i;
 
-export default Ember.Service.extend({
+export default Ember.Service.extend(Ember.Evented, {
     session: null,
     notificationsApi(){
-        return new NotificationsApi(this.get('session'));
+        return new purecloud.platform.NotificationsApi(this.get('session'));
     },
     me: null,
 
@@ -26,26 +24,37 @@ export default Ember.Service.extend({
             purecloudEnvironment = "inindca.com";
         }
 
-        var session = new PureCloudSession(purecloudEnvironment);
-
-        var that = this;
         let state = encodeURIComponent(window.location.href.replace(/=/g,"|"));
 
-        session.authorize(oauthConfig.clientId, oauthConfig.redirect, state)
-                .done(function(){
+        var session = new purecloud.platform.PureCloudSession({
+          strategy: 'implicit',
+          clientId: oauthConfig.clientId,
+          redirectUrl: oauthConfig.redirect,
+          environment: purecloudEnvironment,
+          state: state,
+          storageKey: 'purecloud-dev-tools'
+        });
+
+        var that = this;
+
+        let loginPromise = session.login();
+
+        loginPromise.then(function(){
                     //debugger;
-                    var redirectTo = decodeURIComponent(session.getState()).replace(/\|/g,"=");
+                    var redirectTo = decodeURIComponent(session.options.state).replace(/\|/g,"=");
                     if(redirectTo && redirectTo !== "null" && redirectTo !== window.location.href){
                         window.location.replace(redirectTo);
+                        return;
                     }
 
                     //Get All Me Expands
-                    var api = new UsersApi(session);
+                    var api = new purecloud.platform.UsersApi(session);
 
-                    api.getMe('geolocation,station,date,geolocationsettings,organization,presencedefinitions').done(function(me){
+                    api.getMe('geolocation,station,date,geolocationsettings,organization,presencedefinitions').then(function(me){
                         that.set('me',me);
                     });
 
+                    that.trigger('authenticated');
                 });
 
         this.set('session', session);

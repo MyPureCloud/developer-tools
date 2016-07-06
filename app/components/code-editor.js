@@ -1,5 +1,5 @@
 /* global ace */
-/* global PureCloudSession */
+/* global purecloud */
 import Ember from 'ember';
 import sampleCode from '../utils/sample-code';
 
@@ -23,7 +23,7 @@ export default Ember.Component.extend({
     url: computed('enableDebugging', 'selectedSdk', function() {
         let purecloud = this.get("purecloud").get("session");
         let selectedSdk = this.get("selectedSdk");
-        let url = `coderunner/index.html?auth=${purecloud.authToken()}&debug=${this.get("enableDebugging")}&environment=${purecloud.environment()}&sdk=${selectedSdk}`;
+        let url = `coderunner/index.html?auth=${purecloud.options.token}&environment=${purecloud.options.environment}&sdk=${selectedSdk}`;
         return url;
     }),
     sdkTags: computed('githubService.jsSdkReleases', function() {
@@ -90,7 +90,7 @@ export default Ember.Component.extend({
                     if(type){
                         let apiType = type[1];
 
-                        let session = new PureCloudSession();
+                        let session = purecloud.platform.PureCloudSession();
                         let instance = new window[apiType](session);
 
                         let functions = [];

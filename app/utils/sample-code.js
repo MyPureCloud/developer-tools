@@ -2,10 +2,10 @@ const sampleCode = [
     {
         name: "Get Current User",
         code: `//use that session to interface with the API
-var users = new UsersApi(pureCloudSession);
+var users = new purecloud.platform.UsersApi(pureCloudSession);
 
 console.log("getting ME");
-users.getMe().done(function(userObject){
+users.getMe().then(function(userObject){
     console.log("got me");
     console.log(userObject);
     console.log("done");
@@ -17,8 +17,8 @@ users.getMe().done(function(userObject){
 // TIP: open the notification tester, subscribe to your presence and pin the notifications.
 // You can see the websocket messages as your status changes.
 
-var presenceApi = new PresenceApi(pureCloudSession);
-var usersApi = new UsersApi(pureCloudSession);
+var presenceApi = new purecloud.platform.PresenceApi(pureCloudSession);
+var usersApi = new purecloud.platform.UsersApi(pureCloudSession);
 
 var userId = null;
 
@@ -40,7 +40,7 @@ function setPresence(presenceId){
 }
 
 //Start by getting all the presence definitions in the system
-presenceApi.getPresencedefinitions().done(function(presenceData){
+presenceApi.getPresencedefinitions().then(function(presenceData){
     for (var x=0; x< Object.keys(presenceData.entities).length; x++){
         var presence = presenceData.entities[x];
 
@@ -55,7 +55,7 @@ presenceApi.getPresencedefinitions().done(function(presenceData){
     console.log("got all presence info");
 
     //get your user information, including current presence info
-    usersApi.getMe("presence").done(function(userObject){
+    usersApi.getMe("presence").then(function(userObject){
         userId = userObject.id;
 
         var currentPresenceId = userObject.presence.presenceDefinition.id;
@@ -72,7 +72,7 @@ presenceApi.getPresencedefinitions().done(function(presenceData){
     },
     {
         name: "Place a Phone Call",
-        code: `var conversationsApi = new ConversationsApi(pureCloudSession);
+        code: `var conversationsApi = new purecloud.platform.ConversationsApi(pureCloudSession);
 
 //create the request body, here (317) 222-2222 is the weather phone
 // in Indianapolis.
@@ -81,10 +81,10 @@ var body = {
   phoneNumber: "3172222222"
 };
 
-conversationsApi.postCalls(body).done(function(result){
+conversationsApi.postCalls(body).then(function(result){
   console.log("call placed successfully");
   console.log(result);
-}).error(function(error){
+}).catch(function(error){
   console.error("Error Placing call", error);
 });`
     },
@@ -92,10 +92,10 @@ conversationsApi.postCalls(body).done(function(result){
         name: "Get Documents in Content Management",
         code: `//This example will get the user's workspace and then list out
 // all the documents in the workspace
-var contentManagementApi = new ContentManagementApi(pureCloudSession);
+var contentManagementApi = new purecloud.platform.ContentManagementApi(pureCloudSession);
 var usersWorkspaceId = null;
 
-contentManagementApi.getWorkspaces().done(function(workspaces){
+contentManagementApi.getWorkspaces().then(function(workspaces){
     //iterate over the workspaces the user has access to
     for(var x=0; x< workspaces.entities.length; x++){
 
@@ -107,19 +107,40 @@ contentManagementApi.getWorkspaces().done(function(workspaces){
     }
 
     //get the documents for the workspace
-    contentManagementApi.getDocuments(usersWorkspaceId).done(function(documents){
+    contentManagementApi.getDocuments(usersWorkspaceId).then(function(documents){
       var entities = documents.entities;
       for(var x=0; x< entities.length; x++){
         let document =entities[x];
         console.log(document.name, document.dateCreated);
       }
-    }).error(function(error){
+    }).catch(function(error){
         console.error(error);
     });
 
-}).error(function(error){
+}).catch(function(error){
     console.error(error);
 });`
+    },
+    {
+        name: "User Paging",
+        code: `//This example will log out a list of all users in the system.
+var users = new purecloud.platform.UsersApi(pureCloudSession);
+
+console.log("getting ME");
+
+function processPageOfUsers(results){
+  for(var x=0; x< results.entities.length; x++){
+    console.log(results.entities[x].name);
+  }
+
+  if(results.nextUri){
+    //get the next page of users directly
+    pureCloudSession.get(results.nextUri).then(processPageOfUsers);
+  }
+
+}
+
+users.getUsers().then(processPageOfUsers);`
     }
 ];
 

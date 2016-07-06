@@ -16,24 +16,27 @@ export default Ember.Service.extend({
     init() {
         this._super(...arguments);
 
-        var api = this.get('purecloud').notificationsApi();
+        let self = this;
 
-        var that = this;
-        api.postChannels().done(function(channel){
-            console.log(channel);
+        this.get('purecloud').on('authenticated', function() {
+            var api = self.get('purecloud').notificationsApi();
 
-            const socket = that.get('socketService').socketFor(channel.connectUri);
+            api.postChannels().then(function(channel){
+                console.log(channel);
 
-            socket.on('open', that.websocketOpenHandler, that);
-            socket.on('message', that.websocketMessageHandler, that);
+                const socket = self.get('socketService').socketFor(channel.connectUri);
 
-            that.set('socketRef', socket);
-            that.set('channelId', channel.id);
-        });
+                socket.on('open', self.websocketOpenHandler, self);
+                socket.on('message', self.websocketMessageHandler, self);
+
+                self.set('socketRef', socket);
+                self.set('channelId', channel.id);
+            });
 
 
-        api.getAvailabletopics("description,schema").done(function(topics){
-            that.set('availableTopics', topics.entities );
+            api.getAvailabletopics("description,schema").then(function(topics){
+                self.set('availableTopics', topics.entities );
+            });
         });
 
     },
@@ -43,18 +46,18 @@ export default Ember.Service.extend({
 
         var that = this;
         var api = this.get('purecloud').notificationsApi();
-        api.postChannelsChannelIdSubscriptions(this.get("channelId"), [{id: id}]).done(function(){
+        api.postChannelsChannelIdSubscriptions(this.get("channelId"), [{id: id}]).then(function(){
             that.get('idList').pushObject(id);
-        }).error(function(error){
+        }).catch(function(error){
             console.log(error);
         });
     },
     unsubscribeAll(){
         var that = this;
         var api = this.get('purecloud').notificationsApi();
-        api.putChannelsChannelIdSubscriptions(this.get("channelId"), []).done(function(){
+        api.putChannelsChannelIdSubscriptions(this.get("channelId"), []).then(function(){
             that.get('idList').clear();
-        }).error(function(error){
+        }).catch(function(error){
             console.log(error);
         });
     },

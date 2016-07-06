@@ -15,7 +15,7 @@ const devToolsModules = [
         name: "Notification Tester",
         path: "notificationtester",
         icon: "fa fa-paper-plane",
-        description: "Subscribe to websocket events and see the date that comes in from the websocket."
+        description: "Subscribe to events and see the data that comes in from the websocket."
     }
 ];
 

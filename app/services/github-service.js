@@ -9,7 +9,7 @@ export default Ember.Service.extend(Ember.Evented,{
         $.getJSON("https://api.github.com/repos/MyPureCloud/purecloud_api_sdk_javascript/tags").done(function(tags){
             for(var x=0;x< tags.length; x++){
                 let tagSplit = tags[x].name.split('.');
-                if(tags[x].name.indexOf('v') === -1 && parseInt(tagSplit[0]) >= 0 &&  parseInt(tagSplit[1]) >= 40 ){
+                if(tags[x].name.indexOf('v') === -1 && parseInt(tagSplit[0]) >= 0 &&  parseInt(tagSplit[1]) >= 50 ){
                     releases.push(tags[x].name);
                 }
             }
