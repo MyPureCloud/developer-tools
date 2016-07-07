@@ -41,7 +41,7 @@ export default Ember.Route.extend({
             purecloudEnvironment = "inindca.com";
         }
 
-        let swagger = `openApiUrl=https://api.${purecloudEnvironment}/api/v2/docs/swagger`;
+        let swagger = `openApiUrl=https://api.${purecloudEnvironment}/api/v2/docs/swagger&shareUrl=${window.location.origin}` + encodeURIComponent('/developer-tools/#/api-explorer?');
         if(search == null || search.length === 0){
             search = "?"+swagger;
         }else{
