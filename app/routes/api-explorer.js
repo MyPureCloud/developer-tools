@@ -27,7 +27,7 @@ export default Ember.Route.extend({
     },
 
     model(){
-    
+
         let search = window.location.search;
 
         if(window.location.hash.indexOf("share")>0){
@@ -48,7 +48,7 @@ export default Ember.Route.extend({
             search += "&" + swagger;
         }
 
-        return `https://apps.${purecloudEnvironment}/openapi-explorer/${search}#token_type=bearer&access_token=` + this.get("purecloud").get("session").authToken();
+        return `https://apps.${purecloudEnvironment}/openapi-explorer/${search}#token_type=bearer&access_token=` + this.get("purecloud").get("session").options.token;
 
     }
 });

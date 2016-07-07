@@ -30,7 +30,7 @@ export default Ember.Component.extend({
     actions:{
         toggleVisible(){
             this.toggleProperty('visible');
-            this.set("viewedMessages", this.get("receivedMessage").length)
+            this.set("viewedMessages", this.get("receivedMessage").length);
         }
     }
 });
