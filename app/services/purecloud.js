@@ -20,11 +20,11 @@ export default Ember.Service.extend(Ember.Evented, {
     init() {
         this._super(...arguments);
 
-        let purecloudEnvironment = this.get("environmentService").purecloudEnvironmentTld();
-
-        let oauthConfig = config.oauthProps[purecloudEnvironment.split('.')[0]];
+        let oauthConfig = config.oauthProps[this.get("environmentService").purecloudEnvironment()];
 
         let state = encodeURIComponent(window.location.href.replace(/=/g,"|"));
+
+        let purecloudEnvironment = this.get("environmentService").purecloudEnvironmentTld();
 
         var session = new purecloud.platform.PureCloudSession({
           strategy: 'implicit',
@@ -40,22 +40,22 @@ export default Ember.Service.extend(Ember.Evented, {
         let loginPromise = session.login();
 
         loginPromise.then(function(){
-                    //debugger;
-                    var redirectTo = decodeURIComponent(session.options.state).replace(/\|/g,"=");
-                    if(redirectTo && redirectTo !== "null" && redirectTo !== window.location.href){
-                        window.location.replace(redirectTo);
-                        return;
-                    }
+            //debugger;
+            var redirectTo = decodeURIComponent(session.options.state).replace(/\|/g,"=");
+            if(redirectTo && redirectTo !== "null" && redirectTo !== window.location.href){
+                window.location.replace(redirectTo);
+                return;
+            }
 
-                    //Get All Me Expands
-                    var api = new purecloud.platform.UsersApi(session);
+            //Get All Me Expands
+            var api = new purecloud.platform.UsersApi(session);
 
-                    api.getMe('geolocation,station,date,geolocationsettings,organization,presencedefinitions').then(function(me){
-                        that.set('me',me);
-                    });
+            api.getMe('geolocation,station,date,geolocationsettings,organization,presencedefinitions').then(function(me){
+                that.set('me',me);
+            });
 
-                    that.trigger('authenticated');
-                });
+            that.trigger('authenticated');
+        });
 
         this.set('session', session);
     },

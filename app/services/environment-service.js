@@ -12,5 +12,11 @@ export default Ember.Service.extend({
 
         return env;
 
+    },
+    purecloudEnvironment(){
+        let env = ENV_REG_EXP.exec(window.location.hostname)[1];
+
+        return env;
     }
+
 });
