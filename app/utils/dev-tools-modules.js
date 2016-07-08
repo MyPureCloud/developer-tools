@@ -16,6 +16,12 @@ const devToolsModules = [
         path: "notificationtester",
         icon: "fa fa-paper-plane",
         description: "Subscribe to events and see the data that comes in from the websocket."
+    },
+    {
+        name: "Web Chat Tester",
+        path: "webchat",
+        icon: "fa fa-comments-o ",
+        description: "Generate web chats."
     }
 ];
 

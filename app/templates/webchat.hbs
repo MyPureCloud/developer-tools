@@ -1,0 +1,88 @@
+
+<div class="container">
+<form>
+    <div class="form-group row">
+        <label class="col-sm-1 form-control-label">Org Name:</label>
+        <div class="col-sm-3">
+            <label for='firstName' class="col-sm-1 form-control-label">{{org.thirdPartyOrgName}}</label>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-sm-1 form-control-label">Org Id:</label>
+        <div class="col-sm-3">
+            <label for='firstName' class="col-sm-1 form-control-label">{{org.thirdPartyOrgId}}</label>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-3">
+            <a class="btn btn-info " {{action 'populate'}} href="#" role="button">Populate Fields</a>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for='firstName' class="col-sm-1 form-control-label">First Name:</label>
+        <div class="col-sm-3">
+            {{input class="form-control" value=firstName  placeholder="First Name"}}
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for='lastName' class="col-sm-1 form-control-label">Last Name:</label>
+        <div class="col-sm-3">
+            {{input class="form-control" value=lastName  placeholder="Last Name"}}
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for='lastName' class="col-sm-1 form-control-label">Addresss:</label>
+        <div class="col-sm-4">
+            {{input class="form-control" value=address  placeholder="Address"}}
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for='lastName' class="col-sm-1 form-control-label"></label>
+        <div class="col-sm-3">
+            {{input class="form-control" value=city  placeholder="City"}}
+        </div>
+        <div class="col-sm-2">
+            {{input class="form-control" value=state  placeholder="State"}}
+        </div>
+        <div class="col-sm-2">
+            {{input class="form-control" value=zip  placeholder="Zip"}}
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for='lastName' class="col-sm-1 form-control-label">Phone:</label>
+        <div class="col-sm-3">
+            {{input class="form-control" value=phone type="tel"  placeholder="Phone" }}
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="alert alert-danger" role="alert" id='missingRequiredFields' style='display:none'>Required setting fields are missing.</div>
+    </div>
+
+    <div class="form-group row">
+        <label for='lastName' class="col-sm-1 form-control-label">Queue:</label>
+        <div class="col-sm-3">
+            <select  class="form-control setting" onchange={{action 'selectQueue' value="target.value"}}>
+                {{#each queues as |queueOption|}}
+                  <option value={{queueOption}} selected={{eq queue queueOption}}>{{queueOption}}</option>
+                {{/each}}
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-3">
+            <a class="btn btn-primary " {{action 'startChat'}} href="#" role="button">Start Chat</a>
+        </div>
+    </div>
+
+</form>
+</div>
+
+
+<div id="chatContainer" style="height:600px"></div>
+<img  src="/assets/images/agent.jpg" id='agentAvatar' />
+<img src="/assets/images/companylogo.png" id='companyLogoSmall' />
+<img src="/assets/images/PC-blue-nomark.png" id='companyLogo' />

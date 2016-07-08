@@ -1,9 +1,10 @@
 import Ember from 'ember';
-const ENV_REG_EXP = /(inin[dts]ca|mypurecloud|localhost)/i;
+
 
 export default Ember.Route.extend({
     purecloud: Ember.inject.service(),
     analyticsService: Ember.inject.service(),
+    environmentService: Ember.inject.service(),
 
     init(){
         let that = this;
@@ -34,12 +35,7 @@ export default Ember.Route.extend({
             search = "?" + window.location.hash.substring(window.location.hash.indexOf("share"));
         }
 
-        let env = ENV_REG_EXP.exec(window.location.hostname)[0];
-        let purecloudEnvironment = env + ".com";
-
-        if(env === 'localhost'){
-            purecloudEnvironment = "inindca.com";
-        }
+        let purecloudEnvironment = this.get("environmentService").purecloudEnvironmentTld();
 
         let swagger = `openApiUrl=https://api.${purecloudEnvironment}/api/v2/docs/swagger&shareUrl=${window.location.origin}` + encodeURIComponent('/developer-tools/#/api-explorer?');
         if(search == null || search.length === 0){

@@ -23,7 +23,7 @@
         //load PureCloud API
         var jsElm = document.createElement("script");
         jsElm.type = "application/javascript";
-        jsElm.src = "https://sdk-cdn.mypurecloud.com/javascript/"+ sdk +"/purecloud-api.js";
+        jsElm.src = "https://sdk-cdn.mypurecloud.com/javascript/"+ sdk +"/"+ "purecloud-api.js";
         document.body.appendChild(jsElm);
 
     });

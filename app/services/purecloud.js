@@ -2,27 +2,27 @@
 import Ember from 'ember';
 import config from '../config/environment';
 
-const ENV_REG_EXP = /(inin[dts]ca|mypurecloud|localhost)/i;
-
 export default Ember.Service.extend(Ember.Evented, {
     session: null,
+    environmentService: Ember.inject.service(),
+
     notificationsApi(){
         return new purecloud.platform.NotificationsApi(this.get('session'));
+    },
+    orgApi(){
+        return new purecloud.platform.OrganizationApi(this.get('session'));
+    },
+    routingApi(){
+        return new purecloud.platform.RoutingApi(this.get('session'));
     },
     me: null,
 
     init() {
         this._super(...arguments);
 
-        let env = ENV_REG_EXP.exec(window.location.hostname)[0];
+        let purecloudEnvironment = this.get("environmentService").purecloudEnvironmentTld();
 
-        let oauthConfig = config.oauthProps[env];
-
-        let purecloudEnvironment = env + ".com";
-
-        if(env === 'localhost'){
-            purecloudEnvironment = "inindca.com";
-        }
+        let oauthConfig = config.oauthProps[purecloudEnvironment.split('.')[0]];
 
         let state = encodeURIComponent(window.location.href.replace(/=/g,"|"));
 

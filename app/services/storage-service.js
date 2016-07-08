@@ -4,7 +4,7 @@ export default Ember.Service.extend(Ember.Evented,{
     localStorageSet(key, value){
         try{
             if (typeof window.localStorage !== 'undefined') {
-                window.localStorage["developertools-" + key] = value;
+                window.localStorage["developertools-" + key] = JSON.stringify(value);
             }
         }catch(ex){
 
@@ -13,7 +13,7 @@ export default Ember.Service.extend(Ember.Evented,{
     localStorageGet(key){
         try{
             if (typeof window.localStorage !== 'undefined') {
-                return window.localStorage["developertools-"  +key];
+                return JSON.parse(window.localStorage["developertools-"  +key]);
             }
         }catch(ex){
 

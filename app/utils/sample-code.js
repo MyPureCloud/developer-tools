@@ -141,6 +141,14 @@ function processPageOfUsers(results){
 }
 
 users.getUsers().then(processPageOfUsers);`
+    },
+    {
+        name: "Get Org Details",
+        code: `var orgApi = new purecloud.platform.OrganizationApi(pureCloudSession);
+
+orgApi.getMe().then(function(result){
+    console.log(result);
+});`
     }
 ];
 
