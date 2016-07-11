@@ -27,7 +27,7 @@ module.exports = function(environment) {
             },
             inindca: {
                 clientId: 'f2f2762f-6c8f-4f06-9f13-0560c17cef2b',
-                redirect: 'https://developer.inindca.com/tools/'
+                redirect: 'https://developer.inindca.com/developer-tools/'
             },
             ininsca: {
                 clientId: 'b16c40bf-1d9d-4f59-9f1c-07e60528c659',
@@ -35,7 +35,7 @@ module.exports = function(environment) {
             },
             mypurecloud: {
                 clientId: 'd7200ae7-b2bb-4ff6-afcf-e29ebd1d6f56',
-                redirect: 'https://developer.mypurecloud.com/tools/'
+                redirect: 'https://developer.mypurecloud.com/developer-tools/'
             }
         }
     };

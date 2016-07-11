@@ -1,6 +1,5 @@
 /* global purecloud */
 import Ember from 'ember';
-import config from '../config/environment';
 
 export default Ember.Service.extend(Ember.Evented, {
     session: null,
@@ -20,43 +19,24 @@ export default Ember.Service.extend(Ember.Evented, {
     init() {
         this._super(...arguments);
 
-        let oauthConfig = config.oauthProps[this.get("environmentService").purecloudEnvironment()];
-
-        let state = encodeURIComponent(window.location.href.replace(/=/g,"|"));
-
         let purecloudEnvironment = this.get("environmentService").purecloudEnvironmentTld();
 
         var session = new purecloud.platform.PureCloudSession({
-          strategy: 'implicit',
-          clientId: oauthConfig.clientId,
-          redirectUrl: oauthConfig.redirect,
+          strategy: 'token',
           environment: purecloudEnvironment,
-          state: state,
-          storageKey: 'purecloud-dev-tools'
+          storageKey:  'purecloud-dev-tools-auth'
         });
 
         var that = this;
+        var api = new purecloud.platform.UsersApi(session);
 
-        let loginPromise = session.login();
-
-        loginPromise.then(function(){
-            //debugger;
-            var redirectTo = decodeURIComponent(session.options.state).replace(/\|/g,"=");
-            if(redirectTo && redirectTo !== "null" && redirectTo !== window.location.href){
-                window.location.replace(redirectTo);
-                return;
-            }
-
-            //Get All Me Expands
-            var api = new purecloud.platform.UsersApi(session);
-
-            api.getMe('geolocation,station,date,geolocationsettings,organization,presencedefinitions').then(function(me){
-                that.set('me',me);
-            });
-
-            that.trigger('authenticated');
+        api.getMe('geolocation,station,date,geolocationsettings,organization,presencedefinitions').then(function(me){
+            that.set('me',me);
+        }).catch(function(error){
+            console.error(error);
         });
 
+        that.trigger('authenticated');
         this.set('session', session);
     },
 });
