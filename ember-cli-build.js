@@ -19,7 +19,8 @@ module.exports = function(defaults) {
         fingerprint: {
             prepend: cdnUrl,
             exclude: ['emojify', 'leaflet', 'patches/'],
-            extensions: ['js', 'css']
+            extensions: ['js', 'css'],
+            customHash: null
         },
 
     });
