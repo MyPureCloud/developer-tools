@@ -1,20 +1,22 @@
 import Ember from 'ember';
 import config from '../config/environment';
+import {purecloudEnvironment} from '../utils/purecloud-environment';
+import {purecloudEnvironmentTld} from '../utils/purecloud-environment';
 
 export default {
     name: 'authenticators',
     initialize: function (application) {
-        let oauthConfig = config.oauthProps["localhost"];
+        let oauthConfig = config.oauthProps[purecloudEnvironment()];
 
         let state = encodeURIComponent(window.location.href.replace(/=/g,"|"));
 
-        let purecloudEnvironment = "inindca.com";
+        let env = purecloudEnvironmentTld();
 
         var session = new purecloud.platform.PureCloudSession({
           strategy: 'implicit',
           clientId: oauthConfig.clientId,
           redirectUrl: oauthConfig.redirect,
-          environment: purecloudEnvironment,
+          environment: env,
           state: state,
           storageKey: 'purecloud-dev-tools-auth'
         });

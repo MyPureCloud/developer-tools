@@ -1,10 +1,9 @@
 import Ember from 'ember';
-
+import {purecloudEnvironmentTld} from '../utils/purecloud-environment';
 
 export default Ember.Route.extend({
     purecloud: Ember.inject.service(),
     analyticsService: Ember.inject.service(),
-    environmentService: Ember.inject.service(),
 
     init(){
         let that = this;
@@ -35,7 +34,7 @@ export default Ember.Route.extend({
             search = "?" + window.location.hash.substring(window.location.hash.indexOf("share"));
         }
 
-        let purecloudEnvironment = this.get("environmentService").purecloudEnvironmentTld();
+        let purecloudEnvironment = purecloudEnvironmentTld();
 
         let swagger = `openApiUrl=https://api.${purecloudEnvironment}/api/v2/docs/swagger&shareUrl=${window.location.origin}` + encodeURIComponent('/developer-tools/#/api-explorer?');
         if(search == null || search.length === 0){

@@ -1,9 +1,9 @@
 /* global purecloud */
 import Ember from 'ember';
+import {purecloudEnvironmentTld} from '../utils/purecloud-environment';
 
 export default Ember.Service.extend(Ember.Evented, {
     session: null,
-    environmentService: Ember.inject.service(),
 
     notificationsApi(){
         return new purecloud.platform.NotificationsApi(this.get('session'));
@@ -19,7 +19,7 @@ export default Ember.Service.extend(Ember.Evented, {
     init() {
         this._super(...arguments);
 
-        let purecloudEnvironment = this.get("environmentService").purecloudEnvironmentTld();
+        let purecloudEnvironment = purecloudEnvironmentTld();
 
         var session = new purecloud.platform.PureCloudSession({
           strategy: 'token',
@@ -36,7 +36,6 @@ export default Ember.Service.extend(Ember.Evented, {
             console.error(error);
         });
 
-        that.trigger('authenticated');
         this.set('session', session);
     },
 });

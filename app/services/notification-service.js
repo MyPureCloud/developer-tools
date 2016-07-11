@@ -18,25 +18,23 @@ export default Ember.Service.extend({
 
         let self = this;
 
-        this.get('purecloud').on('authenticated', function() {
-            var api = self.get('purecloud').notificationsApi();
+        var api = self.get('purecloud').notificationsApi();
 
-            api.postChannels().then(function(channel){
-                console.log(channel);
+        api.postChannels().then(function(channel){
+            console.log(channel);
 
-                const socket = self.get('socketService').socketFor(channel.connectUri);
+            const socket = self.get('socketService').socketFor(channel.connectUri);
 
-                socket.on('open', self.websocketOpenHandler, self);
-                socket.on('message', self.websocketMessageHandler, self);
+            socket.on('open', self.websocketOpenHandler, self);
+            socket.on('message', self.websocketMessageHandler, self);
 
-                self.set('socketRef', socket);
-                self.set('channelId', channel.id);
-            });
+            self.set('socketRef', socket);
+            self.set('channelId', channel.id);
+        });
 
 
-            api.getAvailabletopics("description,schema").then(function(topics){
-                self.set('availableTopics', topics.entities );
-            });
+        api.getAvailabletopics("description,schema").then(function(topics){
+            self.set('availableTopics', topics.entities );
         });
 
     },

@@ -2,10 +2,10 @@
 /* global ININ */
 import Ember from 'ember';
 import Chance from 'npm:chance';
+import {purecloudEnvironmentTld} from '../utils/purecloud-environment';
 
 export default Ember.Controller.extend({
     purecloud: Ember.inject.service(),
-    environmentService: Ember.inject.service(),
     storageService: Ember.inject.service(),
     org: null,
     queues: [],
@@ -24,37 +24,29 @@ export default Ember.Controller.extend({
         let orgApi = this.get("purecloud").orgApi();
         let pureCloudSession = this.get("purecloud").get("session");
 
-        function onAuthenticated() {
-            orgApi.getMe().then(function(result){
-                self.set("org",result);
-            });
+        orgApi.getMe().then(function(result){
+            self.set("org",result);
+        });
 
-            let routingApi = self.get("purecloud").routingApi();
+        let routingApi = self.get("purecloud").routingApi();
 
-            let queueNames = [];
-            function processPageOfQueues(results){
-                for(var x=0; x< results.entities.length; x++){
-                    queueNames.push(results.entities[x].name);
-                }
-
-                if(results.nextUri){
-                    //get the next page of users directly
-                    pureCloudSession.get(results.nextUri).then(processPageOfQueues);
-                }else{
-                    self.set("queues", queueNames);
-                }
-
+        let queueNames = [];
+        function processPageOfQueues(results){
+            for(var x=0; x< results.entities.length; x++){
+                queueNames.push(results.entities[x].name);
             }
 
-            routingApi.getQueues(25,0,'name', null, true).then(processPageOfQueues);
-        }
-        if(this.get('purecloud').get('me') === null){
-            this.get('purecloud').on('authenticated', onAuthenticated);
-        }else{
-            onAuthenticated();
+            if(results.nextUri){
+                //get the next page of users directly
+                pureCloudSession.get(results.nextUri).then(processPageOfQueues);
+            }else{
+                self.set("queues", queueNames);
+            }
+
         }
 
-
+        routingApi.getQueues(25,0,'name', null, true).then(processPageOfQueues);
+        
         let storage = this.get("storageService");
         let savedData = storage.localStorageGet("webChatParams");
 
@@ -72,7 +64,7 @@ export default Ember.Controller.extend({
     },
     actions:{
         startChat() {
-            let environment = this.get("environmentService").purecloudEnvironmentTld();
+            let environment = purecloudEnvironmentTld();
             let companyLogo = $("#companyLogo").attr('src');
             let companyLogoSmall = $("#companyLogoSmall").attr('src');
             let agentAvatar = $("#agentAvatar").attr('src');
