@@ -43,7 +43,9 @@ export default Ember.Route.extend({
             search += "&" + swagger;
         }
 
-        return `https://apps.${purecloudEnvironment}/openapi-explorer/${search}#token_type=bearer&access_token=` + this.get("purecloud").get("session").options.token;
+        let openApiExplorerUrl = 'https://apps.${purecloudEnvironment}/openapi-explorer/';
+        openApiExplorerUrl = 'http://localhost:8081/';
+        return `${openApiExplorerUrl}${search}#token_type=bearer&access_token=` + this.get("purecloud").get("session").options.token;
 
     }
 });
