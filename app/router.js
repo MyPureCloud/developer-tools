@@ -29,6 +29,7 @@ Router.map(function() {
   this.route('api-explorer');
   this.route('codeeditor');
   this.route('webchat');
+  this.route('callback');
 });
 
 export default Router;
