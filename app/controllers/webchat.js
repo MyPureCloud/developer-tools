@@ -3,12 +3,13 @@
 import Ember from 'ember';
 import Chance from 'npm:chance';
 import {purecloudEnvironmentTld} from '../utils/purecloud-environment';
+var  computed = Ember.computed;
 
 export default Ember.Controller.extend({
     purecloud: Ember.inject.service(),
     storageService: Ember.inject.service(),
+    queueService: Ember.inject.service(),
     org: null,
-    queues: [],
     firstName: "",
     lastName: "",
     address: "",
@@ -22,31 +23,11 @@ export default Ember.Controller.extend({
 
         let self = this;
         let orgApi = this.get("purecloud").orgApi();
-        let pureCloudSession = this.get("purecloud").get("session");
 
         orgApi.getMe().then(function(result){
             self.set("org",result);
         });
 
-        let routingApi = self.get("purecloud").routingApi();
-
-        let queueNames = [];
-        function processPageOfQueues(results){
-            for(var x=0; x< results.entities.length; x++){
-                queueNames.push(results.entities[x].name);
-            }
-
-            if(results.nextUri){
-                //get the next page of users directly
-                pureCloudSession.get(results.nextUri).then(processPageOfQueues);
-            }else{
-                self.set("queues", queueNames);
-            }
-
-        }
-
-        routingApi.getQueues(25,0,'name', null, true).then(processPageOfQueues);
-        
         let storage = this.get("storageService");
         let savedData = storage.localStorageGet("webChatParams");
 
@@ -62,6 +43,9 @@ export default Ember.Controller.extend({
 
         }
     },
+    queues: computed('queueService.queues', function() {
+        return this.get('queueService').get('queues');
+    }),
     actions:{
         startChat() {
             let environment = purecloudEnvironmentTld();

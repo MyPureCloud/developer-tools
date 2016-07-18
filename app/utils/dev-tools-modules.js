@@ -25,7 +25,7 @@ const devToolsModules = [
     },
     {
         name: "Callback Tester",
-        path: "webchat",
+        path: "callback",
         icon: "fa fa-reply ",
         description: "Generate web callbacks."
     }
