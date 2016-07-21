@@ -1,0 +1,48 @@
+<div class='row'>
+
+    <div class='col-md-2'>
+        <label>Type</label>
+    </div>
+    <div class='col-md-3'>
+        <label class='capitalize'>{{selectedType}}</label>
+    </div>
+    <div class='col-md-1'>
+        <label>Operator</label>
+    </div>
+    <div class='col-md-3'>
+        <label>Value</label>
+    </div>
+</div>
+<div class='row'>
+
+    <div class='col-md-2'>
+        {{select-box items=types selectedItem=selectedType class='capitalize'}}
+    </div>
+    <div class='col-md-3'>
+        {{#if (eq selectedType 'dimension')}}
+        {{select-box items=dimensions selectedItem=lhsValue}}
+        {{/if}}
+        {{#if (eq selectedType 'property')}}
+        {{select-box items=propertyTypes selectedItem=lhsValue}}
+        {{/if}}
+        {{#if (eq selectedType 'metric')}}
+        {{select-box items=metrics selectedItem=lhsValue}}
+        {{/if}}
+    </div>
+    <div class='col-md-1'>
+        {{select-box items=operators selectedItem=selectedOperator class='capitalize'}}
+    </div>
+    <div class='col-md-3'>
+        {{#if (eq lhsValue "queueId")}}
+        {{select-box-advanced idKey='id' nameKey='name' items=queues selectedItem=value}}
+        {{else if (eq lhsValue "mediaType")}}
+        {{select-box items=mediaTypes selectedItem=value}}
+        {{else}}
+        {{input class='form-control' value=value}}
+        {{/if}}
+    </div>
+    <div class='col-md-1'>
+
+        <button class='btn btn-danger btn-xs' {{action 'delete'}}><i class="fa fa-trash" aria-hidden="true"></i></button>
+    </div>
+</div>
