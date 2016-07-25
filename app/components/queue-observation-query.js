@@ -21,8 +21,12 @@ export default Ember.Component.extend({
         return query;
     },
     queryJson: Ember.computed('selectedMetrics.@each', 'filter', function() {
-        var selectedMetrics = this.get('selectedMetrics');
         console.log("queryJson");
+
+        setTimeout(function(){
+            window.resizeDiv();
+        },100);
+
 
         return JSON.stringify(this._computeValue(), null, " ");
     }),

@@ -9,7 +9,6 @@ export default Ember.Component.extend({
     init: function(){
         this.get("queueService"); //make sure it is ready
 
-        let self = this;
         this._super(...arguments);
 
         setTimeout(function(){
@@ -22,14 +21,14 @@ export default Ember.Component.extend({
         this.set("operators", this.get("analyticsValueService").get("operators"));
         this.set("mediaTypes", this.get("analyticsValueService").get("mediaTypes"));
 
-        let predicate = this.get("predicate")
+        let predicate = this.get("predicate");
         if(predicate){
             this.set("selectedType", predicate.type);
             this.set("lhsValue", predicate.dimension || predicate.metric || predicate.property);
             this.set("selectedOperator", predicate.operator);
             this.set("value", predicate.value);
         }
-    }
+    },
     queues: computed('queueService.queues', function() {
        return this.get('queueService').get('queues');
     }),

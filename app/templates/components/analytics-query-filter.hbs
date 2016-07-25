@@ -1,24 +1,45 @@
 <h2>Filter</h2>
 
+<div class="query-indent">
+
+
+
 <div class='row'>
+    <div class='col-md-1'>
+        <label>Type</label>
+    </div>
+
     <div class='col-md-1'>
         {{select-box items=types selectedItem=selectedType}}
     </div>
-    <label>Type</label>
+</div>
+<h3>Clauses</h3>
+<div class="query-indent">
+<div class='row'>
+
+    <div class='col-md-11' style='margin-left:30px'>
+        {{#each clauses as |clause index|}}
+            {{analytics-query-clause clause=clause index=index updateClause=(action 'updateClause') deleteClause=(action 'deleteClause') }}
+        {{/each}}
+    </div>
+
+</div>
+<button class='btn btn-primary btn-sm top-margin' {{action 'newClause'}} >New Clause</button>
 </div>
 
 <h3>Predicates</h3>
-<button class='btn btn-primary' {{action 'newPredicate'}}>New</button>
+<div class="query-indent">
 <div class='row'>
 
     <div class='col-md-12'>
 
         {{#each predicates as |predicate index|}}
-            {{analytics-query-predicate predicate=predictat index=index updatePredicate=(action 'updatePredicate') deletePredicate=(action 'deletePredicate')}}
+            {{analytics-query-predicate predicate=predicate index=index updatePredicate=(action 'updatePredicate') deletePredicate=(action 'deletePredicate')}}
 
         {{/each}}
     </div>
 
 </div>
-
-{{yield}}
+<button class='btn btn-primary btn-sm' {{action 'newPredicate'}} style='margin-top:5px'>New Predicate</button>
+</div>
+</div>

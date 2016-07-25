@@ -10,7 +10,7 @@ export default Ember.Component.extend({
     filteredMetrics: function(filter){
         var patt = new RegExp(filter);
 
-        return this.get('metrics').filter(function(item, index, enumerable){
+        return this.get('metrics').filter(function(item){
             return patt.test(item);
           });
     }

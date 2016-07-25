@@ -50,8 +50,22 @@ export default Ember.Component.extend({
             this.predicates[index] = predicate;
             this.set("filter", this._computeValue());
         },
-        deletePredicate:function(index,predicate){
+        deletePredicate:function(index){
             this.predicates.removeAt(index);
+            this.set("filter", this._computeValue());
+        },
+        newClause: function(){
+            this.clauses.addObject({
+                "type": "or",
+                "predicates": []
+               });
+        },
+        updateClause: function(index,clause){
+            this.clauses[index] = clause;
+            this.set("filter", this._computeValue());
+        },
+        deleteClause:function(index){
+            this.clauses.removeAt(index);
             this.set("filter", this._computeValue());
         },
 

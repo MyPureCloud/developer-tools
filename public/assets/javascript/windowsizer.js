@@ -11,6 +11,7 @@ window.onhashchange = function(event) {
 };
 
 function resizeDiv() {
-    vph = $(window).height() - 50;
+    console.log("resizeDiv");
+    vph = $(window).height() - 75;
     $(".scroll-sub-app").css({"height": vph + "px"});
 }
