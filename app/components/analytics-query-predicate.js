@@ -5,6 +5,7 @@ var  computed = Ember.computed;
 export default Ember.Component.extend({
     analyticsValueService: Ember.inject.service(),
     queueService: Ember.inject.service(),
+    userService: Ember.inject.service(),
     //TODO: support queue ids, user Ids,
     init: function(){
         this.get("queueService"); //make sure it is ready
@@ -31,6 +32,9 @@ export default Ember.Component.extend({
     },
     queues: computed('queueService.queues', function() {
        return this.get('queueService').get('queues');
+    }),
+    users: computed('userService.users', function() {
+       return this.get('userService').get('users');
     }),
     types:["dimension", "metric"], //TODO: Support property type
 

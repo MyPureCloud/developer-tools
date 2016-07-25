@@ -34,7 +34,7 @@ export default Ember.Component.extend({
         runQuery: function(){
             let self = this;
             let value = this._computeValue();
-            this.get('purecloud').analyticsApi().postQueuesObservationsQuery(value)
+            this.get('purecloud').analyticsApi().postUsersObservationsQuery(value)
                 .then(function(result){
                     self.set("queryResult", JSON.stringify(result, null, "  "));
                 })

@@ -17,6 +17,9 @@ export default Ember.Service.extend(Ember.Evented, {
     routingApi(){
         return new purecloud.platform.RoutingApi(this.get('session'));
     },
+    usersApi(){
+        return new purecloud.platform.UsersApi(this.get('session'));
+    },
     me: null,
 
     init() {

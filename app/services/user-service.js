@@ -5,7 +5,7 @@ export default Ember.Service.extend({
 
     purecloud: Ember.inject.service(),
 
-    queues: [],
+    users: [],
 
     init() {
         this._super(...arguments);
@@ -13,18 +13,18 @@ export default Ember.Service.extend({
         let self = this;
         let pureCloudSession = this.get("purecloud").get("session");
 
-        let routingApi = self.get("purecloud").routingApi();
+        let usersApi = self.get("purecloud").usersApi();
 
-        let queues = [];
-        function processPageOfQueues(results){
-            self.queues.addObjects(results.entities);
+        let users = [];
+        function processPageOfUsers(results){
+
+            self.users.addObjects(results.entities);
 
             if(results.nextUri){
                 //get the next page of users directly
-                pureCloudSession.get(results.nextUri).then(processPageOfQueues);
+                pureCloudSession.get(results.nextUri).then(processPageOfUsers);
             }
-
         }
-        routingApi.getQueues(25,0,'name', null, true).then(processPageOfQueues);
+        usersApi.getUsers(40,0,null, 'name').then(processPageOfUsers);
     }
 });

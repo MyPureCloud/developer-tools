@@ -35,6 +35,8 @@
     <div class='col-md-3'>
         {{#if (eq lhsValue "queueId")}}
         {{select-box-advanced idKey='id' nameKey='name' items=queues selectedItem=value}}
+        {{else if (eq lhsValue "userId")}}
+        {{select-box-advanced idKey='id' nameKey='name' items=users selectedItem=value}}
         {{else if (eq lhsValue "mediaType")}}
         {{select-box items=mediaTypes selectedItem=value}}
         {{else}}

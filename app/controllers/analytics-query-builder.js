@@ -2,12 +2,17 @@ import Ember from 'ember';
 
 export default Ember.Controller.extend({
     purecloud: Ember.inject.service('purecloud'),
-    queryType: 'queue_observation',
+    queryType: 'user_observation',
     queryTypes:[
+        {
+            name: "User Observation Query",
+            id:"user_observation"
+        },
         {
             name: "Queue Observation Query",
             id:"queue_observation"
         }
+
     ],
     query:{},
     actions:{

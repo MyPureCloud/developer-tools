@@ -13,6 +13,8 @@
 
     {{#if (eq queryType "queue_observation")}}
         {{queue-observation-query}}
+    {{else if (eq queryType "user_observation")}}
+        {{user-observation-query}}
     {{else}}
     not queue observation query
     {{/if}}
