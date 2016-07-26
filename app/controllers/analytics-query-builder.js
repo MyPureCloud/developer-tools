@@ -3,10 +3,15 @@ var  computed = Ember.computed;
 
 export default Ember.Controller.extend({
     purecloud: Ember.inject.service('purecloud'),
-    queryType: 'conversation_aggregate',
+    queryType: 'conversation_detail',
     queryTypes:[
         {
-            name: "Conversations Aggregate Query",
+            name: "Conversation Detail Query",
+            id:"conversation_detail",
+            url:"/api/v2/analytics/conversations/details/query"
+        },
+        {
+            name: "Conversation Aggregate Query",
             id:"conversation_aggregate",
             url:"/api/v2/analytics/conversations/aggregates/query"
         },

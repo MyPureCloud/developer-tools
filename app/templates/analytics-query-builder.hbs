@@ -19,6 +19,9 @@
         {{user-observation-query}}
     {{else if (eq queryType "conversation_aggregate")}}
         {{conversation-aggregate-query}}
+    {{else if (eq queryType "conversation_detail")}}
+        {{conversation-detail-query}}
+
     {{/if}}
 
 </div>

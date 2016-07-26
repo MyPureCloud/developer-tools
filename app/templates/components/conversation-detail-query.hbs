@@ -1,0 +1,22 @@
+{{analytics-query-interval value=interval}}
+
+<h2>Conversation Filter</h2>
+<p class="text-muted">
+
+</p>
+{{analytics-query-filter filter=filter showDefaultHeader=false}}
+
+<h2>Evaluation Filter</h2>
+<p class="text-muted">
+
+</p>
+{{analytics-query-filter filter=filter showDefaultHeader=false}}
+
+
+<h2>Segment Filter</h2>
+<p class="text-muted">
+
+</p>
+{{analytics-query-filter filter=filter showDefaultHeader=false}}
+
+{{run-analytics-query queryJson=queryJson queryResult=queryResult runQuery=(action 'runQuery')}}
