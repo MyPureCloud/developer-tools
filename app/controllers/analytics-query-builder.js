@@ -2,8 +2,12 @@ import Ember from 'ember';
 
 export default Ember.Controller.extend({
     purecloud: Ember.inject.service('purecloud'),
-    queryType: 'user_observation',
+    queryType: 'conversation_aggregate',
     queryTypes:[
+        {
+            name: "Conversations Aggregate Query",
+            id:"conversation_aggregate"
+        },
         {
             name: "User Observation Query",
             id:"user_observation"

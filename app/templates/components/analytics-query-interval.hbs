@@ -1,0 +1,28 @@
+<h2>Interval</h2>
+
+<div class="query-indent">
+
+    <div class="checkbox">
+        <label>{{input type="checkbox" checked=noInterval }}No Interval</label>
+    </div>
+    {{#if (eq noInterval false)}}
+    <div class='row'>
+        <div class='col-md-3'>
+            <label>Start (Local Time)</label>
+        </div>
+
+        <div class='col-md-3'>
+            <label>End  (Local Time)</label>
+        </div>
+    </div>
+    <div class='row'>
+        <div class='col-md-3'>
+            {{bs-datetimepicker date=startDate format='YYYY-MM-DD h:mm:ss a' updateDate=(action (mut startDate))}}
+        </div>
+
+        <div class='col-md-3'>
+            {{bs-datetimepicker date=endDate format='YYYY-MM-DD h:mm:ss a' updateDate=(action (mut endDate))}}
+        </div>
+    </div>
+    {{/if}}
+</div>

@@ -33,7 +33,11 @@ export default Ember.Component.extend({
             query["predicates"] = this.get("predicates");
         }
 
-        return query;
+        if(query.predicates || query.clauses){
+            return query;
+        }
+
+        return null;
     },
     valuesChanged: observer('selectedType', 'clauses.@each','predicates.@each', function() {
         console.log("filter values changed");
