@@ -1,7 +1,8 @@
 
 <div class="container-full sub-app scroll-sub-app " >
+    <h2>Query Type</h2>
     <div class="row">
-        <label class="col-sm-1 form-control-label">Query Type:</label>
+
         <div class="col-sm-3">
             <select  class="form-control " onchange={{action 'selectQueryType' value="target.value"}}>
               {{#each queryTypes as |type|}}
@@ -10,15 +11,14 @@
           </select>
         </div>
     </div>
-
+    <h3>URL Endpoint</h3>
+    {{url}}
     {{#if (eq queryType "queue_observation")}}
         {{queue-observation-query}}
     {{else if (eq queryType "user_observation")}}
         {{user-observation-query}}
     {{else if (eq queryType "conversation_aggregate")}}
         {{conversation-aggregate-query}}
-    {{else}}
-    not queue observation query
     {{/if}}
 
 </div>
