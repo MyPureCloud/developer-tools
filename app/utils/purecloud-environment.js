@@ -1,4 +1,4 @@
-const ENV_REG_EXP = /(inin[dts]ca|mypurecloud|localhost).*/i;
+const ENV_REG_EXP = /(inin[dts]ca|mypurecloud.*|localhost).*/i;
 
 function purecloudEnvironmentTld(){
     let env = ENV_REG_EXP.exec(window.location.hostname)[0];
@@ -12,7 +12,7 @@ function purecloudEnvironmentTld(){
 }
 
 function purecloudEnvironment(){
-    let env = ENV_REG_EXP.exec(window.location.hostname)[1];
+    let env = ENV_REG_EXP.exec(window.location.hostname)[1].replace(/\./g,"");
 
     return env;
 }

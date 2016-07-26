@@ -33,9 +33,21 @@ module.exports = function(environment) {
                 clientId: 'b16c40bf-1d9d-4f59-9f1c-07e60528c659',
                 redirect: 'https://apps.ininsca.com/developer-tools/'
             },
-            mypurecloud: {
+            mypurecloudcom: {
                 clientId: 'd7200ae7-b2bb-4ff6-afcf-e29ebd1d6f56',
                 redirect: 'https://developer.mypurecloud.com/developer-tools/'
+            },
+            mypurecloudie: {
+                clientId: '51729d1d-e816-4f3d-9fb7-cf5fa0b79041',
+                redirect: 'https://developer.mypurecloud.ie/developer-tools/'
+            },
+            mypurecloudcomau: {
+                clientId: '303ae267-3163-4fec-9f38-d02f9764a849',
+                redirect: 'https://developer.mypurecloud.com.au/developer-tools/'
+            },
+            mypurecloudjp: {
+                clientId: '818a2480-2f88-4f0a-afc0-777dce4f3f6e',
+                redirect: 'https://developer.mypurecloud.jp/developer-tools/'
             }
         }
     };
