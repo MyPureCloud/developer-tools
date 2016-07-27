@@ -46,7 +46,7 @@ export default Ember.Controller.extend({
         }
 
         routingApi.getQueues(25,0,'name', null, true).then(processPageOfQueues);
-        
+
         let storage = this.get("storageService");
         let savedData = storage.localStorageGet("webChatParams");
 
@@ -179,9 +179,6 @@ export default Ember.Controller.extend({
             this.set("state", chance.state());
             this.set("zip", chance.zip());
             this.set("phone", chance.phone());
-        },
-        selectQueue(queue) {
-            this.set('queue', queue);
-        },
+        }
     }
 });
