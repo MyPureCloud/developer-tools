@@ -1,0 +1,14 @@
+<h2>Generated Query</h2>
+<p class="text-muted">
+ This is the JSON body sent to the Analytics API.
+ </p>
+<pre>
+<code>
+{{queryJson}}</code>
+</pre>
+
+<button class='btn btn-primary' {{action 'execute'}}>Execute</button>
+
+{{#if queryResult}}
+<pre><code>{{queryResult}}</code></pre>
+{{/if}}

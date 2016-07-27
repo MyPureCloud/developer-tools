@@ -1,5 +1,5 @@
 
-<div class="container">
+<div class="container sub-app scroll-sub-app">
 <form>
     <div class="form-group row">
         <label class="col-sm-1 form-control-label">Org Name:</label>
@@ -64,11 +64,7 @@
     <div class="form-group row">
         <label for='lastName' class="col-sm-1 form-control-label">Queue:</label>
         <div class="col-sm-3">
-            <select  class="form-control setting" onchange={{action 'selectQueue' value="target.value"}}>
-                {{#each queues as |queueOption|}}
-                  <option value={{queueOption}} selected={{eq queue queueOption}}>{{queueOption}}</option>
-                {{/each}}
-            </select>
+            {{select-box items=queues selectedItem=queue}}
         </div>
     </div>
 

@@ -1,0 +1,102 @@
+{{analytics-query-interval value=interval}}
+
+
+<h2>Order</h2>
+<p class="text-muted">
+Sort the result set in ascending/descending order.
+</p>
+<div class="row">
+    <div class="col-sm-3">
+        {{select-box items=orderOptions selectedItem=order}}
+    </div>
+</div>
+
+<h2>Order By</h2>
+<p class="text-muted">
+Specify which data element within the result set to use for sorting.
+</p>
+<div class="row">
+    <div class="col-sm-3">
+        {{select-box items=orderByOptions selectedItem=orderBy}}
+    </div>
+</div>
+
+<h2>Paging</h2>
+<p class="text-muted">
+Page size and number to control iterating through large result sets.
+</p>
+<div class='row'>
+    <div class='col-md-1'>
+        <label>Page Size</label>
+    </div>
+
+    <div class='col-md-1'>
+        {{input type="number" value=pageSize class="form-control" }}
+    </div>
+</div>
+
+<div class='row'>
+    <div class='col-md-1'>
+        <label>Page Number</label>
+    </div>
+
+    <div class='col-md-1'>
+        {{input type="number" value=pageNumber class="form-control" }}
+    </div>
+</div>
+
+
+<h2>Conversation Filter</h2>
+<p class="text-muted">
+Filters that target conversation-level data.
+</p>
+<div class="checkbox">
+    <label>{{input type="checkbox" checked=hasConversationFilter }}Use Conversation Filter</label>
+</div>
+{{#if hasConversationFilter}}
+{{analytics-query-filter filter=conversationFilter showDefaultHeader=false}}
+{{/if}}
+
+<h2>Evaluation Filter</h2>
+<p class="text-muted">
+Filters that target quality management evaluation-level data.
+</p>
+<div class="checkbox">
+    <label>{{input type="checkbox" checked=hasEvaluationFilter }}Use Evaluation Filter</label>
+</div>
+{{#if hasEvaluationFilter}}
+{{analytics-query-filter filter=evaluationFilter showDefaultHeader=false}}
+{{/if}}
+
+<h2>Segment Filter</h2>
+<p class="text-muted">
+Filters that target individual segments within a conversation.
+</p>
+<div class="checkbox">
+    <label>{{input type="checkbox" checked=hasSegmentFilter }}Use Segment Filter</label>
+</div>
+{{#if hasSegmentFilter}}
+{{analytics-query-filter filter=segmentFilter showDefaultHeader=false}}
+{{/if}}
+
+<h2>Query Aggregation</h2>
+<p class="text-muted">
+Include faceted search and aggregate roll-ups describing your search results. This does not function as a filter, but rather, summary data about the data matching your filters
+</p>
+<div class="query-indent">
+    <div class='row'>
+
+        <div class='col-md-12'>
+
+            {{#each aggregations as |aggregation index|}}
+                {{analytics-query-aggregation aggregation=aggregation index=index updateAggregation=(action 'updateAggregation') deleteAggregation=(action 'deleteAggregation')}}
+
+            {{/each}}
+        </div>
+
+    </div>
+    <button class='btn btn-primary btn-sm' {{action 'newAggregation'}} style='margin-top:5px'>New Aggregation</button>
+</div>
+
+
+{{run-analytics-query queryJson=queryJson queryResult=queryResult runQuery=(action 'runQuery')}}

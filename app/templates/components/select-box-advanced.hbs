@@ -1,0 +1,5 @@
+  <select  class="form-control " onchange={{action 'selectItem' value="target.value"}}>
+    {{#each items as |item|}}
+      <option value={{getprop item idKey}} selected={{eq selectedItem (getprop item idKey)}} >{{getprop item nameKey}}</option>
+    {{/each}}
+  </select>
