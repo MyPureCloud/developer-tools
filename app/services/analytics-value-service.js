@@ -8,6 +8,7 @@ export default Ember.Component.extend({
     operators:["matches", "exists", "notExists"],
     mediaTypes:["voice", "chat", "email", "callback"].sort(),
     groupBy:["conversationId", "sessionId", "mediaType", "queueId", "userId", "participantId", "participantName", "direction", "wrapUpCode", "wrapUpNote", "interactionType", "requestedRoutingSkillId", "requestedLanguageId", "purpose", "participantType", "segmentType", "disconnectType", "errorCode", "stationId", "edgeId", "dnis", "ani", "outboundCampaignId", "outboundContactId", "outboundContactListId", "monitoredParticipantId", "sourceSessionId", "destinationSessionId", "sourceConversationId", "destinationConversationId", "remoteNameDisplayable", "sipResponseCode", "q850ResponseCode", "conference", "groupId", "roomId", "addressFrom", "addressTo", "peerId", "scriptId", "evaluationId", "evaluatorId", "contextId", "formId", "formName", "eventTime"].sort(),
+    aggregationTypes:['termFrequency', 'numericRange'],
     filteredMetrics: function(filter){
         var patt = new RegExp(filter);
 

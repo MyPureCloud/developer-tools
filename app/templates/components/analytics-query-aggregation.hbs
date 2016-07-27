@@ -1,0 +1,28 @@
+<div class='row'>
+    <div class='col-md-2'>
+        {{select-box items=aggregationTypes selectedItem=aggregationType}}
+    </div>
+    <div class='col-md-2'>
+        {{#if (eq aggregationType 'termFrequency')}}
+        {{select-box items=dimensions selectedItem=dimension}}
+        {{/if}}
+        {{#if (eq aggregationType 'numericRange')}}
+        {{select-box items=metrics selectedItem=metric}}
+        {{/if}}
+    </div>
+
+        {{#if (eq aggregationType 'termFrequency')}}
+        <div class='col-md-2'>
+            {{input type="number" value=frequencySize class="form-control" }}
+            </div>
+        {{/if}}
+        {{#if (eq aggregationType 'numericRange')}}
+        <div class='col-md-6'>
+        {{analytics-query-range value=range}}
+        </div>
+        {{/if}}
+
+    <div class='col-md-1'>
+        <button class='btn btn-danger btn-xs' {{action 'delete'}}><i class="fa fa-trash" aria-hidden="true"></i></button>
+    </div>
+</div>
