@@ -3,6 +3,7 @@
 import Ember from 'ember';
 import Chance from 'npm:chance';
 import {purecloudEnvironmentTld} from '../utils/purecloud-environment';
+import config from '../config/environment';
 
 export default Ember.Controller.extend({
     purecloud: Ember.inject.service(),
