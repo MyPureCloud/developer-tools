@@ -4,7 +4,6 @@ import {purecloudEnvironmentTld} from '../utils/purecloud-environment';
 export default Ember.Route.extend({
     purecloud: Ember.inject.service(),
     analyticsService: Ember.inject.service(),
-    querystringService: Ember.inject.service(),
 
     init(){
         let that = this;
