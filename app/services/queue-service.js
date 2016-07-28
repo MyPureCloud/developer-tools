@@ -1,4 +1,4 @@
-
+/* exported queues */
 import Ember from 'ember';
 
 export default Ember.Service.extend({
@@ -15,7 +15,6 @@ export default Ember.Service.extend({
 
         let routingApi = self.get("purecloud").routingApi();
 
-        let queues = [];
         function processPageOfQueues(results){
             self.queues.addObjects(results.entities);
 
@@ -26,5 +25,6 @@ export default Ember.Service.extend({
 
         }
         routingApi.getQueues(25,0,'name', null, true).then(processPageOfQueues);
+
     }
 });

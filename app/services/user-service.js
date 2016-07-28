@@ -2,8 +2,8 @@
 import Ember from 'ember';
 
 export default Ember.Service.extend({
-
     purecloud: Ember.inject.service(),
+    //jshint unused:true
 
     users: [],
 
@@ -15,7 +15,6 @@ export default Ember.Service.extend({
 
         let usersApi = self.get("purecloud").usersApi();
 
-        let users = [];
         function processPageOfUsers(results){
 
             self.users.addObjects(results.entities);

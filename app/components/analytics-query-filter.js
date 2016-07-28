@@ -15,8 +15,10 @@ export default Ember.Component.extend({
         //not sure if there is a better way to do this, need to set the filter value, if i do it here in the init
         //the parent component looking at this property doesn't see the value change
         setTimeout(function(){
-            let query = self._computeValue();
-            self.set("filter", query);
+            if ( !(self.get('isDestroyed') || self.get('isDestroying')) ) {
+                let query = self._computeValue();
+                self.set("filter", query);
+            }
         },200);
 
     },
@@ -25,11 +27,11 @@ export default Ember.Component.extend({
             type:this.get('selectedType')
         };
 
-        if(this.clauses.length > 0){
+        if(this.clauses && this.clauses.length > 0){
             query["clauses"] = this.clauses;
         }
 
-        if(this.predicates.length > 0){
+        if(this.predicates && this.predicates.length > 0){
             query["predicates"] = this.get("predicates");
         }
 

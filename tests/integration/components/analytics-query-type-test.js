@@ -1,8 +1,45 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
+import Ember from 'ember';
+
+const pureCloudStub = Ember.Service.extend({
+    session: null,
+
+    notificationsApi(){
+        return {};
+    },
+    analyticsApi(){
+        return {};
+    },
+    orgApi(){
+        return {};
+    },
+    routingApi(){
+        return {
+            getQueues(){
+                return {
+                    then(){}
+                };
+            }
+        };
+    },
+    usersApi(){
+        return {
+            getUsers(){
+                return {
+                    then(){}
+                };
+            }
+        };
+    },
+    me: null
+});
 
 moduleForComponent('analytics-query-type', 'Integration | Component | analytics query type', {
-  integration: true
+  integration: true,
+  beforeEach: function () {
+    this.register('service:purecloud', pureCloudStub);
+  }
 });
 
 test('it renders', function(assert) {
@@ -13,12 +50,4 @@ test('it renders', function(assert) {
 
   assert.equal(this.$().text().trim(), '');
 
-  // Template block usage:
-  this.render(hbs`
-    {{#analytics-query-type}}
-      template block text
-    {{/analytics-query-type}}
-  `);
-
-  assert.equal(this.$().text().trim(), 'template block text');
 });

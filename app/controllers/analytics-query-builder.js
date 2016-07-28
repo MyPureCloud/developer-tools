@@ -31,7 +31,7 @@ export default Ember.Controller.extend({
     url: computed('queryType', function() {
        let type = this.get('queryType');
        for(let x=0; x< this.queryTypes.length; x++){
-           if(this.queryTypes[x].id == type){
+           if(this.queryTypes[x].id === type){
                return this.queryTypes[x].url;
            }
        }

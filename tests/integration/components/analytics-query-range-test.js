@@ -11,14 +11,6 @@ test('it renders', function(assert) {
 
   this.render(hbs`{{analytics-query-range}}`);
 
-  assert.equal(this.$().text().trim(), '');
+  assert.notEqual(this.$().text().trim(), '');
 
-  // Template block usage:
-  this.render(hbs`
-    {{#analytics-query-range}}
-      template block text
-    {{/analytics-query-range}}
-  `);
-
-  assert.equal(this.$().text().trim(), 'template block text');
 });

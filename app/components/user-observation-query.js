@@ -21,10 +21,11 @@ export default Ember.Component.extend({
         return query;
     },
     queryJson: Ember.computed('selectedMetrics.@each', 'filter', function() {
-        console.log("queryJson");
 
         setTimeout(function(){
-            window.resizeDiv();
+            if(window && window.resizeDiv){
+                window.resizeDiv();
+            }
         },100);
 
 

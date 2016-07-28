@@ -11,14 +11,6 @@ test('it renders', function(assert) {
 
   this.render(hbs`{{analytics-query-clause}}`);
 
-  assert.equal(this.$().text().trim(), '');
+  assert.notEqual(this.$().text().trim(), '');
 
-  // Template block usage:
-  this.render(hbs`
-    {{#analytics-query-clause}}
-      template block text
-    {{/analytics-query-clause}}
-  `);
-
-  assert.equal(this.$().text().trim(), 'template block text');
 });

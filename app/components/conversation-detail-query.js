@@ -1,5 +1,4 @@
 import Ember from 'ember';
-var observer = Ember.observer;
 
 export default Ember.Component.extend({
     purecloud: Ember.inject.service('purecloud'),
@@ -56,7 +55,9 @@ export default Ember.Component.extend({
     },
     propertyWatcher: Ember.observer('aggregations','aggregations.@each','interval', 'order', 'orderBy', 'pageSize', "pageNumber", "conversationFilter", "evaluationFilter", "segmentFilter", "hasConversationFilter", "hasSegmentFilter", "hasEvaluationFilter", function() {
         setTimeout(function(){
-            window.resizeDiv();
+            if(window && window.resizeDiv){
+                window.resizeDiv();
+            }
         },100);
 
 

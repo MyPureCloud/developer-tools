@@ -29,7 +29,7 @@ export default Ember.Component.extend({
         }
 
         var groupBy = this.get("groupBy");
-        if(groupBy && groupBy!= ''){
+        if(groupBy && groupBy !== ''){
             query.groupBy = groupBy;
         }
 
@@ -52,7 +52,9 @@ export default Ember.Component.extend({
     },
     queryJson: Ember.computed('granularity', 'interval', 'groupBy', 'filter', "flattenMultivaluedDimensions", function() {
         setTimeout(function(){
-            window.resizeDiv();
+            if(window && window.resizeDiv){
+                window.resizeDiv();
+            }
         },100);
 
 

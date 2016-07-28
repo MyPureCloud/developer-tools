@@ -12,10 +12,6 @@ export default Ember.Component.extend({
 
         this._super(...arguments);
 
-        setTimeout(function(){
-            //self.set("predicate", self._computeValue());
-        },200);
-
         this.set("dimensions", this.get("analyticsValueService").get("dimensions"));
         this.set("propertyTypes", this.get("analyticsValueService").get("propertyTypes"));
         this.set("metrics", this.get("analyticsValueService").get("metrics"));

@@ -1,3 +1,4 @@
+/* global moment */
 import Ember from 'ember';
 var  observer = Ember.observer;
 
@@ -14,7 +15,9 @@ export default Ember.Component.extend({
 
       let self = this;
       setTimeout(function(){
-          self._computeValue();      
+          if ( !(self.get('isDestroyed') || self.get('isDestroying')) ) {
+              self._computeValue();
+          }
       },100);
 
   },
@@ -26,8 +29,10 @@ export default Ember.Component.extend({
       let value = "";
       if(noInterval){
           value = null;
-      }else{
+      }else if(start && end){
           value = start.toISOString() + '/' + end.toISOString();
+      }else {
+          value = "";
       }
 
       this.set("value", value);

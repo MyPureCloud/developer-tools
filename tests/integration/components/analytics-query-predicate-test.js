@@ -1,8 +1,39 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
+import Ember from 'ember';
+
+const pureCloudStub = Ember.Service.extend({
+    session: null,
+
+    notificationsApi(){
+        return {};
+    },
+    analyticsApi(){
+        return {};
+    },
+    orgApi(){
+        return {};
+    },
+    routingApi(){
+        return {
+            getQueues(){
+                return {
+                    then(){}
+                };
+            }
+        };
+    },
+    usersApi(){
+        return {};
+    },
+    me: null
+});
 
 moduleForComponent('analytics-query-predicate', 'Integration | Component | analytics query predicate', {
-  integration: true
+  integration: true,
+  beforeEach: function () {
+    this.register('service:purecloud', pureCloudStub);
+  }
 });
 
 test('it renders', function(assert) {
@@ -11,14 +42,6 @@ test('it renders', function(assert) {
 
   this.render(hbs`{{analytics-query-predicate}}`);
 
-  assert.equal(this.$().text().trim(), '');
+  assert.notEqual(this.$().text().trim(), '');
 
-  // Template block usage:
-  this.render(hbs`
-    {{#analytics-query-predicate}}
-      template block text
-    {{/analytics-query-predicate}}
-  `);
-
-  assert.equal(this.$().text().trim(), 'template block text');
 });

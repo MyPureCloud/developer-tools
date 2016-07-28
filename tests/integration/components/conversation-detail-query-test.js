@@ -11,14 +11,6 @@ test('it renders', function(assert) {
 
   this.render(hbs`{{conversation-detail-query}}`);
 
-  assert.equal(this.$().text().trim(), '');
+  assert.notEqual(this.$().text().trim(), '');
 
-  // Template block usage:
-  this.render(hbs`
-    {{#conversation-detail-query}}
-      template block text
-    {{/conversation-detail-query}}
-  `);
-
-  assert.equal(this.$().text().trim(), 'template block text');
 });

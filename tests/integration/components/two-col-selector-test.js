@@ -11,14 +11,6 @@ test('it renders', function(assert) {
 
   this.render(hbs`{{two-col-selector}}`);
 
-  assert.equal(this.$().text().trim(), '');
+  assert.notEqual(this.$().text().trim(), '');
 
-  // Template block usage:
-  this.render(hbs`
-    {{#two-col-selector}}
-      template block text
-    {{/two-col-selector}}
-  `);
-
-  assert.equal(this.$().text().trim(), 'template block text');
 });

@@ -1,4 +1,4 @@
-import Ember from 'ember';
+/* global purecloud */
 import config from '../config/environment';
 import {purecloudEnvironment} from '../utils/purecloud-environment';
 import {purecloudEnvironmentTld} from '../utils/purecloud-environment';
