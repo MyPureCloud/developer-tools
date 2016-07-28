@@ -8,11 +8,17 @@ export default Ember.Service.extend(Ember.Evented, {
     notificationsApi(){
         return new purecloud.platform.NotificationsApi(this.get('session'));
     },
+    analyticsApi(){
+        return new purecloud.platform.AnalyticsApi(this.get('session'));
+    },
     orgApi(){
         return new purecloud.platform.OrganizationApi(this.get('session'));
     },
     routingApi(){
         return new purecloud.platform.RoutingApi(this.get('session'));
+    },
+    usersApi(){
+        return new purecloud.platform.UsersApi(this.get('session'));
     },
     me: null,
 

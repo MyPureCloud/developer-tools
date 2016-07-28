@@ -22,6 +22,12 @@ const devToolsModules = [
         path: "webchat",
         icon: "fa fa-comments-o ",
         description: "Generate web chats."
+    },
+    {
+        name: "Analytics Query Builder",
+        path: "analytics-query-builder",
+        icon: "fa fa-line-chart ",
+        description: "Interactively build Analytics API queries."
     }
 ];
 
