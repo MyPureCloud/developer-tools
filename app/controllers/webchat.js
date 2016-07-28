@@ -69,10 +69,15 @@ export default Ember.Controller.extend({
             let companyLogoSmall = $("#companyLogoSmall").attr('src');
             let agentAvatar = $("#agentAvatar").attr('src');
 
+            let resourcePrefix = window.location.origin;
+            if(config.APP.urlprefix){
+                resourcePrefix = config.APP.urlprefix;
+            }
+
             if(companyLogo[0] !== "h"){
-                companyLogo = window.location.origin + companyLogo;
-                companyLogoSmall = window.location.origin + companyLogoSmall;
-                agentAvatar = window.location.origin + agentAvatar;
+                companyLogo = resourcePrefix + companyLogo;
+                companyLogoSmall = resourcePrefix + companyLogoSmall;
+                agentAvatar = resourcePrefix + agentAvatar;
             }
 
             let chatConfig = {
