@@ -4,6 +4,7 @@ import {purecloudEnvironmentTld} from '../utils/purecloud-environment';
 export default Ember.Route.extend({
     purecloud: Ember.inject.service(),
     analyticsService: Ember.inject.service(),
+    querystringService: Ember.inject.service(),
 
     init(){
         let that = this;
@@ -32,11 +33,14 @@ export default Ember.Route.extend({
 
         if(window.location.hash.indexOf("share")>0){
             search = "?" + window.location.hash.substring(window.location.hash.indexOf("share"));
+        }else if(window.location.hash.indexOf("filter")>0){
+            search = "?" + window.location.hash.substring(window.location.hash.indexOf("filter"));
         }
 
         let purecloudEnvironment = purecloudEnvironmentTld();
 
         let swagger = `openApiUrl=https://api.${purecloudEnvironment}/api/v2/docs/swagger&shareUrl=${window.location.origin}` + encodeURIComponent('/developer-tools/#/api-explorer?');
+
         if(search == null || search.length === 0){
             search = "?"+swagger;
         }else{
