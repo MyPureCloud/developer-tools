@@ -3,9 +3,9 @@ import Ember from 'ember';
 export default Ember.Component.extend({
     purecloud: Ember.inject.service('purecloud'),
     interval: null,
-    segmentFilter: null,
-    evaluationFilter: null,
-    conversationFilter: null,
+    segmentFilters: [],
+    evaluationFilters: [],
+    conversationFilters: [],
 
     order: "asc",
     orderOptions: ["asc","desc"],
@@ -17,7 +17,6 @@ export default Ember.Component.extend({
 
     init(){
         this._super(...arguments);
-        this.get('filter');
     },
     _computeValue:function(){
 
@@ -31,20 +30,16 @@ export default Ember.Component.extend({
             }
         };
 
-
-        var hasConversationFilter = this.get('hasConversationFilter');
-        if(hasConversationFilter){
-            query.conversationFilter = this.get("conversationFilter");
+        if(this.segmentFilters.length > 0){
+            query.segmentFilters = this.get("segmentFilters");
         }
 
-        var hasSegmentFilter = this.get('hasSegmentFilter');
-        if(hasSegmentFilter){
-            query.segmentFilter = this.get("segmentFilter");
+        if(this.conversationFilters.length > 0){
+            query.conversationFilters = this.get("conversationFilters");
         }
 
-        var hasEvaluationFilter = this.get('hasEvaluationFilter');
-        if(hasEvaluationFilter){
-            query.evaluationFilter = this.get("evaluationFilter");
+        if(this.evaluationFilters.length > 0){
+            query.evaluationFilters = this.get("evaluationFilters");
         }
 
         if(this.aggregations.length > 0){
@@ -92,7 +87,52 @@ export default Ember.Component.extend({
         deleteAggregation:function(index){
             this.aggregations.removeAt(index);
             this.set("queryJson", JSON.stringify(this._computeValue(), null, " "));
-        }
+        },
+        newSegmentFilter: function(){
+            this.segmentFilters.addObject({
+                type: "or",
+                clauses: [],
+                predicates: []
+            });
+        },
+        updateSegmentFilter: function(index,filter){
+            this.segmentFilters[index] = filter;
+            this.set("queryJson", JSON.stringify(this._computeValue(), null, " "));
+        },
+        deleteSegmentFilter:function(index){
+            this.segmentFilters.removeAt(index);
+            this.set("queryJson", JSON.stringify(this._computeValue(), null, " "));
+        },
+        newEvaluationFilter: function(){
+            this.evaluationFilters.addObject({
+                type: "or",
+                clauses: [],
+                predicates: []
+            });
+        },
+        updateEvaluationFilter: function(index,filter){
+            this.evaluationFilters[index] = filter;
+            this.set("queryJson", JSON.stringify(this._computeValue(), null, " "));
+        },
+        deleteEvaluationFilter:function(index){
+            this.evaluationFilters.removeAt(index);
+            this.set("queryJson", JSON.stringify(this._computeValue(), null, " "));
+        },
+        newConversationFilter: function(){
+            this.conversationFilters.addObject({
+                type: "or",
+                clauses: [],
+                predicates: []
+            });
+        },
+        updateConversationFilter: function(index,filter){
+            this.conversationFilters[index] = filter;
+            this.set("queryJson", JSON.stringify(this._computeValue(), null, " "));
+        },
+        deleteConversationFilter:function(index){
+            this.conversationFilters.removeAt(index);
+            this.set("queryJson", JSON.stringify(this._computeValue(), null, " "));
+        },
     }
 
 

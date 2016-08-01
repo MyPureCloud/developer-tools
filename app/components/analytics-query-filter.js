@@ -21,8 +21,32 @@ export default Ember.Component.extend({
             }
         },200);
 
+        let id = this.get("id");
+
+        let filter = this.get("filter");
+        if(filter){
+            console.log("HAS FILTER FOR " + id);
+            console.log(filter);
+            console.log(filter.type);
+            console.log(filter.clauses);
+            console.log(filter.predicates);
+            if(filter.type){
+                this.set("selectedType", filter.type);
+            }
+
+            if(filter.type){
+                this.set("clauses", filter.clauses);
+            }
+
+            if(filter.type){
+                this.set("predicates", filter.predicates);
+            }
+            
+        }
+
     },
     _computeValue:function(){
+            console.log("computing " + this.get("id"));
         let query={
             type:this.get('selectedType')
         };
@@ -36,6 +60,11 @@ export default Ember.Component.extend({
         }
 
         if(query.predicates || query.clauses){
+            let index = this.get("index");
+            if(typeof index !== "undefined") {
+                this.get("updateFilter")(this.get("index"), query);
+            }
+
             return query;
         }
 
