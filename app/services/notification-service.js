@@ -21,20 +21,24 @@ export default Ember.Service.extend({
         var api = self.get('purecloud').notificationsApi();
 
         api.postChannels().then(function(channel){
-            console.log(channel);
+            if ( !(self.get('isDestroyed') || self.get('isDestroying')) ) {
+                console.log(channel);
 
-            const socket = self.get('socketService').socketFor(channel.connectUri);
+                const socket = self.get('socketService').socketFor(channel.connectUri);
 
-            socket.on('open', self.websocketOpenHandler, self);
-            socket.on('message', self.websocketMessageHandler, self);
+                socket.on('open', self.websocketOpenHandler, self);
+                socket.on('message', self.websocketMessageHandler, self);
 
-            self.set('socketRef', socket);
-            self.set('channelId', channel.id);
+                self.set('socketRef', socket);
+                self.set('channelId', channel.id);
+            }
         });
 
 
         api.getAvailabletopics("description,schema").then(function(topics){
-            self.set('availableTopics', topics.entities );
+            if ( !(self.get('isDestroyed') || self.get('isDestroying')) ) {
+                self.set('availableTopics', topics.entities );
+            }
         });
 
     },

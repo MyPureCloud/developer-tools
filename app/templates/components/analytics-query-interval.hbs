@@ -1,0 +1,23 @@
+<h2>Interval</h2>
+<p class="text-muted"> Specifies a date and time range for the query, such as a week, day, or 30 minute interval. You can apply an interval of up to seven days for queries with no filter. If the query uses a filter, you can apply an interval of up to 32 days.
+</p>
+<div class="query-indent">
+    <div class='row'>
+        <div class='col-md-3'>
+            <label>Start (Local Time)</label>
+        </div>
+
+        <div class='col-md-3'>
+            <label>End  (Local Time)</label>
+        </div>
+    </div>
+    <div class='row'>
+        <div class='col-md-3'>
+            {{bs-datetimepicker date=startDate format='YYYY-MM-DD h:mm:ss a' updateDate=(action (mut startDate))}}
+        </div>
+
+        <div class='col-md-3'>
+            {{bs-datetimepicker date=endDate format='YYYY-MM-DD h:mm:ss a' updateDate=(action (mut endDate))}}
+        </div>
+    </div>
+</div>

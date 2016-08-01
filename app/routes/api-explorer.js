@@ -32,18 +32,23 @@ export default Ember.Route.extend({
 
         if(window.location.hash.indexOf("share")>0){
             search = "?" + window.location.hash.substring(window.location.hash.indexOf("share"));
+        }else if(window.location.hash.indexOf("filter")>0){
+            search = "?" + window.location.hash.substring(window.location.hash.indexOf("filter"));
         }
 
         let purecloudEnvironment = purecloudEnvironmentTld();
 
         let swagger = `openApiUrl=https://api.${purecloudEnvironment}/api/v2/docs/swagger&shareUrl=${window.location.origin}` + encodeURIComponent('/developer-tools/#/api-explorer?');
+
         if(search == null || search.length === 0){
             search = "?"+swagger;
         }else{
             search += "&" + swagger;
         }
 
-        return `https://apps.${purecloudEnvironment}/openapi-explorer/${search}#token_type=bearer&access_token=` + this.get("purecloud").get("session").options.token;
+        let openApiExplorerUrl = `https://apps.${purecloudEnvironment}/openapi-explorer/`;
+        //openApiExplorerUrl = 'http://localhost:8081/';
+        return `${openApiExplorerUrl}${search}#token_type=bearer&access_token=` + this.get("purecloud").get("session").options.token;
 
     }
 });

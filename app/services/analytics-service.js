@@ -5,7 +5,7 @@ import config from '../config/environment';
 let DEV_TOOLS_CATEGORY = 'Dev Tools';
 export default Ember.Service.extend(Ember.Evented,{
     logEvent(action, label) {
-        if(config.analyticsTrackingId){
+        if(ga && config.analyticsTrackingId){
             ga('send', 'event', DEV_TOOLS_CATEGORY, action, label);
         }
     },

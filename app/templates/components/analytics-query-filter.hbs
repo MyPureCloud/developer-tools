@@ -1,0 +1,54 @@
+{{#if (eq showDefaultHeader false)}}
+{{else}}
+<h2>Filter</h2>
+<p class="text-muted">
+    Behaves like a SQL WHERE clause. This is ANDed with the interval parameter. Expresses boolean logical predicates as well as dimensional filters.
+</p>
+{{/if}}
+
+<div class="query-indent">
+    <div class='row'>
+        <div class='col-md-1'>
+            <label>Type</label>
+        </div>
+
+        <div class='col-md-1'>
+            {{select-box items=types selectedItem=selectedType}}
+        </div>
+    </div>
+    <h3>Clauses</h3>
+    <p class="text-muted">
+        Boolean 'and/or' logic with up to two-levels of nesting.
+    </p>
+    <div class="query-indent">
+        <div class='row'>
+
+            <div class='col-md-11' style='margin-left:30px'>
+                {{#each clauses as |clause index|}}
+                {{analytics-query-clause clause=clause index=index updateClause=(action 'updateClause') deleteClause=(action 'deleteClause') }}
+                {{/each}}
+            </div>
+
+        </div>
+        <button class='btn btn-primary btn-sm top-margin' {{action 'newClause'}} >New Clause</button>
+    </div>
+
+    <h3>Predicates</h3>
+    <p class="text-muted">
+        Like a three-word sentence: (attribute-name) (operator) (target-value). These can be one of three types: dimension, property, metric..
+    </p>
+    <div class="query-indent">
+        <div class='row'>
+
+            <div class='col-md-12'>
+
+                {{#each predicates as |predicate index|}}
+                {{analytics-query-predicate predicate=predicate index=index updatePredicate=(action 'updatePredicate') deletePredicate=(action 'deletePredicate')}}
+
+                {{/each}}
+            </div>
+
+        </div>
+        <button class='btn btn-primary btn-sm' {{action 'newPredicate'}} style='margin-top:5px'>New Predicate</button>
+    </div>
+</div>

@@ -3,6 +3,8 @@
 import Ember from 'ember';
 import Chance from 'npm:chance';
 import {purecloudEnvironmentTld} from '../utils/purecloud-environment';
+import config from '../config/environment';
+
 var  computed = Ember.computed;
 
 export default Ember.Controller.extend({
@@ -53,10 +55,15 @@ export default Ember.Controller.extend({
             let companyLogoSmall = $("#companyLogoSmall").attr('src');
             let agentAvatar = $("#agentAvatar").attr('src');
 
+            let resourcePrefix = window.location.origin;
+            if(config.APP.urlprefix){
+                resourcePrefix = config.APP.urlprefix;
+            }
+
             if(companyLogo[0] !== "h"){
-                companyLogo = window.location.origin + companyLogo;
-                companyLogoSmall = window.location.origin + companyLogoSmall;
-                agentAvatar = window.location.origin + agentAvatar;
+                companyLogo = resourcePrefix + companyLogo;
+                companyLogoSmall = resourcePrefix + companyLogoSmall;
+                agentAvatar = resourcePrefix + agentAvatar;
             }
 
             let chatConfig = {
@@ -163,9 +170,6 @@ export default Ember.Controller.extend({
             this.set("state", chance.state());
             this.set("zip", chance.zip());
             this.set("phone", chance.phone());
-        },
-        selectQueue(queue) {
-            this.set('queue', queue);
-        },
+        }
     }
 });

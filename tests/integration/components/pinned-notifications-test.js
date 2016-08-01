@@ -1,8 +1,32 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
+import Ember from 'ember';
+
+const pureCloudStub = Ember.Service.extend({
+    session: null,
+
+    notificationsApi(){
+        return {
+            postChannels(){
+                return {
+                    then(){}
+                };
+            },
+            getAvailabletopics(){
+                return {
+                    then(){}
+                };
+            }
+        };
+    },
+    me: null
+});
 
 moduleForComponent('pinned-notifications', 'Integration | Component | pinned notifications', {
-  integration: true
+  integration: true,
+  beforeEach: function () {
+    this.register('service:purecloud', pureCloudStub);
+  }
 });
 
 test('it renders', function(assert) {
@@ -13,12 +37,4 @@ test('it renders', function(assert) {
 
   assert.equal(this.$().text().trim(), '');
 
-  // Template block usage:
-  this.render(hbs`
-    {{#pinned-notifications}}
-      template block text
-    {{/pinned-notifications}}
-  `);
-
-  assert.equal(this.$().text().trim(), 'template block text');
 });

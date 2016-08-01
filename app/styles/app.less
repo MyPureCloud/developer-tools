@@ -3,6 +3,7 @@
 
 @import "code-editor.less";
 @import "pinned-notifications.less";
+@import "query-builder.less";
 
 body{
     overflow:hidden;
@@ -93,6 +94,7 @@ body, html {
     font-family: inherit;
     font-weight: 500;
     font-size: 30px;
+    margin-left:10px;
 }
 
 .profile-image{
@@ -148,7 +150,14 @@ body, html {
     bottom:0;
 }
 
+.scroll-sub-app{
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
 .sub-app{
     margin-left: 20px;
+    padding-right: 20px;
     margin-top: 20px;
+    min-height: 500px;
 }

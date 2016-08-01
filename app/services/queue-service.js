@@ -1,10 +1,9 @@
-
+/* exported queues */
 import Ember from 'ember';
-//http://www.programwitherik.com/ember-services-tutorial/
+
 export default Ember.Service.extend({
-    socketService: Ember.inject.service('websockets'),
+
     purecloud: Ember.inject.service(),
-    analyticsService: Ember.inject.service(),
 
     queues: [],
 
@@ -16,17 +15,12 @@ export default Ember.Service.extend({
 
         let routingApi = self.get("purecloud").routingApi();
 
-        let queues = [];
         function processPageOfQueues(results){
-            for(var x=0; x< results.entities.length; x++){
-                queues.push(results.entities[x]);
-            }
+            self.queues.addObjects(results.entities);
 
             if(results.nextUri){
                 //get the next page of users directly
                 pureCloudSession.get(results.nextUri).then(processPageOfQueues);
-            }else{
-                self.set("queues", queues);
             }
 
         }

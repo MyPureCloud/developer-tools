@@ -1,9 +1,21 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('nav-tree', 'Integration | Component | nav tree', {
-  integration: true
+import Ember from 'ember';
+
+const pureCloudStub = Ember.Service.extend({
+    session: {
+        logout(){}
+    }
 });
+
+moduleForComponent('nav-tree', 'Integration | Component | nav tree', {
+  integration: true,
+  beforeEach: function () {
+    this.register('service:purecloud', pureCloudStub);
+  }
+});
+
 
 test('it renders', function(assert) {
   // Set any properties with this.set('myProperty', 'value');
@@ -13,12 +25,4 @@ test('it renders', function(assert) {
 
   assert.equal(this.$().text().trim(), '');
 
-  // Template block usage:
-  this.render(hbs`
-    {{#nav-tree}}
-      template block text
-    {{/nav-tree}}
-  `);
-
-  assert.equal(this.$().text().trim(), 'template block text');
 });

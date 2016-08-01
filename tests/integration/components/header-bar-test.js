@@ -1,8 +1,16 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
+import Ember from 'ember';
+
+const pureCloudStub = Ember.Service.extend({
+    me: {}
+});
 
 moduleForComponent('header-bar', 'Integration | Component | header bar', {
-  integration: true
+  integration: true,
+  beforeEach: function () {
+    this.register('service:purecloud', pureCloudStub);
+  }
 });
 
 test('it renders', function(assert) {
@@ -11,14 +19,6 @@ test('it renders', function(assert) {
 
   this.render(hbs`{{header-bar}}`);
 
-  assert.equal(this.$().text().trim(), '');
+  assert.notEqual(this.$().text().trim(), '');
 
-  // Template block usage:
-  this.render(hbs`
-    {{#header-bar}}
-      template block text
-    {{/header-bar}}
-  `);
-
-  assert.equal(this.$().text().trim(), 'template block text');
 });

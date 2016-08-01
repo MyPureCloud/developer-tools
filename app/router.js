@@ -30,6 +30,7 @@ Router.map(function() {
   this.route('codeeditor');
   this.route('webchat');
   this.route('callback');
+  this.route('analytics-query-builder');
 });
 
 export default Router;

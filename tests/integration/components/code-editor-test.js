@@ -1,8 +1,46 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
+import Ember from 'ember';
 
-moduleForComponent('code-editor', 'Integration | Component | code editor', {
-  integration: true
+const pureCloudStub = Ember.Service.extend({
+    session: {
+        options:{}
+    },
+
+    notificationsApi(){
+        return {};
+    },
+    analyticsApi(){
+        return {};
+    },
+    orgApi(){
+        return {};
+    },
+    routingApi(){
+        return {
+            getQueues(){
+                return {
+                    then(){}
+                };
+            }
+        };
+    },
+    usersApi(){
+        return {
+            getUsers(){
+                return {
+                    then(){}
+                };
+            }
+        };
+    },
+    me: null
+});
+
+moduleForComponent('code-editor', 'Integration | Component | code editor', {  integration: true,
+  beforeEach: function () {
+    this.register('service:purecloud', pureCloudStub);
+  }
 });
 
 test('it renders', function(assert) {
@@ -11,14 +49,6 @@ test('it renders', function(assert) {
 
   this.render(hbs`{{code-editor}}`);
 
-  assert.equal(this.$().text().trim(), '');
+  assert.notEqual(this.$().text().trim(), '');
 
-  // Template block usage:
-  this.render(hbs`
-    {{#code-editor}}
-      template block text
-    {{/code-editor}}
-  `);
-
-  assert.equal(this.$().text().trim(), 'template block text');
 });

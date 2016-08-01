@@ -1,4 +1,4 @@
-<div class="container-full sub-app" >
+<div class="container sub-app scroll-sub-app">
 <form>
     <div class="form-group row">
         <label class="col-sm-1 form-control-label">Org Name:</label>
@@ -63,11 +63,7 @@
     <div class="form-group row">
         <label for='lastName' class="col-sm-1 form-control-label">Queue:</label>
         <div class="col-sm-3">
-            <select  class="form-control setting" onchange={{action 'selectQueue' value="target.value"}}>
-                {{#each queues as |queueOption|}}
-                  <option value={{queueOption.name}} selected={{eq queue queueOption.name}}>{{queueOption.name}}</option>
-                {{/each}}
-            </select>
+            {{select-box-advanced idKey='name' nameKey='name' items=queues selectedItem=queue}}
         </div>
     </div>
 
@@ -76,12 +72,12 @@
             <a class="btn btn-primary " {{action 'startChat'}} href="#" role="button">Start Chat</a>
         </div>
     </div>
-    
+
 </form>
 </div>
 
 
 <div id="chatContainer" style="height:600px"></div>
-<img  src="/assets/images/agent.jpg" id='agentAvatar' />
-<img src="/assets/images/companylogo.png" id='companyLogoSmall' />
-<img src="/assets/images/PC-blue-nomark.png" id='companyLogo' />
+<img  src="assets/images/agent.jpg" id='agentAvatar' />
+<img src="assets/images/companylogo.png" id='companyLogoSmall' />
+<img src="assets/images/PC-blue-nomark.png" id='companyLogo' />

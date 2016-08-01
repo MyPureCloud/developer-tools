@@ -24,10 +24,18 @@ const devToolsModules = [
         description: "Generate web chats."
     },
     {
+
         name: "Callback Tester",
         path: "callback",
         icon: "fa fa-reply ",
         description: "Generate web callbacks."
+    },
+    {
+        name: "Analytics Query Builder",
+        path: "analytics-query-builder",
+        icon: "fa fa-line-chart ",
+        description: "Interactively build Analytics API queries."
+
     }
 ];
 
