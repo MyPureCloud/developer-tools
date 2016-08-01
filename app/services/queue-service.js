@@ -25,6 +25,5 @@ export default Ember.Service.extend({
 
         }
         routingApi.getQueues(25,0,'name', null, true).then(processPageOfQueues);
-
     }
 });
