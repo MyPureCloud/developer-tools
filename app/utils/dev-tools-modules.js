@@ -18,17 +18,17 @@ const devToolsModules = [
         description: "Subscribe to events and see the data that comes in from the websocket."
     },
     {
-        name: "Web Chat Tester",
+        name: "Web Chat Creator",
         path: "webchat",
         icon: "fa fa-comments-o ",
-        description: "Generate web chats."
+        description: "Create web chats."
     },
     {
 
-        name: "Callback Tester",
+        name: "Callback Creator",
         path: "callback",
         icon: "fa fa-reply ",
-        description: "Generate web callbacks."
+        description: "Create web callbacks."
     },
     {
         name: "Analytics Query Builder",

@@ -19,6 +19,10 @@ export default Ember.Controller.extend({
     receivedMessage: computed('notificationService.websocketMessages', function() {
         return this.get('notificationService').get('websocketMessages');
     }),
+    isPinned: computed('notificationService.isPinned', function() {
+        return this.get('notificationService').get('isPinned');
+    }),
+
     actions: {
 
         selectNotificationTopic(topicIndex) {
