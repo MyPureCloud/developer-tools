@@ -1,9 +1,18 @@
-<div class='top-banner'>
-    {{#header-bar}}{{/header-bar}}
-</div>
-<div id="navBar" >
-    {{nav-tree}}
-</div>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class='navbar-header'>
+            <div class="navbar-brand">
+                <i class="pc-moon pc-logo-inin"></i>Developer Tools
+            </div>
+        </div>
+        <div id="navBar">
+            {{nav-tree}}
+        </div>
+        <div class="menu-right">
+            {{#header-bar}}{{/header-bar}}
+        </div>
+    </div>
+</nav>
 <div id="content">
     {{outlet}}
 </div>
