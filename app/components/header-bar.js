@@ -30,6 +30,9 @@ export default Ember.Component.extend({
     actions: {
         toggleMe: function() {
             this.toggleProperty('showMe');
+        },
+        logOut(){
+            this.get('purecloud').get("session").logout();
         }
     }
 });
