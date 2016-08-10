@@ -1,5 +1,6 @@
 @import 'icons.less';
 
+@import url("//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css");
 @import "../../bower_components/bootstrap/less/bootstrap.less";
 
 @import "variables.less";
@@ -18,7 +19,7 @@ body, html {
 }
 
 .full-height {
-    height: 100%;
+    height: calc(~"100%");
 }
 
 .height-90pct {
@@ -35,20 +36,21 @@ body, html {
     overflow-x:hidden;
 }
 
+#content {
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: fixed;
+    height: calc(~"100%");
+    top: @navbar-height;
+    width: 100%;
+}
+
 #developer-tools {
     height: 100%;
     position: absolute;
-    top: @navbar-height;
     left: 0;
     right: 0px;
     bottom: 0px;
-}
-
-#intro {
-    .fa {
-        font-size: 30px;
-        padding: 5px;
-    }
 }
 
 .top-banner {
@@ -71,12 +73,16 @@ body, html {
 .scroll-sub-app {
     overflow-y: auto;
     overflow-x: hidden;
+
 }
 
 .sub-app {
     margin-left: 20px;
     padding-right: 20px;
     padding-top: 20px;
-    margin-top: @navbar-height;
     min-height: 500px;
+
+    > h2:first-child {
+        margin-top: 0;
+    }
 }
