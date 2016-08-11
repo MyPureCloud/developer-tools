@@ -10,6 +10,8 @@
 @import "pinned-notifications.less";
 @import "query-builder.less";
 
+@import "home.less";
+
 body {
     overflow:hidden;
 }
@@ -40,23 +42,23 @@ body, html {
     overflow-y: auto;
     overflow-x: hidden;
     position: fixed;
-    height: calc(~"100%");
+    height: calc(100% ~"-" @navbar-height);
     top: @navbar-height;
     width: 100%;
+
+    @media (max-width: @screen-sm) {
+        top: @navbar-height * 2;
+        height: calc(100% ~"-" @navbar-height * 2);
+    }
 }
 
 #developer-tools {
-    height: 100%;
+    height: calc(~"100%");
     position: absolute;
     left: 0;
     right: 0px;
     bottom: 0px;
-}
-
-.top-banner {
-    width: 100%;
-    height: @navbar-height;
-    color: white;
+    top: 0;
 }
 
 .developer-tools {
@@ -73,7 +75,6 @@ body, html {
 .scroll-sub-app {
     overflow-y: auto;
     overflow-x: hidden;
-
 }
 
 .sub-app {

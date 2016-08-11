@@ -1,22 +1,16 @@
-<div id='intro'>
+<div class='home'>
+    <div class="hero">
+        <h2>Welcome to the Developer Tools</h2>
+        <p class="lead">Tools for helping you work with the PureCloud APIs</p>
+    </div>
 
-
-<h2>Welcome to the Developer Tools</h2>
-On the left are the tools available for helping you work with the PureCloud APIs.
-
-<table>
-    {{#each model as |module|}}
-    <tr>
-        <td>
-            <i class={{module.icon}} aria-hidden="true"></i>
-        </td>
-        <td>
-            <b>{{module.name}}</b> - {{module.description}}
-        </td>
-    </tr>
-    {{/each}}
-
-
-</table>
-
+    <div class="module-grid">
+        {{#each model as |module|}}
+            <a class="module-link" href="#/{{module.path}}">
+                <i class={{module.icon}} aria-hidden="true"></i>
+                <strong>{{module.name}}</strong>
+                <p>{{module.description}}</p>
+            </a>
+        {{/each}}
+    </div>
 </div>

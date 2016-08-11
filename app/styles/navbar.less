@@ -1,33 +1,59 @@
 .navbar.navbar-inverse {
   font-family: @font-family-secondary;
   margin-bottom: 0;
+  position: relative;
+
+  @media (max-width: @screen-sm) {
+    height: @navbar-height * 2;
+  }
 
   .container-fluid {
     display: flex;
   }
 
-  .nav.navbar-nav > li > a {
-    font-size: 15px;
-    max-height: @navbar-height;
-
-    &.active {
-      color: white;
+  #navBar {
+    @media (max-width: @screen-sm) {
+      flex: 1 0 100%;
+      position: absolute;
+      top: 40px;
+      left: 25px;
     }
+  }
 
-    > i {
-      font-size: 20px;
-
-      @media (min-width: 1270px) {
-        font-size: 15px;
-        margin-right: 5px;
+  .nav.navbar-nav {
+    > li {
+      @media (max-width: @screen-sm) {
+        display: inline-block;
       }
-    }
 
-    > .navbar-link-text {
-      .hide;
+      > a {
+        font-size: 15px;
+        max-height: @navbar-height;
 
-      @media (min-width: 1270px) {
-        display: inline-block !important;
+        @media (max-width: @screen-sm) {
+          max-height: 500px;
+        }
+
+        &.active {
+          color: white;
+        }
+
+        > i {
+          font-size: 20px;
+
+          @media (min-width: 1270px) {
+            font-size: 15px;
+            margin-right: 5px;
+          }
+        }
+
+        > .navbar-link-text {
+          .hide;
+
+          @media (min-width: 1270px) {
+            display: inline-block !important;
+          }
+        }
       }
     }
   }
@@ -50,10 +76,12 @@
 }
 
 .menu-right {
-  align-self: flex-end;
   color: @navbar-inverse-color;
   max-width: 175px;
-  margin: auto 0 auto auto;
+  margin: auto 0 auto 20px;
+  position: absolute;
+  right: 20px;
+  top: 5px;
 }
 
 #user-info {
