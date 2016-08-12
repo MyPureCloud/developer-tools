@@ -18,25 +18,13 @@ const devToolsModules = [
         description: "Subscribe to events and see the data that comes in from the websocket."
     },
     {
-<<<<<<< HEAD
         name: "Web Chats",
         path: "webchat",
         icon: "pc-moon pc-chat",
         description: "Generate web chats."
     },
     {
-
         name: "Callbacks",
-=======
-        name: "Web Chat Creator",
-        path: "webchat",
-        icon: "fa fa-comments-o ",
-        description: "Create web chats."
-    },
-    {
-
-        name: "Callback Creator",
->>>>>>> master
         path: "callback",
         icon: "fa fa-reply ",
         description: "Create web callbacks."
