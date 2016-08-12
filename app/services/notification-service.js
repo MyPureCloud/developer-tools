@@ -72,7 +72,7 @@ export default Ember.Service.extend({
         console.log(`Message: ${event.data}`);
         var eventData =  JSON.parse(event.data);
 
-        eventData.bodyString = JSON.stringify(eventData.eventBody);
+        eventData.bodyString = JSON.stringify(eventData.eventBody, null, " ");
         eventData.time = moment().format('h:mm:ss.SSS');
 
         this.get('websocketMessages').pushObject(eventData);

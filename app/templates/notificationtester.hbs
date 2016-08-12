@@ -5,6 +5,8 @@
                 <div class="panel panel-default">
                     <div class="panel-heading"><h3 class="panel-title">Available Notification Topics</h3></div>
                     <div class="panel-body" style='height:30vh'>
+                        <button class='btn btn-primary' {{action 'subscribeToPresence'}}>Subscribe To My Presence</button>
+                        <button class='btn btn-primary' {{action 'subscribeToConversations'}}>Subscribe To My Conversations</button>
 
                         <select onchange={{action 'selectNotificationTopic' value="target.value"}}>
                             {{#each availableTopics as |topic index|}}
@@ -32,8 +34,6 @@
                 <div class="panel panel-default" >
                     <div class="panel-heading"><h3 class="panel-title">Subscribed Topics</h3></div>
                     <div class="panel-body" style='height:40vh'>
-                        <button class='btn btn-primary' {{action 'subscribeToPresence'}}>Subscribe To My Presence</button>
-                        <button class='btn btn-primary' {{action 'subscribeToConversations'}}>Subscribe To My Conversations</button>
 
                         <ul class='scrollable' style='height:35vh;'>
                             {{#each subscriptions as |topic|}}
@@ -65,7 +65,12 @@
                                 <label>Body</label>
                             </div>
                             <div class="col-md-2">
+                            {{#if isPinned}}
+                            <button class='btn btn-primary btn-xs' {{action 'togglePin'}}><i class="fa fa-thumb-tack" aria-hidden="true"></i> Unpin Messages</button>
+                            {{else}}
                             <button class='btn btn-primary btn-xs' {{action 'togglePin'}}><i class="fa fa-thumb-tack" aria-hidden="true"></i> Pin Messages</button>
+                            
+                            {{/if}}
                             </div>
                         </div>
                         <div class='full-height scrollable'>
@@ -78,7 +83,7 @@
                                     {{message.topicName}}
                                 </div>
                                 <div class="col-md-7">
-                                    {{ message.bodyString }}
+                                    <pre><code>{{ message.bodyString }}</code></pre>
                                 </div>
                             </div>
                             {{/each}}
@@ -89,12 +94,3 @@
         </div>
     </div>
 </div>
-<!--
-<div class='pull-left'>
-
-<h3>Subscribed Topics</h3>
-{{#each subscriptions as |topic|}}
-{{topic}}
-{{/each}}
-</div>
--->
