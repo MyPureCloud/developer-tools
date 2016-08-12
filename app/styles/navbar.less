@@ -3,24 +3,19 @@
   margin-bottom: 0;
   position: relative;
 
-  @media (max-width: @screen-sm) {
-    height: @navbar-height * 2;
-  }
-
   .container-fluid {
     display: flex;
   }
 
   #navBar {
-    @media (max-width: @screen-sm) {
-      flex: 1 0 100%;
-      position: absolute;
-      top: 40px;
-      left: 25px;
-    }
+    max-height: @navbar-height;
   }
 
   .nav.navbar-nav {
+    @media (max-width: @screen-sm) {
+      margin: 4px 0;
+    }
+
     > li {
       @media (max-width: @screen-sm) {
         display: inline-block;
@@ -29,10 +24,6 @@
       > a {
         font-size: 15px;
         max-height: @navbar-height;
-
-        @media (max-width: @screen-sm) {
-          max-height: 500px;
-        }
 
         &.active {
           color: white;
@@ -59,11 +50,16 @@
   }
 
   .navbar-brand {
-    font-size: 20px;
-    min-width: 225px;
+    font-size: 11px;
+    margin-right: 36px;
     position: relative;
     padding-left: 50px;
-    padding-top: 14px;
+    padding-top: 15px;
+    text-transform: uppercase;
+
+    @media (min-width: @screen-sm) {
+      padding-top: 14px;
+    }
 
     i {
       font-size: 28px;
@@ -71,6 +67,15 @@
       position: absolute;
       left: 15px;
       top: 11px;
+    }
+
+    .navbar-brand-text {
+      @media (min-width: @screen-sm) {
+        font-size: 20px;
+        margin-right: 0;
+        text-transform: none;
+        padding-top: 0;
+      }
     }
   }
 }
@@ -80,7 +85,7 @@
   max-width: 175px;
   margin: auto 0 auto 20px;
   position: absolute;
-  right: 20px;
+  right: 15px;
   top: 5px;
 }
 
@@ -92,7 +97,10 @@
 
     .profile-image {
         height: 40px;
-        margin-right: 10px;
+
+        @media (min-width: @screen-sm) {
+          margin-right: 10px;
+        }
     }
 
     .col-text {
@@ -142,11 +150,37 @@
     height: calc(~"100% - 300px");
     border-radius: 0px;
 
+    .user-info {
+      padding: 15px 15px 0;
+
+      .username {
+        font-size: 16px;
+      }
+
+      .org-name {
+        text-transform: uppercase;
+        color: #aeaeae;
+        font-size: 12px;
+      }
+
+      .link-sign-out {
+        font-size: 13px;
+        text-decoration: none;
+      }
+    }
+
     button {
-        margin-left: 10px;
-        margin-right: 12px;
-        margin-top: 10px;
-        .pull-right;
+        position: absolute;
+        right: 14px;
+        top: 15px;
+
+        @media (min-width: @screen-sm) {
+          position: static;
+          margin-left: 10px;
+          margin-right: 15px;
+          margin-top: 10px;
+          .pull-right;
+        }
     }
 
     label {
@@ -160,9 +194,13 @@
 
     pre {
         margin-left: 15px;
-        margin-right: 10px;
+        margin-right: 15px;
         max-width: 100%;
-        height: calc(~"100% - 40px");
+        height: calc(~"100% - 115px");
+
+        @media (min-width: @screen-sm) {
+          height: calc(~"100% - 40px");
+        }
     }
 }
 
