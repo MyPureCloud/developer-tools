@@ -1,0 +1,116 @@
+.home {
+    padding: 20px 0;
+
+    > * {
+        flex: 1 1 auto;
+    }
+
+    .hero {
+        background: @eden;
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+        width: 100%;
+        margin: -20px 0 0;
+        padding-bottom: 40px;
+
+        h2 {
+            color: @regent-blue;
+            font-family: @font-family-secondary;
+            font-size: 40px;
+            font-weight: 300;
+            margin-top: 60px;
+            text-align: center;
+        }
+
+        .lead {
+            color: @boston-blue;
+            font-family: @font-family-secondary;
+        }
+    }
+
+    .module-grid {
+        display: flex;
+        flex-flow: row wrap;
+        flex: 1 1 100%;
+        margin-top: 40px;
+        min-width: 100%;
+        padding: 0 100px;
+
+        @media (max-width: @screen-md) {
+            padding-left: 40px;
+            padding-right: 40px;
+            margin-top: 0px;
+        }
+
+        .module-link {
+            border-top: solid 1px #ddd;
+            border-right: solid 1px #ddd;
+            display: flex;
+            flex: 1 1 33.33%;
+            flex-flow: column;
+            padding: 40px 20px;
+            max-width: 33.33%;
+            text-decoration: none;
+            transition: .25s;
+
+            &:nth-child(1),
+            &:nth-child(2),
+            &:nth-child(3) {
+                border-top-color: transparent;
+            }
+
+            &:nth-child(3n) {
+                border-right-color: transparent;
+            }
+
+            &:hover {
+                i {
+                    color: @link-hover-color;
+                    transition: .25s;
+                }
+            }
+
+            @media (max-width: @screen-md) {
+                border-right-color: transparent;
+                flex: 1 1 100%;
+                min-width: 100%;
+
+                &:nth-child(2),
+                &:nth-child(3) {
+                    border-top-color: #ddd;
+                }
+            }
+
+            > * {
+                margin: 0 auto;
+            }
+
+            i {
+                align-self: center;
+                color: mix(@boston-blue, #aeaeae, 60%);
+                font-size: 48px;
+                margin-bottom: 12px;
+            }
+
+            strong {
+                color: #7b7b7b;
+                font-family: @font-family-secondary;
+                font-size: 28px;
+                font-weight: 300;
+                line-height: 1.25;
+                margin-bottom: 8px;
+                padding: 0 25px;
+                text-align: center;
+            }
+
+            p {
+                color: #888;
+                font-size: 16px;
+                font-weight: 300;
+                padding: 0 50px;
+                text-align: center;
+            }
+        }
+    }
+}

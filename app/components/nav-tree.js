@@ -6,10 +6,5 @@ export default Ember.Component.extend({
     modules: toolsModules,
     init(){
         this._super(...arguments);
-    },
-    actions:{
-        logOut(){
-            this.get('purecloud').get("session").logout();
-        }
     }
 });

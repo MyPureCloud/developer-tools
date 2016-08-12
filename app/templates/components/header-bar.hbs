@@ -1,31 +1,39 @@
+<div id='user-info' {{action "toggleMe"}}>
+    <img src={{me.images.[0].imageUri}} class="img-circle profile-image"/>
 
-    <div class='pull-left developer-tools'>
-        {{routeTitle}}
+    <div class="col-text">
+        <div class="username hidden-xs">
+            {{me.name}}
+        </div>
+
+        <div class="org-name hidden-xs">
+            {{me.organization.name}}
+        </div>
     </div>
 
-
-    <div class='pull-left ' style='color:red;font-weight:bold;text-transform: uppercase;'>
-        beta
-    </div>
-
-<div id='user-info'  class='pull-right' {{action "toggleMe"}}>
-    <div class='pull-right' >
-        <img src={{me.images.[0].imageUri}} class="img-circle profile-image"/>
-    </div>
-
-    <div class='pull-right' >
-        {{me.name}}
-        <br />
-        {{me.organization.name}}
-    </div>
-
+    <a class="link-sign-out hidden-xs" href="#" title='Sign Out' {{action 'logOut'}}>
+        <i class="fa fa-sign-out" aria-hidden="true"></i>
+    </a>
 </div>
 
 {{#if showMe}}
 <div id='users-me' {{action "toggleMe"}}>
+    <div class="user-info visible-xs">
+        <div class="col-text">
+            <div class="username">
+                {{me.name}}
+            </div>
+            <div class="org-name">
+                {{me.organization.name}}
+            </div>
+        </div>
+        <a class="link-sign-out" href="#" title='Sign Out' {{action 'logOut'}}>
+            <i class="fa fa-sign-out" aria-hidden="true"></i> Sign Out
+        </a>
+    </div>
     <button type="button" class="close pull-left" aria-label="Close" {{action "toggleMe"}}><span aria-hidden="true">&times;</span></button>
     <label>/api/v2/users/me</label>
-    <pre style='height:90%' class='scrollable'>
+    <pre class='scrollable'>
         <code >
 {{meJson}}
         </code>

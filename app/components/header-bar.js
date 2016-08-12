@@ -12,7 +12,7 @@ export default Ember.Component.extend({
         for(let x=0;x < toolsModules.length; x++){
             let module = toolsModules[x];
             if(module.path === route){
-                return module.name;
+                return "Developer Tools";
             }
         }
 
@@ -30,6 +30,9 @@ export default Ember.Component.extend({
     actions: {
         toggleMe: function() {
             this.toggleProperty('showMe');
+        },
+        logOut(){
+            this.get('purecloud').get("session").logout();
         }
     }
 });

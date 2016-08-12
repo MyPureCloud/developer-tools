@@ -12,20 +12,19 @@ const devToolsModules = [
         description: "Develop and test API calls using the javascript SDK and execute right from the browser."
     },
     {
-        name: "Notification Tester",
+        name: "Notifications",
         path: "notificationtester",
-        icon: "fa fa-paper-plane",
+        icon: "pc-moon pc-bell",
         description: "Subscribe to events and see the data that comes in from the websocket."
     },
     {
-        name: "Web Chat Creator",
+        name: "Web Chats",
         path: "webchat",
-        icon: "fa fa-comments-o ",
-        description: "Create web chats."
+        icon: "pc-moon pc-chat",
+        description: "Generate web chats."
     },
     {
-
-        name: "Callback Creator",
+        name: "Callbacks",
         path: "callback",
         icon: "fa fa-reply ",
         description: "Create web callbacks."
