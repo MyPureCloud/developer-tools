@@ -76,7 +76,13 @@ body, html {
     margin-left: 20px;
     padding-right: 20px;
     padding-top: 20px;
-    min-height: 500px;
+    position: fixed;
+    height: calc(~"100% - 50px");
+    width: calc(~"100% - 20px");
+
+    @media (min-width: @screen-md) {
+        overflow: hidden;
+    }
 
     > h2:first-child {
         margin-top: 0;
