@@ -1,0 +1,113 @@
+.nav-tabs {
+  @tab-active-color: #3497bb;
+  @tab-active-border-width: 2px;
+  @nav-tabs-border-color: #ddd;
+
+  > li {
+    // Actual tabs (as links)
+    margin-left: -1px;
+    overflow: hidden;
+
+    > a {
+      background: transparent;
+      margin-right: 0;
+      border-color: transparent;
+      border-radius: 0;
+      color: #777;
+      transition: .25s;
+
+      &:hover {
+        background: none;
+        border-color: @nav-tabs-border-color;
+        transition: .25s;
+      }
+
+      .close {
+        outline: none;
+      }
+    }
+
+    // Active state, and its :hover to override normal :hover
+    &.active {
+
+      &:before {
+        .animated;
+        .zoomIn;
+        animation-duration: .2s;
+        background: @tab-active-color;
+        content: '';
+        display: block;
+        position: absolute;
+        height: @tab-active-border-width;
+        width: calc(~"100%");
+        top: 0;
+        left: 0;
+        z-index: 2;
+      }
+
+      > a {
+        &,
+        &:hover,
+        &:focus {
+          border-color: @nav-tabs-border-color @nav-tabs-border-color transparent @nav-tabs-border-color;
+          color: @text-color;
+          outline: none;
+        }
+      }
+
+      &:only-child {
+        > a {
+          &,
+          &:hover,
+          &:focus {
+            border-color: transparent;
+            padding-left: 8px;
+          }
+        }
+      }
+    }
+
+    &:first-child {
+      margin-left: 0;
+    }
+  }
+
+  &.nav-tabs-body-bkgd {
+    > li {
+      &.active > a {
+        &,
+        &:hover,
+        &:focus {
+          background: #f6f6f6;
+        }
+      }
+    }
+  }
+
+  &.nav-tabs-compact {
+    margin-bottom: 10px;
+
+    > li {
+      > a {
+        font-size: 13px;
+        padding: 6px 8px;
+      }
+    }
+  }
+
+  &.nav-tabs-flex {
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+
+    > li {
+      flex: 1 100%;
+
+      &:last-child {
+        > a {
+          margin-right: 0;
+        }
+      }
+    }
+  }
+}

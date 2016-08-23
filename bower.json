@@ -8,6 +8,7 @@
     "uri.js": "^1.18.1",
     "bootstrap": "^3.3.7",
     "font-awesome": "fontawesome#^4.6.3",
-    "ionicons": "ionicons#^2.0.1"
+    "ionicons": "ionicons#^2.0.1",
+    "animate.css": "^3.5.2"
   }
 }

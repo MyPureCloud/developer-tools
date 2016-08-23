@@ -1,153 +1,118 @@
-<div id='code-editor' class='full-height sub-app '>
-    <div class='container-fluid full-height'>
+<div id='code-editor' class='sub-app'>
+    <div class='row'>
+        <div class='col-md-6'>
+            <nav class="navbar navbar-default">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
 
-        <div class='row'>
-            <div class='col-md-6'>
-                <nav class="navbar navbar-default">
-                    <div class="container">
-                        <!-- Brand and toggle get grouped for better mobile display -->
-                        <div class="navbar-header">
-                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                                <span class="sr-only">Toggle navigation</span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                            </button>
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav">
+                            <li><button id='btn-run-code' class='btn btn-primary btn-sm navbar-btn' {{action 'run'}}><i class="fa fa-play" aria-hidden="true"></i> Run</button>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">SDK Version 
+                                    {{#each sdkTags as |sdk index|}}
+                                    <span {{action 'selectSdk' sdk}}>
+                                        {{#if (eq selectedSdk sdk)}}
+                                            <strong>{{sdk}}</strong>
+                                        {{/if}}
+                                    </span>
+                                    {{/each}}
+                                    <span class="caret"></span></a>
+                                <ul class="dropdown-menu dropdown-menu-with-check">
+                                    {{#each sdkTags as |sdk index|}}
+                                    <li {{action 'selectSdk' sdk}}>
+                                        <a href="#"  >
+                                            {{#if (eq selectedSdk sdk)}}
+                                                <i class="fa fa-check"></i> <strong>{{sdk}}</strong>
+                                            {{else}}
+                                                {{sdk}}
+                                            {{/if}}
+                                        </a>
+                                    </li>
+                                    {{/each}}
 
-                        </div>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Code Sample <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    {{#each codeSamples as |sample index|}}
+                                    <li {{action 'loadSample' index}}>
+                                        <a href="#"  >
+                                            {{sample.name}}
+                                        </a>
+                                    </li>
+                                    {{/each}}
 
-                        <!-- Collect the nav links, forms, and other content for toggling -->
-                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                            <ul class="nav navbar-nav">
-                                <li><button id='btn-run-code' class='btn btn-primary navbar-btn' {{action 'run'}}>Run <i class="fa fa-play" aria-hidden="true"></i></button>
-                                </li>
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">SDK Version <span class="caret"></span></a>
-                                    <ul class="dropdown-menu">
-                                        {{#each sdkTags as |sdk index|}}
-                                        <li {{action 'selectSdk' sdk}}>
-                                            <a href="#"  >
-                                                {{#if (eq selectedSdk sdk)}}
-                                                    <b>{{sdk}}</b>
-                                                {{else}}
-                                                    {{sdk}}
-                                                {{/if}}
-                                            </a>
-                                        </li>
-                                        {{/each}}
-
-                                    </ul>
-                                </li>
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Load Code Sample<span class="caret"></span></a>
-                                    <ul class="dropdown-menu">
-                                        {{#each codeSamples as |sample index|}}
-                                        <li {{action 'loadSample' index}}>
-                                            <a href="#"  >
-                                                {{sample.name}}
-                                            </a>
-                                        </li>
-                                        {{/each}}
-
-                                    </ul>
-                                </li>
-                                <li><a href="#" data-toggle="modal" data-target="#codeEditorModal" id='btn-run-code' class='pull-left' {{action 'showInfo'}}>Info</a></li>
-
-                            </ul>
-
-                        </div><!-- /.navbar-collapse -->
-                    </div><!-- /.container-fluid -->
-                </nav>
-
-                {{ace-editor id='ace-code-editor' value=code aceInit=aceInit class="editor " runToggle=runToggle}}
-            </div>
-
-            <div class='col-md-6  full-height' >
-                <div>
-                    <div>
-                        <!-- Nav tabs -->
-                        <ul class="nav nav-tabs" role="tablist">
-                            <li role="presentation" class="active"><a href="#console" aria-controls="console" role="tab" data-toggle="tab">Console Output</a></li>
-                            <li role="presentation"><a href="#jsdoc" aria-controls="jsdoc" role="tab" data-toggle="tab">Documentation</a></li>
+                                </ul>
+                            </li>
+                            <li class='pull-right'>
+                                <a href="#" data-toggle="modal" data-target="#codeEditorModal" {{action 'showInfo'}}>
+                                    <i class="pc-moon pc-help"></i>
+                                </a>
+                            </li>
                         </ul>
 
-                        <!-- Tab panes -->
-                        <div class="tab-content" style='width:100%'>
-                            <div role="tabpanel" class="tab-pane active  scroll-sub-app" id="console">
+                    </div><!-- /.navbar-collapse -->
+            </nav>
 
-                                <ul class='console-log'>
-
-                                    {{#each messages as |message|}}
-                                    <li class='log {{message.type}}'>
-                                        {{#each message.messageParams as |param|}}
-                                        {{#if param.isObject}}
-                                        <!--
-                                        <pre>
-                                        <code>{{param.value}}
-                                    </code>
-                                </pre>
-                            -->
-                            {{ace-editor value=param.value aceInit=aceConsoleInit class="editor"}}
-
-                            {{else}}
-                            {{param.value}}<br/>
-                            {{/if}}
-                            {{/each}}
-                            {{#if message.lineNumber}}
-                            Line number: {{message.lineNumber}}
-                            {{/if}}
-
-                        </li>
-
-                        {{/each}}
-
-                    </ul>
-
-                </div>
-                <div role="tabpanel" class="tab-pane" id="jsdoc">
-                    <iframe width="100%" height="100%" frameborder="0" src="https://developer.mypurecloud.com/api/rest/client-libraries/javascript-noborder/latest/" ></iframe>
-
-                </div>
-            </div>
-
+            {{ace-editor id='ace-code-editor' value=code aceInit=aceInit class="editor " runToggle=runToggle}}
         </div>
-    </div>
 
-
-</div>
-</div>
-</div>
-</div>
-<iframe id='code-runner' sandbox='allow-scripts allow-same-origin'  scrolling="no"  frameborder="0" src={{url}} class='position:absolute;height:0px;width:0px'></iframe>
-<div class="modal fade" tabindex="-1" role="dialog" id='codeEditorModal'>
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Javascript Code Editor</h4>
-            </div>
-            <div class="modal-body">
-                <p>
-                    Develop and test API calls using the javascript SDK and execute right from the browser.
-
-                    <ul>
-
-                        <li>
-                            The variable 'pureCloudSession' is already set and authenticated for you as a PureCloudSession.
-                        </li>
-                        <li>
-                            Use ctrl+space or alt+space for code completion including Javascript SDK classes and functions.
-                        </li>
-                        <li>
-                            ctrl+enter or cmd+enter will execute the code.
-                        </li>
+        <div class='col-md-6'>
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#console" aria-controls="console" role="tab" data-toggle="tab">Console Output</a></li>
+                        <li role="presentation"><a href="#jsdoc" aria-controls="jsdoc" role="tab" data-toggle="tab">Documentation</a></li>
                     </ul>
-                </p>
+
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="console">
+
+                            <ul class='console-log'>
+
+                                {{#each messages as |message|}}
+                                <li class='log {{message.type}}'>
+                                    {{#each message.messageParams as |param|}}
+                                    {{#if param.isObject}}
+                                    <!--
+                                    <pre>
+                                    <code>{{param.value}}
+                                </code>
+                            </pre>
+                        -->
+                        {{ace-editor value=param.value aceInit=aceConsoleInit class="editor"}}
+
+                        {{else}}
+                        {{param.value}}<br/>
+                        {{/if}}
+                        {{/each}}
+                        {{#if message.lineNumber}}
+                        Line number: {{message.lineNumber}}
+                        {{/if}}
+
+                    </li>
+
+                    {{/each}}
+
+                </ul>
 
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <div role="tabpanel" class="tab-pane" id="jsdoc">
+                <iframe frameborder="0" src="https://developer.mypurecloud.com/api/rest/client-libraries/javascript-noborder/latest/" ></iframe>
             </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+    </div>
+</div>
+</div>
+</div>
+<iframe id='code-runner' sandbox='allow-scripts allow-same-origin' scrolling="no" frameborder="0" src={{url}}></iframe>

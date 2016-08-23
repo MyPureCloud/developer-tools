@@ -3,9 +3,15 @@
 @import url("//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css");
 @import "../../bower_components/bootstrap/less/bootstrap.less";
 
+// Vendor - CSS
+@import (less) '../../bower_components/animate.css/animate.min.css';
+
 @import "variables.less";
 
+@import "button.less";
 @import "navbar.less";
+@import "navs.less";
+@import "modals.less";
 @import "code-editor.less";
 @import "pinned-notifications.less";
 @import "query-builder.less";
@@ -76,7 +82,13 @@ body, html {
     margin-left: 20px;
     padding-right: 20px;
     padding-top: 20px;
-    min-height: 500px;
+    position: fixed;
+    height: calc(~"100% - 50px");
+    width: calc(~"100% - 20px");
+
+    @media (min-width: @screen-md) {
+        overflow: hidden;
+    }
 
     > h2:first-child {
         margin-top: 0;
