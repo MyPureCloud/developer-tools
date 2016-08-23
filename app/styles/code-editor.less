@@ -90,13 +90,23 @@
     }
 
     .ace_editor {
-        height: calc(~"100% - 72px");
+        height: calc(~"100% - 52px");
         border: 1px solid #ddd;
+        border-top: none;
 
         @media (min-width: @screen-md) {
-            height: calc(~"100% - 162px");
+            height: calc(~"100% - 142px");
             position: fixed;
             width: calc(~"50% - 35px");
+        }
+
+        .ace_gutter,
+        .ace_scroller {
+            padding-top: 8px;
+        }
+
+        .ace_gutter-active-line {
+            margin-top: 8px;
         }
     }
 
