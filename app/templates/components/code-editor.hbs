@@ -79,7 +79,10 @@
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="console">
                         {{#if (eq messages.length 0)}}
-                        No Messages
+                        <div class="empty-state">
+                            <i class="fa fa-code"></i>
+                            <label>No messages</label>
+                        </div>
                         {{else}}
 
                         <ul class='console-log'>
