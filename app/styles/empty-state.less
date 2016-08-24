@@ -1,0 +1,38 @@
+.empty-state {
+    .animated;
+    .bounceIn;
+    display: flex;
+    flex-flow: column;
+    margin-left: 0;
+    position: fixed;
+    width: calc(~"100%");
+    justify-content: center;
+
+    @media (min-width: @screen-md) {
+        height: 100%;
+    }
+
+    > *  {
+        margin: 0 auto;
+    }
+
+    i {
+        font-size: 48px;
+        margin-top: -80px;
+        margin-bottom: 8px;
+        color: #aeaeae;
+    }
+
+    label {
+        color: #8b8b8b;
+        font-size: 24px;
+        font-weight: 300;
+        text-align: center;
+    }
+
+    p {
+        font-weight: 300;
+        color: #aeaeae;
+        text-align: center;
+    }
+}

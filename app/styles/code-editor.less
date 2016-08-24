@@ -51,6 +51,16 @@
                 width: 100%;
                 height: calc(~"100%");
             }
+
+            .empty-state {
+                height: calc(~"50%");
+                width: calc(~"100% - 40px");
+
+                @media (min-width: @screen-md) {
+                    width: calc(~"50% - 35px");
+                    height: calc(~"100%");
+                }
+            }
         }
     }
 
@@ -69,6 +79,7 @@
             padding: 8px 15px;
             flex: 1 1 1;
         }
+
 
         .editor {
             display: inline-block;
