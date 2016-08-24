@@ -23,6 +23,6 @@ test('it renders', function(assert) {
 
   this.render(hbs`{{nav-tree}}`);
 
-  assert.equal(this.$().text().trim(), '');
+  assert.notEqual(this.$().text().trim(), '');
 
 });

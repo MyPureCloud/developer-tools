@@ -46,5 +46,8 @@
     "ember-websockets": "3.0.0",
     "eonasdan-bootstrap-datetimepicker": "4.15.35",
     "loader.js": "^4.0.1"
+  },
+  "dependencies": {
+    "ember-cli-code-coverage": "^0.2.2"
   }
 }
