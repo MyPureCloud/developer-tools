@@ -12,10 +12,7 @@ export default Ember.Component.extend({
     githubService: Ember.inject.service(),
     analyticsService: Ember.inject.service(),
     purecloud: Ember.inject.service('purecloud'),
-    messages:[{
-        type: "log",
-        messageParams: [{value:"No log messages"}]
-    }],
+    messages:[],
     code: '',
     codeSamples: sampleCode,
     enableDebugging: false,
