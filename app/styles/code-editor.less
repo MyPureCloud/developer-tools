@@ -1,10 +1,27 @@
 #code-editor {
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    width: calc(~"100%");
+
+    @media (min-width: @screen-md) {
+        width: calc(~"100% - 20px;");
+    }
 
     > .row {
         height: 100%;
 
-        .col-md-6 {
+        @media (min-width: @screen-md) {
+            // margin-left: 0;
+            // margin-right: 0;
+        }
+
+        > .col-md-6 {
             height: 50%;
+
+            &:nth-child(2) {
+                padding-left: 0;
+            }
         }
     }
 
@@ -19,24 +36,33 @@
     }
 
     .nav-tabs {
-        margin-top: 20px;
+        margin-top: 12px;
+        margin-right: 0;
+        margin-left: 15px;
 
         @media (min-width: @screen-md) {
-            margin-top: 0;
+            margin-right: 15px;
+            margin-left: 0;
+            margin-top: 16px;
+        }
+
+        > li:first-child {
+            @media (min-width: @screen-md) {
+                margin-left: 0;
+            }
         }
     }
 
     .tab-content {
-        border-left: 1px solid lightgray;
-        border-right: 1px solid lightgray;
-        border-bottom: 1px solid lightgray;
-        height: calc(~"100% - 82px");
+        height: calc(~"100% - 54px");
+        margin-left: 30px;
 
         @media (min-width: @screen-md) {
-            height: calc(~"100% - 131px");
+            height: calc(~"100% - 107px");
             overflow: hidden;
             position: fixed;
-            width: calc(~"50% - 35px");
+            width: calc(~"50% - 15px");
+            margin-left: 0;
         }
 
         .tab-pane {
@@ -57,7 +83,7 @@
                 width: calc(~"100% - 40px");
 
                 @media (min-width: @screen-md) {
-                    width: calc(~"50% - 35px");
+                    width: calc(~"50% - 20px");
                     height: calc(~"100%");
                 }
             }
@@ -122,11 +148,12 @@
         height: calc(~"100% - 52px");
         border: 1px solid #ddd;
         border-top: none;
+        border-left: none;
 
         @media (min-width: @screen-md) {
-            height: calc(~"100% - 142px");
+            height: calc(~"100% - 102px");
             position: fixed;
-            width: calc(~"50% - 35px");
+            width: calc(~"50% - 15px");
         }
 
         .ace_gutter,
@@ -142,12 +169,6 @@
     .critical {
         color: red;
         font-weight: bold;
-    }
-}
-
-#codeEditorModal {
-    ul{
-        margin: 20px;
     }
 }
 
