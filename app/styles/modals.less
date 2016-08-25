@@ -2,27 +2,11 @@
   margin: 0;
   width: calc(~"100%");
 
-  .modal-body-sans-footer {
-    padding-bottom: 30px;
-  }
-
   .modal-content {
     border-right: none;
     border-left: none;
   }
 
-  .modal-header {
-    padding-left: 30px;
-    padding-bottom: 0;
-    border-bottom: none;
-
-    .modal-title {
-      color: @pc-boulder;
-      font-family: @font-family-secondary;
-      font-size: 14px;
-      text-transform: uppercase;
-    }
-  }
 
   .modal-body {
     padding-left: 30px;
@@ -49,15 +33,41 @@
 .modal-dialog-flat {
   border-radius: 0;
 
+  .modal-header {
+    padding-bottom: 0;
+    border-bottom: none;
+
+    .modal-title {
+      color: @pc-boulder;
+      font-family: @font-family-secondary;
+      font-size: 14px;
+      text-transform: uppercase;
+    }
+  }
+
   .modal-content {
     border-color: #ddd;
     border-radius: 0;
     box-shadow: none;
+
+    .modal-body {
+      padding-left: 40px;
+      padding-right: 40px;
+    }
   }
 }
 
+.modal-body-sans-footer {
+  padding-bottom: 30px;
+}
+
 #codeEditorModal {
-  width: calc(~"50% - 36px");
-  top: 120px;
-  left: 20px;
+  ul {
+    margin-left: 40px;
+    margin-right: 40px;
+  }
+
+  .table tr td.cell-shortcuts {
+    width: 170px;
+  }
 }

@@ -46,27 +46,32 @@
     <script src="https://apps.mypurecloud.com/webchat/jsapi-v1.js" type="text/javascript"></script>
 
     <div class="modal" tabindex="-1" role="dialog" id='codeEditorModal'>
-        <div class="modal-dialog modal-dialog-panel modal-dialog-flat">
+        <div class="modal-dialog modal-dialog-flat">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">Javascript Code Editor</h4>
                 </div>
-                <div class="modal-body">
-                    <p class="lead">
-                        Develop and test API calls using the javascript SDK and execute right from the browser.
-                        <ul>
-                            <li>
-                                The variable <code>pureCloudSession</code> is already set and authenticated for you as a PureCloudSession.
-                            </li>
-                            <li>
-                                Use <kbd>ctrl + space</kbd> or <kbd>alt + space</kbd> for code completion including Javascript SDK classes and functions.
-                            </li>
-                            <li>
-                                <kbd>ctrl + enter</kbd> or <kbd>cmd + enter</kbd> will execute the code.
-                            </li>
-                        </ul>
-                    </p>
+                <div class="modal-body modal-body-sans-footer">
+                    <p class="lead">Develop and test API calls using the javascript SDK and execute right from the browser.</p>
+                    <p>The variable <code>pureCloudSession</code> is already set and authenticated for you as a PureCloudSession.</p>
+                    <table class="table">
+                        <thead>
+                            <th colspan="2">Keyboard Shortcuts</th>
+                        </thead>
+                        <tr>
+                            <td class="cell-shortcuts">
+                                <kbd>ctrl/alt + space</kbd>
+                            </td>
+                            <td>Use  for code completion including Javascript SDK classes and functions.</td>
+                        </tr>
+                        <tr>
+                            <td class="cell-shortcuts">
+                                <kbd>ctrl/cmd + enter</kbd>
+                            </td>
+                            <td>Execute the code.</td>
+                        </tr>
+                    </table>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
