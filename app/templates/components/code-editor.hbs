@@ -2,66 +2,51 @@
     <div class='row'>
         <div class='col-md-6'>
             <nav class="navbar navbar-default">
-                <!-- Brand and toggle get grouped for better mobile display -->
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                </div>
-
-                <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-
-                    <ul class="nav navbar-nav">
-                        <li><a id='btn-run-code' class='btn btn-link' href="#" {{action 'run'}}><i class="fa fa-play" aria-hidden="true"></i> Run</a>
+                <ul class="nav navbar-nav">
+                    <li><a id='btn-run-code' class='btn btn-link' href="#" {{action 'run'}}><i class="fa fa-play" aria-hidden="true"></i> Run</a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">SDK Version
+                            {{#each sdkTags as |sdk index|}}
+                            <span {{action 'selectSdk' sdk}}>
+                                {{#if (eq selectedSdk sdk)}}
+                                <strong>{{sdk}}</strong>
+                                {{/if}}
+                            </span>
+                            {{/each}}
+                            <span class="caret"></span></a>
+                            <ul class="dropdown-menu dropdown-menu-with-check">
+                                {{#each sdkTags as |sdk index|}}
+                                <li {{action 'selectSdk' sdk}}>
+                            <a href="#">
+                                        {{#if (eq selectedSdk sdk)}}
+                                        <i class="fa fa-check"></i> <strong>{{sdk}}</strong>
+                                        {{else}}
+                                        {{sdk}}
+                                        {{/if}}
+                                    </a>
+                                </li>
+                                {{/each}}
+                            </ul>
                         </li>
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">SDK Version
-                                {{#each sdkTags as |sdk index|}}
-                                <span {{action 'selectSdk' sdk}}>
-                                    {{#if (eq selectedSdk sdk)}}
-                                    <strong>{{sdk}}</strong>
-                                    {{/if}}
-                                </span>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Load Code <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                {{#each codeSamples as |sample index|}}
+                                <li {{action 'loadSample' index}}>
+                                    <a href="#"  >
+                                        {{sample.name}}
+                                    </a>
+                                </li>
                                 {{/each}}
-                                <span class="caret"></span></a>
-                                <ul class="dropdown-menu dropdown-menu-with-check">
-                                    {{#each sdkTags as |sdk index|}}
-                                    <li {{action 'selectSdk' sdk}}>
-                                <a href="#">
-                                            {{#if (eq selectedSdk sdk)}}
-                                            <i class="fa fa-check"></i> <strong>{{sdk}}</strong>
-                                            {{else}}
-                                            {{sdk}}
-                                            {{/if}}
-                                        </a>
-                                    </li>
-                                    {{/each}}
-                                </ul>
-                            </li>
-                            <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Load Code <span class="caret"></span></a>
-                                <ul class="dropdown-menu">
-                                    {{#each codeSamples as |sample index|}}
-                                    <li {{action 'loadSample' index}}>
-                                        <a href="#"  >
-                                            {{sample.name}}
-                                        </a>
-                                    </li>
-                                    {{/each}}
-                                </ul>
-                            </li>
-                            <li class='pull-right'>
-                                <a href="#" data-toggle="modal" data-target="#codeEditorModal" {{action 'showInfo'}}>
-                                    <i class="pc-moon pc-help"></i>
-                                </a>
-                            </li>
-                        </ul>
-                </div>
-
+                            </ul>
+                        </li>
+                        <li class='pull-right'>
+                            <a href="#" data-toggle="modal" data-target="#codeEditorModal" {{action 'showInfo'}}>
+                                <i class="pc-moon pc-help"></i>
+                            </a>
+                        </li>
+                    </ul>
             </nav>
             {{ace-editor id='ace-code-editor' value=code aceInit=aceInit class="editor " runToggle=runToggle}}
         </div>
@@ -75,11 +60,11 @@
 
                 <!-- Tab panes -->
                 <div class="tab-content">
-                    <div role="tabpanel" class="tab-pane active" id="console">
+                    <div role="tabpanel" class="tab-pane tab-pane-console active" id="console">
                         {{#if (eq messages.length 0)}}
                         <div class="empty-state">
                             <i class="fa fa-code"></i>
-                            <label>No messages</label>
+                            <label>No log messages</label>
                         </div>
                         {{else}}
                         <ul class='console-log'>
@@ -88,17 +73,14 @@
                             <li class='{{if (consoleMessageHasObject message) "log-editor"}}  log {{message.type}} '>
                                 {{#each message.messageParams as |param|}}
                                 {{#if param.isObject}}
-
                                     {{ace-editor value=param.value aceInit=aceConsoleInit class="editor"}}
-
                                 {{else}}
-                                    {{param.value}}<br/>
+                                    <div class="param">{{param.value}}</div>
                                 {{/if}}
                                 {{/each}}
                                 {{#if message.lineNumber}}
                                 Line number: {{message.lineNumber}}
                                 {{/if}}
-
                             </li>
 
                             {{/each}}
