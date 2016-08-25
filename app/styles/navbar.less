@@ -36,22 +36,32 @@
         display: inline-block;
         float: none;
 
+        > a {
+          outline: none;
+          padding: 18px 15px;
+
+          & > i {
+            line-height: 17px;
+            margin-bottom: 0;
+            height: 17px;
+            font-size: 20px;
+          }
+        }
+
         > .btn {
-          margin-left: 15px;
-          margin-right: 15px;
+            &.btn-link {
+              display: inline-block;
+              outline: none;
+              padding: 14px 15px 16px;
+            }
+
+            .fa-play {
+              position: relative;
+              font-size: 13px;
+              margin-top: -4px;
+            }
         }
       } 
-
-      > li > a {
-        padding: 15px;
-
-        & > i {
-          line-height: 17px;
-          margin-bottom: 0;
-          height: 17px;
-          font-size: 20px;
-        }
-      }
     }
   }
 
@@ -108,13 +118,13 @@
 
     .navbar-brand {
       font-size: 11px;
-      margin-right: 36px;
       position: relative;
       padding-left: 50px;
       padding-top: 15px;
       text-transform: uppercase;
 
       @media (min-width: @screen-sm) {
+        margin-right: 36px;
         padding-top: 14px;
       }
 
