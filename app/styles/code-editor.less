@@ -118,8 +118,11 @@
             font-family: @font-family-monospace;
             font-size: 90%;
 
+            &:first-child {
+                // border-top: 1px solid #ddd;
+            }
+
             &:before {
-                background: #efefef;
                 content: "";
                 display: block;
                 position: absolute;
@@ -133,9 +136,6 @@
                 flex: 1 1 auto;
 
                 .param {
-                    display: flex;
-                    flex-direction: column;
-                    flex: 1 0 20px;
                     min-height: 37px;
                 }
 
@@ -177,10 +177,6 @@
 
                 .ace_gutter {
                     .bg-danger;
-
-                    // > .ace_layer > .ace_gutter-cell {
-                    //     background: @state-danger-text;
-                    // }
                 }
             }
 
@@ -220,11 +216,6 @@
         .ace_gutter-active-line {
             margin-top: 8px;
         }
-    }
-
-    .critical {
-        .text-danger;
-        font-weight: bold;
     }
 }
 
