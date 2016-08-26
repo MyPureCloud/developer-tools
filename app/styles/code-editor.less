@@ -49,15 +49,15 @@
     }
 
     .tab-content {
+        margin-left: 15px;
         height: calc(~"100% - 54px");
-        margin-left: 30px;
 
         @media (min-width: @screen-md) {
             height: calc(~"100% - 107px");
+            margin-left: 0;
             overflow: hidden;
             position: fixed;
             width: calc(~"50% - 15px");
-            margin-left: 0;
         }
 
         .tab-pane {
@@ -90,34 +90,51 @@
     }
 
     .console-log {
-        width: calc(~"100%");
+        margin-bottom: 0;
+        min-height: 100%;
         display: flex;
         flex-flow: column;
 
-        li {
-            list-style: none;
+        .log {
             border-bottom: 1px solid #ddd;
-            padding: 8px 15px;
+            display: flex;
+            flex-direction: column;
             flex: 1 1 1;
-        }
+            justify-content: center;
+            list-style: none;
+            min-height: 37px;
+            padding: 8px 15px;
 
+            &.log-editor {
+                flex: 1 1 auto;
 
-        .editor {
-            display: inline-block;
-            height: 400px;
-            border: none;
-            border-radius: 0px;
-            margin-top: -8px;
-            margin-left: -15px;
-            margin-bottom: -13px;
-            position: relative;
-            width: calc(~"100% + 30px");
+                .param {
+                    display: flex;
+                    flex-direction: column;
+                    flex: 1 0 auto;
+                    min-height: 37px;
+                }
 
-            .ace_scroller {
-                height: calc(~"100%");
+                .editor {
+                    display: flex;
+                    flex-direction: column;
+                    flex: 1 1 auto;
+                    border: none;
+                    border-radius: 0px;
+                    position: relative;
+                    margin-top: -8px;
+                    margin-left: -15px;
+                    margin-bottom: -8px;
+                    min-height: 300px;
+                    width: calc(~"100% + 30px");
 
-                .ace_content {
-                    height: calc(~"100%");
+                    .ace_scroller {
+                        height: calc(~"100%");
+
+                        .ace_content {
+                            height: calc(~"100%");
+                        }
+                    }
                 }
             }
         }
@@ -141,11 +158,11 @@
 
     .ace_editor {
         height: calc(~"100% - 52px");
-        border: 1px solid #ddd;
-        border-top: none;
-        border-left: none;
+        border-bottom: 1px solid #ddd;
 
         @media (min-width: @screen-md) {
+            border-right: 1px solid #ddd;
+            border-bottom: none;
             height: calc(~"100% - 102px");
             position: fixed;
             width: calc(~"50% - 15px");
