@@ -1,95 +1,84 @@
-<div class='full-height sub-app'>
-    <div class="container-fluid full-height" >
-        <div class="row full-height" >
-            <div class='col-md-4'>
-                <div class="panel panel-default">
-                    <div class="panel-heading"><h3 class="panel-title">Available Notification Topics</h3></div>
-                    <div class="panel-body" style='height:30vh'>
-                        <button class='btn btn-primary' {{action 'subscribeToPresence'}}>Subscribe To My Presence</button>
-                        <button class='btn btn-primary' {{action 'subscribeToConversations'}}>Subscribe To My Conversations</button>
+<div class="col-notification-topics">
+    <div class="panel panel-default">
+        <div class="panel-heading"><h3 class="panel-title panel-title-condensed">Available Topics</h3></div>
+        <div class="panel-body">
+            <button class="btn btn-primary" {{action 'subscribeToPresence'}}>Subscribe To My Presence</button>
+            <button class="btn btn-primary" {{action 'subscribeToConversations'}}>Subscribe To My Conversations</button>
 
-                        <select onchange={{action 'selectNotificationTopic' value="target.value"}}>
-                            {{#each availableTopics as |topic index|}}
-                            <option value={{index}}>
+            <select class="form-control" onchange={{action 'selectNotificationTopic' value="target.value"}}>
+                {{#each availableTopics as |topic index|}}
+                <option value={{index}}>
+                    {{topic.id}}
+                </option>
+                {{/each}}
+            </select>
 
-                                {{topic.id}}
-                            </option>
-                            {{/each}}
-                        </select>
+            {{#if topic}}
 
-                        {{#if topic}}
+            <br/>
+            {{topic.description}}
+            <br />
+            {{input value=subscribeId class="form-control"}}
 
-                        <br/>
-                        {{topic.description}}
-                        <br />
-                        {{input value=subscribeId class="form-control"}}
+            <br />
+            <button class="btn btn-primary" {{action 'subscribe'}}>Subscribe</button>
+            {{/if}}
 
-                        <br />
-                        <button class='btn btn-primary' {{action 'subscribe'}}>Subscribe</button>
-                        {{/if}}
+        </div>
+    </div>
 
-                    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading"><h3 class="panel-title panel-title-condensed">Subscribed Topics</h3></div>
+        <div class="panel-body">
+            <ul>
+                {{#each subscriptions as |topic|}}
+                <li>
+                    {{topic}}
+                </li>
+                {{/each}}
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="col-received-events">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title panel-title-condensed">Received Events</h3>
+        </div>
+        <div class="panel-body">
+            <div class="row bottom-border">
+                <div class="col-md-2">
+                    <label>Time</label>
                 </div>
-
-                <div class="panel panel-default" >
-                    <div class="panel-heading"><h3 class="panel-title">Subscribed Topics</h3></div>
-                    <div class="panel-body" style='height:40vh'>
-
-                        <ul class='scrollable' style='height:35vh;'>
-                            {{#each subscriptions as |topic|}}
-                            <li>
-                                {{topic}}
-                            </li>
-                            {{/each}}
-                        </ul>
-
-                    </div>
+                <div class="col-md-3">
+                    <label>Topic</label>
+                </div>
+                <div class="col-md-5">
+                    <label>Body</label>
+                </div>
+                <div class="col-md-2">
+                {{#if isPinned}}
+                <button class="btn btn-primary btn-xs" {{action 'togglePin'}}><i class="fa fa-thumb-tack" aria-hidden="true"></i> Unpin Messages</button>
+                {{else}}
+                <button class="btn btn-primary btn-xs" {{action 'togglePin'}}><i class="fa fa-thumb-tack" aria-hidden="true"></i> Pin Messages</button>
+                
+                {{/if}}
                 </div>
             </div>
-            <div class='col-md-8 full-height' style='height:90vh' >
-                <div class="panel panel-default height-90pct" >
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Received Events </h3>
-
-
+            <div>
+                {{#each receivedMessage as |message|}}
+                <div class="row bottom-border">
+                    <div class="col-md-2">
+                        {{message.time}}
                     </div>
-                    <div class="panel-body height-90pct"  >
-                        <div class="row bottom-border">
-                            <div class="col-md-2">
-                                <label>Time</label>
-                            </div>
-                            <div class="col-md-3">
-                                <label>Topic</label>
-                            </div>
-                            <div class="col-md-5">
-                                <label>Body</label>
-                            </div>
-                            <div class="col-md-2">
-                            {{#if isPinned}}
-                            <button class='btn btn-primary btn-xs' {{action 'togglePin'}}><i class="fa fa-thumb-tack" aria-hidden="true"></i> Unpin Messages</button>
-                            {{else}}
-                            <button class='btn btn-primary btn-xs' {{action 'togglePin'}}><i class="fa fa-thumb-tack" aria-hidden="true"></i> Pin Messages</button>
-                            
-                            {{/if}}
-                            </div>
-                        </div>
-                        <div class='full-height scrollable'>
-                            {{#each receivedMessage as |message|}}
-                            <div class="row bottom-border">
-                                <div class="col-md-2">
-                                    {{message.time}}
-                                </div>
-                                <div class="col-md-3">
-                                    {{message.topicName}}
-                                </div>
-                                <div class="col-md-7">
-                                    <pre><code>{{ message.bodyString }}</code></pre>
-                                </div>
-                            </div>
-                            {{/each}}
-                        </div>
+                    <div class="col-md-3">
+                        {{message.topicName}}
+                    </div>
+                    <div class="col-md-7">
+                        <pre><code>{{ message.bodyString }}</code></pre>
                     </div>
                 </div>
+                {{/each}}
             </div>
         </div>
     </div>

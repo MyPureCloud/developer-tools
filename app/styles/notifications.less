@@ -1,0 +1,39 @@
+.col-notification-topics {
+  position: fixed;
+  display: flex;
+  flex-flow: column;
+  width: 35%;
+  height: 100%;
+
+  .panel {
+    flex: 1 1 100%;
+    margin-bottom: 0;
+
+    & + .panel {
+      border-top: none;
+    }
+  }
+}
+
+.col-received-events {
+  position: fixed;
+  left: 35%;
+  width: 65%;
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+
+  .panel {
+    border-left: none;
+    border-right: none;
+    flex: 1 1 100%;
+    margin-bottom: 0;
+
+    .panel-body {
+      height: calc(~"100% - 72px");
+      overflow-y: auto;
+      position: fixed;
+      width: 65%;
+    }
+  }
+}

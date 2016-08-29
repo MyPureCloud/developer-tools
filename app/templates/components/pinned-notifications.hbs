@@ -1,22 +1,20 @@
 {{#if isPinned}}
 <div class='pinned-notifications-tab {{if visible "notification-tab-open"}}' {{action 'toggleVisible'}}>
     <span class="badge">{{unreadCount}}</span>
-    <div>
-            Pinned Notifications
-    </div>
+    <div>Pinned Notifications</div>
 </div>
 
 <div class='pinned-notifications {{if visible "pinned-notifications-open"}} '>
-    <div class="panel-body height-90pct"  >
+    <div class="panel-body">
         <div class="row bottom-border">
             <div class="col-md-12">
                 <label>Messages</label>
             </div>
         </div>
-        <div class='full-height scrollable'>
+        <div class="scrollable">
             {{#each receivedMessage as |message|}}
 
-            <div class="row ">
+            <div class="row">
                 <div class="col-md-12">
                     <b>{{message.topicName}}</b>
                 </div>
