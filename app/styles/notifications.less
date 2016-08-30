@@ -30,10 +30,35 @@
     margin-bottom: 0;
 
     .panel-body {
-      height: calc(~"100% - 72px");
+      height: calc(~"100% - 85px");
       overflow-y: auto;
       position: fixed;
+      padding-bottom: 0;
       width: 65%;
+
+      .label-col {
+        font-size: 12px;
+        font-family: @font-family-secondary;
+        font-weight: normal;
+        color: @pc-boulder;
+        text-transform: uppercase;
+      }
+
+      p {
+        margin-top: 8px;
+      }
+
+      pre {
+        border: none;
+        border-radius: 0;
+        margin-bottom: 0;
+        margin-right: -15px;
+        margin-left: -15px;
+
+        @media (min-width: @screen-md) {
+          margin-left: 0;
+        }
+      }
     }
   }
 }
