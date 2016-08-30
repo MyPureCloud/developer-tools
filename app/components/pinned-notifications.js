@@ -2,6 +2,8 @@ import Ember from 'ember';
 var  computed = Ember.computed;
 
 export default Ember.Component.extend({
+    classNames: ['pinnable-content'],
+    classNameBindings: ['isPinned'],
     notificationService: Ember.inject.service(),
     visible: false,
     viewedMessages: 0,

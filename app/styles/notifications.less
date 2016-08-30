@@ -37,3 +37,11 @@
     }
   }
 }
+
+.pinnable-content.is-pinned + #content .col-received-events {
+  width: calc(65% ~"-" @pinned-notifications-width);
+
+  .panel-body {
+    width: calc(65% ~"-" @pinned-notifications-width);
+  }
+}

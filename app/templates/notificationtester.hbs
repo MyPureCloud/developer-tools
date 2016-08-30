@@ -15,12 +15,9 @@
 
             {{#if topic}}
 
-            <br/>
             {{topic.description}}
-            <br />
             {{input value=subscribeId class="form-control"}}
 
-            <br />
             <button class="btn btn-primary" {{action 'subscribe'}}>Subscribe</button>
             {{/if}}
 
@@ -56,14 +53,12 @@
                 <div class="col-md-5">
                     <label>Body</label>
                 </div>
-                <div class="col-md-2">
                 {{#if isPinned}}
                 <button class="btn btn-primary btn-xs" {{action 'togglePin'}}><i class="fa fa-thumb-tack" aria-hidden="true"></i> Unpin Messages</button>
                 {{else}}
                 <button class="btn btn-primary btn-xs" {{action 'togglePin'}}><i class="fa fa-thumb-tack" aria-hidden="true"></i> Pin Messages</button>
                 
                 {{/if}}
-                </div>
             </div>
             <div>
                 {{#each receivedMessage as |message|}}
