@@ -50,6 +50,13 @@ body, html {
     height: calc(100% ~"-" @navbar-height);
     top: @navbar-height;
     width: 100%;
+
+    > div {
+        .animated;
+        .fadeIn;
+        -webkit-animation-duration: .25s;
+        animation-duration: .25s;
+    }
 }
 
 #developer-tools {
