@@ -115,12 +115,55 @@ export default Ember.Component.extend({
         };
         langTools.addCompleter(methodCompleter);
     },
+    _receivePostMessage(event){
+        if (event.origin !== "null" && event.origin !== window.location.origin) {
+            return;
+        }
+
+        if(typeof(event.data) === 'object'){
+            return;
+        }
+        let data = JSON.parse(event.data);
+
+        if(data.action === 'console'){
+            let array = [];
+
+            for(let key in data.arguments){
+                let o = data.arguments[key];
+                let isObject = false;
+                if(typeof(o) === "object"){
+                    o= JSON.stringify(o, null, "  ");
+                    isObject= true;
+                }
+                array.push({value:o, isObject:isObject});
+            }
+
+            let message = {
+                type: data.type,
+                messageParams: array
+            };
+
+            this.messages.pushObject(message);
+        }
+        else if (data.action === "runerror"){
+            let isObject = false;
+            if(typeof(data.message) === "object"){
+                data.message= JSON.stringify(data.message, null, "  ");
+                isObject= true;
+            }
+
+            this.messages.pushObject({
+                type: "critical",
+                messageParams: [{value: data.name + " " + data.message, isObject: isObject}],
+                lineNumber: data.lineNumber
+            });
+        }
+    },
     init(){
         this._super(...arguments);
 
         this.get("enableDebugging");
-        let that= this;
-
+        
         this.addObserver('runToggle', function() {
             this.messages.clear();
             var iframeBody = document.getElementById('code-runner').contentWindow;
@@ -141,54 +184,22 @@ export default Ember.Component.extend({
 
         this.set("code", code);
 
-        function receiveMessage(event)
-        {
-
-            if (event.origin !== "null" && event.origin !== window.location.origin) {
-                return;
-            }
-
-            if(typeof(event.data) === 'object'){
-                return;
-            }
-            let data = JSON.parse(event.data);
-
-            if(data.action === 'console'){
-                let array = [];
-
-                for(let key in data.arguments){
-                    let o = data.arguments[key];
-                    let isObject = false;
-                    if(typeof(o) === "object"){
-                        o= JSON.stringify(o, null, "  ");
-                        isObject= true;
-                    }
-                    array.push({value:o, isObject:isObject});
-                }
-
-                let message = {
-                    type: data.type,
-                    messageParams: array
-                };
-
-                that.messages.pushObject(message);
-            }
-            else if (data.action === "runerror"){
-                let isObject = false;
-                if(typeof(data.message) === "object"){
-                    data.message= JSON.stringify(data.message, null, "  ");
-                    isObject= true;
-                }
-
-                that.messages.pushObject({
-                    type: "critical",
-                    messageParams: [{value: data.name + " " + data.message, isObject: isObject}],
-                    lineNumber: data.lineNumber
-                });
-            }
-
+    },
+    didInsertElement() {
+        //from: http://discuss.emberjs.com/t/solved-how-to-remove-event-handler-properly-in-a-component/8931
+        if(typeof this._onWindowMessage === "undefined" || this._onWindowMessage == null){
+            this._onWindowMessage = this._receivePostMessage.bind(this);
+            window.addEventListener('message', this._onWindowMessage, false);
         }
-        window.addEventListener("message", receiveMessage, false);
+
+    },
+
+    willDestroyElement() {
+        if(this._onWindowMessage){
+            window.removeEventListener('message', this._onWindowMessage, false);
+            this._onWindowMessage = null;
+        }
+
     },
     actions:{
         selectSdk(sdk) {

@@ -3,7 +3,7 @@
     <span class="badge">{{unreadCount}}</span>
     <div>Pinned Notifications</div>
 </div>
-
+{{#if visible}}
 <div class='pinned-notifications {{if visible "pinned-notifications-open"}} '>
     <div class="panel-body">
         <div class="row bottom-border">
@@ -30,4 +30,5 @@
     </div>
 
 </div>
+{{/if}}
 {{/if}}
