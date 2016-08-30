@@ -1,91 +1,154 @@
-#pinned-notifications-tab2{
-    position:fixed;
-    right:0px;
+#pinned-notifications-tab2 {
+    position: fixed;
+    right: 0px;
     text-align: center;
     text-indent: -100000px;
     top: 10%;
     z-index: 10000;
-    height:25px;
-    width:150px;
-    color:white;
+    color: white;
     background-color: red;
-
-    -webkit-transform: rotate(-90deg);
-
-    /* Firefox */
-    -moz-transform: rotate(-90deg);
-
-    /* IE */
-    -ms-transform: rotate(-90deg);
-
-    /* Opera */
-    -o-transform: rotate(-90deg);
-
-    /* Internet Explorer */
-    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
-
 }
 
-@pinned-notifications-width: 550px;
+@pinned-notifications-width: 400px;
 
-.pinned-notifications-tab{
+.pinned-notifications-tab {
+    .animated;
+    .fadeInRight;
+    -webkit-animation-duration: .25s;
+    animation-duration: .25s;
     background-color: rgb(15, 70, 93);
     clear: both;
     color: white;
     cursor: pointer;
     font-size: 10pt;
-    box-shadow: rgba(0, 0, 0, 0.6) 0px 0px 2px;
+    padding: 5px 0 5px 8px;
     position: fixed;
     right: 0px;
     text-align: left;
-    top: 20%;
-    z-index: 999999;
-    width: 28px;
-    height: 175px;
-    border: 2px rgb(25, 151, 202) solid;
-    border-top-left-radius: 3px;
-    border-bottom-left-radius: 3px;
-    border-right:none;
+    top: 51px;
+    z-index: 999998;
+    border-right: none;
 
-    div{
-
-        text-indent: -110px;
-        -webkit-transform: rotate(-90deg);
-
-        /* Firefox */
-        -moz-transform: rotate(-90deg);
-
-        /* IE */
-        -ms-transform: rotate(-90deg);
-
-        /* Opera */
-        -o-transform: rotate(-90deg);
-
-        /* Internet Explorer */
-        filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+    &.notification-tab-open {
+        background: none;
     }
 
-    &.notification-tab-open{
-        right: @pinned-notifications-width;
+    i {
+        font-size: 21px;
+    }
 
+    .badge {
+        position: relative;
+        top: -7px;
+        left: -10px;
+        font-size: 9px;
+        font-weight: 500;
     }
 }
 
 .pinned-notifications {
     .hide;
+    background: @pc-eden;
+    color: rgba(255, 255, 255, .85);
+    overflow-y: auto;
 
-    &.pinned-notifications-open{
+    .panel {
+        border: none;
+        margin-bottom: 0;
+
+        .panel-heading {
+            background: @pc-eden;
+            position: relative;
+
+            .panel-title {
+                color: white;
+                font-weight: normal;
+                font-family: @font-family-secondary;
+                font-size: 12px;
+                text-transform: uppercase;
+            }
+
+            .hide-help {
+                color: rgba(255, 255, 255, 50%);
+                cursor: pointer;
+                font-size: 13px;
+                .hide;
+                padding-top: 10px;
+                position: absolute;
+                text-align: center;
+                top: 1px;
+                width: 100%;
+                z-index: 999999;
+
+                i {
+                    font-size: 11px;
+                }
+            }
+
+            &:hover {
+                .hide-help {
+                    .show;
+                }
+            }
+        }
+
+        .panel-body {
+            background: @pc-eden;
+            padding-top: 0;
+            padding-bottom: 0;
+
+            .row {
+                .animated;
+                .fadeIn;
+                -webkit-animation-duration: .25s;
+                animation-duration: .25s;
+                padding: 8px 15px;
+                border-bottom: solid 1px lighten(@pc-eden, 10%);
+
+                p {
+                    margin-bottom: 0;
+                    margin-top: 0;
+
+                    & + p {
+                        margin-top: 4px;
+                    }
+
+                    &:last-child {
+                        margin-bottom: 6px;
+                    }
+
+                    &.body-string {
+                        font-family: @font-family-monospace;
+                        font-size: 90%;
+                    }
+                }
+
+                strong {
+                    font-weight: 500;
+                }
+
+                &:last-child {
+                    border-bottom: none;
+                }
+
+                &:only-child {
+                    border-bottom: solid 1px lighten(@pc-eden, 10%);
+                }
+            }
+        }
+    }
+
+    &.pinned-notifications-open {
         position: fixed;
-        top:10%;
-        right:0px;
-        width:@pinned-notifications-width;
-        height: 70%;
-        border: 2px rgb(25, 151, 202) solid;
-        border-right:none;
-        border-top-left-radius: 3px;
-        border-bottom-left-radius: 3px;
-        background-color:white;
-        z-index: 9999999999999;
+        top: 51px;
+        right: 0px;
+        width: @pinned-notifications-width;
+        height: calc(~"100% - 51px");
+        border-right: none;
+        z-index: 999997;
         .show;
+        .animated;
+        .fadeInRight;
+        animation-duration: .25s;
     }
 }

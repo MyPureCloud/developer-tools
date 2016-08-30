@@ -1,34 +1,28 @@
 {{#if isPinned}}
 <div class='pinned-notifications-tab {{if visible "notification-tab-open"}}' {{action 'toggleVisible'}}>
+    <i class="pc-moon pc-bell"></i>
     <span class="badge">{{unreadCount}}</span>
-    <div>Pinned Notifications</div>
 </div>
 {{#if visible}}
 <div class='pinned-notifications {{if visible "pinned-notifications-open"}} '>
-    <div class="panel-body">
-        <div class="row bottom-border">
-            <div class="col-md-12">
-                <label>Messages</label>
-            </div>
+    <div class="panel">
+        <div class="panel-heading">
+            <div class="panel-title">Notifications</div>
+            <span class="hide-help" {{action 'toggleVisible'}}>
+                Hide notifications
+                <i class="fa fa-chevron-right"></i>
+            </span>
         </div>
-        <div class="scrollable">
+        <div class="panel-body">
             {{#each receivedMessage as |message|}}
 
             <div class="row">
-                <div class="col-md-12">
-                    <b>{{message.topicName}}</b>
-                </div>
-
-            </div>
-            <div class="row bottom-border">
-                <div class="col-md-12">
-                    {{ message.bodyString }}
-                </div>
+                <p>{{message.topicName}}</p>
+                <p class="body-string">{{ message.bodyString }}</p>
             </div>
             {{/each}}
         </div>
     </div>
-
 </div>
 {{/if}}
 {{/if}}
