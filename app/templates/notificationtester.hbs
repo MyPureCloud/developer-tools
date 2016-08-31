@@ -42,37 +42,37 @@
 </div>
 <div class="col-received-events">
     <div class="panel panel-default">
-        <div class="panel-heading">
+        <div class="panel-heading clearfix">
             <h3 class="panel-title panel-title-condensed">Received Events</h3>
+            {{#if isPinned}}
+            <button class="btn btn-link btn-xs" {{action 'togglePin'}}><i class="fa fa-fw pc-moon pc-thumbtack-off" aria-hidden="true"></i>Unpin Notifications</button>
+            {{else}}
+            <button class="btn btn-link btn-xs" {{action 'togglePin'}}><i class="fa fa-fw pc-moon pc-thumbtack-on" aria-hidden="true"></i>Pin Notifications</button>
+            {{/if}}
         </div>
         <div class="panel-body">
-            <div class="row bottom-border">
+            <div class="row bottom-border visible-md visible-lg">
                 <div class="col-md-2">
-                    <label>Time</label>
+                    <label class="label-col">Time</label>
                 </div>
                 <div class="col-md-3">
-                    <label>Topic</label>
+                    <label class="label-col">Topic</label>
                 </div>
                 <div class="col-md-5">
-                    <label>Body</label>
+                    <label class="label-col">Body</label>
                 </div>
                 <div class="col-md-2">
-                {{#if isPinned}}
-                <button class="btn btn-primary btn-xs" {{action 'togglePin'}}><i class="fa fa-thumb-tack" aria-hidden="true"></i> Unpin Messages</button>
-                {{else}}
-                <button class="btn btn-primary btn-xs" {{action 'togglePin'}}><i class="fa fa-thumb-tack" aria-hidden="true"></i> Pin Messages</button>
-                
-                {{/if}}
+
                 </div>
             </div>
             <div>
                 {{#each receivedMessage as |message|}}
                 <div class="row bottom-border">
                     <div class="col-md-2">
-                        {{message.time}}
+                        <p>{{message.time}}</p>
                     </div>
                     <div class="col-md-3">
-                        {{message.topicName}}
+                        <p>{{message.topicName}}</p>
                     </div>
                     <div class="col-md-7">
                         <pre><code>{{ message.bodyString }}</code></pre>

@@ -29,11 +29,57 @@
     flex: 1 1 100%;
     margin-bottom: 0;
 
+    .panel-heading {
+      position: relative;
+
+      .btn {
+        color: @pc-boulder;
+        padding-top: 0;
+        padding-bottom: 0;
+        position: absolute;
+        top: 7px;
+        left: 150px;
+
+        &:hover {
+          color: @text-color;
+        }
+
+        i {
+          margin-right: 1px;
+        }
+      }
+    }
+
     .panel-body {
-      height: calc(~"100% - 72px");
+      height: calc(~"100% - 85px");
       overflow-y: auto;
       position: fixed;
+      padding-bottom: 0;
       width: 65%;
+
+      .label-col {
+        font-size: 12px;
+        font-family: @font-family-secondary;
+        font-weight: normal;
+        color: @pc-boulder;
+        text-transform: uppercase;
+      }
+
+      p {
+        margin-top: 8px;
+      }
+
+      pre {
+        border: none;
+        border-radius: 0;
+        margin-bottom: 0;
+        margin-right: -15px;
+        margin-left: -15px;
+
+        @media (min-width: @screen-md) {
+          margin-left: 0;
+        }
+      }
     }
   }
 }
