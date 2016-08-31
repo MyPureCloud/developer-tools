@@ -26,7 +26,7 @@
 
 }
 
-@pinned-notifications-width: 550px;
+@pinned-notifications-width: 400px;
 
 .pinned-notifications-tab{
     background-color: rgb(15, 70, 93);
@@ -76,16 +76,18 @@
 
     &.pinned-notifications-open{
         position: fixed;
-        top:10%;
-        right:0px;
-        width:@pinned-notifications-width;
-        height: 70%;
-        border: 2px rgb(25, 151, 202) solid;
-        border-right:none;
-        border-top-left-radius: 3px;
-        border-bottom-left-radius: 3px;
+        top: 51px;
+        right: 0px;
+        width: @pinned-notifications-width;
+        height: calc(~"100px");
+        border: solid 1px #ddd;
+        border-right: none;
         background-color:white;
         z-index: 9999999999999;
         .show;
     }
+}
+
+.pinnable-content.is-pinned + #content {
+    width: calc(100% ~"-" @pinned-notifications-width);
 }
