@@ -11,6 +11,45 @@
 
     & + .panel {
       border-top: none;
+
+      .panel-body {
+        padding: 0;
+      }
+    }
+
+    .flex-btns {
+      margin: 0 -5px 15px;
+      display: flex;
+
+      .btn {
+        flex: 1 1 auto;
+        margin: 0 5px;
+      }
+    }
+
+    .lead {
+      color: @pc-boulder;
+      margin-top: 15px;
+      margin-left: 6px;
+      margin-right: 6px;
+      font-size: 17px;
+
+      + input + .btn {
+        margin-top: 15px;
+        padding-top: 12px;
+        padding-bottom: 12px;
+      }
+    }
+
+    .list-subscriptions {
+      .list-unstyled;
+
+      > li {
+        color: @pc-devil-grey;
+        font-size: 13px;
+        border-bottom: solid 1px #ddd;
+        padding: 8px 15px;
+      }
     }
   }
 }
@@ -66,6 +105,7 @@
       }
 
       p {
+        color: @pc-devil-grey;
         margin-top: 8px;
       }
 
