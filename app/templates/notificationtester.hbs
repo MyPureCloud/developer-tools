@@ -2,10 +2,13 @@
     <div class="panel panel-default">
         <div class="panel-heading"><h3 class="panel-title panel-title-condensed">Available Topics</h3></div>
         <div class="panel-body">
-            <button class="btn btn-primary" {{action 'subscribeToPresence'}}>Subscribe To My Presence</button>
-            <button class="btn btn-primary" {{action 'subscribeToConversations'}}>Subscribe To My Conversations</button>
+            <div class="flex-btns">
+                <button class="btn btn-default btn-sm" {{action 'subscribeToPresence'}}>Subscribe To My Presence</button>
+                <button class="btn btn-default btn-sm" {{action 'subscribeToConversations'}}>Subscribe To My Conversations</button>
+            </div>
 
             <select class="form-control" onchange={{action 'selectNotificationTopic' value="target.value"}}>
+                <option>More subscriptions&hellip;</option>
                 {{#each availableTopics as |topic index|}}
                 <option value={{index}}>
                     {{topic.id}}
@@ -14,23 +17,17 @@
             </select>
 
             {{#if topic}}
-
-            <br/>
-            {{topic.description}}
-            <br />
+            <p class="lead">{{topic.description}}</p>
             {{input value=subscribeId class="form-control"}}
-
-            <br />
-            <button class="btn btn-primary" {{action 'subscribe'}}>Subscribe</button>
+            <button class="btn btn-primary btn-block" {{action 'subscribe'}}>Subscribe</button>
             {{/if}}
-
         </div>
     </div>
 
     <div class="panel panel-default">
         <div class="panel-heading"><h3 class="panel-title panel-title-condensed">Subscribed Topics</h3></div>
         <div class="panel-body">
-            <ul>
+            <ul class="list-subscriptions">
                 {{#each subscriptions as |topic|}}
                 <li>
                     {{topic}}
@@ -60,9 +57,6 @@
                 </div>
                 <div class="col-md-5">
                     <label class="label-col">Body</label>
-                </div>
-                <div class="col-md-2">
-
                 </div>
             </div>
             <div>
