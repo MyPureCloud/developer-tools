@@ -11,9 +11,12 @@
 
     & + .panel {
       border-top: none;
+      height: calc(~"50%");
 
       .panel-body {
+        height: calc(~"100% - 83px");
         padding: 0;
+        overflow-y: auto;
       }
     }
 
@@ -43,6 +46,7 @@
 
     .list-subscriptions {
       .list-unstyled;
+      margin-bottom: 0;
 
       > li {
         color: @pc-devil-grey;
