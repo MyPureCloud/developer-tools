@@ -106,5 +106,23 @@ body, html {
 }
 
 .alert {
+    border-radius: 0;
+    border: none;
+    color: rgba(255, 255, 255, .7);
     text-align: center;
+
+    &.alert-success {
+        background: average(@pc-lima, @pc-eden);
+        position: relative;
+
+        i {
+            .animated;
+            .bounceIn;
+            animation-delay: .25s;
+            color: rgba(255,255,255, .85);
+            font-size: 18px;
+            position: relative;
+            top: 1px;
+        }
+    }
 }
