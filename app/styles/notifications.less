@@ -1,0 +1,129 @@
+.col-notification-topics {
+  position: fixed;
+  display: flex;
+  flex-flow: column;
+  width: 35%;
+  height: 100%;
+
+  .panel {
+    flex: 1 1 100%;
+    margin-bottom: 0;
+
+    & + .panel {
+      border-top: none;
+      height: calc(~"50%");
+
+      .panel-body {
+        height: calc(~"100% - 83px");
+        padding: 0;
+        overflow-y: auto;
+      }
+    }
+
+    .flex-btns {
+      margin: 0 -5px 15px;
+      display: flex;
+
+      .btn {
+        flex: 1 1 auto;
+        margin: 0 5px;
+      }
+    }
+
+    .lead {
+      color: @pc-boulder;
+      margin-top: 15px;
+      margin-left: 6px;
+      margin-right: 6px;
+      font-size: 17px;
+
+      + input + .btn {
+        margin-top: 15px;
+        padding-top: 12px;
+        padding-bottom: 12px;
+      }
+    }
+
+    .list-subscriptions {
+      .list-unstyled;
+      margin-bottom: 0;
+
+      > li {
+        color: @pc-devil-grey;
+        font-size: 13px;
+        border-bottom: solid 1px #ddd;
+        padding: 8px 15px;
+      }
+    }
+  }
+}
+
+.col-received-events {
+  position: fixed;
+  left: 35%;
+  width: 65%;
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+
+  .panel {
+    border-left: none;
+    border-right: none;
+    flex: 1 1 100%;
+    margin-bottom: 0;
+
+    .panel-heading {
+      position: relative;
+
+      .btn {
+        color: @pc-boulder;
+        padding-top: 0;
+        padding-bottom: 0;
+        position: absolute;
+        top: 7px;
+        left: 150px;
+
+        &:hover {
+          color: @text-color;
+        }
+
+        i {
+          margin-right: 1px;
+        }
+      }
+    }
+
+    .panel-body {
+      height: calc(~"100% - 85px");
+      overflow-y: auto;
+      position: fixed;
+      padding-bottom: 0;
+      width: 65%;
+
+      .label-col {
+        font-size: 12px;
+        font-family: @font-family-secondary;
+        font-weight: normal;
+        color: @pc-boulder;
+        text-transform: uppercase;
+      }
+
+      p {
+        color: @pc-devil-grey;
+        margin-top: 8px;
+      }
+
+      pre {
+        border: none;
+        border-radius: 0;
+        margin-bottom: 0;
+        margin-right: -15px;
+        margin-left: -15px;
+
+        @media (min-width: @screen-md) {
+          margin-left: 0;
+        }
+      }
+    }
+  }
+}
