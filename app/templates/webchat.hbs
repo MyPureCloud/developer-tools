@@ -1,91 +1,88 @@
 <div class="container container-top-padding">
-    <form class="form-horizontal">
-        <div class="row">
-            <div class="col-md-3">
-                <div class="form-group row">
-                    <label class="col-sm-4 control-label">Org Name</label>
-                    <div class="col-sm-8">
-                        {{input class="form-control" value=org.thirdPartyOrgName readonly=""}}
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <label class="col-sm-4 control-label">Org Id</label>
-                    <div class="col-sm-8">
-                        {{input class="form-control" value=org.thirdPartyOrgId readonly=""}}
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-group row">
-                    <label class="col-sm-4 control-label">First Name</label>
-                    <div class="col-sm-8">
-                        {{input class="form-control" value=firstName  placeholder="First Name"}}
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-sm-4 control-label">Last Name</label>
-                    <div class="col-sm-8">
-                        {{input class="form-control" value=lastName  placeholder="Last Name"}}
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-sm-4 control-label">Address</label>
-                    <div class="col-sm-8">
-                        {{input class="form-control" value=address  placeholder="Address"}}
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-sm-4 control-label hidden-xs"></label>
-                    <div class="col-sm-8">
-                        {{input class="form-control" value=city  placeholder="City"}}
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-sm-4 control-label hidden-xs"></label>
-                    <div class="col-sm-8">
-                        {{input class="form-control" value=state  placeholder="State"}}
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-sm-4 control-label hidden-xs"></label>
-                    <div class="col-sm-8">
-                        {{input class="form-control" value=zip  placeholder="Zip"}}
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <label class="col-sm-4 control-label">Phone</label>
-                    <div class="col-sm-8">
-                        {{input class="form-control" value=phone type="tel"  placeholder="Phone" }}
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <div class="alert alert-danger" role="alert" id='missingRequiredFields' style='display:none'>Required setting fields are missing.</div>
-                </div>
-            </div>
-            <div class="col-md-5">
-                <div class="form-group row">
-                    <label class="col-sm-4 control-label">Queue</label>
-                    <div class="col-sm-8">
-                        {{select-box-advanced idKey='name' nameKey='name' items=queues selectedItem=queue}}
-                    </div>
-                </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="panel-title panel-title-condensed">
+                {{org.thirdPartyOrgName}} 
+                <span class="org-id-label">Org ID</span>
+                <span class="org-id-value">{{org.thirdPartyOrgId}}</span>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-4 col-md-offset-3">
-                <div class="form-group row">
-                    <label class="col-sm-4 control-label"></label>
-                    <div class="col-sm-8">
-                        <a class="btn btn-primary " {{action 'startChat'}} href="#" role="button">Start Chat</a>
-                        <a class="btn btn-info " {{action 'populate'}} href="#" role="button">Populate Fields</a>
+        <div class="panel-body">
+            <form class="form-horizontal form-webchat">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-sm-4 control-label">First Name</label>
+                            <div class="col-sm-8">
+                                {{input class="form-control" value=firstName  placeholder="First Name"}}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-4 control-label">Last Name</label>
+                            <div class="col-sm-8">
+                                {{input class="form-control" value=lastName  placeholder="Last Name"}}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-4 control-label">Address</label>
+                            <div class="col-sm-8">
+                                {{input class="form-control" value=address  placeholder="Address"}}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-4 control-label hidden-xs"></label>
+                            <div class="col-sm-8">
+                                {{input class="form-control" value=city  placeholder="City"}}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-4 control-label hidden-xs"></label>
+                            <div class="col-sm-8">
+                                {{input class="form-control" value=state  placeholder="State"}}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-4 control-label hidden-xs"></label>
+                            <div class="col-sm-8">
+                                {{input class="form-control" value=zip  placeholder="Zip"}}
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-4 control-label">Phone</label>
+                            <div class="col-sm-8">
+                                {{input class="form-control" value=phone type="tel"  placeholder="Phone" }}
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="alert alert-danger" role="alert" id='missingRequiredFields' style='display:none'>Required setting fields are missing.</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-sm-4 control-label">Queue</label>
+                            <div class="col-sm-8">
+                                {{select-box-advanced idKey='name' nameKey='name' items=queues selectedItem=queue}}
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-sm-4 control-label"></label>
+                            <div class="col-sm-8">
+                                <a class="btn btn-primary " {{action 'startChat'}} href="#" role="button">Start Chat</a>
+                                <a class="btn btn-info " {{action 'populate'}} href="#" role="button">Populate Fields</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            
         </div>
-    </form>
+    </div>
 </div>
 
 
