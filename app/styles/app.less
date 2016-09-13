@@ -75,8 +75,17 @@ body, html {
     margin-left: 10px;
 }
 
-.container-web-chats {
+.container-top-padding {
     padding-top: 40px;
+}
+
+.container-padding {
+    padding: 40px 35px 35px;
+
+    @media (min-width: @screen-sm) {
+        padding-right: 0;
+        padding-left: 0;
+    }
 }
 
 .bottom-border {
@@ -102,5 +111,27 @@ body, html {
 
     > h2:first-child {
         margin-top: 0;
+    }
+}
+
+.alert {
+    border-radius: 0;
+    border: none;
+    color: rgba(255, 255, 255, .7);
+    text-align: center;
+
+    &.alert-success {
+        background: average(@pc-lima, @pc-eden);
+        position: relative;
+
+        i {
+            .animated;
+            .bounceIn;
+            animation-delay: .25s;
+            color: rgba(255,255,255, .85);
+            font-size: 18px;
+            position: relative;
+            top: 1px;
+        }
     }
 }
