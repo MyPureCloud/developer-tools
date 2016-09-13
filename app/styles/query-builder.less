@@ -1,3 +1,55 @@
+.col-query-types {
+    position: fixed;
+    width: 35%;
+    height: 100%;
+
+    .panel {
+        border: none;
+        border-right: solid 1px #ddd;
+        box-shadow: none;
+        height: calc(~"100% - 108px");
+        margin-bottom: 0;
+        overflow-y: auto;
+
+        .panel-body {
+            .animated;
+            .fadeIn;
+            -webkit-animation-duration: .25s;
+            animation-duration: .25s;
+            box-shadow: none;
+            padding: 0 20px 20px;
+
+            & > div {
+                .animated;
+                .fadeIn;
+                -webkit-animation-duration: .25s;
+                animation-duration: .25s;
+            }
+        }
+    }
+}
+
+.col-generated-query {
+    padding: 20px;
+    position: fixed;
+    left: 35%;
+    width: 65%;
+    height: calc(~"100% - 50px");
+    display: flex;
+    flex-flow: column;
+    overflow-y: auto;
+
+    pre {
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+        margin-left: -20px;
+        margin-right: -20px;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}
+
 .capitalize{
     text-transform: capitalize;
     select{
