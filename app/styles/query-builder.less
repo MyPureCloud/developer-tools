@@ -23,6 +23,30 @@
             }
         }
     }
+
+    .form-flex {
+        display: flex;
+        margin-left: 15px;
+        margin-right: 15px;
+        justify-content: space-between;
+
+        .form-group {
+            display: flex;
+            flex: 0 0 50%;
+
+            .control-label {
+                flex: 0 0 auto;
+                padding-top: 7px;
+                white-space: nowrap;
+                margin-right: 15px;
+                margin-bottom: 0;
+            }
+
+            .form-control {
+                flex: 1 0 0;
+            }
+        }
+    }
 }
 
 .col-generated-query {
