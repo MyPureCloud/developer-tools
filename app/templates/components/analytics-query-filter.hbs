@@ -1,6 +1,6 @@
 {{#if (eq showDefaultHeader false)}}
 {{else}}
-<h2>Filter</h2>
+<h5>Filter</h5>
 <p class="text-muted">
     Behaves like a SQL WHERE clause. This is ANDed with the interval parameter. Expresses boolean logical predicates as well as dimensional filters.
 </p>
@@ -16,7 +16,7 @@
             {{select-box items=types selectedItem=selectedType}}
         </div>
     </div>
-    <h3>Clauses</h3>
+    <h6>Clauses</h6>
     <p class="text-muted">
         Boolean 'and/or' logic with up to two-levels of nesting.
     </p>
@@ -30,10 +30,10 @@
             </div>
 
         </div>
-        <button class='btn btn-primary btn-sm top-margin' {{action 'newClause'}} >New Clause</button>
+        <button class='btn btn-default btn-sm top-margin' {{action 'newClause'}} >New Clause</button>
     </div>
 
-    <h3>Predicates</h3>
+    <h6>Predicates</h6>
     <p class="text-muted">
         Like a three-word sentence: (attribute-name) (operator) (target-value). These can be one of three types: dimension, property, metric..
     </p>
@@ -49,6 +49,6 @@
             </div>
 
         </div>
-        <button class='btn btn-primary btn-sm' {{action 'newPredicate'}} style='margin-top:5px'>New Predicate</button>
+        <button class='btn btn-default btn-sm' {{action 'newPredicate'}}>New Predicate</button>
     </div>
 </div>

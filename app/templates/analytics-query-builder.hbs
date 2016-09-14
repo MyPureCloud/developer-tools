@@ -31,19 +31,18 @@
         </ul>
     </nav>
 
-    <div class="panel panel-default">
-        <div class="panel-body">
-            {{#if (eq queryType "queue_observation")}}
-                {{queue-observation-query}}
-            {{else if (eq queryType "user_observation")}}
-                {{user-observation-query}}
-            {{else if (eq queryType "conversation_aggregate")}}
-                {{conversation-aggregate-query}}
-            {{else if (eq queryType "conversation_detail")}}
-                {{conversation-detail-query}}
-            {{/if}}
-        </div>
+    <div class="query-type-details">
+        {{#if (eq queryType "queue_observation")}}
+            {{queue-observation-query}}
+        {{else if (eq queryType "user_observation")}}
+            {{user-observation-query}}
+        {{else if (eq queryType "conversation_aggregate")}}
+            {{conversation-aggregate-query}}
+        {{else if (eq queryType "conversation_detail")}}
+            {{conversation-detail-query}}
+        {{/if}}
     </div>
+
 </div>
 
 <div class='col-generated-query'>
