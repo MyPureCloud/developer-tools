@@ -6,7 +6,7 @@
                     Query Type
                     {{#each queryTypes as |type index|}}
                     <span {{action 'selectQueryType' type.id}}>
-                        {{#if (eq selectedQueryType type.id)}}
+                        {{#if (eq queryType type.id)}}
                         <strong>{{type.name}}</strong>
                         {{/if}}
                     </span>
@@ -18,7 +18,7 @@
                     {{#each queryTypes as |type index|}}
                     <li {{action 'selectQueryType' type.id}}>
                         <a href="#">
-                            {{#if (eq selectedQueryType type)}}
+                            {{#if (eq queryType type.id)}}
                             <i class="fa fa-check"></i> <strong>{{type.name}}</strong>
                             {{else}}
                             {{type.name}}
