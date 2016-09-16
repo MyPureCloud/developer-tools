@@ -13,7 +13,6 @@
                     {{/each}}
                     <span class="caret"></span>
                 </a>
-                {{!-- <span class="help-block">{{url}}</span> --}}
                 <ul class="dropdown-menu dropdown-menu-with-check">
                     {{#each queryTypes as |type index|}}
                     <li {{action 'selectQueryType' type.id}}>
@@ -32,6 +31,11 @@
     </nav>
 
     <div class="query-type-details">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <span class="lead">{{url}}</span>
+            </div>
+        </div>
         {{#if (eq queryType "queue_observation")}}
             {{queue-observation-query}}
         {{else if (eq queryType "user_observation")}}
