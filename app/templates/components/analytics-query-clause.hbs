@@ -4,7 +4,7 @@
             <label>Type</label>
         </div>
         {{select-box items=types selectedItem=selectedType}}
-        <button class='btn btn-link clause-delete' {{action 'delete'}}>
+        <button class='btn btn-link btn-delete-clause' {{action 'delete'}}>
             <i class="ion-close-round" aria-hidden="true"></i>
         </button>
     </div>
@@ -16,6 +16,6 @@
     {{analytics-query-predicate predicate=predicate index=index updatePredicate=(action 'updatePredicate') deletePredicate=(action 'deletePredicate')}}
 {{/each}}
 
-<button class='btn btn-link btn-sm' {{action 'newPredicate'}} >
+<button class='btn btn-link btn-sm' {{action 'newPredicate'}}>
     <i class="pc-moon pc-create-room"></i>Add Predicate
 </button>

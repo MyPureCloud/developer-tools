@@ -51,6 +51,7 @@
         margin-left: 15px;
         margin-right: 15px;
         justify-content: space-between;
+        flex-flow: wrap;
 
         &.form-flex-1-col {
             .form-group {
@@ -115,17 +116,19 @@
         }
 
         .btn-link {
+            min-width: 20px;
             outline: none;
 
             &.btn-delete-filter {
                 margin-left: 15px;
-                min-width: 20px;
                 margin-right: 1px;
             }
+
         }
 
         .dl-horizontal {
             margin-bottom: 0;
+            margin-right: -35px;
 
             dt {
                 font-family: @font-family-secondary;
@@ -152,11 +155,26 @@
                     i {
                         margin-right: 3px;
                     }
+
+                    &.btn-delete-clause {
+                        i {
+                            margin-right: 0;
+                        }
+                    }
                 }
 
                 > div > form {
                     margin-top: 15px;
-                } 
+                }
+
+                h6 {
+                    color: @pc-devil-grey;
+                    font-family: @font-family-secondary;
+                    font-size: 12px;
+                    font-weight: 400;
+                    text-transform: uppercase;
+                    margin-top: 0;
+                }
             }
         }
     }
@@ -183,31 +201,14 @@
     }
 }
 
-.capitalize{
+.capitalize {
     text-transform: capitalize;
-    select{
+
+    select {
         text-transform: capitalize;
     }
 }
 
-.bottom-border{
-    border-bottom: 1px solid lightgrey;
-}
-
-.query-indent{
-    margin-left:20px;
-}
-
-.two-col-button{
-    margin-left: auto;
-    margin-right: auto;
-    width: 30px;
-}
-
-pre,code {
+pre, code {
    white-space: nowrap;
-}
-
-.clause-delete{
-    margin-right: 15px;
 }
