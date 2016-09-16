@@ -52,11 +52,19 @@
         margin-right: 15px;
         justify-content: space-between;
 
-        &.form-flex-1-col .form-group {
-            flex: 1 1 100%;
-
-            > * {
+        &.form-flex-1-col {
+            .form-group {
                 flex: 1 1 100%;
+
+                > * {
+                    flex: 1 1 100%;
+                }
+            }
+
+            &.form-flex-has-delete .form-group .btn-link {
+                flex: 0 0 auto;
+                margin-left: 15px;
+                margin-right: 0;
             }
         }
 
@@ -124,11 +132,11 @@
                 font-size: 12px;
                 font-weight: 400;
                 text-transform: uppercase;
-                width: 80px;
+                width: 75px;
             }
 
             dd {
-                margin-left: 100px;
+                margin-left: 95px;
                 padding-bottom: 15px;
 
                 &:only-child,
@@ -140,11 +148,9 @@
                     margin-bottom: 8px;
                 }
 
-                .btn-link {
-                    i {
-                        margin-right: 3px;
-                    }
-                }
+                > div > form {
+                    margin-top: 15px;
+                } 
             }
         }
     }
