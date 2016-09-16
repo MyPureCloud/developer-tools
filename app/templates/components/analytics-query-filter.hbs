@@ -6,49 +6,46 @@
 </p>
 {{/if}}
 
-<div class="query-indent">
-    <div class='row'>
-        <div class='col-md-1'>
+<form class="form form-horizontal form-flex form-flex-1-col">
+    <div class="form-group">
+        <div class="control-label">
             <label>Type</label>
         </div>
-
-        <div class='col-md-1'>
-            {{select-box items=types selectedItem=selectedType}}
-        </div>
+        {{select-box items=types selectedItem=selectedType class=form-control}}
     </div>
-    <h6>Clauses</h6>
-    <p class="text-muted">
-        Boolean 'and/or' logic with up to two-levels of nesting.
-    </p>
-    <div class="query-indent">
-        <div class='row'>
+</form>
 
-            <div class='col-md-11' style='margin-left:30px'>
-                {{#each clauses as |clause index|}}
-                {{analytics-query-clause clause=clause index=index updateClause=(action 'updateClause') deleteClause=(action 'deleteClause') }}
-                {{/each}}
-            </div>
+<dl class="dl-horizontal">
+    <dt>Clauses</dt>
+    <dd>
+        <p class="small text-muted">
+            Boolean 'and/or' logic with up to two-levels of nesting.
+        </p>
 
-        </div>
-        <button class='btn btn-default btn-sm top-margin' {{action 'newClause'}} >New Clause</button>
-    </div>
+        {{#each clauses as |clause index|}}
+        {{analytics-query-clause clause=clause index=index updateClause=(action 'updateClause') deleteClause=(action 'deleteClause') }}
+        {{/each}}
 
-    <h6>Predicates</h6>
-    <p class="text-muted">
-        Like a three-word sentence: (attribute-name) (operator) (target-value). These can be one of three types: dimension, property, metric..
-    </p>
-    <div class="query-indent">
-        <div class='row'>
+        <button class='btn btn-link btn-sm' {{action 'newClause'}} title="Add Clause">
+            <i class="pc-moon pc-create-room"></i>Add Clause
+        </button>
+    </dd>
 
-            <div class='col-md-12'>
+    <dt>Predicates</dt>
+    <dd>
+        <p class="small text-muted">
+            Like a three-word sentence: (attribute-name) (operator) (target-value). These can be one of three types: dimension, property, metric..
+        </p>
 
-                {{#each predicates as |predicate index|}}
-                {{analytics-query-predicate predicate=predicate index=index updatePredicate=(action 'updatePredicate') deletePredicate=(action 'deletePredicate')}}
+        {{#each predicates as |predicate index|}}
+        {{analytics-query-predicate predicate=predicate index=index updatePredicate=(action 'updatePredicate') deletePredicate=(action 'deletePredicate')}}
 
-                {{/each}}
-            </div>
+        {{/each}}
 
-        </div>
-        <button class='btn btn-default btn-sm' {{action 'newPredicate'}}>New Predicate</button>
-    </div>
-</div>
+        <button class='btn btn-link btn-sm' {{action 'newPredicate'}} title="Add Predicate">
+            <i class="pc-moon pc-create-room"></i>Add Predicate
+        </button>
+    </dd>
+</dl>
+
+

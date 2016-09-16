@@ -27,7 +27,7 @@
         <p class="small text-muted">
             Page size and number to control iterating through large result sets.
         </p>
-        <form class="form form-horizontal form-flex">
+        <form class="form form-horizontal form-flex form-flex-2-col">
             <div class="form-group">
                 <div class="control-label">
                     <label>Page Size</label>
@@ -46,77 +46,92 @@
 
 
 <div class="panel panel-default">
-    <div class="panel-heading"><h3 class="panel-title panel-title-condensed">Conversation Filters</h3></div>
+    <div class="panel-heading">
+        <h3 class="panel-title panel-title-condensed">Conversation Filters</h3>
+        <button class='btn btn-link' {{action 'newConversationFilter'}} title="Add Filter">
+            <i class="pc-moon pc-create-room"></i>
+        </button>
+    </div>
     <div class="panel-body">
         <p class="small text-muted">
             Filters that target conversation-level data.
         </p>
 
         {{#each conversationFilters as |conversationFilter index|}}
-
-        <button class='btn btn-danger btn-xs pull-left' style='margin-left:20px' {{action 'deleteConversationFilter' index}}><i class="fa fa-trash" aria-hidden="true"></i></button>
-        <div class='col-md-11'>
+        <div class="filter-container">
             {{analytics-query-filter filter=conversationFilter showDefaultHeader=false index=index updateFilter=(action 'updateConversationFilter')}}
+            <button class='btn btn-link btn-delete-filter' {{action 'deleteConversationFilter' index}}>
+                <i class="ion-close-round" aria-hidden="true"></i>
+            </button>
         </div>
         {{/each}}
-        <button class='btn btn-default btn-sm' {{action 'newConversationFilter'}} style='margin-top:5px'>New Conversation Filter</button>
     </div>
 </div>
 
 
 <div class="panel panel-default">
-    <div class="panel-heading"><h3 class="panel-title panel-title-condensed">Evaluation Filters</h3></div>
+    <div class="panel-heading">
+        <h3 class="panel-title panel-title-condensed">Evaluation Filters</h3>
+        <button class='btn btn-link btn-sm' {{action 'newEvaluationFilter'}} title="Add Filter">
+            <i class="pc-moon pc-create-room"></i>
+        </button>
+    </div>
     <div class="panel-body">
         <p class="small text-muted">
             Filters that target quality management evaluation-level data.
         </p>
 
         {{#each evaluationFilters as |evaluationFilter index|}}
-
-        <button class='btn btn-danger btn-xs pull-left' style='margin-left:20px' {{action 'deleteEvaluationFilter' index}}><i class="fa fa-trash" aria-hidden="true"></i></button>
-        <div class='col-md-11'>
+        <div class="filter-container">
             {{analytics-query-filter filter=evaluationFilter showDefaultHeader=false index=index updateFilter=(action 'updateEvaluationFilter')}}
+            <button class='btn btn-link btn-delete-filter' {{action 'deleteEvaluationFilter' index}}>
+                <i class="ion-close-round" aria-hidden="true"></i>
+            </button>
         </div>
         {{/each}}
-        <button class='btn btn-default btn-sm' {{action 'newEvaluationFilter'}} style='margin-top:5px'>New Evaluation Filter</button>
     </div>
 </div>
 
 
 <div class="panel panel-default">
-    <div class="panel-heading"><h3 class="panel-title panel-title-condensed">Segment Filters</h3></div>
+    <div class="panel-heading">
+        <h3 class="panel-title panel-title-condensed">Segment Filters</h3>
+        <button class='btn btn-link btn-sm' {{action 'newSegmentFilter'}} title="Add Filter">
+            <i class="pc-moon pc-create-room"></i>
+        </button>
+    </div>
     <div class="panel-body">
         <p class="small text-muted">
             Filters that target individual segments within a conversation.
         </p>
-        {{#each segmentFilters as |segmentFilter index|}}
 
-        <button class='btn btn-danger btn-xs pull-left' style='margin-left:20px' {{action 'deleteSegmentFilter' index}}><i class="fa fa-trash" aria-hidden="true"></i></button>
-        <div class='col-md-11'>
+        {{#each segmentFilters as |segmentFilter index|}}
+        <div class="filter-container">
             {{analytics-query-filter filter=segmentFilter showDefaultHeader=false index=index updateFilter=(action 'updateSegmentFilter')}}
+            <button class='btn btn-link btn-delete-filter' {{action 'deleteSegmentFilter' index}}>
+                <i class="ion-close-round" aria-hidden="true"></i>
+            </button>
         </div>
         {{/each}}
-
-        <button class='btn btn-default btn-sm' {{action 'newSegmentFilter'}} style='margin-top:5px'>New Segment Filter</button>
     </div>
 </div>
 
 <div class="panel panel-default">
-    <div class="panel-heading"><h3 class="panel-title panel-title-condensed">Query Aggregation</h3></div>
+    <div class="panel-heading">
+        <h3 class="panel-title panel-title-condensed">Query Aggregation</h3>
+        <button class='btn btn-link btn-sm' {{action 'newAggregation'}} title="Add Aggregation">
+            <i class="pc-moon pc-create-room"></i>
+        </button>
+    </div>
     <div class="panel-body">
         <p class="small text-muted">
             Include faceted search and aggregate roll-ups describing your search results. This does not function as a filter, but rather, summary data about the data matching your filters
         </p>
-        <div class="query-indent">
 
-            <div class='col-md-12'>
-
-                {{#each aggregations as |aggregation index|}}
-                {{analytics-query-aggregation aggregation=aggregation index=index updateAggregation=(action 'updateAggregation') deleteAggregation=(action 'deleteAggregation')}}
-                {{/each}}
-            </div>
-
-            <button class='btn btn-default btn-sm' {{action 'newAggregation'}} style='margin-top:5px'>New Aggregation</button>
+        <div class="filter-container">
+            {{#each aggregations as |aggregation index|}}
+            {{analytics-query-aggregation aggregation=aggregation index=index updateAggregation=(action 'updateAggregation') deleteAggregation=(action 'deleteAggregation')}}
+            {{/each}}
         </div>
     </div>
 </div>
