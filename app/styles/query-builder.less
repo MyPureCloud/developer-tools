@@ -107,11 +107,11 @@
         }
     }
 
-    .filter-container {
+    .filter-section {
         display: flex;
         align-items: flex-start;
 
-        & + .filter-container {
+        & + .filter-section {
             margin-top: 10px;
             padding-top: 20px;
             position: relative;
@@ -142,9 +142,14 @@
             }
         }
 
+        &.filter-has-delete {
+            .dl-horizontal {
+                margin-right: -35px;
+            }
+        }
+
         .dl-horizontal {
             margin-bottom: 0;
-            margin-right: -35px;
 
             dt {
                 font-family: @font-family-secondary;

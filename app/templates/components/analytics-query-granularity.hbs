@@ -1,18 +1,14 @@
-<h2>Granularity</h2>
-<p class="text-muted">
-    Granularity aggregates metrics into subpartitions within the time interval specified. The default granularity is the same duration as the interval.
-</p>
-<div class="query-indent">
-
-    <div class="checkbox">
-        <label>{{input type="checkbox" checked=noGranularity }}Default Granularity (Start Time to End Time)</label>
-    </div>
-    {{#if (eq noGranularity false)}}
-    <div class='row'>
-        <div class='col-md-2'>
-            {{select-box-advanced idKey='value' nameKey='text' items=availableValues selectedItem=granularity}}
+<div class="panel panel-default">
+    <div class="panel-heading"><h3 class="panel-title panel-title-condensed">Granularity</h3></div>
+    <div class="panel-body">
+        <p class="small text-muted">
+            Granularity aggregates metrics into subpartitions within the time interval specified. The default granularity is the same duration as the interval.
+        </p>
+        <div class="checkbox">
+            <label>{{input type="checkbox" checked=noGranularity }}Default Granularity (Start Time to End Time)</label>
         </div>
-
+        {{#if (eq noGranularity false)}}
+        {{select-box-advanced idKey='value' nameKey='text' items=availableValues selectedItem=granularity}}
+        {{/if}}
     </div>
-    {{/if}}
 </div>

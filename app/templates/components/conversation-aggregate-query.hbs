@@ -2,14 +2,25 @@
 {{analytics-query-granularity value=granularity}}
 {{analytics-query-groupby value=groupBy}}
 
-<h2>Flatten Multivalued Dimensions</h2>
-<p class="text-muted">
- Flattens any multivalued dimensions used in response groups (e.g. ['a','b','c']->'a,b,c')
- </p>
-<div class="checkbox">
-    <label>{{input type="checkbox" checked=flattenMultivaluedDimensions }}Flatten Multivalued Dimensions</label>
+<div class="panel panel-default">
+    <div class="panel-heading"><h3 class="panel-title panel-title-condensed">Flatten Multivalued Dimensions</h3></div>
+    <div class="panel-body">
+      <p class="small text-muted">
+       Flattens any multivalued dimensions used in response groups (e.g. ['a','b','c']->'a,b,c')
+       </p>
+      <div class="checkbox">
+          <label>{{input type="checkbox" checked=flattenMultivaluedDimensions }}Flatten Multivalued Dimensions</label>
+      </div>
+    </div>
 </div>
 
 {{analytics-query-metrics selectedMetrics=selectedMetrics}}
 
-{{analytics-query-filter filter=filter}}
+<div class="panel panel-default">
+    <div class="panel-heading"><h3 class="panel-title panel-title-condensed">Filter</h3></div>
+    <div class="panel-body">
+      <div class="filter-section">
+        {{analytics-query-filter filter=filter}}
+      </div>
+    </div>
+</div>

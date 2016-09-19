@@ -58,7 +58,7 @@
         </p>
 
         {{#each conversationFilters as |conversationFilter index|}}
-        <div class="filter-container">
+        <div class="filter-section filter-has-delete">
             {{analytics-query-filter filter=conversationFilter showDefaultHeader=false index=index updateFilter=(action 'updateConversationFilter')}}
             <button class='btn btn-link btn-delete-filter' {{action 'deleteConversationFilter' index}}>
                 <i class="ion-close-round" aria-hidden="true"></i>
@@ -82,7 +82,7 @@
         </p>
 
         {{#each evaluationFilters as |evaluationFilter index|}}
-        <div class="filter-container">
+        <div class="filter-section filter-has-delete">
             {{analytics-query-filter filter=evaluationFilter showDefaultHeader=false index=index updateFilter=(action 'updateEvaluationFilter')}}
             <button class='btn btn-link btn-delete-filter' {{action 'deleteEvaluationFilter' index}}>
                 <i class="ion-close-round" aria-hidden="true"></i>
@@ -106,7 +106,7 @@
         </p>
 
         {{#each segmentFilters as |segmentFilter index|}}
-        <div class="filter-container">
+        <div class="filter-section filter-has-delete">
             {{analytics-query-filter filter=segmentFilter showDefaultHeader=false index=index updateFilter=(action 'updateSegmentFilter')}}
             <button class='btn btn-link btn-delete-filter' {{action 'deleteSegmentFilter' index}}>
                 <i class="ion-close-round" aria-hidden="true"></i>
@@ -129,7 +129,7 @@
         </p>
 
         {{#each aggregations as |aggregation index|}}
-        <div class="filter-container">
+        <div class="filter-section filter-has-delete">
             {{analytics-query-aggregation aggregation=aggregation index=index updateAggregation=(action 'updateAggregation') deleteAggregation=(action 'deleteAggregation')}}
         </div>
         {{/each}}
