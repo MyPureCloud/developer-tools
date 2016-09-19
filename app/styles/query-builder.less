@@ -260,6 +260,24 @@
     flex-flow: column;
     overflow-y: auto;
 
+    h2 {
+        color: @pc-devil-grey;
+        display: flex;
+        align-items: center;
+        font-family: @font-family-secondary;
+        font-size: 18px;
+        margin-top: 0;
+        margin-bottom: 18px;
+
+        > * {
+            flex: 1 1 0;
+        }
+
+        .small {
+            text-align: right;
+        }
+    }
+
     pre {
         border-radius: 0;
         border-left: none;
