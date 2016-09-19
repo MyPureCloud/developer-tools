@@ -104,6 +104,32 @@
             &.form-group-offset {
                 margin-right: 20px;
             }
+
+            &.form-group-stacked {
+                flex-flow: column;
+                margin-left: -15px;
+                margin-right: -15px;
+
+                &.col-btn {
+                    display: flex;
+                    margin: auto;
+                    flex: 0 0 20px;
+
+                    .btn {
+                        margin: 4px;
+                    }
+                }
+            }
+        }
+
+        &.form-col-selector {
+            .form-group {
+                flex: 0 0 45%;
+
+                .form-control {
+                    min-height: 150px;
+                }
+            }
         }
     }
 
