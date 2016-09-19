@@ -1,24 +1,15 @@
-<div class='row'>
-
-    <div class='col-md-2'>
-        <label>Type</label>
-    </div>
-    <div class='col-md-3'>
-        <label class='capitalize'>{{selectedType}}</label>
-    </div>
-    <div class='col-md-1'>
-        <label>Operator</label>
-    </div>
-    <div class='col-md-3'>
-        <label>Value</label>
-    </div>
-</div>
-<div class='row'>
-
-    <div class='col-md-2'>
+<form class="form form-horizontal form-horizontal-labels-left form-flex form-flex-1-col form-flex-has-delete">
+    <div class="form-group">
+        <div class="control-label">
+            <label>Type</label>
+        </div>
         {{select-box items=types selectedItem=selectedType class='capitalize'}}
+        <button class='btn btn-link btn-delete' {{action 'delete'}}>
+            <i class="ion-close-round" aria-hidden="true"></i>
+        </button>
     </div>
-    <div class='col-md-3'>
+    <div class="form-group form-group-offset">
+        <label class='control-label capitalize'>{{selectedType}}</label>
         {{#if (eq selectedType 'dimension')}}
         {{select-box items=dimensions selectedItem=lhsValue}}
         {{/if}}
@@ -29,10 +20,12 @@
         {{select-box items=metrics selectedItem=lhsValue}}
         {{/if}}
     </div>
-    <div class='col-md-1'>
+    <div class="form-group form-group-offset">
+        <label class="control-label">Operator</label>
         {{select-box items=operators selectedItem=selectedOperator class='capitalize'}}
     </div>
-    <div class='col-md-3'>
+    <div class="form-group form-group-offset">
+        <label class="control-label">Value</label>
         {{#if (eq lhsValue "queueId")}}
         {{select-box-advanced idKey='id' nameKey='name' items=queues selectedItem=value}}
         {{else if (eq lhsValue "userId")}}
@@ -43,8 +36,4 @@
         {{input class='form-control' value=value}}
         {{/if}}
     </div>
-    <div class='col-md-1'>
-
-        <button class='btn btn-danger btn-xs' {{action 'delete'}}><i class="fa fa-trash" aria-hidden="true"></i></button>
-    </div>
-</div>
+</form>

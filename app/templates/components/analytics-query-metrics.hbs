@@ -1,3 +1,7 @@
-<h2>Metrics</h2>
-<p class="text-muted">Which metrics to you want returned in the result set?  No selected metrics will return all available metrics.  Not all metrics apply for every query.</p>
-{{two-col-selector availableItems=availableMetrics selectedItems=selectedMetrics}}
+<div class="panel panel-default">
+    <div class="panel-heading"><h3 class="panel-title panel-title-condensed">Metrics</h3></div>
+    <div class="panel-body">
+      <p class="small text-muted">Which metrics to you want returned in the result set?  No selected metrics will return all available metrics.  Not all metrics apply for every query.</p>
+      {{two-col-selector availableItems=availableMetrics selectedItems=selectedMetrics}}
+    </div>
+</div>

@@ -3,6 +3,7 @@ var observer = Ember.observer;
 var  computed = Ember.computed;
 
 export default Ember.Component.extend({
+    classNames: ['predicate-section'],
     analyticsValueService: Ember.inject.service(),
     queueService: Ember.inject.service(),
     userService: Ember.inject.service(),

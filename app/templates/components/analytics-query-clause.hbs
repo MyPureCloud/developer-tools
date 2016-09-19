@@ -1,32 +1,21 @@
-
-<div class='row top-margin'>
-
-    <button class='btn btn-danger btn-xs pull-left clause-delete' {{action 'delete'}}><i class="fa fa-trash" aria-hidden="true"></i></button>
-    <div class='col-md-11'>
-        <div class='row'>
-            <div class='col-md-1'>
-                <label>Type</label>
-            </div>
-            <div class='col-md-1'>
-                {{select-box items=types selectedItem=selectedType}}
-            </div>
-
-
+<form class="form form-horizontal form-flex form-flex-1-col form-flex-has-delete">
+    <div class="form-group">
+        <div class="control-label">
+            <label>Type</label>
         </div>
-        <div class='row'>
-            <h4>Predicates</h4>
-            <div class='col-md-11'>
-
-                {{#each predicates as |predicate index|}}
-                    {{analytics-query-predicate predicate=predicate index=index updatePredicate=(action 'updatePredicate') deletePredicate=(action 'deletePredicate')}}
-
-                {{/each}}
-            </div>
-
-        </div>
-        <button class='btn btn-primary btn-sm top-margin' {{action 'newPredicate'}}  >New Predicate</button>
+        {{select-box items=types selectedItem=selectedType}}
+        <button class='btn btn-link btn-delete' {{action 'delete'}}>
+            <i class="ion-close-round" aria-hidden="true"></i>
+        </button>
     </div>
+</form>
 
-</div>
-<div class='row' class='bottom-border top-margin' >
-</div>
+<h6>Predicates</h6>
+
+{{#each predicates as |predicate index|}}
+    {{analytics-query-predicate predicate=predicate index=index updatePredicate=(action 'updatePredicate') deletePredicate=(action 'deletePredicate')}}
+{{/each}}
+
+<button class='btn btn-link btn-sm' {{action 'newPredicate'}}>
+    <i class="pc-moon pc-create-room"></i>Add Predicate
+</button>

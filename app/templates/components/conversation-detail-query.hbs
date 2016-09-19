@@ -1,118 +1,134 @@
 {{analytics-query-interval value=interval}}
 
 
-<h2>Order</h2>
-<p class="text-muted">
-    Sort the result set in ascending/descending order.
-</p>
-<div class="row">
-    <div class="col-sm-3">
-        {{select-box items=orderOptions selectedItem=order}}
+<div class="panel panel-default">
+    <div class="panel-heading"><h3 class="panel-title panel-title-condensed">Order</h3></div>
+    <div class="panel-body">
+        <p class="small text-muted">
+            Sort the result set in ascending/descending order.
+        </p>
+        {{select-box items=orderOptions selectedItem=order class=form-control}}
     </div>
 </div>
 
-<h2>Order By</h2>
-<p class="text-muted">
-    Specify which data element within the result set to use for sorting.
-</p>
-<div class="row">
-    <div class="col-sm-3">
-        {{select-box items=orderByOptions selectedItem=orderBy}}
+<div class="panel panel-default">
+    <div class="panel-heading"><h3 class="panel-title panel-title-condensed">Order By</h3></div>
+    <div class="panel-body">
+        <p class="small text-muted">
+            Specify which data element within the result set to use for sorting.
+        </p>
+        {{select-box items=orderByOptions selectedItem=orderBy class=form-control}}
     </div>
 </div>
 
-<h2>Paging</h2>
-<p class="text-muted">
-    Page size and number to control iterating through large result sets.
-</p>
-<div class='row'>
-    <div class='col-md-1'>
-        <label>Page Size</label>
-    </div>
-
-    <div class='col-md-1'>
-        {{input type="number" value=pageSize class="form-control" }}
-    </div>
-</div>
-
-<div class='row'>
-    <div class='col-md-1'>
-        <label>Page Number</label>
-    </div>
-
-    <div class='col-md-1'>
-        {{input type="number" value=pageNumber class="form-control" }}
-    </div>
-</div>
-
-
-<h2>Conversation Filters</h2>
-<p class="text-muted">
-    Filters that target conversation-level data.
-</p>
-
-{{#each conversationFilters as |conversationFilter index|}}
-
-<div class='row' style='margin-bottom: 10px'>
-    <button class='btn btn-danger btn-xs pull-left' style='margin-left:20px' {{action 'deleteConversationFilter' index}}><i class="fa fa-trash" aria-hidden="true"></i></button>
-    <div class='col-md-11'>
-        {{analytics-query-filter filter=conversationFilter showDefaultHeader=false index=index updateFilter=(action 'updateConversationFilter')}}
+<div class="panel panel-default">
+    <div class="panel-heading"><h3 class="panel-title panel-title-condensed">Paging</h3></div>
+    <div class="panel-body">
+        <p class="small text-muted">
+            Page size and number to control iterating through large result sets.
+        </p>
+        <form class="form form-horizontal form-flex form-flex-2-col">
+            <div class="form-group">
+                <div class="control-label">
+                    <label>Page Size</label>
+                </div>
+                {{input type="number" value=pageSize class="form-control" }}
+            </div>
+            <div class="form-group">
+                <div class="control-label">
+                    <label>Page Number</label>
+                </div>
+                {{input type="number" value=pageNumber class="form-control" }}
+            </div>
+        </form>
     </div>
 </div>
-{{/each}}
-<button class='btn btn-primary btn-sm' {{action 'newConversationFilter'}} style='margin-top:5px'>New Conversation Filter</button>
 
-
-<h2>Evaluation Filters</h2>
-<p class="text-muted">
-    Filters that target quality management evaluation-level data.
-</p>
-
-{{#each evaluationFilters as |evaluationFilter index|}}
-
-<div class='row' style='margin-bottom: 10px'>
-    <button class='btn btn-danger btn-xs pull-left' style='margin-left:20px' {{action 'deleteEvaluationFilter' index}}><i class="fa fa-trash" aria-hidden="true"></i></button>
-    <div class='col-md-11'>
-        {{analytics-query-filter filter=evaluationFilter showDefaultHeader=false index=index updateFilter=(action 'updateEvaluationFilter')}}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title panel-title-condensed">Conversation Filters</h3>
+        <button class='btn btn-link' {{action 'newConversationFilter'}} title="Add Filter">
+            <i class="pc-moon pc-create-room"></i>
+        </button>
     </div>
-</div>
-{{/each}}
-<button class='btn btn-primary btn-sm' {{action 'newEvaluationFilter'}} style='margin-top:5px'>New Evaluation Filter</button>
+    <div class="panel-body">
+        <p class="small text-muted">
+            Filters that target conversation-level data.
+        </p>
 
-
-<h2>Segment Filters</h2>
-<p class="text-muted">
-    Filters that target individual segments within a conversation.
-</p>
-{{#each segmentFilters as |segmentFilter index|}}
-
-<div class='row' style='margin-bottom: 10px'>
-    <button class='btn btn-danger btn-xs pull-left' style='margin-left:20px' {{action 'deleteSegmentFilter' index}}><i class="fa fa-trash" aria-hidden="true"></i></button>
-    <div class='col-md-11'>
-        {{analytics-query-filter filter=segmentFilter showDefaultHeader=false index=index updateFilter=(action 'updateSegmentFilter')}}
-    </div>
-</div>
-{{/each}}
-
-<button class='btn btn-primary btn-sm' {{action 'newSegmentFilter'}} style='margin-top:5px'>New Segment Filter</button>
-
-<h2>Query Aggregation</h2>
-<p class="text-muted">
-    Include faceted search and aggregate roll-ups describing your search results. This does not function as a filter, but rather, summary data about the data matching your filters
-</p>
-<div class="query-indent">
-    <div class='row'>
-
-        <div class='col-md-12'>
-
-            {{#each aggregations as |aggregation index|}}
-            {{analytics-query-aggregation aggregation=aggregation index=index updateAggregation=(action 'updateAggregation') deleteAggregation=(action 'deleteAggregation')}}
-            {{/each}}
+        {{#each conversationFilters as |conversationFilter index|}}
+        <div class="filter-section filter-has-delete">
+            {{analytics-query-filter filter=conversationFilter showDefaultHeader=false index=index updateFilter=(action 'updateConversationFilter')}}
+            <button class='btn btn-link btn-delete-filter' {{action 'deleteConversationFilter' index}}>
+                <i class="ion-close-round" aria-hidden="true"></i>
+            </button>
         </div>
-
+        {{/each}}
     </div>
-    <button class='btn btn-primary btn-sm' {{action 'newAggregation'}} style='margin-top:5px'>New Aggregation</button>
 </div>
 
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title panel-title-condensed">Evaluation Filters</h3>
+        <button class='btn btn-link btn-sm' {{action 'newEvaluationFilter'}} title="Add Filter">
+            <i class="pc-moon pc-create-room"></i>
+        </button>
+    </div>
+    <div class="panel-body">
+        <p class="small text-muted">
+            Filters that target quality management evaluation-level data.
+        </p>
 
-{{run-analytics-query queryJson=queryJson queryResult=queryResult runQuery=(action 'runQuery')}}
+        {{#each evaluationFilters as |evaluationFilter index|}}
+        <div class="filter-section filter-has-delete">
+            {{analytics-query-filter filter=evaluationFilter showDefaultHeader=false index=index updateFilter=(action 'updateEvaluationFilter')}}
+            <button class='btn btn-link btn-delete-filter' {{action 'deleteEvaluationFilter' index}}>
+                <i class="ion-close-round" aria-hidden="true"></i>
+            </button>
+        </div>
+        {{/each}}
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title panel-title-condensed">Segment Filters</h3>
+        <button class='btn btn-link btn-sm' {{action 'newSegmentFilter'}} title="Add Filter">
+            <i class="pc-moon pc-create-room"></i>
+        </button>
+    </div>
+    <div class="panel-body">
+        <p class="small text-muted">
+            Filters that target individual segments within a conversation.
+        </p>
+
+        {{#each segmentFilters as |segmentFilter index|}}
+        <div class="filter-section filter-has-delete">
+            {{analytics-query-filter filter=segmentFilter showDefaultHeader=false index=index updateFilter=(action 'updateSegmentFilter')}}
+            <button class='btn btn-link btn-delete-filter' {{action 'deleteSegmentFilter' index}}>
+                <i class="ion-close-round" aria-hidden="true"></i>
+            </button>
+        </div>
+        {{/each}}
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title panel-title-condensed">Query Aggregation</h3>
+        <button class='btn btn-link btn-sm' {{action 'newAggregation'}} title="Add Aggregation">
+            <i class="pc-moon pc-create-room"></i>
+        </button>
+    </div>
+    <div class="panel-body">
+        <p class="small text-muted">
+            Include faceted search and aggregate roll-ups describing your search results. This does not function as a filter, but rather, summary data about the data matching your filters
+        </p>
+
+        {{#each aggregations as |aggregation index|}}
+        <div class="filter-section filter-has-delete">
+            {{analytics-query-aggregation aggregation=aggregation index=index updateAggregation=(action 'updateAggregation') deleteAggregation=(action 'deleteAggregation')}}
+        </div>
+        {{/each}}
+    </div>
+</div>
