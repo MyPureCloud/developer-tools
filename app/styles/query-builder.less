@@ -77,6 +77,11 @@
             flex: 0 0 33.33%;
         }
 
+        &.form-horizontal-labels-left .form-group .control-label {
+            flex: 0 0 85px;
+            text-align: left;
+        }
+
         .form-group {
             display: flex;
 
@@ -90,6 +95,10 @@
 
             .form-control {
                 flex: 1 0 0;
+            }
+
+            &.form-group-offset {
+                margin-right: 20px;
             }
         }
     }
@@ -123,7 +132,6 @@
                 margin-left: 15px;
                 margin-right: 1px;
             }
-
         }
 
         .dl-horizontal {
@@ -163,8 +171,19 @@
                     }
                 }
 
-                > div > form {
-                    margin-top: 15px;
+                > div {
+                    > form {
+                        margin-top: 15px;
+                    }
+
+                    & + div {
+                        border-top: solid 1px #ddd;
+                    }
+
+                    > div + div {
+                        border-top: solid 1px #ddd;
+                        padding-top: 15px;
+                    }
                 }
 
                 h6 {
