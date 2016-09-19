@@ -2,6 +2,7 @@ import Ember from 'ember';
 var observer = Ember.observer;
 
 export default Ember.Component.extend({
+    classNames: ['clause-section'],
     types:["and", "or"],
     selectedType: "or",
     predicates: [],

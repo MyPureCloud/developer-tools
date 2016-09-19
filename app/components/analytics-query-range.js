@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
+    classNames: ['range-inputs'],
     rangeStart:0,
     rangeEnd:0,
     init: function(){

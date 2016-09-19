@@ -171,18 +171,24 @@
                     }
                 }
 
-                > div {
+                .clause-section {
                     > form {
                         margin-top: 15px;
                     }
 
-                    & + div {
+                    & + .clause-section {
                         border-top: solid 1px #ddd;
+                        margin-top: 6px;
+                    }
+                }
+
+                .predicate-section {
+                    > form {
+                        margin-top: 15px;
                     }
 
-                    > div + div {
+                    & + .predicate-section {
                         border-top: solid 1px #ddd;
-                        padding-top: 15px;
                     }
                 }
 
@@ -195,6 +201,11 @@
                     margin-top: 0;
                 }
             }
+        }
+
+        .range-inputs {
+            margin-top: -15px;
+            width: 100%;
         }
     }
 }

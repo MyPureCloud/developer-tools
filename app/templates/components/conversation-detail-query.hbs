@@ -128,10 +128,10 @@
             Include faceted search and aggregate roll-ups describing your search results. This does not function as a filter, but rather, summary data about the data matching your filters
         </p>
 
+        {{#each aggregations as |aggregation index|}}
         <div class="filter-container">
-            {{#each aggregations as |aggregation index|}}
             {{analytics-query-aggregation aggregation=aggregation index=index updateAggregation=(action 'updateAggregation') deleteAggregation=(action 'deleteAggregation')}}
-            {{/each}}
         </div>
+        {{/each}}
     </div>
 </div>
