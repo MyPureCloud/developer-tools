@@ -3,13 +3,15 @@
     <div class="panel-body">
         <p class="small text-muted"> Specifies a date and time range for the query, such as a week, day, or 30 minute interval. You can apply an interval of up to seven days for queries with no filter. If the query uses a filter, you can apply an interval of up to 32 days.
         </p>
-        <div class="form-group">
-            <label>Start (Local Time)</label>
-            {{bs-datetimepicker date=startDate format='YYYY-MM-DD h:mm:ss a' updateDate=(action (mut startDate))}}
-        </div>
-        <div class="form-group">
-            <label>End (Local Time)</label>
-            {{bs-datetimepicker date=endDate format='YYYY-MM-DD h:mm:ss a' updateDate=(action (mut endDate))}}
-        </div>
+        <form class="form form-horizontal form-horizontal-labels-left form-flex form-flex-1-col">
+            <div class="form-group">
+                <label class="control-label">Start (Local Time)</label>
+                {{bs-datetimepicker date=startDate format='YYYY-MM-DD h:mm:ss a' updateDate=(action (mut startDate))}}
+            </div>
+            <div class="form-group">
+                <label class="control-label">End (Local Time)</label>
+                {{bs-datetimepicker date=endDate format='YYYY-MM-DD h:mm:ss a' updateDate=(action (mut endDate))}}
+            </div>
+        </form>
     </div>
 </div>
