@@ -49,32 +49,11 @@ export default Ember.Component.extend({
         return query;
     },
     propertyWatcher: Ember.observer('aggregations','aggregations.@each','interval', 'order', 'orderBy', 'pageSize', "pageNumber", "conversationFilter", "evaluationFilter", "segmentFilter", "hasConversationFilter", "hasSegmentFilter", "hasEvaluationFilter", function() {
-        setTimeout(function(){
-            if(window && window.resizeDiv){
-                window.resizeDiv();
-            }
-        },100);
-
-
-        this.set("queryJson", JSON.stringify(this._computeValue(), null, " "));
+        let json = JSON.stringify(this._computeValue(), null, " ");
+        this.set("queryJson", json);
     }),
     queryJson:null,
     actions:{
-        runQuery: function(){
-            let self = this;
-            let value = this._computeValue();
-            this.get('purecloud').analyticsApi().postConversationsDetailsQuery(value)
-                .then(function(result){
-                    self.set("queryResult", JSON.stringify(result, null, "  "));
-                })
-                .catch(function(error){
-                    try{
-                        self.set("queryResult", error.statusText + ": " + error.response.body.message);
-                    }catch(e){
-                        self.set("queryResult", error);
-                    }
-                });
-        },
         newAggregation: function(){
             this.aggregations.addObject({
 

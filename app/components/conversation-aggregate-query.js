@@ -50,33 +50,9 @@ export default Ember.Component.extend({
 
         return query;
     },
-    queryJson: Ember.computed('granularity', 'interval', 'groupBy', 'filter', "flattenMultivaluedDimensions", function() {
-        setTimeout(function(){
-            if(window && window.resizeDiv){
-                window.resizeDiv();
-            }
-        },100);
-
-
-        return JSON.stringify(this._computeValue(), null, " ");
-    }),
-    actions:{
-        runQuery: function(){
-            let self = this;
-            let value = this._computeValue();
-            this.get('purecloud').analyticsApi().postConversationsAggregatesQuery(value)
-                .then(function(result){
-                    self.set("queryResult", JSON.stringify(result, null, "  "));
-                })
-                .catch(function(error){
-                    try{
-                        self.set("queryResult", error.statusText + ": " + error.response.body.message);
-                    }catch(e){
-                        self.set("queryResult", error);
-                    }
-                });
-        }
-    }
-
-
+    queryJson:null,
+    _observeChanges: Ember.observer('granularity', 'interval', 'groupBy', 'filter', "flattenMultivaluedDimensions", function() {
+        let query = JSON.stringify(this._computeValue(), null, " ");
+        this.set('queryJson', query);
+    })
 });

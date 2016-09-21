@@ -37,13 +37,13 @@
             </div>
         </div>
         {{#if (eq queryType "queue_observation")}}
-            {{queue-observation-query}}
+            {{queue-observation-query queryJson=queryJson}}
         {{else if (eq queryType "user_observation")}}
-            {{user-observation-query}}
+            {{user-observation-query queryJson=queryJson}}
         {{else if (eq queryType "conversation_aggregate")}}
-            {{conversation-aggregate-query}}
+            {{conversation-aggregate-query queryJson=queryJson}}
         {{else if (eq queryType "conversation_detail")}}
-            {{conversation-detail-query}}
+            {{conversation-detail-query queryJson=queryJson}}
         {{/if}}
     </div>
 

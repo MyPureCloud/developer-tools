@@ -7,47 +7,34 @@ export default Ember.Component.extend({
     init(){
         this._super(...arguments);
         this.get('filter');
+        this.set("queryJson", "{}");
+    },
+    didRender() {
+      this._super(...arguments);
+      this.set("queryJson", "{}");
     },
     _computeValue:function(){
         var selectedMetrics = this.get('selectedMetrics');
 
+        let filter = this.get('filter');
         let query={
-            filter: this.get('filter')
+
         };
+
+        if(filter){
+            query["filter"] = filter;
+        }
 
         if(selectedMetrics && selectedMetrics.length>0){
             query.metrics = selectedMetrics;
         }
+
+        this.sendAction("updateQuery", query);
         return query;
     },
-    queryJson: Ember.computed('selectedMetrics.@each', 'filter', function() {
-
-        setTimeout(function(){
-            if(window && window.resizeDiv){
-                window.resizeDiv();
-            }
-        },100);
-
-
-        return JSON.stringify(this._computeValue(), null, " ");
-    }),
-    actions:{
-        runQuery: function(){
-            let self = this;
-            let value = this._computeValue();
-            this.get('purecloud').analyticsApi().postQueuesObservationsQuery(value)
-                .then(function(result){
-                    self.set("queryResult", JSON.stringify(result, null, "  "));
-                })
-                .catch(function(error){
-                    try{
-                        self.set("queryResult", error.statusText + ": " + error.response.body.message);
-                    }catch(e){
-                        self.set("queryResult", error);
-                    }
-                });
-        }
-    }
-
-
+    queryJson: null,
+    propertyWatcher: Ember.observer('selectedMetrics.@each', 'filter', function() {
+        let query =  JSON.stringify(this._computeValue(), null, " ");
+        this.set("queryJson", query);
+    })
 });
