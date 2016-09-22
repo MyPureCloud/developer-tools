@@ -29,6 +29,10 @@ module.exports = function(environment) {
                 clientId: 'f2f2762f-6c8f-4f06-9f13-0560c17cef2b',
                 redirect: 'https://developer.inindca.com/developer-tools/'
             },
+            inintca:{
+                clientId: '7911401c-c8b5-4fcc-8f74-9091fa878f0f',
+                redirect: 'https://developer.inintca.com/developer-tools/'
+            },
             ininsca: {
                 clientId: 'b16c40bf-1d9d-4f59-9f1c-07e60528c659',
                 redirect: 'https://apps.ininsca.com/developer-tools/'
