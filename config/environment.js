@@ -30,7 +30,7 @@ module.exports = function(environment) {
                 redirect: 'https://developer.inindca.com/developer-tools/'
             },
             inintca:{
-                clientId: '7911401c-c8b5-4fcc-8f74-9091fa878f0f',
+                clientId: '89814d34-de36-4f99-8f55-399aa84cb620',
                 redirect: 'https://developer.inintca.com/developer-tools/'
             },
             ininsca: {
