@@ -1,5 +1,6 @@
 /* global ace */
 /* global purecloud */
+/* global $ */
 import Ember from 'ember';
 import sampleCode from '../utils/sample-code';
 
@@ -163,7 +164,7 @@ export default Ember.Component.extend({
         this._super(...arguments);
 
         this.get("enableDebugging");
-        
+
         this.addObserver('runToggle', function() {
             this.messages.clear();
             var iframeBody = document.getElementById('code-runner').contentWindow;
@@ -227,6 +228,8 @@ export default Ember.Component.extend({
                 action: 'javascript',
                 data: code
             }), '*');
+
+            $('li, .tab-pane').removeClass('active');$("#console-tab, #console").addClass('active');
         }
     }
 });
