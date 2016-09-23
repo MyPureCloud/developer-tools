@@ -38,6 +38,12 @@ export default Ember.Controller.extend({
             let topic = this.get('availableTopics')[topicIndex];
 
             let selectedTopic = topic;
+
+            if(typeof topic === "undefined"){
+                this.set('topic', null);
+                this.set('subscribeId', null);
+                return;
+            }
             selectedTopic.schemaString = JSON.stringify(topic.schema, null, "  ");
 
             this.set('topic', selectedTopic);

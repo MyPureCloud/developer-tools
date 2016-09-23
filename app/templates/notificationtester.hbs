@@ -8,7 +8,7 @@
             </div>
 
             <select class="form-control" onchange={{action 'selectNotificationTopic' value="target.value"}}>
-                <option>More subscriptions&hellip;</option>
+                <option value='-1'>More subscriptions&hellip;</option>
                 {{#each availableTopics as |topic index|}}
                 <option value={{index}}>
                     {{topic.id}}
