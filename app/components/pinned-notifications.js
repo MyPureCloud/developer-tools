@@ -1,3 +1,4 @@
+/* global $ */
 import Ember from 'ember';
 var  computed = Ember.computed;
 
@@ -8,6 +9,13 @@ export default Ember.Component.extend({
     isPinned: computed('notificationService.isPinned', function(){
         return this.get("notificationService").get("isPinned");
     }),
+    modelObserver: function() {
+        Ember.run.scheduleOnce('afterRender', this, function() {
+            if($(".pinned-notification-message").last()){
+                $(".pinned-notification-message").last().get(0).scrollIntoView();
+            }
+        });
+    }.observes('receivedMessage.@each'),
     init(){
         this._super(...arguments);
         this.get('notificationService');

@@ -1,3 +1,4 @@
+/* global $ */
 import Ember from 'ember';
 var  computed = Ember.computed;
 
@@ -6,6 +7,14 @@ export default Ember.Controller.extend({
     notificationService: Ember.inject.service(),
     topic: null,
     subscribeId: null,
+    modelObserver: function() {
+        Ember.run.scheduleOnce('afterRender', this, function() {
+            if($(".notification-message").last().offset()){
+                var top = $(".notification-message").last().offset().top;
+                $('#notification-panel').scrollTop(top);
+            }
+        });
+    }.observes('receivedMessage.@each'),
 
     init(){
         this.get('notificationService');

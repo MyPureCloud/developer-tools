@@ -47,7 +47,7 @@
             <button class="btn btn-link btn-xs" {{action 'togglePin'}}><i class="fa fa-fw pc-moon pc-thumbtack-on" aria-hidden="true"></i>Pin Notifications</button>
             {{/if}}
         </div>
-        <div class="panel-body">
+        <div id='notification-panel' class="panel-body">
             <div class="row bottom-border visible-md visible-lg">
                 <div class="col-md-2">
                     <label class="label-col">Time</label>
@@ -61,7 +61,7 @@
             </div>
             <div>
                 {{#each receivedMessage as |message|}}
-                <div class="row bottom-border">
+                <div class="notification-message row bottom-border">
                     <div class="col-md-2">
                         <p>{{message.time}}</p>
                     </div>
@@ -72,6 +72,7 @@
                         <pre><code>{{ message.bodyString }}</code></pre>
                     </div>
                 </div>
+
                 {{/each}}
             </div>
         </div>

@@ -5,7 +5,7 @@
 </div>
 {{#if visible}}
 <div class='pinned-notifications {{if visible "pinned-notifications-open"}} '>
-    <div class="panel">
+    <div class="panel" id='pinned-notifications-panel'>
         <div class="panel-heading">
             <div class="panel-title">Notifications</div>
             <span class="hide-help" {{action 'toggleVisible'}}>
@@ -16,7 +16,7 @@
         <div class="panel-body">
             {{#each receivedMessage as |message|}}
 
-            <div class="row">
+            <div class="row pinned-notification-message">
                 <p>{{message.topicName}}</p>
                 <p class="body-string">{{ message.bodyString }}</p>
             </div>

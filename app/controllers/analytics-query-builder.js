@@ -57,7 +57,7 @@ export default Ember.Controller.extend({
             let environment = purecloudEnvironmentTld();
             let purecloud = this.get("purecloud");
 
-            let requestUrl = `https://api.${environment}${url}`
+            let requestUrl = `https://api.${environment}${url}`;
 
             let self = this;
 
@@ -77,7 +77,7 @@ export default Ember.Controller.extend({
         },
         updateQuery(queryJson){
             console.log("update query", queryJson);
-            this.set("queryJson", queryJson)
+            this.set("queryJson", queryJson);
 
         },
 
