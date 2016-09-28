@@ -47,6 +47,12 @@ export default Ember.Route.extend({
         }
 
         let openApiExplorerUrl = `https://developer.${purecloudEnvironment}/openapi-explorer/`;
+
+        if(purecloudEnvironment === 'ininsca.com'){
+            //need to special case here
+            openApiExplorerUrl = `https://apps.${purecloudEnvironment}/openapi-explorer/`;
+        }
+
         //openApiExplorerUrl = 'http://localhost:8081/';
         return `${openApiExplorerUrl}${search}#token_type=bearer&access_token=` + this.get("purecloud").get("session").options.token;
 
