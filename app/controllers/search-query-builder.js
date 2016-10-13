@@ -85,9 +85,17 @@ export default Ember.Controller.extend({
             query.types.push("messages");
         }
 
+        if(this.aggregates.length > 0){
+            query.aggregations = this.aggregates;
+        }
+
         this.set('queryJson', JSON.stringify(query, null, "  "));
     },
-    queryObserver: observer('queryFilters', 'queryFilters.@each','queryFilters.@each.fields','queryFilters.@each.type','queryFilters.@each.operator','queryFilters.@each.value','queryFilters.@each.startValue','queryFilters.@each.endValue','sort','pageSize','pageNumber','getUsers','getGroups','getLocations','getChats', function() {
+    queryObserver: observer('queryFilters', 'queryFilters.@each','queryFilters.@each.fields','queryFilters.@each.type',
+                            'queryFilters.@each.operator','queryFilters.@each.value','queryFilters.@each.startValue',
+                            'queryFilters.@each.endValue','sort','pageSize','pageNumber','getUsers','getGroups',
+                            'getLocations','getChats', 'aggregates', 'aggregates.@each', 'aggregates.@each.field', 'aggregates.@each.type',
+                            'aggregates.@each.name', 'aggregates.@each.value', function() {
         this._calculateQueryJson();
         this._setAvailableFilterFields();
     }),
@@ -156,6 +164,7 @@ export default Ember.Controller.extend({
         this._calculateQueryJson();
         this.get("getUsers");
         this.get("getChats");
+        this._setAvailableFilterFields();
     },
     actions:{
         selectSearchType(type) {
@@ -210,13 +219,17 @@ export default Ember.Controller.extend({
                 });
             }
         },
-        newAggregate(){
-            this.aggregates.pushObject({
-                type:"EXACT"
-            });
-        },
         deleteQueryFilter(index){
             this.queryFilters.removeAt(index);
+        },
+        newAggregate(){
+            this.aggregates.pushObject({
+                type:"CONTAINS",
+                field: this.get("availableFilterFields")[0]
+            });
+        },
+        deleteAggregate(index){
+            this.aggregates.removeAt(index);
         }
     }
 });
