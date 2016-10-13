@@ -1,0 +1,238 @@
+<div class="col-query-types">
+    <nav class="navbar navbar-default">
+        <ul class="nav navbar-nav">
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                    Query Type:
+                    {{#each searchTypes as |type index|}}
+                    <span {{action 'selectSearchType' type.id}}>
+                        {{#if (eq searchType type.id)}}
+                        <strong>{{type.name}}</strong>
+                        {{/if}}
+                    </span>
+                    {{/each}}
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-with-check">
+                    {{#each searchTypes as |type index|}}
+                    <li {{action 'selectSearchType' type.id}}>
+                        <a href="#">
+                            {{#if (eq searchType type.id)}}
+                            <i class="fa fa-check"></i> <strong>{{type.name}}</strong>
+                            {{else}}
+                            {{type.name}}
+                            {{/if}}
+                        </a>
+                    </li>
+                    {{/each}}
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="query-type-details">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <span class="lead">{{url}}</span>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading"><h3 class="panel-title panel-title-condensed">Paging</h3></div>
+            <div class="panel-body">
+                <p class="small text-muted">
+                    Page size and number to control iterating through large result sets.
+                </p>
+                <form class="form form-horizontal form-flex form-flex-2-col">
+                    <div class="form-group">
+                        <div class="control-label">
+                            <label>Page Size</label>
+                        </div>
+                        {{input type="number" value=pageSize class="form-control" }}
+                    </div>
+                    <div class="form-group">
+                        <div class="control-label">
+                            <label>Page Number</label>
+                        </div>
+                        {{input type="number" value=pageNumber class="form-control" }}
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading"><h3 class="panel-title panel-title-condensed">Search Types</h3></div>
+            <div class="panel-body">
+                <p class="small text-muted">
+                    Resource types to search against
+                </p>
+                <div class='container-full'>
+                    <div class='row'>
+                        <div class="control-label col-md-3">
+                            {{input type="checkbox" checked=getUsers}}
+                            <label>Users</label>
+                        </div>
+                        <div class="control-label col-md-3">
+                            <label>{{input type="checkbox" checked=getGroups }} Groups</label>
+                        </div>
+                        <div class="control-label col-md-3">
+                            {{input type="checkbox" checked=getLocations  }}
+                            <label>Locations</label>
+                        </div>
+                        <div class="control-label col-md-3">
+                            {{input type="checkbox" checked=getChats  }}
+                            <label>Chats</label>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        {{#if (eq searchType "general_search")}}
+        <div class="panel panel-default">
+            <div class="panel-heading"><h3 class="panel-title panel-title-condensed">Order</h3></div>
+            <div class="panel-body">
+                <p class="small text-muted">
+                    Result set sorting.
+                </p>
+                {{select-box items=sortOptions selectedItem=sort class=form-control}}
+            </div>
+        </div>
+        {{/if}}
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title panel-title-condensed">Filters</h3>
+                <button class='btn btn-link' {{action 'newQueryFilter'}} title="Add Filter">
+                    <i class="pc-moon pc-create-room"></i>
+                </button>
+            </div>
+            <div class="panel-body">
+                <p class="small text-muted">The search criteria.</p>
+                {{#each queryFilters as |queryFilter index|}}
+                <div class='filter-section filter-has-delete'>
+
+
+                <form class="form form-horizontal form-horizontal-labels-left form-flex form-flex-1-col form-flex-has-delete">
+                    {{#if (eq searchType "general_search")}}
+                    <div class="form-group form-group-offset">
+                        <label class="control-label">Operator</label>
+                        {{select-box items=queryFilterOperators selectedItem=queryFilter.operator class='capitalize'}}
+                        <button class='btn btn-link btn-delete' {{action 'deleteQueryFilter' index }}>
+                            <i class="ion-close-round" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <div class="form-group">
+                        <div class="control-label">
+                            <label>Type</label>
+                        </div>
+                        {{select-box items=queryTypes selectedItem=queryFilter.type class='capitalize'}}
+
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Fields</label>
+                        {{two-col-selector availableItems=availableFilterFields selectedItems=queryFilter.fields title=''}}
+                    </div>
+                    {{#if (eq queryFilter.type "DATE_RANGE")}}
+                    <form class="form form-horizontal form-horizontal-labels-left form-flex form-flex-1-col">
+                        <div class="form-group">
+                            <label class="control-label">Start (Local Time)</label>
+                            {{bs-datetimepicker date=queryFilter.startValue format='YYYY-MM-DD h:mm:ss a' updateDate=(action (mut startDate))}}
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">End (Local Time)</label>
+                            {{bs-datetimepicker date=queryFilter.endValue format='YYYY-MM-DD h:mm:ss a' updateDate=(action (mut endDate))}}
+                        </div>
+                    </form>
+                    {{else}}
+                    {{#if (eq queryFilter.type "RANGE")}}
+                    <div class="form-group form-group-offset">
+                        <label class="control-label">Range Start</label>
+                        {{input value=queryFilter.startValue class='form-control'}}
+                        <label class="control-label">Range End</label>
+                        {{input value=queryFilter.endValue class='form-control'}}
+                    </div>
+                    {{else}}
+                    <div class="form-group form-group-offset">
+                        <label class="control-label">Value</label>
+                        {{input value=queryFilter.value class='form-control'}}
+                    </div>
+                    {{/if}}
+                    {{/if}}
+                    {{/if}} <!-- if search-->
+
+                    {{#if (eq searchType "suggest")}}
+                    <div class="form-group form-group-offset">
+                        <label class="control-label">Value</label>
+                        {{input value=queryFilter.value class='form-control'}}
+                        <button class='btn btn-link btn-delete' {{action 'deleteQueryFilter' index }}>
+                            <i class="ion-close-round" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    {{/if}}
+                </form>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title panel-title-condensed">Aggregates</h3>
+                <button class='btn btn-link' {{action 'newAggregate'}} title="Add Aggregate">
+                    <i class="pc-moon pc-create-room"></i>
+                </button>
+            </div>
+            <div class="panel-body">
+                <p class="small text-muted">Aggregations allow you to provide combine data using query. </p>
+                {{#each aggregates as |aggregate index|}}
+                <div class='filter-section filter-has-delete'>
+
+
+                <form class="form form-horizontal form-horizontal-labels-left form-flex form-flex-1-col form-flex-has-delete">
+                    <div class="form-group">
+                        <div class="control-label">
+                            <label>Name</label>
+                        </div>
+                        {{input aggregate.name}}
+                        <button class='btn btn-link btn-delete' {{action 'deleteAggregate' index }}>
+                            <i class="ion-close-round" aria-hidden="true"></i>
+                        </button>
+
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Field</label>
+                        {{select-box items=availableFilterFields selectedItem=aggregate.field class='capitalize'}}
+
+                    </div>
+                    <div class="form-group">
+                        <div class="control-label">
+                            <label>Type</label>
+                        </div>
+                        {{select-box items=aggregateTypes selectedItem=aggregate.type class='capitalize'}}
+
+                    </div>
+                    <div class="form-group">
+                        <div class="control-label">
+                            <label>Value</label>
+                        </div>
+                        {{input value=aggregate.value class='capitalize'}}
+
+                    </div>
+
+
+                </form>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+
+
+
+    </div>
+
+</div>
+
+<div class='col-generated-query'>
+    {{run-analytics-query queryJson=queryJson queryResult=queryResult runQuery=(action 'runQuery')}}
+</div>

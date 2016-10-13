@@ -1,7 +1,7 @@
 <form class="form form-flex form-col-selector">
     <div class="form-group form-group-stacked">
-        <div class="control-label">
-            <label>Available {{title}}</label>
+        <div class="control-label no-flex">
+            <label >Available {{title}}</label>
         </div>
         <select class="form-control" multiple="true" onchange={{action "selectAvailable"}}>
           {{#each availableItems as |Item|}}
@@ -16,7 +16,7 @@
     </div>
 
     <div class="form-group form-group-stacked">
-        <div class="control-label">
+        <div class="control-label no-flex">
             <label>Selected Items</label>
         </div>
         <select class="form-control" multiple="true" onchange={{action "selectSelected"}}>

@@ -31,6 +31,7 @@ Router.map(function() {
   this.route('webchat');
   this.route('callback');
   this.route('analytics-query-builder');
+  this.route('search-query-builder');
 });
 
 export default Router;
