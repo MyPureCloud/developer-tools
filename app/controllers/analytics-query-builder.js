@@ -73,6 +73,8 @@ export default Ember.Controller.extend({
                 }
             }) .done(function( data ) {
                 self.set("queryResult", JSON.stringify(data, null,  "  "));
+            }).error(function( data ) {
+                self.set("queryResult", JSON.stringify(data, null,  "  "));
             });
         },
         updateQuery(queryJson){
