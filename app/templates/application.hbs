@@ -1,10 +1,10 @@
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
         <div class='navbar-header'>
-            <a class="navbar-brand" href="/">
+            {{#link-to "index" class="navbar-brand"}}
                 <i class="pc-moon pc-logo-inin"></i>
                 <span class="navbar-brand-text hidden-xs">Developer Tools</span>
-            </a>
+            {{/link-to}}
         </div>
         <div id="navBar">
             {{nav-tree}}

@@ -35,6 +35,13 @@ const devToolsModules = [
         icon: "fa fa-line-chart ",
         description: "Interactively build Analytics API queries."
 
+    },
+    {
+        name: "Search Query Builder",
+        path: "search-query-builder",
+        icon: "fa fa-search ",
+        description: "Interactively build Search API queries."
+
     }
 ];
 
