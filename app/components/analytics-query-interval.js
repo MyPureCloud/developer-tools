@@ -3,13 +3,13 @@ import Ember from 'ember';
 var  observer = Ember.observer;
 
 export default Ember.Component.extend({
-  startDate: moment().subtract(7, 'days'),
-  endDate: moment(),
+  startDate: moment().startOf("day"),
+  endDate: moment().endOf("day"),
   noInterval: false,
   init(){
       this._super(...arguments);
       this.get("startDate");
-      this.set("endDate", moment());
+      this.set("endDate", moment().endOf("day"));
 
       this.get("noInterval");
 

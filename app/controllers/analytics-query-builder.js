@@ -19,6 +19,11 @@ export default Ember.Controller.extend({
             url:"/api/v2/analytics/conversations/aggregates/query"
         },
         {
+            name: "User Status Aggregate",
+            id:"user_aggregate",
+            url:"/api/v2/analytics/users/aggregates/query"
+        },
+        {
             name: "User Observation",
             id:"user_observation",
             url:"/api/v2/analytics/users/observations/query"

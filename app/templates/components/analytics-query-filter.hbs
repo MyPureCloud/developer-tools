@@ -22,7 +22,7 @@
         </p>
 
         {{#each clauses as |clause index|}}
-        {{analytics-query-clause clause=clause index=index updateClause=(action 'updateClause') deleteClause=(action 'deleteClause') }}
+        {{analytics-query-clause clause=clause index=index updateClause=(action 'updateClause') deleteClause=(action 'deleteClause') filterValueOverride=filterValueOverride}}
         {{/each}}
 
         <button class='btn btn-link btn-sm' {{action 'newClause'}} title="Add Clause">
@@ -37,7 +37,7 @@
         </p>
 
         {{#each predicates as |predicate index|}}
-        {{analytics-query-predicate predicate=predicate index=index updatePredicate=(action 'updatePredicate') deletePredicate=(action 'deletePredicate')}}
+        {{analytics-query-predicate predicate=predicate index=index updatePredicate=(action 'updatePredicate') deletePredicate=(action 'deletePredicate') filterValueOverride=filterValueOverride}}
 
         {{/each}}
 
@@ -46,5 +46,3 @@
         </button>
     </dd>
 </dl>
-
-
