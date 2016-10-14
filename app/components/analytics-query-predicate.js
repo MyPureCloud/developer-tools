@@ -27,6 +27,14 @@ export default Ember.Component.extend({
             this.set("value", predicate.value);
         }
     },
+    didReceiveAttrs() {
+        this._super(...arguments);
+        if(this.get("filterValueOverride") !== null){
+            this.set("dimensions", this.get("filterValueOverride"));
+            this.set("types", ["dimension"]);
+
+        }
+    },
     queues: computed('queueService.queues', function() {
        return this.get('queueService').get('queues');
     }),
