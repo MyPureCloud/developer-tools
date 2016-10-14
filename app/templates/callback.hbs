@@ -3,6 +3,11 @@
     <p><i class="fa fa-check-circle"></i> Callback created</p>
 </div>
 {{/if}}
+{{#if callbackError}}
+<div class="alert alert-error animated fadeInDown" role="alert" >
+    <p><i class="fa fa-exclamation-circle"></i>{{callbackError}}</p>
+</div>
+{{/if}}
 
 <div class="container container-padding">
     <form class="form-horizontal">

@@ -35,38 +35,46 @@ export default Ember.Controller.extend({
     }),
     actions:{
         createCallback() {
-            let time =  new Date(this.get("date") + " " + this.get("time")).toISOString();
-            var data = {
-               // name of the individual we are calling back
-               callbackUserName: this.get("name"),
-               // time at which we will callback the individual
-               callbackScheduledTime: time,
-               // number(s) to try to call to reach individual
-               callbackNumbers: [ this.get("phone") ],
-               // queueId of the queue onto which this callback will be placed
-               queueId: this.get("queue"),
-               // Should use default script if `null`
-               scriptId: null
-           };
+            try{
+                this.set("callbackError", null);
+                let time =  new Date(this.get("date") + " " + this.get("time")).toISOString();
+                var data = {
+                    // name of the individual we are calling back
+                    callbackUserName: this.get("name"),
+                    // time at which we will callback the individual
+                    callbackScheduledTime: time,
+                    // number(s) to try to call to reach individual
+                    callbackNumbers: [ this.get("phone") ],
+                    // queueId of the queue onto which this callback will be placed
+                    queueId: this.get("queue"),
+                    // Should use default script if `null`
+                    scriptId: null
+                };
 
-           let self = this;
-           let conversationsApi = this.get("purecloud").conversationsApi();
-           conversationsApi.postCallbacks(data).then(function(){
-               self.set("callbackCreated", true);
+                let self = this;
+                let conversationsApi = this.get("purecloud").conversationsApi();
+                conversationsApi.postCallbacks(data).then(function(){
+                    self.set("callbackCreated", true);
 
-               setTimeout(function(){
-                   self.set("callbackCreated", false);
-               },5000);
-           });
+                    setTimeout(function(){
+                        self.set("callbackCreated", false);
+                    },5000);
+                }).catch((error)=>{
+                    self.set("callbackError", error);
+                });
 
-           let savedData = {
-               name: this.get("name"),
-               queue: this.get("queue"),
-               phone: this.get("phone")
-           };
+                let savedData = {
+                    name: this.get("name"),
+                    queue: this.get("queue"),
+                    phone: this.get("phone")
+                };
 
-           let storage = this.get("storageService");
-           storage.localStorageSet("callbackParams", savedData);
+                let storage = this.get("storageService");
+                storage.localStorageSet("callbackParams", savedData);
+            }catch(ex){
+                this.set("callbackError", ex);
+            }
+
         },
         selectQueue(queue) {
             console.log("select queue " + queue);
