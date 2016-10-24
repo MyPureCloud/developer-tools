@@ -29,7 +29,8 @@ export default Ember.Component.extend({
     },
     didReceiveAttrs() {
         this._super(...arguments);
-        if(this.get("filterValueOverride") !== null){
+        
+        if(typeof this.get("filterValueOverride") !== "undefined" && this.get("filterValueOverride") !== null){
             this.set("dimensions", this.get("filterValueOverride"));
             this.set("types", ["dimension"]);
 
