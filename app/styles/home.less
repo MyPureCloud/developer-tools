@@ -44,7 +44,7 @@
         }
 
         .module-link {
-            border-top: solid 1px #ddd;
+            border-bottom: solid 1px #ddd;
             border-right: solid 1px #ddd;
             display: flex;
             flex: 1 1 33.33%;
@@ -62,6 +62,31 @@
 
             &:nth-child(3n) {
                 border-right-color: transparent;
+            }
+
+            &:last-child {
+              margin-left: 33.33%;
+              border-bottom: none;
+              position: relative;
+
+              @media (max-width: @screen-md) {
+                margin-left: 0;
+              }
+
+              &:before {
+                background: #ddd;
+                display: block;
+                content: "";
+                width: 1px;
+                height: 100%;
+                left: -1px;
+                top: 0;
+                position: absolute;
+
+                @media (max-width: @screen-md) {
+                  display: none;
+                }
+              }
             }
 
             &:hover {
