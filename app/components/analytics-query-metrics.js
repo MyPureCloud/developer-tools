@@ -5,13 +5,16 @@ export default Ember.Component.extend({
     init: function(){
 
         this._super(...arguments);
-
-        this.set("availableMetrics", this.get("analyticsValueService").get("metrics"));
+        let metrics = this.get("analyticsValueService").get("metrics");
+        this.set("availableMetrics", metrics);
     },
     didReceiveAttrs() {
         this._super(...arguments);
-        if(this.get("metricsOverride") !== null){
-            this.set("availableMetrics", this.get("metricsOverride"));
+
+        let override = this.get("metricsOverride");
+
+        if(typeof override !== 'undefined' && override !== null ){
+            this.set("availableMetrics", override);
         }
     }
 });
