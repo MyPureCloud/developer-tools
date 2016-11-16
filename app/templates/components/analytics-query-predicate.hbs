@@ -27,9 +27,9 @@
     <div class="form-group form-group-offset">
         <label class="control-label">Value</label>
         {{#if (eq lhsValue "queueId")}}
-        {{select-box-advanced idKey='id' nameKey='name' items=queues selectedItem=value}}
+        {{select-box-advanced idKey='id' nameKey='name' items=queues selectedItem=value includeBlank=true}}
         {{else if (eq lhsValue "userId")}}
-        {{select-box-advanced idKey='id' nameKey='name' items=users selectedItem=value}}
+        {{select-box-advanced idKey='id' nameKey='name' items=users selectedItem=value includeBlank=true}}
         {{else if (eq lhsValue "mediaType")}}
         {{select-box items=mediaTypes selectedItem=value}}
         {{else}}

@@ -2,7 +2,7 @@
     <div class="panel panel-default">
         <div class="panel-heading">
             <div class="panel-title panel-title-condensed">
-                {{org.thirdPartyOrgName}} 
+                {{org.thirdPartyOrgName}}
                 <span class="org-id-label">Org ID</span>
                 <span class="org-id-value">{{org.thirdPartyOrgId}}</span>
             </div>
@@ -63,7 +63,7 @@
                         <div class="form-group row">
                             <label class="col-sm-4 control-label">Queue</label>
                             <div class="col-sm-8">
-                                {{select-box-advanced idKey='name' nameKey='name' items=queues selectedItem=queue}}
+                                {{select-box-advanced idKey='name' nameKey='name' items=queues selectedItem=queue includeBlank=true}}
                             </div>
                         </div>
                     </div>
@@ -80,7 +80,7 @@
                     </div>
                 </div>
             </form>
-            
+
         </div>
     </div>
 </div>

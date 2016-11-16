@@ -43,6 +43,7 @@
                 <label for='lastName' class="col-sm-1 col-sm-offset-4 control-label">Queue</label>
                 <div class="col-sm-3">
                     <select  class="form-control setting" onchange={{action 'selectQueue' value="target.value"}}>
+                        <option value=""></option>
                         {{#each queues as |queueOption|}}
                           <option value={{queueOption.id}} selected={{eq queue queueOption.id}}>{{queueOption.name}}</option>
                         {{/each}}
