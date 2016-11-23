@@ -18,12 +18,12 @@ export default Ember.Controller.extend({
         {
             name: "General search",
             id:"general_search",
-            url:"/api/v2/search?profile=true"
+            url:"/api/v2/search"
         },
         {
             name: "Suggest",
             id:"suggest",
-            url:"/api/v2/search/suggest?profile=true"
+            url:"/api/v2/search/suggest"
         }
     ],
     queryTypes:[
@@ -143,9 +143,9 @@ export default Ember.Controller.extend({
     _setSearchTypeUrls(){
         for (let x=0; x< this.searchTypes.length; x++){
             if (this.searchTypes[x].id === "general_search") {
-                this.searchTypes[x].url = "/api/v2/search?profile=" + this.profileQueryParameter;
+                this.searchTypes[x].url = this.profileQueryParameter ? "/api/v2/search" : "/api/v2/search?profile=false";
             } else if (this.searchTypes[x].id === "suggest") {
-                this.searchTypes[x].url = "/api/v2/search/suggest?profile=" + this.profileQueryParameter;
+                this.searchTypes[x].url = this.profileQueryParameter ? "/api/v2/search/suggest" : "/api/v2/search/suggest?profile=false";
             }
         }
     },
