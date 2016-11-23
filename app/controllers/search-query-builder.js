@@ -11,20 +11,19 @@ export default Ember.Controller.extend({
     getUsers: true,
     getGroups: true,
     getLocations: true,
-    getChats: false,
     sortOptions:["ASC", "DESC", "SCORE"],
-    sort: "ASC",
+    sort: "SCORE",
     searchType: 'general_search',
     searchTypes:[
         {
             name: "General search",
             id:"general_search",
-            url:"/api/v2/search?profile=false"
+            url:"/api/v2/search?profile=true"
         },
         {
             name: "Suggest",
             id:"suggest",
-            url:"/api/v2/search/suggest?profile=false"
+            url:"/api/v2/search/suggest?profile=true"
         }
     ],
     queryTypes:[
@@ -38,15 +37,17 @@ export default Ember.Controller.extend({
              "LESS_THAN_EQUAL_TO",
              "GREATER_THAN",
              "GREATER_THAN_EQUAL_TO",
-//             "TERM",
+             "TERM"
 //             "TERMS".
     ],
-    aggregateTypes:["COUNT", "SUM", "AVERAGE", "CONTAINS", "STARTS_WITH", "ENDS_WITH"],
+    aggregateTypes:["COUNT", "SUM", "AVERAGE", "TERM", "CONTAINS", "STARTS_WITH", "ENDS_WITH"],
     aggregateSort:["VALUE_DESC", "VALUE_ASC", "COUNT_DESC", "COUNT_ASC"],
     aggregates:[],
     queryFilters:[],
     queryFilterOperators:["AND", "OR", "NOT"],
-    url: computed('searchType', function() {
+    profileQueryParameter: true,
+    returnFields:["guid"],
+    url: computed('searchType', 'profileQueryParameter', function() {
         let type = this.get('searchType');
         for(let x=0; x< this.searchTypes.length; x++){
             if(this.searchTypes[x].id === type){
@@ -65,6 +66,10 @@ export default Ember.Controller.extend({
             query.sortOrder = this.get("sort");
         }
 
+        if ((this.get("searchType") === "general_search") && this.profileQueryParameter) {
+            query.returnFields = this.get("returnFields");
+        }
+
         if(this.queryFilters.length > 0){
             query.query = this.queryFilters;
         }
@@ -81,10 +86,6 @@ export default Ember.Controller.extend({
             query.types.push("locations");
         }
 
-        if(this.get("getChats") === true){
-            query.types.push("messages");
-        }
-
         if(this.aggregates.length > 0){
             query.aggregations = this.aggregates;
         }
@@ -94,29 +95,17 @@ export default Ember.Controller.extend({
     queryObserver: observer('queryFilters', 'queryFilters.@each','queryFilters.@each.fields','queryFilters.@each.type',
                             'queryFilters.@each.operator','queryFilters.@each.value','queryFilters.@each.startValue',
                             'queryFilters.@each.endValue','sort','pageSize','pageNumber','getUsers','getGroups',
-                            'getLocations','getChats', 'aggregates', 'aggregates.@each', 'aggregates.@each.field', 'aggregates.@each.type',
-                            'aggregates.@each.name', 'aggregates.@each.value', function() {
+                            'getLocations', 'aggregates', 'aggregates.@each', 'aggregates.@each.field', 'aggregates.@each.type',
+                            'aggregates.@each.name', 'aggregates.@each.value', 'returnFields', 'profileQueryParameter', function() {
         this._calculateQueryJson();
         this._setAvailableFilterFields();
+        this._setSearchTypeUrl();
     }),
     searchTypeObserver: observer("searchType", function(){
         this.queryFilters.clear();
         if(this.get("searchType") === "suggest"){
             this.queryFilters.pushObject({});
-        }
-    }),
-    chatTypeObserver: observer("getChats", function(){
-        if(this.get("getChats") === true){
-            this.set("getLocations", false);
-            this.set("getUsers", false);
-            this.set("getGroups", false);
-        }
-    }),
-    nonChatTypeObserver: observer("getLocations","getUsers", "getGroups", function(){
-        if(this.get("getLocations") === true ||
-                this.get("getUsers") === true ||
-                this.get("getGroups") === true){
-            this.set("getChats", false);
+            this.aggregates.clear();
         }
     }),
     _setAvailableFilterFields(){
@@ -134,8 +123,7 @@ export default Ember.Controller.extend({
         let modelProperties = {
             "User":['id','name','department','email','title', 'username', 'presence', 'routingStatus', 'station', 'profileSkills'],
             "Group": ['id', 'name', 'description', 'dateModified', 'state', 'type', 'addresses', 'visibility'],
-            "Location": ['id', 'name', 'address', 'addressVerified', 'emergencyNumber', 'state'],
-            "Chat": ['body', 'created']
+            "Location": ['id', 'name', 'address', 'addressVerified', 'emergencyNumber', 'state']
         };
 
         if(this.get("getUsers") === true){
@@ -150,20 +138,36 @@ export default Ember.Controller.extend({
             getPropertiesFromModel(modelProperties["Location"]);
         }
 
-        if(this.get("getChats") === true){
-            getPropertiesFromModel(modelProperties["Chat"]);
-        }
-
         properties.sort();
 
         this.set("availableFilterFields", properties);
     },
+    _setSearchTypeUrl(){
+        let searchTypesItem0 = this.get("searchTypes").objectAt(0);
+        let searchTypesItem1 = this.get("searchTypes").objectAt(1);
+        if (this.profileQueryParameter) {
+            Ember.set(searchTypesItem0, "url", "/api/v2/search?profile=true");
+            Ember.set(searchTypesItem1, "url", "/api/v2/search/suggest?profile=true");
+        } else {
+            Ember.set(searchTypesItem0, "url", "/api/v2/search?profile=false");
+            Ember.set(searchTypesItem1, "url", "/api/v2/search/suggest?profile=false");
+        }
+    },
+    _setInitialFilter(){
+        this.queryFilters.pushObject({
+            type:"TERM",
+            fields:["name"],
+            operator: "AND",
+            value: "mySearchKeyword"
+        });
+    },
     queryJson:"",
     queryResult:null,
     init(){
+        this._setInitialFilter();
         this._calculateQueryJson();
         this.get("getUsers");
-        this.get("getChats");
+        this._setSearchTypeUrl();
         this._setAvailableFilterFields();
     },
     actions:{
@@ -211,11 +215,11 @@ export default Ember.Controller.extend({
                 this.queryFilters.pushObject({
                     type:"STARTS_WITH",
                     fields:[],
-                    operator: "OR"
+                    operator: "AND"
                 });
             }else{
                 this.queryFilters.pushObject({
-
+                    value: "mySuggestKeyword"
                 });
             }
         },
@@ -224,8 +228,9 @@ export default Ember.Controller.extend({
         },
         newAggregate(){
             this.aggregates.pushObject({
-                type:"CONTAINS",
-                field: this.get("availableFilterFields")[0]
+                type:"TERM",
+                field: this.get("availableFilterFields")[4],
+                name: "myAggregationBucketName"
             });
         },
         deleteAggregate(index){

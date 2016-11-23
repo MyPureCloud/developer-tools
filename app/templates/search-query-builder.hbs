@@ -78,11 +78,6 @@
                             {{input type="checkbox" checked=getLocations  }}
                             <label>Locations</label>
                         </div>
-                        <div class="control-label col-md-3">
-                            {{input type="checkbox" checked=getChats  }}
-                            <label>Chats</label>
-                        </div>
-
                     </div>
 
                 </div>
@@ -93,12 +88,46 @@
             <div class="panel-heading"><h3 class="panel-title panel-title-condensed">Order</h3></div>
             <div class="panel-body">
                 <p class="small text-muted">
-                    Result set sorting.
+                    Result set sorting. SCORE is the default.
                 </p>
                 {{select-box items=sortOptions selectedItem=sort class=form-control}}
             </div>
         </div>
         {{/if}}
+        
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title panel-title-condensed">Return Fields</h3>
+            </div>
+            <div class="panel-body">
+                <p class="small text-muted">
+                    The 'profile' query parameter will control the type of fields that can be returned in the response.
+                </p>
+                <div class='container-full'>
+                    <div class='row'>
+                        <div class="control-label col-md-3">
+                            {{input type="checkbox" checked=profileQueryParameter}}
+                            <label>Profile</label>
+                        </div>
+                    </div>
+                </div>
+                {{#if (eq searchType "general_search")}}
+                    {{#if profileQueryParameter}}
+                        <p class="small text-muted">Which fields to have returned in the response</p>
+                        <div class='filter-section filter-has-delete'>
+                            <form class="form form-horizontal form-horizontal-labels-left form-flex form-flex-1-col form-flex-has-delete">
+                                {{#if (eq searchType "general_search")}}
+                                    <div class="form-group">
+                                        <label class="control-label">Fields</label>
+                                            {{two-col-selector availableItems=availableFilterFields selectedItems=returnFields title=''}}
+                                    </div>
+                                {{/if}}
+                            </form>
+                        </div>
+                    {{/if}}
+                {{/if}}
+            </div>
+        </div>
 
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -108,7 +137,7 @@
                 </button>
             </div>
             <div class="panel-body">
-                <p class="small text-muted">The search criteria.</p>
+                <p class="small text-muted">The search criteria. The default operator is AND.</p>
                 {{#each queryFilters as |queryFilter index|}}
                 <div class='filter-section filter-has-delete'>
 
@@ -176,6 +205,8 @@
                 {{/each}}
             </div>
         </div>
+
+        {{#if (eq searchType "general_search")}}
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h3 class="panel-title panel-title-condensed">Aggregates</h3>
@@ -212,13 +243,15 @@
                         {{select-box items=aggregateTypes selectedItem=aggregate.type class='capitalize'}}
 
                     </div>
+
+                    {{#unless (eq aggregate.type "TERM")}}
                     <div class="form-group">
                         <div class="control-label">
                             <label>Value</label>
                         </div>
                         {{input value=aggregate.value class='capitalize'}}
-
                     </div>
+                    {{/unless}}
 
 
                 </form>
@@ -226,6 +259,7 @@
                 {{/each}}
             </div>
         </div>
+        {{/if}}
 
 
 
