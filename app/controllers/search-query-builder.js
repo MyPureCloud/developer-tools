@@ -96,7 +96,7 @@ export default Ember.Controller.extend({
                             'queryFilters.@each.operator','queryFilters.@each.value','queryFilters.@each.startValue',
                             'queryFilters.@each.endValue','sort','pageSize','pageNumber','getUsers','getGroups',
                             'getLocations', 'aggregates', 'aggregates.@each', 'aggregates.@each.field', 'aggregates.@each.type',
-                            'aggregates.@each.name', 'aggregates.@each.value', 'returnFields', 'profileQueryParameter', function() {
+                            'aggregates.@each.name', 'aggregates.@each.value', 'returnFields.@each', 'profileQueryParameter', function() {
         this._calculateQueryJson();
         this._setAvailableFilterFields();
         this._setSearchTypeUrls();
