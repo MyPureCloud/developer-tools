@@ -113,7 +113,7 @@
                 </div>
                 {{#if (eq searchType "general_search")}}
                     {{#if profileQueryParameter}}
-                        <p class="small text-muted">Which fields to have returned in the response</p>
+                        <p class="small text-muted">Specify which fields you would like returned in the response. This is a chance to optimize the size of your response and make it more efficient.</p>
                         <div class='filter-section filter-has-delete'>
                             <form class="form form-horizontal form-horizontal-labels-left form-flex form-flex-1-col form-flex-has-delete">
                                 {{#if (eq searchType "general_search")}}
@@ -139,7 +139,12 @@
                 {{/if}}
             </div>
             <div class="panel-body">
-                <p class="small text-muted">The search criteria. The default operator is AND if not provided.</p>
+                <p class="small text-muted">
+                    The search criteria. 
+                    {{#if (eq searchType "general_search")}}
+                        The default operator is AND if not provided.
+                    {{/if}}
+                </p>
                 {{#each queryFilters as |queryFilter index|}}
                 <div class='filter-section filter-has-delete'>
 
