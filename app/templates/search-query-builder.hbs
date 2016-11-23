@@ -163,8 +163,19 @@
                             <label>Type</label>
                         </div>
                         {{select-box items=queryTypes selectedItem=queryFilter.type class='capitalize'}}
-
                     </div>
+                    {{#if (eq queryFilter.type "TERM")}}
+                        <p>TERM is a good type for a general keyword search. For best results, use a lowercase search term.</p>
+                    {{else if (eq queryFilter.type "EXACT")}}
+                        <p>EXACT is a good choice when you know the exact value you want to find. For best results, use an exact case sensitive search term.</p>
+                    {{else if (eq queryFilter.type "CONTAINS")}}
+                        <p>CONTAINS is the equivalent of a wildcard style search like <pre>*keyword*</pre>. It is an expensive search, so there is a tradeoff for efficiency.</p>
+                    {{else if (eq queryFilter.type "STARTS_WITH")}}
+                        <p>STARTS_WITH is the equivalent of a wildcard style search like <pre>keyword*</pre>. It is an expensive search, so there is a tradeoff for efficiency.</p>
+                    {{else}}
+                        <p>This query type should only be used with a number value, in situations where it makes sense.</p>
+                    {{/if}}
+
 
                     <div class="form-group">
                         <label class="control-label">Fields</label>
