@@ -113,7 +113,7 @@
                 </div>
                 {{#if (eq searchType "general_search")}}
                     {{#if profileQueryParameter}}
-                        <p class="small text-muted">Specify which fields you would like returned in the response. This is a chance to optimize the size of your response and make it more efficient.</p>
+                        <p class="small text-muted">Specify which fields you would like returned in the response. This is a chance to optimize the size of your response and make it more efficient. You may benefit by only returning the guid and then making a bulk lookup API call to another service that is the home of record for the data.</p>
                         <div class='filter-section filter-has-delete'>
                             <form class="form form-horizontal form-horizontal-labels-left form-flex form-flex-1-col form-flex-has-delete">
                                 {{#if (eq searchType "general_search")}}
@@ -165,9 +165,9 @@
                         {{select-box items=queryTypes selectedItem=queryFilter.type class='capitalize'}}
                     </div>
                     {{#if (eq queryFilter.type "TERM")}}
-                        <p>TERM is a good type for a general keyword search. For best results, use a lowercase search term.</p>
+                        <p>TERM is a good type for a general keyword search. For best results, use a lowercase search keyword.</p>
                     {{else if (eq queryFilter.type "EXACT")}}
-                        <p>EXACT is a good choice when you know the exact value you want to find. For best results, use an exact case sensitive search term.</p>
+                        <p>EXACT is a good choice when you know the exact value you want to find. For best results, use an exact case sensitive search keyword.</p>
                     {{else if (eq queryFilter.type "CONTAINS")}}
                         <p>CONTAINS is the equivalent of a wildcard style search like <pre>*keyword*</pre>. It is an expensive search, so there is a tradeoff for efficiency.</p>
                     {{else if (eq queryFilter.type "STARTS_WITH")}}
