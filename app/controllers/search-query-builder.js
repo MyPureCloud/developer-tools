@@ -143,9 +143,9 @@ export default Ember.Controller.extend({
     _setSearchTypeUrls(){
         for (let x=0; x< this.searchTypes.length; x++){
             if (this.searchTypes[x].id === "general_search") {
-                this.set("url", "/api/v2/search?profile=" + this.profileQueryParameter)
-            } else {
-                this.set("url", "/api/v2/search/suggest?profile=" + this.profileQueryParameter)
+                this.searchTypes[x].url = "/api/v2/search?profile=" + this.profileQueryParameter;
+            } else if (this.searchTypes[x].id === "suggest") {
+                this.searchTypes[x].url = "/api/v2/search/suggest?profile=" + this.profileQueryParameter;
             }
         }
     },
