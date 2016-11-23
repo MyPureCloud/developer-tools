@@ -88,7 +88,7 @@
             <div class="panel-heading"><h3 class="panel-title panel-title-condensed">Order</h3></div>
             <div class="panel-body">
                 <p class="small text-muted">
-                    Result set sorting. SCORE is the default.
+                    Result set sorting. SCORE is the default if not provided.
                 </p>
                 {{select-box items=sortOptions selectedItem=sort class=form-control}}
             </div>
@@ -101,7 +101,7 @@
             </div>
             <div class="panel-body">
                 <p class="small text-muted">
-                    The 'profile' query parameter will control the type of fields that can be returned in the response.
+                    The profile query parameter defaults to true if not provided. It helps configure the set of fields that can be returned in the response. 
                 </p>
                 <div class='container-full'>
                     <div class='row'>
@@ -132,12 +132,14 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h3 class="panel-title panel-title-condensed">Filters</h3>
-                <button class='btn btn-link' {{action 'newQueryFilter'}} title="Add Filter">
-                    <i class="pc-moon pc-create-room"></i>
-                </button>
+                {{#if (eq searchType "general_search")}}
+                    <button class='btn btn-link' {{action 'newQueryFilter'}} title="Add Filter">
+                        <i class="pc-moon pc-create-room"></i>
+                    </button>
+                {{/if}}
             </div>
             <div class="panel-body">
-                <p class="small text-muted">The search criteria. The default operator is AND.</p>
+                <p class="small text-muted">The search criteria. The default operator is AND if not provided.</p>
                 {{#each queryFilters as |queryFilter index|}}
                 <div class='filter-section filter-has-delete'>
 

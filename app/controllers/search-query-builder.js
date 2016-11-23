@@ -99,14 +99,12 @@ export default Ember.Controller.extend({
                             'aggregates.@each.name', 'aggregates.@each.value', 'returnFields', 'profileQueryParameter', function() {
         this._calculateQueryJson();
         this._setAvailableFilterFields();
-        this._setSearchTypeUrl();
+        this._setSearchTypeUrls();
     }),
     searchTypeObserver: observer("searchType", function(){
         this.queryFilters.clear();
-        if(this.get("searchType") === "suggest"){
-            this.queryFilters.pushObject({});
-            this.aggregates.clear();
-        }
+        this._setInitialFilter();
+        this.aggregates.clear();
     }),
     _setAvailableFilterFields(){
         let properties = [];
@@ -142,24 +140,28 @@ export default Ember.Controller.extend({
 
         this.set("availableFilterFields", properties);
     },
-    _setSearchTypeUrl(){
-        let searchTypesItem0 = this.get("searchTypes").objectAt(0);
-        let searchTypesItem1 = this.get("searchTypes").objectAt(1);
-        if (this.profileQueryParameter) {
-            Ember.set(searchTypesItem0, "url", "/api/v2/search?profile=true");
-            Ember.set(searchTypesItem1, "url", "/api/v2/search/suggest?profile=true");
-        } else {
-            Ember.set(searchTypesItem0, "url", "/api/v2/search?profile=false");
-            Ember.set(searchTypesItem1, "url", "/api/v2/search/suggest?profile=false");
+    _setSearchTypeUrls(){
+        for (let x=0; x< this.searchTypes.length; x++){
+            if (this.searchTypes[x].id === "general_search") {
+                this.set("url", "/api/v2/search?profile=" + this.profileQueryParameter)
+            } else {
+                this.set("url", "/api/v2/search/suggest?profile=" + this.profileQueryParameter)
+            }
         }
     },
     _setInitialFilter(){
-        this.queryFilters.pushObject({
-            type:"TERM",
-            fields:["name"],
-            operator: "AND",
-            value: "mySearchKeyword"
-        });
+        if (this.get("searchType") === "general_search"){
+            this.queryFilters.pushObject({
+                type:"TERM",
+                fields:["name"],
+                value: "mySearchKeyword",
+                operator: "AND"
+            });
+        } else {
+            this.queryFilters.pushObject({
+                value: "mySuggestKeyword"
+            });
+        }
     },
     queryJson:"",
     queryResult:null,
@@ -167,8 +169,8 @@ export default Ember.Controller.extend({
         this._setInitialFilter();
         this._calculateQueryJson();
         this.get("getUsers");
-        this._setSearchTypeUrl();
         this._setAvailableFilterFields();
+        this._setSearchTypeUrls();
     },
     actions:{
         selectSearchType(type) {
@@ -213,7 +215,7 @@ export default Ember.Controller.extend({
         newQueryFilter(){
             if(this.get("searchType") === "general_search"){
                 this.queryFilters.pushObject({
-                    type:"STARTS_WITH",
+                    type:"TERM",
                     fields:[],
                     operator: "AND"
                 });
