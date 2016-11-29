@@ -229,6 +229,7 @@
         </div>
 
         {{#if (eq searchType "general_search")}}
+        {{#unless getChats}}
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h3 class="panel-title panel-title-condensed">Aggregates</h3>
@@ -281,6 +282,7 @@
                 {{/each}}
             </div>
         </div>
+        {{/unless}}
         {{/if}}
 
 
