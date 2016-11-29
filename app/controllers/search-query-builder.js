@@ -45,7 +45,7 @@ export default Ember.Controller.extend({
     aggregates:[],
     queryFilters:[],
     queryFilterOperators:["AND", "OR", "NOT"],
-    profileQueryParameter: true,
+    profileQueryParameter: false,
     returnFields:["guid"],
     url: computed('searchType', 'profileQueryParameter', function() {
         let type = this.get('searchType');
