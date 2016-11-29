@@ -11,6 +11,7 @@ export default Ember.Controller.extend({
     getUsers: true,
     getGroups: true,
     getLocations: true,
+    getChats: false,
     sortOptions:["ASC", "DESC", "SCORE"],
     sort: "SCORE",
     searchType: 'general_search',
@@ -86,6 +87,10 @@ export default Ember.Controller.extend({
             query.types.push("locations");
         }
 
+        if(this.get("getChats") === true){
+            query.types.push("messages");
+        }
+
         if(this.aggregates.length > 0){
             query.aggregations = this.aggregates;
         }
@@ -95,7 +100,7 @@ export default Ember.Controller.extend({
     queryObserver: observer('queryFilters', 'queryFilters.@each','queryFilters.@each.fields','queryFilters.@each.type',
                             'queryFilters.@each.operator','queryFilters.@each.value','queryFilters.@each.startValue',
                             'queryFilters.@each.endValue','sort','pageSize','pageNumber','getUsers','getGroups',
-                            'getLocations', 'aggregates', 'aggregates.@each', 'aggregates.@each.field', 'aggregates.@each.type',
+                            'getLocations', 'getChats', 'aggregates', 'aggregates.@each', 'aggregates.@each.field', 'aggregates.@each.type',
                             'aggregates.@each.name', 'aggregates.@each.value', 'returnFields.@each', 'profileQueryParameter', function() {
         this._calculateQueryJson();
         this._setAvailableFilterFields();
@@ -105,6 +110,24 @@ export default Ember.Controller.extend({
         this.queryFilters.clear();
         this._setInitialFilter();
         this.aggregates.clear();
+    }),
+    chatTypeObserver: observer("getChats", function(){
+        if(this.get("getChats") === true){
+            this.set("getLocations", false);
+            this.set("getUsers", false);
+            this.set("getGroups", false);
+        }
+        this._setInitialFilter();
+    }),
+    nonChatTypeObserver: observer("getLocations","getUsers", "getGroups", function(){
+        let thisContext = this;
+        Ember.run.later((function() {
+            if(thisContext.get("getLocations") === true ||
+                thisContext.get("getUsers") === true ||
+                thisContext.get("getGroups") === true){
+                thisContext.set("getChats", false);
+            }
+        }), 1);
     }),
     _setAvailableFilterFields(){
         let properties = [];
@@ -121,7 +144,8 @@ export default Ember.Controller.extend({
         let modelProperties = {
             "User":['id','name','department','email','title', 'username', 'presence', 'routingStatus', 'station', 'profileSkills'],
             "Group": ['id', 'name', 'description', 'dateModified', 'state', 'type', 'addresses', 'visibility'],
-            "Location": ['id', 'name', 'address', 'addressVerified', 'emergencyNumber', 'state']
+            "Location": ['id', 'name', 'address', 'addressVerified', 'emergencyNumber', 'state'],
+            "Chat": ['body', 'created']
         };
 
         if(this.get("getUsers") === true){
@@ -134,6 +158,10 @@ export default Ember.Controller.extend({
 
         if(this.get("getLocations") === true){
             getPropertiesFromModel(modelProperties["Location"]);
+        }
+
+        if(this.get("getChats") === true){
+            getPropertiesFromModel(modelProperties["Chat"]);
         }
 
         properties.sort();
@@ -151,12 +179,19 @@ export default Ember.Controller.extend({
     },
     _setInitialFilter(){
         if (this.get("searchType") === "general_search"){
-            this.queryFilters.pushObject({
+            let queryFilter = {
                 type:"TERM",
-                fields:["name"],
+                fields:[],
                 value: "mySearchKeyword",
                 operator: "AND"
-            });
+            };
+            if (this.get("getChats") !== true) {
+                queryFilter.fields.push("name");
+            } else if (this.get("getChats") === true) {
+                queryFilter.fields.push("body");
+            }
+            this.queryFilters.clear();
+            this.queryFilters.pushObject(queryFilter);
         } else {
             this.queryFilters.pushObject({
                 value: "mySuggestKeyword"
@@ -169,6 +204,7 @@ export default Ember.Controller.extend({
         this._setInitialFilter();
         this._calculateQueryJson();
         this.get("getUsers");
+        this.get("getChats");
         this._setAvailableFilterFields();
         this._setSearchTypeUrls();
     },
