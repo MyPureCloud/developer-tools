@@ -82,7 +82,6 @@
                             {{input type="checkbox" checked=getChats  }}
                             <label>Chats</label>
                         </div>
-
                     </div>
 
                 </div>
@@ -93,22 +92,63 @@
             <div class="panel-heading"><h3 class="panel-title panel-title-condensed">Order</h3></div>
             <div class="panel-body">
                 <p class="small text-muted">
-                    Result set sorting.
+                    Result set sorting. SCORE is the default if not provided.
                 </p>
                 {{select-box items=sortOptions selectedItem=sort class=form-control}}
             </div>
         </div>
         {{/if}}
+        
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title panel-title-condensed">Return Fields</h3>
+            </div>
+            <div class="panel-body">
+                <p class="small text-muted">
+                    The profile query parameter defaults to true if not provided. It helps configure the set of fields that can be returned in the response. 
+                </p>
+                <div class='container-full'>
+                    <div class='row'>
+                        <div class="control-label col-md-3">
+                            {{input type="checkbox" checked=profileQueryParameter}}
+                            <label>Profile</label>
+                        </div>
+                    </div>
+                </div>
+                {{#if (eq searchType "general_search")}}
+                    {{#if profileQueryParameter}}
+                        <p class="small text-muted">Specify which fields you would like returned in the response. This is a chance to optimize the size of your response and make it more efficient. You may benefit by only returning the guid and then making a bulk lookup API call to another service that is the home of record for the data.</p>
+                        <div class='filter-section filter-has-delete'>
+                            <form class="form form-horizontal form-horizontal-labels-left form-flex form-flex-1-col form-flex-has-delete">
+                                {{#if (eq searchType "general_search")}}
+                                    <div class="form-group">
+                                        <label class="control-label">Fields</label>
+                                            {{two-col-selector availableItems=availableFilterFields selectedItems=returnFields title=''}}
+                                    </div>
+                                {{/if}}
+                            </form>
+                        </div>
+                    {{/if}}
+                {{/if}}
+            </div>
+        </div>
 
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h3 class="panel-title panel-title-condensed">Filters</h3>
-                <button class='btn btn-link' {{action 'newQueryFilter'}} title="Add Filter">
-                    <i class="pc-moon pc-create-room"></i>
-                </button>
+                {{#if (eq searchType "general_search")}}
+                    <button class='btn btn-link' {{action 'newQueryFilter'}} title="Add Filter">
+                        <i class="pc-moon pc-create-room"></i>
+                    </button>
+                {{/if}}
             </div>
             <div class="panel-body">
-                <p class="small text-muted">The search criteria.</p>
+                <p class="small text-muted">
+                    The search criteria. 
+                    {{#if (eq searchType "general_search")}}
+                        The default operator is AND if not provided.
+                    {{/if}}
+                </p>
                 {{#each queryFilters as |queryFilter index|}}
                 <div class='filter-section filter-has-delete'>
 
@@ -127,8 +167,19 @@
                             <label>Type</label>
                         </div>
                         {{select-box items=queryTypes selectedItem=queryFilter.type class='capitalize'}}
-
                     </div>
+                    {{#if (eq queryFilter.type "TERM")}}
+                        <p>TERM is a good type for a general keyword search. For best results, use a lowercase search keyword.</p>
+                    {{else if (eq queryFilter.type "EXACT")}}
+                        <p>EXACT is a good choice when you know the exact value you want to find. For best results, use an exact case sensitive search keyword.</p>
+                    {{else if (eq queryFilter.type "CONTAINS")}}
+                        <p>CONTAINS is the equivalent of a wildcard style search like <pre>*keyword*</pre>. It is an expensive search, so there is a tradeoff for efficiency.</p>
+                    {{else if (eq queryFilter.type "STARTS_WITH")}}
+                        <p>STARTS_WITH is the equivalent of a wildcard style search like <pre>keyword*</pre>. It is an expensive search, so there is a tradeoff for efficiency.</p>
+                    {{else}}
+                        <p>This query type should only be used with a number value, in situations where it makes sense.</p>
+                    {{/if}}
+
 
                     <div class="form-group">
                         <label class="control-label">Fields</label>
@@ -176,6 +227,9 @@
                 {{/each}}
             </div>
         </div>
+
+        {{#if (eq searchType "general_search")}}
+        {{#unless getChats}}
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h3 class="panel-title panel-title-condensed">Aggregates</h3>
@@ -212,13 +266,15 @@
                         {{select-box items=aggregateTypes selectedItem=aggregate.type class='capitalize'}}
 
                     </div>
+
+                    {{#unless (eq aggregate.type "TERM")}}
                     <div class="form-group">
                         <div class="control-label">
                             <label>Value</label>
                         </div>
                         {{input value=aggregate.value class='capitalize'}}
-
                     </div>
+                    {{/unless}}
 
 
                 </form>
@@ -226,6 +282,8 @@
                 {{/each}}
             </div>
         </div>
+        {{/unless}}
+        {{/if}}
 
 
 
