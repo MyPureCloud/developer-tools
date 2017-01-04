@@ -117,48 +117,53 @@ export default Ember.Component.extend({
         langTools.addCompleter(methodCompleter);
     },
     _receivePostMessage(event){
-        if (event.origin !== "null" && event.origin !== window.location.origin) {
-            return;
-        }
+        try{
+            if (event.origin !== "null" && event.origin !== window.location.origin) {
+                return;
+            }
 
-        if(typeof(event.data) === 'object'){
-            return;
-        }
-        let data = JSON.parse(event.data);
+            if(typeof(event.data) === 'object'){
+                return;
+            }
+            let data = JSON.parse(event.data);
 
-        if(data.action === 'console'){
-            let array = [];
+            if(data.action === 'console'){
+                let array = [];
 
-            for(let key in data.arguments){
-                let o = data.arguments[key];
+                for(let key in data.arguments){
+                    let o = data.arguments[key];
+                    let isObject = false;
+                    if(typeof(o) === "object"){
+                        o= JSON.stringify(o, null, "  ");
+                        isObject= true;
+                    }
+                    array.push({value:o, isObject:isObject});
+                }
+
+                let message = {
+                    type: data.type,
+                    messageParams: array
+                };
+
+                this.messages.pushObject(message);
+            }
+            else if (data.action === "runerror"){
                 let isObject = false;
-                if(typeof(o) === "object"){
-                    o= JSON.stringify(o, null, "  ");
+                if(typeof(data.message) === "object"){
+                    data.message= JSON.stringify(data.message, null, "  ");
                     isObject= true;
                 }
-                array.push({value:o, isObject:isObject});
+
+                this.messages.pushObject({
+                    type: "critical",
+                    messageParams: [{value: data.name + " " + data.message, isObject: isObject}],
+                    lineNumber: data.lineNumber
+                });
             }
-
-            let message = {
-                type: data.type,
-                messageParams: array
-            };
-
-            this.messages.pushObject(message);
+        }catch(ex){
+            console.error(ex);
         }
-        else if (data.action === "runerror"){
-            let isObject = false;
-            if(typeof(data.message) === "object"){
-                data.message= JSON.stringify(data.message, null, "  ");
-                isObject= true;
-            }
 
-            this.messages.pushObject({
-                type: "critical",
-                messageParams: [{value: data.name + " " + data.message, isObject: isObject}],
-                lineNumber: data.lineNumber
-            });
-        }
     },
     init(){
         this._super(...arguments);

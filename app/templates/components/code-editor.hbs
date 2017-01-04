@@ -72,7 +72,7 @@
                         <ul class='console-log'>
 
                             {{#each messages as |message|}}
-                            <li class='{{if (consoleMessageHasObject message) "log-editor"}}  log {{message.type}} '>
+                            <li class='{{if (console-message-has-object message) "log-editor"}}  log {{message.type}} '>
                                 {{#each message.messageParams as |param|}}
                                 {{#if param.isObject}}
                                     {{ace-editor value=param.value aceInit=aceConsoleInit class="editor"}}
