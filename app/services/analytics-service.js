@@ -1,3 +1,4 @@
+/* global newrelic */
 import Ember from 'ember';
 import config from '../config/environment';
 
@@ -7,6 +8,14 @@ export default Ember.Service.extend(Ember.Evented,{
         if(typeof window.ga !== "undefined" && config.analyticsTrackingId){
             window.ga('send', 'event', DEV_TOOLS_CATEGORY, action, label);
         }
+
+        if(typeof window.newrelic !== 'undefined'){
+            newrelic.addPageAction (DEV_TOOLS_CATEGORY, {
+                action: action,
+                lanel: label
+            });
+        }
+
     },
     logNotificationRegistration(id) {
         this.get("logEvent")("Notification Registration", id);

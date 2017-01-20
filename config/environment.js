@@ -4,6 +4,7 @@ var pkg = require('../package.json');
 
 module.exports = function(environment) {
     var ENV = {
+
         modulePrefix: 'developer-tools',
         environment: environment,
         baseURL: '/',
@@ -14,7 +15,11 @@ module.exports = function(environment) {
                 // e.g. 'with-controller': true
             }
         },
-
+        contentSecurityPolicy: {
+            'connect-src': "'self' https://*.nr-data.net",
+            'img-src': "'self' https://*.nr-data.net",
+            'script-src': "'self' http://*.newrelic.com https://*.nr-data.net http://*.nr-data.net",
+        },
         APP: {
             version: pkg.version,
             semver: pkg.version + '-edge',
@@ -96,6 +101,13 @@ module.exports = function(environment) {
         ENV.locationType = 'hash';
 
         ENV.analyticsTrackingId = process.env.ANALYTICS_ID;
+
+        ENV.newRelic = {
+            agent: "js-agent.newrelic.com/nr-spa-1016.min.js",
+            applicationId: process.env.NEW_RELIC_APP_ID,
+            licenseKey: process.env.NEW_RELIC_LICENSE_KEY,
+            spaMonitoring: true
+        };
     }
 
     return ENV;
