@@ -24,6 +24,7 @@
         <label class="control-label">Operator</label>
         {{select-box items=operators selectedItem=selectedOperator class='capitalize'}}
     </div>
+    {{#if (eq selectedOperator "matches")}}
     <div class="form-group form-group-offset">
         <label class="control-label">Value</label>
         {{#if (eq lhsValue "queueId")}}
@@ -36,4 +37,5 @@
         {{input class='form-control' value=value}}
         {{/if}}
     </div>
+    {{/if}}
 </form>

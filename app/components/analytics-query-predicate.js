@@ -29,7 +29,7 @@ export default Ember.Component.extend({
     },
     didReceiveAttrs() {
         this._super(...arguments);
-        
+
         if(typeof this.get("filterValueOverride") !== "undefined" && this.get("filterValueOverride") !== null){
             this.set("dimensions", this.get("filterValueOverride"));
             this.set("types", ["dimension"]);
@@ -51,6 +51,11 @@ export default Ember.Component.extend({
         this.set("predicate", this._computeValue());
         console.log(this.get("predicate"));
         this.get("updatePredicate")(this.get("index"), this._computeValue());
+    }),
+    selectedOperatorChange: observer('selectedOperator', function() {
+        if(this.get("selectedOperator") !== "matches"){
+            this.set("value", null);
+        }
     }),
 
     _computeValue:function(){
