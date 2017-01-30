@@ -51,7 +51,7 @@ export default Ember.Component.extend({
         return query;
     },
     queryJson:null,
-    _observeChanges: Ember.observer('granularity', 'interval', 'groupBy', 'filter', "flattenMultivaluedDimensions", function() {
+    _observeChanges: Ember.observer('granularity', 'interval', 'groupBy', 'filter', "flattenMultivaluedDimensions", 'selectedMetrics', function() {
         let query = JSON.stringify(this._computeValue(), null, " ");
         this.set('queryJson', query);
     })
