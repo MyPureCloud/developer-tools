@@ -98,14 +98,14 @@
             </div>
         </div>
         {{/if}}
-        
+
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h3 class="panel-title panel-title-condensed">Return Fields</h3>
             </div>
             <div class="panel-body">
                 <p class="small text-muted">
-                    The profile query parameter defaults to true if not provided. It helps configure the set of fields that can be returned in the response. 
+                    The profile query parameter defaults to true if not provided. It helps configure the set of fields that can be returned in the response.
                 </p>
                 <div class='container-full'>
                     <div class='row'>
@@ -144,7 +144,7 @@
             </div>
             <div class="panel-body">
                 <p class="small text-muted">
-                    The search criteria. 
+                    The search criteria.
                     {{#if (eq searchType "general_search")}}
                         The default operator is AND if not provided.
                     {{/if}}
@@ -292,5 +292,5 @@
 </div>
 
 <div class='col-generated-query'>
-    {{run-analytics-query queryJson=queryJson queryResult=queryResult runQuery=(action 'runQuery')}}
+    {{run-analytics-query queryJson=queryJson queryType=searchType  queryResult=queryResult runQuery=(action 'runQuery')}}
 </div>

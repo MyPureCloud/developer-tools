@@ -25,5 +25,9 @@ export default Ember.Service.extend(Ember.Evented,{
     },
     logExporerExecution(httpMethod, url) {
         this.get("logEvent")("Explorer Request", httpMethod + " " + url);
+    },
+    logAnalyticsBuilderExecution(queryType) {
+        this.get("logEvent")("Query Builder Exec", queryType);
     }
+
 });
