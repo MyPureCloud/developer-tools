@@ -46,6 +46,8 @@
             {{conversation-detail-query queryJson=queryJson}}
         {{else if (eq queryType "user_aggregate")}}
             {{user-aggregate-query queryJson=queryJson}}
+        {{else if (eq queryType "user_detail")}}
+            {{user-detail-query queryJson=queryJson}}
         {{/if}}
     </div>
 

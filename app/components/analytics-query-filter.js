@@ -25,11 +25,6 @@ export default Ember.Component.extend({
 
         let filter = this.get("filter");
         if(filter){
-            console.log("HAS FILTER FOR " + id);
-            console.log(filter);
-            console.log(filter.type);
-            console.log(filter.clauses);
-            console.log(filter.predicates);
             if(filter.type){
                 this.set("selectedType", filter.type);
             }
@@ -41,12 +36,12 @@ export default Ember.Component.extend({
             if(filter.type){
                 this.set("predicates", filter.predicates);
             }
-            
+
         }
 
     },
     _computeValue:function(){
-            console.log("computing " + this.get("id"));
+            
         let query={
             type:this.get('selectedType')
         };

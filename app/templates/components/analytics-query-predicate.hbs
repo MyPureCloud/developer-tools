@@ -31,6 +31,12 @@
         {{select-box-advanced idKey='id' nameKey='name' items=queues selectedItem=value includeBlank=true}}
         {{else if (eq lhsValue "userId")}}
         {{select-box-advanced idKey='id' nameKey='name' items=users selectedItem=value includeBlank=true}}
+        {{else if (eq lhsValue "systemPresence")}}
+        {{select-box-advanced idKey='id' nameKey='name' items=systemPresence selectedItem=value includeBlank=true}}
+        {{else if (eq lhsValue "organizationPresenceId")}}
+        {{select-box-advanced idKey='id' nameKey='name' items=organizationPresence selectedItem=value includeBlank=true}}
+        {{else if (eq lhsValue "routingStatus")}}
+        {{select-box-advanced idKey='name' nameKey='name' items=routingStatus selectedItem=value includeBlank=true}}
         {{else if (eq lhsValue "mediaType")}}
         {{select-box items=mediaTypes selectedItem=value}}
         {{else}}

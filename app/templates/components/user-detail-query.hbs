@@ -1,0 +1,145 @@
+{{analytics-query-interval value=interval}}
+
+
+<div class="panel panel-default">
+    <div class="panel-heading"><h3 class="panel-title panel-title-condensed">Order</h3></div>
+    <div class="panel-body">
+        <p class="small text-muted">
+            Sort the result set in ascending/descending order.
+        </p>
+        {{select-box items=orderOptions selectedItem=order class=form-control}}
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading"><h3 class="panel-title panel-title-condensed">Paging</h3></div>
+    <div class="panel-body">
+        <p class="small text-muted">
+            Page size and number to control iterating through large result sets.
+        </p>
+        <form class="form form-horizontal form-flex form-flex-2-col">
+            <div class="form-group">
+                <div class="control-label">
+                    <label>Page Size</label>
+                </div>
+                {{input type="number" value=pageSize class="form-control" }}
+            </div>
+            <div class="form-group">
+                <div class="control-label">
+                    <label>Page Number</label>
+                </div>
+                {{input type="number" value=pageNumber class="form-control" }}
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title panel-title-condensed">Users Filters</h3>
+        <button class='btn btn-link' {{action 'newUsersFilter'}} title="Add Filter">
+            <i class="pc-moon pc-create-room"></i>
+        </button>
+    </div>
+    <div class="panel-body">
+        <p class="small text-muted">
+            Filters that target the users to retrieve data for.
+        </p>
+
+        {{#each usersFilters as |usersFilter index|}}
+        <div class="filter-section filter-has-delete">
+            {{analytics-query-filter filter=usersFilter showDefaultHeader=false index=index updateFilter=(action 'updateUsersFilter') filterValueOverride=userFilters}}
+            <button class='btn btn-link btn-delete-filter' {{action 'deleteUsersFilter' index}}>
+                <i class="ion-close-round" aria-hidden="true"></i>
+            </button>
+        </div>
+        {{/each}}
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title panel-title-condensed">Presence Filters</h3>
+        <button class='btn btn-link btn-sm' {{action 'newPresenceFilter'}} title="Add Filter">
+            <i class="pc-moon pc-create-room"></i>
+        </button>
+    </div>
+    <div class="panel-body">
+        <p class="small text-muted">
+            Filters that target system and organization presence-level data.
+        </p>
+
+        {{#each presenceFilters as |presenceFilter index|}}
+        <div class="filter-section filter-has-delete">
+            {{analytics-query-filter filter=presenceFilter showDefaultHeader=false index=index updateFilter=(action 'updatePresenceFilter') filterValueOverride=presenceFilterValues}}
+            <button class='btn btn-link btn-delete-filter' {{action 'deletePresenceFilter' index}}>
+                <i class="ion-close-round" aria-hidden="true"></i>
+            </button>
+        </div>
+        {{/each}}
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title panel-title-condensed">Routing Status Filters</h3>
+        <button class='btn btn-link btn-sm' {{action 'newRoutingStatusFilter'}} title="Add Filter">
+            <i class="pc-moon pc-create-room"></i>
+        </button>
+    </div>
+    <div class="panel-body">
+        <p class="small text-muted">
+            Filters that target agent routing status-level data.
+        </p>
+
+        {{#each routingStatusFilters as |routingStatusFilter index|}}
+        <div class="filter-section filter-has-delete">
+            {{analytics-query-filter filter=routingStatusFilter showDefaultHeader=false index=index updateFilter=(action 'updateRoutingStatusFilter') filterValueOverride=routingStatusFilterValues}}
+            <button class='btn btn-link btn-delete-filter' {{action 'deleteRoutingStatusFilter' index}}>
+                <i class="ion-close-round" aria-hidden="true"></i>
+            </button>
+        </div>
+        {{/each}}
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title panel-title-condensed">Presence Aggregation</h3>
+        <button class='btn btn-link btn-sm' {{action 'newAggregation'}} title="Add Aggregation">
+            <i class="pc-moon pc-create-room"></i>
+        </button>
+    </div>
+    <div class="panel-body">
+        <p class="small text-muted">
+            Include faceted search and aggregate roll-ups describing your search results. This does not function as a filter, but rather, summary data about the data matching your filters
+        </p>
+
+        {{#each aggregations as |aggregation index|}}
+        <div class="filter-section filter-has-delete">
+            {{analytics-query-aggregation aggregation=aggregation index=index updateAggregation=(action 'updateAggregation') deleteAggregation=(action 'deleteAggregation') dimensions=presenceFilterValues}}
+        </div>
+        {{/each}}
+    </div>
+</div>
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title panel-title-condensed">Routing Status Aggregation</h3>
+        <button class='btn btn-link btn-sm' {{action 'newRoutingStatusAggregation'}} title="Add Aggregation">
+            <i class="pc-moon pc-create-room"></i>
+        </button>
+    </div>
+    <div class="panel-body">
+        <p class="small text-muted">
+            Include faceted search and aggregate roll-ups describing your search results. This does not function as a filter, but rather, summary data about the data matching your filters
+        </p>
+
+        {{#each routingStatusAggregations as |aggregation index|}}
+        <div class="filter-section filter-has-delete">
+            {{analytics-query-aggregation aggregation=aggregation index=index updateAggregation=(action 'updateRoutingStatusAggregation') deleteAggregation=(action 'deleteRoutingStatusAggregation') dimensions=routingStatusFilterValues}}
+        </div>
+        {{/each}}
+    </div>
+</div>

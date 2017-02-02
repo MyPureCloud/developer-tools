@@ -19,6 +19,11 @@ export default Ember.Controller.extend({
             url:"/api/v2/analytics/conversations/aggregates/query"
         },
         {
+            name: "Queue Observation",
+            id:"queue_observation",
+            url:"/api/v2/analytics/queues/observations/query"
+        },
+        {
             name: "User Status Aggregate",
             id:"user_aggregate",
             url:"/api/v2/analytics/users/aggregates/query"
@@ -27,12 +32,11 @@ export default Ember.Controller.extend({
             name: "User Observation",
             id:"user_observation",
             url:"/api/v2/analytics/users/observations/query"
+        }, {
+            name: "User Detail",
+            id:"user_detail",
+            url:"/api/v2/analytics/users/details/query"
         },
-        {
-            name: "Queue Observation",
-            id:"queue_observation",
-            url:"/api/v2/analytics/queues/observations/query"
-        }
 
     ],
     query:{},

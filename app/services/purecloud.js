@@ -8,6 +8,9 @@ export default Ember.Service.extend(Ember.Evented, {
     notificationsApi(){
         return new purecloud.platform.NotificationsApi(this.get('session'));
     },
+    presenceApi(){
+        return new purecloud.platform.PresenceApi(this.get('session'));
+    },
     analyticsApi(){
         return new purecloud.platform.AnalyticsApi(this.get('session'));
     },

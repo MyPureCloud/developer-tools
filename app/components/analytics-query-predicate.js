@@ -7,6 +7,8 @@ export default Ember.Component.extend({
     analyticsValueService: Ember.inject.service(),
     queueService: Ember.inject.service(),
     userService: Ember.inject.service(),
+    presenceService: Ember.inject.service(),
+
     //TODO: support queue ids, user Ids,
     init: function(){
         this.get("queueService"); //make sure it is ready
@@ -42,6 +44,13 @@ export default Ember.Component.extend({
     users: computed('userService.users', function() {
        return this.get('userService').get('users');
     }),
+    systemPresence: computed('presenceService.systemPresence', function() {
+       return this.get('presenceService').get('systemPresence');
+    }),
+    organizationPresence: computed('presenceService.organizationPresence', function() {
+       return this.get('presenceService').get('organizationPresence');
+    }),
+    routingStatus:[{name:"OFF_QUEUE"}, {name:"INTERACTING"}, {name:"IDLE"}, {name:"NOT_RESPONDING"}],
     types:["dimension", "metric"], //TODO: Support property type
 
     selectedOperator: "matches",
