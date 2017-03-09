@@ -37,7 +37,7 @@ export default Ember.Component.extend({
         };
 
         if(this.usersFilters.length > 0){
-            query.usersFilters = this.get("usersFilters");
+            query.userFilters = this.get("usersFilters");
         }
 
         if(this.presenceFilters.length > 0){
