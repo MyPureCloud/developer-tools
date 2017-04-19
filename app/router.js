@@ -6,7 +6,7 @@ const Router = Ember.Router.extend({
     location: config.locationType,
     init: function(){
         this._super(...arguments);
-        if(config.analyticsTrackingId){
+        if(config.analyticsTrackingId && typeof(ga) !== 'undefined' && ga !== null){
             ga('create', config.analyticsTrackingId, 'none');
         }
     },
