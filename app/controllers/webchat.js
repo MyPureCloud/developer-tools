@@ -61,9 +61,9 @@ export default Ember.Controller.extend({
             }
 
             if(companyLogo[0] !== "h"){
-                companyLogo = resourcePrefix + companyLogo;
-                companyLogoSmall = resourcePrefix + companyLogoSmall;
-                agentAvatar = resourcePrefix + agentAvatar;
+                companyLogo = resourcePrefix + "/" + companyLogo;
+                companyLogoSmall = resourcePrefix + "/" +  companyLogoSmall;
+                agentAvatar = resourcePrefix + "/" + agentAvatar;
             }
 
             let chatConfig = {
@@ -107,8 +107,8 @@ export default Ember.Controller.extend({
 
                 // Logo used within the chat window
                 "companyLogoSmall": {
-                    "width": 149,
-                    "height": 149,
+                    "width": 25,
+                    "height": 25,
                     "url": companyLogoSmall
                 },
 
