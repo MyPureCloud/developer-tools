@@ -50,6 +50,7 @@
     "loader.js": "^4.0.1"
   },
   "dependencies": {
+    "babel-plugin-transform-es2015-block-scoping": "^6.24.1",
     "ember-cli-code-coverage": "^0.2.2"
   }
 }

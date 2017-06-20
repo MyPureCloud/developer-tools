@@ -21,8 +21,6 @@ export default Ember.Component.extend({
             }
         },200);
 
-        let id = this.get("id");
-
         let filter = this.get("filter");
         if(filter){
             if(filter.type){
@@ -41,7 +39,7 @@ export default Ember.Component.extend({
 
     },
     _computeValue:function(){
-            
+
         let query={
             type:this.get('selectedType')
         };
