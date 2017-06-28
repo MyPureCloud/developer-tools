@@ -39,7 +39,7 @@ export default Ember.Route.extend({
         let purecloudEnvironment = purecloudEnvironmentTld();
 
         let swaggerUrl = `https://api.${purecloudEnvironment}/api/v2/docs/swagger`;
-        swaggerUrl = `/swagger-schema/publicapi-v2-1310.json`;
+        swaggerUrl = `/swagger-schema/publicapi-v2-latest.json`;
 
         let swagger = `openApiUrl=${swaggerUrl}&host=api.${purecloudEnvironment}&shareUrl=${window.location.origin}` + encodeURIComponent('/developer-tools/#/api-explorer?');
 
