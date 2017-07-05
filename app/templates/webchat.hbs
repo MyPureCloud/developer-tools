@@ -82,6 +82,33 @@
             </form>
 
         </div>
+
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Chat Code
+        </div>
+        <div class="panel-body">
+            <pre>
+                <code>let chatConfig = {{chatConfig}};
+                    
+ININ.webchat.create(chatConfig, function(err, webchat) {
+    if (err) {
+        console.error(err);
+        throw err;
+    }
+
+    webchat.renderPopup({
+        width: 400,
+        height: 400,
+        title: 'Chat'
+    });
+});
+                </code>
+            </pre>
+        </div>
+
     </div>
 </div>
 

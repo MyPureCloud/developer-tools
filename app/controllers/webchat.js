@@ -23,33 +23,35 @@ export default Ember.Controller.extend({
     init(){
         this._super(...arguments);
 
-        let self = this;
         let orgApi = this.get("purecloud").orgApi();
 
-        orgApi.getMe().then(function(result){
-            self.set("org",result);
+        orgApi.getMe().then(result => {
+            this.set("org",result);
+
+            let storage = this.get("storageService");
+            let savedData = storage.localStorageGet("webChatParams");
+
+            if(savedData){
+                this.set("firstName", savedData.firstName);
+                this.set("lastName", savedData.lastName);
+                this.set("address", savedData.address);
+                this.set("city", savedData.city);
+                this.set("state", savedData.state);
+                this.set("zip", savedData.zip);
+                this.set("phone", savedData.phone);
+                this.set("queue", savedData.queue);
+
+            }
         });
 
-        let storage = this.get("storageService");
-        let savedData = storage.localStorageGet("webChatParams");
 
-        if(savedData){
-            this.set("firstName", savedData.firstName);
-            this.set("lastName", savedData.lastName);
-            this.set("address", savedData.address);
-            this.set("city", savedData.city);
-            this.set("state", savedData.state);
-            this.set("zip", savedData.zip);
-            this.set("phone", savedData.phone);
-            this.set("queue", savedData.queue);
 
-        }
     },
     queues: computed('queueService.queues', function() {
         return this.get('queueService').get('queues');
     }),
-    actions:{
-        startChat() {
+    chatConfig: computed('queue', 'firstName', 'lastName', 'address', 'city', 'zip', 'state', 'phone', function() {
+        try{
             let environment = purecloudEnvironmentTld();
             let companyLogo = $("#companyLogo").attr('src');
             let companyLogoSmall = $("#companyLogoSmall").attr('src');
@@ -60,10 +62,15 @@ export default Ember.Controller.extend({
                 resourcePrefix = config.APP.urlprefix;
             }
 
-            if(companyLogo[0] !== "h"){
+            if(typeof companyLogo !== 'undefined' && companyLogo[0] !== "h"){
                 companyLogo = resourcePrefix + companyLogo;
                 companyLogoSmall = resourcePrefix + companyLogoSmall;
                 agentAvatar = resourcePrefix + agentAvatar;
+            }
+
+            let org = this.get("org");
+            if(org === null){
+                return "{}";
             }
 
             let chatConfig = {
@@ -131,7 +138,16 @@ export default Ember.Controller.extend({
                     "height": "100%"
                 }
             };
-            console.log(chatConfig);
+
+            return JSON.stringify(chatConfig, null, "  ");
+        }catch(ex){
+            console.error(ex);
+        }
+        return "{}";
+    }),
+    actions:{
+        startChat() {
+            let chatConfig = JSON.parse(this.get("chatConfig"));
 
             ININ.webchat.create(chatConfig, function(err, webchat) {
                 if (err) {
