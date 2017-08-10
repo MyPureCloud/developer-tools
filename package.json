@@ -23,7 +23,7 @@
     "chance": "*",
     "ember-ajax": "0.7.1",
     "ember-bootstrap-datetimepicker": "1.0.4",
-    "ember-browserify": "1.1.10",
+    "ember-browserify": "^1.1.10",
     "ember-cli": "2.5.1",
     "ember-cli-app-version": "^1.0.0",
     "ember-cli-babel": "^5.1.6",
@@ -50,6 +50,7 @@
     "loader.js": "^4.0.1"
   },
   "dependencies": {
+    "architect-scripting": "git+ssh://git@bitbucket.org:inindca/architect-scripting.git#d783d0c",
     "babel-plugin-transform-es2015-block-scoping": "^6.24.1",
     "ember-cli-code-coverage": "^0.2.2"
   }

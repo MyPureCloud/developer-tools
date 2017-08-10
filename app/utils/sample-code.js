@@ -1,7 +1,8 @@
 const sampleCode = [
-    {
-        name: "Get Current User",
-        code: `//use that session to interface with the API
+  {
+    api: "PureCloud SDK",
+    name: "Get Current User",
+    code: `//use that session to interface with the API
 var users = new purecloud.platform.UsersApi(pureCloudSession);
 
 console.log("getting ME");
@@ -10,10 +11,11 @@ users.getMe().then(function(userObject){
     console.log(userObject);
     console.log("done");
 });`
-    },
-    {
-        name: "Update Presence",
-        code: `//This example will toggle your status between available and busy.
+  },
+  {
+    api: "PureCloud SDK",
+    name: "Update Presence",
+    code: `//This example will toggle your status between available and busy.
 // TIP: open the notification tester, subscribe to your presence and pin the notifications.
 // You can see the websocket messages as your status changes.
 
@@ -69,10 +71,11 @@ presenceApi.getPresencedefinitions().then(function(presenceData){
     });
 });
 `
-    },
-    {
-        name: "Place a Phone Call",
-        code: `var conversationsApi = new purecloud.platform.ConversationsApi(pureCloudSession);
+  },
+  {
+    api: "PureCloud SDK",
+    name: "Place a Phone Call",
+    code: `var conversationsApi = new purecloud.platform.ConversationsApi(pureCloudSession);
 
 //create the request body, here (317) 222-2222 is the weather phone
 // in Indianapolis.
@@ -87,10 +90,11 @@ conversationsApi.postCalls(body).then(function(result){
 }).catch(function(error){
   console.error("Error Placing call", error);
 });`
-    },
-    {
-        name: "Get Documents in Content Management",
-        code: `//This example will get the user's workspace and then list out
+  },
+  {
+    api: "PureCloud SDK",
+    name: "Get Documents in Content Management",
+    code: `//This example will get the user's workspace and then list out
 // all the documents in the workspace
 var contentManagementApi = new purecloud.platform.ContentManagementApi(pureCloudSession);
 var usersWorkspaceId = null;
@@ -120,10 +124,11 @@ contentManagementApi.getWorkspaces().then(function(workspaces){
 }).catch(function(error){
     console.error(error);
 });`
-    },
-    {
-        name: "User Paging",
-        code: `//This example will log out a list of all users in the system.
+  },
+  {
+    api: "PureCloud SDK",
+    name: "User Paging",
+    code: `//This example will log out a list of all users in the system.
 var users = new purecloud.platform.UsersApi(pureCloudSession);
 
 console.log("getting ME");
@@ -141,15 +146,33 @@ function processPageOfUsers(results){
 }
 
 users.getUsers().then(processPageOfUsers);`
-    },
-    {
-        name: "Get Org Details",
-        code: `var orgApi = new purecloud.platform.OrganizationApi(pureCloudSession);
+  },
+  {
+    api: "PureCloud SDK",
+    name: "Get Org Details",
+    code: `var orgApi = new purecloud.platform.OrganizationApi(pureCloudSession);
 
 orgApi.getMe().then(function(result){
     console.log(result);
 });`
-    }
+  },
+  {
+    api: "Architect SDK",
+    name: "Basic Flow Example",
+    code: `
+    function scriptMain() {
+      var flowName = "FromTheDeveloperCenter";
+      var flowDescription = flowName + ' description';
+      return scripting.factories.archFactoryFlows.createFlowInboundCallAsync(flowName, flowDescription,
+                          scripting.languages.archLanguages.englishUnitedStates, function (archInboundCallFlow) {
+               archInboundCallFlow.initialAudio.setDefaultCaseLiteralTTS('welcome to the flow');
+               // Create a menu and make it the starting menu for the flow.
+               var mainMenu = scripting.factories.archFactoryMenus.addMenu(archInboundCallFlow, 'top menu', 'Top Menu', true);
+               return archInboundCallFlow.saveAsync(true);
+    });
+}`
+  }
+
 ];
 
 export default sampleCode;

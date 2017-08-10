@@ -23,7 +23,7 @@
         //load PureCloud API
         var jsElm = document.createElement("script");
         jsElm.type = "application/javascript";
-        jsElm.src = "https://sdk-cdn.mypurecloud.com/javascript/"+ sdk +"/"+ "purecloud-api.js";
+        jsElm.src = "https://sdk-cdn.mypurecloud.com/javascript/"+ sdk +"/"+ "purecloud-platform-client-v2.min.js";
         document.body.appendChild(jsElm);
 
     });
@@ -67,13 +67,17 @@
 
 
     function sendConsoleMessage(type, args){
-
+      try{
         parentWindow.postMessage(JSON.stringify({
-            action: 'console',
-            type: type,
-            arguments: args
+          action: 'console',
+          type: type,
+          arguments: args
 
         }), origin);
+      } catch(error){
+
+      }
+
     }
 
     var ANONOMOUS_REGEX = /<anonymous>:(\d+):\d+/;
@@ -113,9 +117,6 @@
                         }
                     }
                 }
-
-                data = 'var pureCloudSession = purecloud.platform.PureCloudSession({strategy: "token",token: "' + authToken+ '", environment: "' + environment+ '"});' + data
-
                 eval(data);
             }
             catch (e) {
