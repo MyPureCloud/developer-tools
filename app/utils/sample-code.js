@@ -159,16 +159,21 @@ orgApi.getMe().then(function(result){
   {
     api: "Architect SDK",
     name: "Basic Flow Example",
-    code: `
-    function scriptMain() {
+    code: ` function scriptMain() {
       var flowName = "FromTheDeveloperCenter";
       var flowDescription = flowName + ' description';
-      return scripting.factories.archFactoryFlows.createFlowInboundCallAsync(flowName, flowDescription,
-                          scripting.languages.archLanguages.englishUnitedStates, function (archInboundCallFlow) {
+      return archScripting.factories.archFactoryFlows.createFlowInboundCallAsync(flowName, flowDescription,
+                          archScripting.languages.archLanguages.englishUnitedStates, function (archInboundCallFlow) {
                archInboundCallFlow.initialAudio.setDefaultCaseLiteralTTS('welcome to the flow');
                // Create a menu and make it the starting menu for the flow.
-               var mainMenu = scripting.factories.archFactoryMenus.addMenu(archInboundCallFlow, 'top menu', 'Top Menu', true);
-               return archInboundCallFlow.saveAsync(true);
+               var mainMenu = archScripting.factories.archFactoryMenus.addMenu(archInboundCallFlow, 'top menu', 'Top Menu', true);
+               var disconnectMenu2 = archScripting.factories.archFactoryMenus.addMenuDisconnect(mainMenu, 'DisconnectMenu', 9);
+               var task = archScripting.factories.archFactoryTasks.addTask(archInboundCallFlow, 'First Task');
+               var jumpToTask = archScripting.factories.archFactoryMenus.addMenuJumpToTask(mainMenu, 'JumpToTask', 8, task);
+               var disconnect = archScripting.factories.archFactoryActions.addActionDisconnect(task, 'Disconnect');
+               return archInboundCallFlow.saveAsync().then(function(){
+                  return archInboundCallFlow.publishAsync();
+               });
     });
 }`
   }

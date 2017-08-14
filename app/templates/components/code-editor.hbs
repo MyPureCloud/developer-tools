@@ -98,7 +98,13 @@
                                 {{#if param.isObject}}
                                     {{ace-editor value=param.value aceInit=aceConsoleInit class="editor"}}
                                 {{else}}
+                                  {{#if param.header}}
+                                    <div class="param">{{param.header}}</div>
+                                    <div class="param body-text">{{param.body}}</div>
+                                  {{else}}
                                     <div class="param">{{param.value}}</div>
+                                  {{/if}}
+
                                 {{/if}}
                                 {{/each}}
                                 {{#if message.lineNumber}}

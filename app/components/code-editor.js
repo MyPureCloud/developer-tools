@@ -216,6 +216,27 @@ export default Ember.Component.extend({
     this.set("code", code);
 
   },
+  _architectLoggingCallback(logInfo) {
+    var messageType;
+    switch  ( logInfo.logType) {
+      case architect.enums.archEnums.LOG_TYPES.info:
+        messageType = 'log';
+        break;
+      case architect.enums.archEnums.LOG_TYPES.warning:
+        messageType = 'error';
+        break;
+      case architect.enums.archEnums.LOG_TYPES.error:
+        messageType = 'critical';
+        break;
+      default:
+        messageType = 'log';
+    }
+    this.messages.pushObject({
+      type: messageType,
+      messageParams: [{header: logInfo.messageParts.header, body: logInfo.messageParts.message, isObject: false}],
+      lineNumber: undefined
+    });
+  },
   didInsertElement() {
     //from: http://discuss.emberjs.com/t/solved-how-to-remove-event-handler-properly-in-a-component/8931
     if (typeof this._onWindowMessage === "undefined" || this._onWindowMessage == null) {
@@ -256,16 +277,6 @@ export default Ember.Component.extend({
     run() {
       // need to expose architect as a window command so ace can nab it.
       this.get("analyticsService").logCodeExecution();
-      //var oldConsole = console.log;
-
-      // console.log = function () {
-      //   this.messages.pushObject({
-      //     type: "log",
-      //     messageParams: [{value: arguments[0], isObject: false}],
-      //     lineNumber: undefined
-      //   });
-      //   return oldConsole(console, arguments);
-      // }.bind(this);
 
       this.messages.clear();
       var iframeBody = document.getElementById('code-runner').contentWindow;
@@ -276,34 +287,14 @@ export default Ember.Component.extend({
 
       var token = 'var token ="' + this.get('purecloud').get("session").options.token + '";';
 
-      // Append different setup code for which sdk we are currently using
       if (this.get('isPurecloudSdk')) {
         iframeBody.window.purecloud = purecloud;
+        // Append different setup code for which sdk we are currently using
         code = token + 'var pureCloudSession = purecloud.platform.PureCloudSession({strategy: "token",token: token, environment: "inindca.com"});' + code;
       } else if (this.get('isArchitectSdk')) {
         iframeBody.window.architect = architect;
-        iframeBody.window.architect.services.archLogging.setLoggingCallback(function (logInfo) {
-          var messageType;
-          switch  ( logInfo.logType) {
-            case architect.enums.archEnums.LOG_TYPES.info:
-                  messageType = 'log';
-                  break;
-            case architect.enums.archEnums.LOG_TYPES.warning:
-              messageType = 'error';
-              break;
-            case architect.enums.archEnums.LOG_TYPES.error:
-              messageType = 'critical';
-              break;
-            default:
-              messageType = 'log';
-           }
-            this.messages.pushObject({
-              type: messageType,
-              messageParams: [{value: logInfo.messageFull, isObject: false}],
-              lineNumber: undefined
-            });
-        }.bind(this));
-        code = token + 'var scripting = window.architect; var session = scripting.environment.archSession;' + code + 'session.startWithAuthToken("dev", scriptMain, token);';
+        iframeBody.window.architect.services.archLogging.setLoggingCallback(this._architectLoggingCallback.bind(this));
+        code = token + 'var archScripting = window.architect; var session = archScripting.environment.archSession;' + code + 'session.startWithAuthToken("dev", scriptMain, token);';
       }
 
       iframeBody.postMessage(JSON.stringify({
