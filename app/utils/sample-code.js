@@ -1,17 +1,16 @@
 import {architectRegion} from '../utils/purecloud-environment';
-const architectHeader = `// var archScripting is the variable that contains the architect scripting library
-var archActionFactory = archScripting.factories.archFactoryActions;  // Factory to create actions
-var archEnums         = archScripting.enums.archEnums;               // Enum support
-var archActionFactory = archScripting.factories.archFactoryActions   // Factory to create actions
-var archFlowFactory   = archScripting.factories.archFactoryFlows;    // Factory to create flows
-var archLanguages     = archScripting.languages.archLanguages;       // Language support
-var archMenuFactory   = archScripting.factories.archFactoryMenus;    // Factory to create menus
-var archSession       = archScripting.environment.archSession;
-var archTaskFactory   = archScripting.factories.archFactoryTasks;    // Factory to create tasks
+const architectHeader = `// const archScripting is the variable that contains the architect scripting library
+const archActionFactory = archScripting.factories.archFactoryActions;  // Factory to create actions
+const archEnums         = archScripting.enums.archEnums;               // Enum support
+const archFlowFactory   = archScripting.factories.archFactoryFlows;    // Factory to create flows
+const archLanguages     = archScripting.languages.archLanguages;       // Language support
+const archMenuFactory   = archScripting.factories.archFactoryMenus;    // Factory to create menus
+const archSession       = archScripting.environment.archSession;
+const archTaskFactory   = archScripting.factories.archFactoryTasks;    // Factory to create tasks
 `;
 const architectSessionStart = `
 
-archSession.startWithAuthToken("`+ architectRegion() + `", scriptMain, token);
+archSession.startWithAuthToken(`+ architectRegion() + `, scriptMain, token);
 `;
 const sampleCode = {
   pureCloudSdk: {
@@ -172,17 +171,20 @@ orgApi.getMe().then(function(result){
       code: architectHeader +
       `
 function scriptMain() {
-  var flowName = "FromTheDeveloperCenter";
-  var flowDescription = flowName + ' description';
+  let flowName        = "SampleCode";
+  let flowDescription = flowName + ' description';
+  
   return archFlowFactory.createFlowInboundCallAsync(flowName, flowDescription,
     archLanguages.englishUnitedStates, function (archInboundCallFlow) {
+    
       archInboundCallFlow.initialAudio.setDefaultCaseLiteralTTS('welcome to the flow');
+    
       // Create a menu and make it the starting menu for the flow.
-      var mainMenu = archMenuFactory.addMenu(archInboundCallFlow, 'top menu', 'Top Menu', true);
-      var disconnectMenu2 = archMenuFactory.addMenuDisconnect(mainMenu, 'DisconnectMenu', 9);
-      var task = archTaskFactory.addTask(archInboundCallFlow, 'First Task');
-      var jumpToTask = archMenuFactory.addMenuJumpToTask(mainMenu, 'JumpToTask', 8, task);
-      var disconnect = archScripting.factories.archFactoryActions.addActionDisconnect(task, 'Disconnect');
+      let archMainMenu       = archMenuFactory.addMenu(archInboundCallFlow, 'top menu', 'Top Menu', true);
+      let archDisconnectMenu = archMenuFactory.addMenuDisconnect(archMainMenu, 'DisconnectMenu', 9);
+      let archTask           = archTaskFactory.addTask(archInboundCallFlow, 'First archTask');
+      let archJumpToTask     = archMenuFactory.addMenuJumpToTask(archMainMenu, 'archJumpToTask', 8, archTask);
+      let archDisconnect     = archScripting.factories.archFactoryActions.addActionDisconnect(archTask, 'Disconnect');
       return archInboundCallFlow.saveAsync().then(function(){
         return archInboundCallFlow.publishAsync();
       });
@@ -194,31 +196,34 @@ function scriptMain() {
       code: architectHeader +
       `
 function scriptMain() {
-  var flowName = "FromTheDeveloperCenter";
-  var flowDescription = flowName + ' description';
-  var flowPromise1 =  archFlowFactory.createFlowInboundCallAsync(flowName+ "_1", flowDescription,
+  let flowName        = "SampleCode";
+  let flowDescription = flowName + ' description';
+  
+  let flowPromise1    = archFlowFactory.createFlowInboundCallAsync(flowName+ "_1", flowDescription,
      archLanguages.englishUnitedStates, function (archInboundCallFlow) {
+     
        archInboundCallFlow.initialAudio.setDefaultCaseLiteralTTS('welcome to the flow');
        // Create a menu and make it the starting menu for the flow.
-        var mainMenu = archMenuFactory.addMenu(archInboundCallFlow, 'top menu', 'Top Menu', true);
-        var disconnectMenu2 = archMenuFactory.addMenuDisconnect(mainMenu, 'DisconnectMenu', 9);
-        var task = archTaskFactory.addTask(archInboundCallFlow, 'First Task');
-        var jumpToTask = archMenuFactory.addMenuJumpToTask(mainMenu, 'JumpToTask', 8, task);
-        var disconnect = archScripting.factories.archFactoryActions.addActionDisconnect(task, 'Disconnect');
+        let archMainMenu       = archMenuFactory.addMenu(archInboundCallFlow, 'top menu', 'Top Menu', true);
+        let archDisconnectMenu = archMenuFactory.addMenuDisconnect(archMainMenu, 'DisconnectMenu', 9);
+        let archTask           = archTaskFactory.addTask(archInboundCallFlow, 'First archTask');
+        let archJumpToTask     = archMenuFactory.addMenuJumpToTask(archMainMenu, 'archJumpToTask', 8, archTask);
+        let archDisconnect     = archScripting.factories.archFactoryActions.addActionDisconnect(archTask, 'Disconnect');
         return archInboundCallFlow.saveAsync().then(function(){
          return archInboundCallFlow.publishAsync();
       });
      });
     
-    var flowPromise2 =  archFlowFactory.createFlowInboundCallAsync(flowName+ "_2", flowDescription,
+    var flowPromise2 = archFlowFactory.createFlowInboundCallAsync(flowName+ "_2", flowDescription,
       archLanguages.englishUnitedStates, function (archInboundCallFlow) {
+      
         archInboundCallFlow.initialAudio.setDefaultCaseLiteralTTS('welcome to the flow');
         // Create a menu and make it the starting menu for the flow.
-        var mainMenu = archMenuFactory.addMenu(archInboundCallFlow, 'top menu', 'Top Menu', true);
-        var disconnectMenu2 = archMenuFactory.addMenuDisconnect(mainMenu, 'DisconnectMenu', 9);
-        var task = archTaskFactory.addTask(archInboundCallFlow, 'First Task');
-        var jumpToTask = archMenuFactory.addMenuJumpToTask(mainMenu, 'JumpToTask', 8, task);
-        var disconnect = archScripting.factories.archFactoryActions.addActionDisconnect(task, 'Disconnect');
+        let archMainMenu       = archMenuFactory.addMenu(archInboundCallFlow, 'top menu', 'Top Menu', true);
+        let archDisconnectMenu = archMenuFactory.addMenuDisconnect(archMainMenu, 'DisconnectMenu', 9);
+        let archTask           = archTaskFactory.addTask(archInboundCallFlow, 'First archTask');
+        let archJumpToTask     = archMenuFactory.addMenuJumpToTask(archMainMenu, 'archJumpToTask', 8, archTask);
+        let archDisconnect     = archScripting.factories.archFactoryActions.addActionDisconnect(archTask, 'Disconnect');
         return archInboundCallFlow.saveAsync().then(function(){
          return archInboundCallFlow.validateAsync();
         });  
