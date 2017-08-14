@@ -18,7 +18,7 @@ function purecloudEnvironment(){
 }
 
 function architectRegion() {
-  return config.oauthProps[purecloudEnvironment()].region;
+  return config.oauthProps[purecloudEnvironment()].architectEnumString;
 }
 
 export{
