@@ -20,23 +20,23 @@ export default Ember.Component.extend({
   code: '',
   codeSamples: function () {
     let filteredSampleCode = [];
-    sampleCode.forEach(function (codeSample) {
-      if (codeSample.api === this.get("selectedApi")) {
-        filteredSampleCode.push(codeSample);
+    Object.keys(sampleCode[this.get('selectedApi').value]).forEach(function(key) {
+      if (!sampleCode[this.get('selectedApi').value][key].hideInDropDown) {
+        filteredSampleCode.push({name:sampleCode[this.get('selectedApi').value][key].name, value: key});
       }
     }.bind(this));
     return filteredSampleCode;
   }.property('selectedApi'),
   enableDebugging: false,
+  apiTypes: [ {displayName: 'PureCloud SDK', value: 'pureCloudSdk'}],
   selectedSdk: null,
-  selectedApi: 'PureCloud SDK',
+  selectedApi: {displayName: 'PureCloud SDK', value: 'pureCloudSdk'},
   isPurecloudSdk: function () {
-    return this.get('selectedApi') === 'PureCloud SDK';
+    return this.get('selectedApi').value === 'pureCloudSdk';
   }.property('selectedApi'),
   isArchitectSdk: function () {
-    return this.get('selectedApi') === 'Architect SDK';
+    return this.get('selectedApi').value === 'architectSdk';
   }.property('selectedApi'),
-  apiTypes: ['PureCloud SDK'],
   url: computed('enableDebugging', 'selectedSdk', function () {
     let purecloud = this.get("purecloud").get("session");
     let selectedSdk = this.get("selectedSdk");
@@ -135,9 +135,6 @@ export default Ember.Component.extend({
     };
     langTools.addCompleter(methodCompleter);
   },
-  // _initializeArchitectLogging(){
-  //   architect.services.archLogging;
-  // },
   _receivePostMessage(event) {
     try {
       if (event.origin !== "null" && event.origin !== window.location.origin) {
@@ -201,11 +198,11 @@ export default Ember.Component.extend({
       }), '*');
     });
 
-    let defaultCode = sampleCode[0].code;
+    let defaultCode = '';
 
     let storage = this.get("storageService");
     if (storage.localStorageGet('archDevToolsScripting')) {
-      this.get('apiTypes').push('Architect SDK');
+      this.get('apiTypes').push({displayName: 'Architect SDK', value: 'architectSdk'});
     }
     let code = storage.localStorageGet("code");
 
@@ -260,17 +257,11 @@ export default Ember.Component.extend({
     selectApi(api) {
       this.set('selectedApi', api);
     },
-    loadSample(name) {
+    loadSample(value) {
       let code;
-      for (var i = 0; i < sampleCode.length; i++) {
-        if (sampleCode[i].name === name) {
-          code = sampleCode[i].code;
-          break;
-        }
-      }
+      code = sampleCode[this.get('selectedApi').value][value].code;
       let editor = window.ace.edit('ace-code-editor');
       editor.getSession().setValue(code);
-
       this.set("code", code);
     },
 
@@ -294,7 +285,7 @@ export default Ember.Component.extend({
       } else if (this.get('isArchitectSdk')) {
         iframeBody.window.architect = architect;
         iframeBody.window.architect.services.archLogging.setLoggingCallback(this._architectLoggingCallback.bind(this));
-        code = token + 'var archScripting = window.architect; var session = archScripting.environment.archSession;' + code + 'session.startWithAuthToken("dev", scriptMain, token);';
+        code = token + 'var archScripting = window.architect;' + code;
       }
 
       iframeBody.postMessage(JSON.stringify({

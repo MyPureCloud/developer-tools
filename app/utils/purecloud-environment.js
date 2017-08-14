@@ -1,4 +1,5 @@
 const ENV_REG_EXP = /(inin[dts]ca|mypurecloud.*|localhost).*/i;
+import config from '../config/environment';
 
 function purecloudEnvironmentTld(){
     let env = ENV_REG_EXP.exec(window.location.hostname)[0];
@@ -13,11 +14,15 @@ function purecloudEnvironmentTld(){
 
 function purecloudEnvironment(){
     let env = ENV_REG_EXP.exec(window.location.hostname)[1].replace(/\./g,"");
-
     return env;
 }
 
+function architectRegion() {
+  return config.oauthProps[purecloudEnvironment()].region;
+}
+
 export{
+    architectRegion,
     purecloudEnvironmentTld,
     purecloudEnvironment
 };

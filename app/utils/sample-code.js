@@ -1,8 +1,23 @@
-const sampleCode = [
-  {
-    api: "PureCloud SDK",
-    name: "Get Current User",
-    code: `//use that session to interface with the API
+import {architectRegion} from '../utils/purecloud-environment';
+const architectHeader = `// var archScripting is the variable that contains the architect scripting library
+var archActionFactory = archScripting.factories.archFactoryActions;  // Factory to create actions
+var archEnums         = archScripting.enums.archEnums;               // Enum support
+var archActionFactory = archScripting.factories.archFactoryActions   // Factory to create actions
+var archFlowFactory   = archScripting.factories.archFactoryFlows;    // Factory to create flows
+var archLanguages     = archScripting.languages.archLanguages;       // Language support
+var archMenuFactory   = archScripting.factories.archFactoryMenus;    // Factory to create menus
+var archSession       = archScripting.environment.archSession;
+var archTaskFactory   = archScripting.factories.archFactoryTasks;    // Factory to create tasks
+`;
+const architectSessionStart = `
+
+archSession.startWithAuthToken("`+ architectRegion() + `", scriptMain, token);
+`;
+const sampleCode = {
+  pureCloudSdk: {
+    getCurrentUser: {
+      name: "Get Current User",
+      code: `//use that session to interface with the API
 var users = new purecloud.platform.UsersApi(pureCloudSession);
 
 console.log("getting ME");
@@ -11,11 +26,10 @@ users.getMe().then(function(userObject){
     console.log(userObject);
     console.log("done");
 });`
-  },
-  {
-    api: "PureCloud SDK",
-    name: "Update Presence",
-    code: `//This example will toggle your status between available and busy.
+    },
+    updatePresence: {
+      name: "Update Presence",
+      code: `//This example will toggle your status between available and busy.
 // TIP: open the notification tester, subscribe to your presence and pin the notifications.
 // You can see the websocket messages as your status changes.
 
@@ -71,11 +85,10 @@ presenceApi.getPresencedefinitions().then(function(presenceData){
     });
 });
 `
-  },
-  {
-    api: "PureCloud SDK",
-    name: "Place a Phone Call",
-    code: `var conversationsApi = new purecloud.platform.ConversationsApi(pureCloudSession);
+    },
+    placeAPhoneCall: {
+      name: "Place a Phone Call",
+      code: `var conversationsApi = new purecloud.platform.ConversationsApi(pureCloudSession);
 
 //create the request body, here (317) 222-2222 is the weather phone
 // in Indianapolis.
@@ -90,11 +103,10 @@ conversationsApi.postCalls(body).then(function(result){
 }).catch(function(error){
   console.error("Error Placing call", error);
 });`
-  },
-  {
-    api: "PureCloud SDK",
-    name: "Get Documents in Content Management",
-    code: `//This example will get the user's workspace and then list out
+    },
+    getDocumentsInContentManagement: {
+      name: "Get Documents in Content Management",
+      code: `//This example will get the user's workspace and then list out
 // all the documents in the workspace
 var contentManagementApi = new purecloud.platform.ContentManagementApi(pureCloudSession);
 var usersWorkspaceId = null;
@@ -124,11 +136,10 @@ contentManagementApi.getWorkspaces().then(function(workspaces){
 }).catch(function(error){
     console.error(error);
 });`
-  },
-  {
-    api: "PureCloud SDK",
-    name: "User Paging",
-    code: `//This example will log out a list of all users in the system.
+    },
+    userPaging: {
+      name: "User Paging",
+      code: `//This example will log out a list of all users in the system.
 var users = new purecloud.platform.UsersApi(pureCloudSession);
 
 console.log("getting ME");
@@ -146,38 +157,78 @@ function processPageOfUsers(results){
 }
 
 users.getUsers().then(processPageOfUsers);`
-  },
-  {
-    api: "PureCloud SDK",
-    name: "Get Org Details",
-    code: `var orgApi = new purecloud.platform.OrganizationApi(pureCloudSession);
-
+    },
+    getOrgDetails: {
+      name: "Get Org Details",
+      code: `var orgApi = new purecloud.platform.OrganizationApi(pureCloudSession);
 orgApi.getMe().then(function(result){
     console.log(result);
 });`
+    }
   },
-  {
-    api: "Architect SDK",
-    name: "Basic Flow Example",
-    code: ` function scriptMain() {
-      var flowName = "FromTheDeveloperCenter";
-      var flowDescription = flowName + ' description';
-      return archScripting.factories.archFactoryFlows.createFlowInboundCallAsync(flowName, flowDescription,
-                          archScripting.languages.archLanguages.englishUnitedStates, function (archInboundCallFlow) {
-               archInboundCallFlow.initialAudio.setDefaultCaseLiteralTTS('welcome to the flow');
-               // Create a menu and make it the starting menu for the flow.
-               var mainMenu = archScripting.factories.archFactoryMenus.addMenu(archInboundCallFlow, 'top menu', 'Top Menu', true);
-               var disconnectMenu2 = archScripting.factories.archFactoryMenus.addMenuDisconnect(mainMenu, 'DisconnectMenu', 9);
-               var task = archScripting.factories.archFactoryTasks.addTask(archInboundCallFlow, 'First Task');
-               var jumpToTask = archScripting.factories.archFactoryMenus.addMenuJumpToTask(mainMenu, 'JumpToTask', 8, task);
-               var disconnect = archScripting.factories.archFactoryActions.addActionDisconnect(task, 'Disconnect');
-               return archInboundCallFlow.saveAsync().then(function(){
-                  return archInboundCallFlow.publishAsync();
-               });
+  architectSdk: {
+    basicFlowExample: {
+      name: "Basic Flow Example",
+      code: architectHeader +
+      `
+function scriptMain() {
+  var flowName = "FromTheDeveloperCenter";
+  var flowDescription = flowName + ' description';
+  return archFlowFactory.createFlowInboundCallAsync(flowName, flowDescription,
+    archLanguages.englishUnitedStates, function (archInboundCallFlow) {
+      archInboundCallFlow.initialAudio.setDefaultCaseLiteralTTS('welcome to the flow');
+      // Create a menu and make it the starting menu for the flow.
+      var mainMenu = archMenuFactory.addMenu(archInboundCallFlow, 'top menu', 'Top Menu', true);
+      var disconnectMenu2 = archMenuFactory.addMenuDisconnect(mainMenu, 'DisconnectMenu', 9);
+      var task = archTaskFactory.addTask(archInboundCallFlow, 'First Task');
+      var jumpToTask = archMenuFactory.addMenuJumpToTask(mainMenu, 'JumpToTask', 8, task);
+      var disconnect = archScripting.factories.archFactoryActions.addActionDisconnect(task, 'Disconnect');
+      return archInboundCallFlow.saveAsync().then(function(){
+        return archInboundCallFlow.publishAsync();
+      });
     });
-}`
+}` + architectSessionStart
+    },
+    twoFlowExample: {
+      name: "Two Flow Example",
+      code: architectHeader +
+      `
+function scriptMain() {
+  var flowName = "FromTheDeveloperCenter";
+  var flowDescription = flowName + ' description';
+  var flowPromise1 =  archFlowFactory.createFlowInboundCallAsync(flowName+ "_1", flowDescription,
+     archLanguages.englishUnitedStates, function (archInboundCallFlow) {
+       archInboundCallFlow.initialAudio.setDefaultCaseLiteralTTS('welcome to the flow');
+       // Create a menu and make it the starting menu for the flow.
+        var mainMenu = archMenuFactory.addMenu(archInboundCallFlow, 'top menu', 'Top Menu', true);
+        var disconnectMenu2 = archMenuFactory.addMenuDisconnect(mainMenu, 'DisconnectMenu', 9);
+        var task = archTaskFactory.addTask(archInboundCallFlow, 'First Task');
+        var jumpToTask = archMenuFactory.addMenuJumpToTask(mainMenu, 'JumpToTask', 8, task);
+        var disconnect = archScripting.factories.archFactoryActions.addActionDisconnect(task, 'Disconnect');
+        return archInboundCallFlow.saveAsync().then(function(){
+         return archInboundCallFlow.publishAsync();
+      });
+     });
+    
+    var flowPromise2 =  archFlowFactory.createFlowInboundCallAsync(flowName+ "_2", flowDescription,
+      archLanguages.englishUnitedStates, function (archInboundCallFlow) {
+        archInboundCallFlow.initialAudio.setDefaultCaseLiteralTTS('welcome to the flow');
+        // Create a menu and make it the starting menu for the flow.
+        var mainMenu = archMenuFactory.addMenu(archInboundCallFlow, 'top menu', 'Top Menu', true);
+        var disconnectMenu2 = archMenuFactory.addMenuDisconnect(mainMenu, 'DisconnectMenu', 9);
+        var task = archTaskFactory.addTask(archInboundCallFlow, 'First Task');
+        var jumpToTask = archMenuFactory.addMenuJumpToTask(mainMenu, 'JumpToTask', 8, task);
+        var disconnect = archScripting.factories.archFactoryActions.addActionDisconnect(task, 'Disconnect');
+        return archInboundCallFlow.saveAsync().then(function(){
+         return archInboundCallFlow.validateAsync();
+        });  
+    });
+    
+    return [flowPromise1, flowPromise2];
+}
+` + architectSessionStart
+    }
   }
-
-];
+};
 
 export default sampleCode;

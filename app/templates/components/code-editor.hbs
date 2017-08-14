@@ -7,16 +7,16 @@
                     </li>
                     <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Api:
-                      <strong>{{selectedApi}}</strong>
+                      <strong>{{selectedApi.displayName}}</strong>
                       <span class="caret"></span></a>
                     <ul class="dropdown-menu dropdown-menu-with-check">
                       {{#each apiTypes as |api |}}
                         <li {{action 'selectApi' api}}>
                           <a href="#">
-                            {{#if (eq selectedApi api)}}
-                              <i class="fa fa-check"></i> <strong>{{api}}</strong>
+                            {{#if (eq selectedApi.value api.value)}}
+                              <i class="fa fa-check"></i> <strong>{{api.displayName}}</strong>
                             {{else}}
-                              {{api}}
+                              {{api.displayName}}
                             {{/if}}
                           </a>
                         </li>
@@ -54,8 +54,8 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Load Code <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             {{#each codeSamples as |sample index|}}
-                            <li {{action 'loadSample' sample.name}}>
-                                <a href="#"  >
+                            <li {{action 'loadSample' sample.value}}>
+                                <a href="#" value="sample.value" >
                                     {{sample.name}}
                                 </a>
                             </li>

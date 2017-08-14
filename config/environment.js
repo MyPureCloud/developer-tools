@@ -28,35 +28,43 @@ module.exports = function(environment) {
         'oauthProps': {
             localhost: {
                 clientId: 'f2f2762f-6c8f-4f06-9f13-0560c17cef2b',
-                redirect: 'http://localhost:4200/'
+                redirect: 'http://localhost:4200/',
+                region: 'dev'
             },
             inindca: {
                 clientId: 'f2f2762f-6c8f-4f06-9f13-0560c17cef2b',
-                redirect: 'https://developer.inindca.com/developer-tools/'
+                redirect: 'https://developer.inindca.com/developer-tools/',
+                region: 'dev'
             },
             inintca:{
                 clientId: '89814d34-de36-4f99-8f55-399aa84cb620',
-                redirect: 'https://developer.inintca.com/developer-tools/'
+                redirect: 'https://developer.inintca.com/developer-tools/',
+                region: 'test'
             },
             ininsca: {
                 clientId: 'b16c40bf-1d9d-4f59-9f1c-07e60528c659',
-                redirect: 'https://apps.ininsca.com/developer-tools/'
+                redirect: 'https://apps.ininsca.com/developer-tools/',
+                region: 'stage'
             },
             mypurecloudcom: {
                 clientId: 'd7200ae7-b2bb-4ff6-afcf-e29ebd1d6f56',
-                redirect: 'https://developer.mypurecloud.com/developer-tools/'
+                redirect: 'https://developer.mypurecloud.com/developer-tools/',
+                region: 'prod'
             },
             mypurecloudie: {
                 clientId: '51729d1d-e816-4f3d-9fb7-cf5fa0b79041',
-                redirect: 'https://developer.mypurecloud.ie/developer-tools/'
+                redirect: 'https://developer.mypurecloud.ie/developer-tools/',
+                region: 'eu-west-1'
             },
             mypurecloudcomau: {
                 clientId: '303ae267-3163-4fec-9f38-d02f9764a849',
-                redirect: 'https://developer.mypurecloud.com.au/developer-tools/'
+                redirect: 'https://developer.mypurecloud.com.au/developer-tools/',
+                region: 'ap-sourtheast-2'
             },
             mypurecloudjp: {
                 clientId: '818a2480-2f88-4f0a-afc0-777dce4f3f6e',
-                redirect: 'https://developer.mypurecloud.jp/developer-tools/'
+                redirect: 'https://developer.mypurecloud.jp/developer-tools/',
+                region: 'ap-northeast-1'
             }
         }
     };

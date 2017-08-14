@@ -50,7 +50,7 @@
     "loader.js": "^4.0.1"
   },
   "dependencies": {
-    "architect-scripting": "git+ssh://git@bitbucket.org:inindca/architect-scripting.git#d91519b",
+    "architect-scripting": "git+ssh://git@bitbucket.org:inindca/architect-scripting.git#d892464",
     "babel-plugin-transform-es2015-block-scoping": "^6.24.1",
     "ember-cli-code-coverage": "^0.2.2"
   }
