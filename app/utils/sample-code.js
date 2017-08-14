@@ -182,8 +182,8 @@ function scriptMain() {
       // Create a menu and make it the starting menu for the flow.
       let archMainMenu       = archMenuFactory.addMenu(archInboundCallFlow, 'top menu', 'Top Menu', true);
       let archDisconnectMenu = archMenuFactory.addMenuDisconnect(archMainMenu, 'DisconnectMenu', 9);
-      let archTask           = archTaskFactory.addTask(archInboundCallFlow, 'First archTask');
-      let archJumpToTask     = archMenuFactory.addMenuJumpToTask(archMainMenu, 'archJumpToTask', 8, archTask);
+      let archTask           = archTaskFactory.addTask(archInboundCallFlow, 'First Task');
+      let archJumpToTask     = archMenuFactory.addMenuJumpToTask(archMainMenu, 'Jump to Task', 8, archTask);
       let archDisconnect     = archScripting.factories.archFactoryActions.addActionDisconnect(archTask, 'Disconnect');
       return archInboundCallFlow.saveAsync().then(function(){
         return archInboundCallFlow.publishAsync();
@@ -206,8 +206,8 @@ function scriptMain() {
        // Create a menu and make it the starting menu for the flow.
         let archMainMenu       = archMenuFactory.addMenu(archInboundCallFlow, 'top menu', 'Top Menu', true);
         let archDisconnectMenu = archMenuFactory.addMenuDisconnect(archMainMenu, 'DisconnectMenu', 9);
-        let archTask           = archTaskFactory.addTask(archInboundCallFlow, 'First archTask');
-        let archJumpToTask     = archMenuFactory.addMenuJumpToTask(archMainMenu, 'archJumpToTask', 8, archTask);
+        let archTask           = archTaskFactory.addTask(archInboundCallFlow, 'First Task');
+        let archJumpToTask     = archMenuFactory.addMenuJumpToTask(archMainMenu, 'Jump to Task', 8, archTask);
         let archDisconnect     = archScripting.factories.archFactoryActions.addActionDisconnect(archTask, 'Disconnect');
         return archInboundCallFlow.saveAsync().then(function(){
          return archInboundCallFlow.publishAsync();
@@ -221,8 +221,8 @@ function scriptMain() {
         // Create a menu and make it the starting menu for the flow.
         let archMainMenu       = archMenuFactory.addMenu(archInboundCallFlow, 'top menu', 'Top Menu', true);
         let archDisconnectMenu = archMenuFactory.addMenuDisconnect(archMainMenu, 'DisconnectMenu', 9);
-        let archTask           = archTaskFactory.addTask(archInboundCallFlow, 'First archTask');
-        let archJumpToTask     = archMenuFactory.addMenuJumpToTask(archMainMenu, 'archJumpToTask', 8, archTask);
+        let archTask           = archTaskFactory.addTask(archInboundCallFlow, 'First Task');
+        let archJumpToTask     = archMenuFactory.addMenuJumpToTask(archMainMenu, 'Jump to Task', 8, archTask);
         let archDisconnect     = archScripting.factories.archFactoryActions.addActionDisconnect(archTask, 'Disconnect');
         return archInboundCallFlow.saveAsync().then(function(){
          return archInboundCallFlow.validateAsync();
