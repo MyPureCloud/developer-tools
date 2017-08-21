@@ -201,7 +201,7 @@ export default Ember.Component.extend({
     let defaultCode = '';
 
     let storage = this.get("storageService");
-    if (storage.localStorageGet('archDevToolsScripting') && !this.get('apiTypes')[1] || this.get('apiTypes')[1].value !=='architectSdk' ) {
+    if (storage.localStorageGet('archDevToolsScripting') && !this.get('apiTypes')[1] ||  (this.get('apiTypes')[1] && this.get('apiTypes')[1].value !== 'architectSdk')) {
       this.get('apiTypes').push({displayName: 'Architect SDK', value: 'architectSdk'});
     }
     let code = storage.localStorageGet("code");
