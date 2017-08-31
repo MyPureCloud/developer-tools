@@ -1,6 +1,20 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
+    range:{},
+    gte: 0,
+    lt: 0,
+    metric:"",
+    metrics: [],
+    analyticsValueService: Ember.inject.service(),
+    init(){
+        this._super(...arguments);
+        this.get("analyticsValueService").get("metrics").forEach((m)=>{
+            if (m[0] == "t"){
+                this.metrics.pushObject(m);
+            }
+        })
+    },
     didReceiveAttrs() {
         this._super(...arguments);
 
@@ -11,8 +25,10 @@ export default Ember.Component.extend({
             this.set("lt", viewRef.range.lt);
             this.set("name", viewRef.name);
         }
+
+        this.get("metric");
     },
-    _observeChanges: Ember.observer('range','range.gte', 'range.lt', 'name', function() {
+    _observeChanges: Ember.observer('metric', 'range','gte', 'lt', 'name', function() {
         let range = this.get("range");
         let name = this.get("name");
 
@@ -20,7 +36,11 @@ export default Ember.Component.extend({
         // viewRef.range = range;
         // viewRef.name = name;
         Ember.set(viewRef,'name', name);
-        Ember.set(viewRef,'range', range);
+        Ember.set(viewRef,'target', this.get("metric"));
+        Ember.set(viewRef,'range', {
+            gte: this.get('gte'),
+            lt: this.get('lt'),
+        });
         //Ember.set(viewRef,'range.gte', this.get('gte'));
         //Ember.set(viewRef,'range.lt', this.get('lt'));
 

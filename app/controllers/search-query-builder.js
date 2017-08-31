@@ -239,7 +239,7 @@ export default Ember.Controller.extend({
                 }
             }) .done(function( data ) {
                 self.set("queryResult", JSON.stringify(data, null,  "  "));
-            }).error(function(err){
+            }).catch(function(err){
                 self.set("queryResult", JSON.stringify(err, null,  "  "));
             });
         },
