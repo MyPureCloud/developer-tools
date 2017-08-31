@@ -6,10 +6,7 @@ export default Ember.Service.extend(Ember.Evented,{
     _processSdkTags(tags){
         let releases = [];
         for(var x=0;x< tags.length; x++){
-            let tagSplit = tags[x].name.split('.');
-            if(tags[x].name.indexOf('v') === -1 && parseInt(tagSplit[0]) >= 0 &&  parseInt(tagSplit[1]) >= 50 ){
-                releases.push(tags[x].name);
-            }
+            releases.push(tags[x].name);
         }
         releases.sort(function compare(a, b) {
             let aSplit = a.split('.');
@@ -31,7 +28,7 @@ export default Ember.Service.extend(Ember.Evented,{
     init(){
 
         let that = this;
-        $.getJSON("https://api.github.com/repos/MyPureCloud/purecloud_api_sdk_javascript/tags").done(function(tags){
+        $.getJSON("https://api.github.com/repos/MyPureCloud/platform-client-sdk-javascript/tags").done(function(tags){
             that._processSdkTags(tags);
             if ( !(that.get('isDestroyed') || that.get('isDestroying')) ) {
 

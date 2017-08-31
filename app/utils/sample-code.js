@@ -2,10 +2,10 @@ const sampleCode = [
     {
         name: "Get Current User",
         code: `//use that session to interface with the API
-var users = new purecloud.platform.UsersApi(pureCloudSession);
+var users = new platformClient.UsersApi();
 
 console.log("getting ME");
-users.getMe().then(function(userObject){
+users.getUsersMe().then(function(userObject){
     console.log("got me");
     console.log(userObject);
     console.log("done");
@@ -17,8 +17,8 @@ users.getMe().then(function(userObject){
 // TIP: open the notification tester, subscribe to your presence and pin the notifications.
 // You can see the websocket messages as your status changes.
 
-var presenceApi = new purecloud.platform.PresenceApi(pureCloudSession);
-var usersApi = new purecloud.platform.UsersApi(pureCloudSession);
+var presenceApi = new platformClient.PresenceApi();
+var usersApi = new platformClient.UsersApi();
 
 var userId = null;
 
@@ -36,7 +36,7 @@ function setPresence(presenceId){
   };
 
   // Patch presence
-  presenceApi.patchUserIdPresencesSourceId(userId, 'PURECLOUD', newPresence);
+  presenceApi.getUserPresence(userId, 'PURECLOUD', newPresence);
 }
 
 //Start by getting all the presence definitions in the system
@@ -55,7 +55,7 @@ presenceApi.getPresencedefinitions().then(function(presenceData){
     console.log("got all presence info");
 
     //get your user information, including current presence info
-    usersApi.getMe("presence").then(function(userObject){
+    usersApi.getUsersMe({'expand': ["presence"]}).then(function(userObject){
         userId = userObject.id;
 
         var currentPresenceId = userObject.presence.presenceDefinition.id;
@@ -72,7 +72,7 @@ presenceApi.getPresencedefinitions().then(function(presenceData){
     },
     {
         name: "Place a Phone Call",
-        code: `var conversationsApi = new purecloud.platform.ConversationsApi(pureCloudSession);
+        code: `var conversationsApi = new platformClient.ConversationsApi();
 
 //create the request body, here (317) 222-2222 is the weather phone
 // in Indianapolis.
@@ -81,7 +81,7 @@ var body = {
   phoneNumber: "3172222222"
 };
 
-conversationsApi.postCalls(body).then(function(result){
+conversationsApi.postConversationsCalls(body).then(function(result){
   console.log("call placed successfully");
   console.log(result);
 }).catch(function(error){
@@ -92,10 +92,10 @@ conversationsApi.postCalls(body).then(function(result){
         name: "Get Documents in Content Management",
         code: `//This example will get the user's workspace and then list out
 // all the documents in the workspace
-var contentManagementApi = new purecloud.platform.ContentManagementApi(pureCloudSession);
+var contentManagementApi = new platformClient.ContentManagementApi();
 var usersWorkspaceId = null;
 
-contentManagementApi.getWorkspaces().then(function(workspaces){
+contentManagementApi.getContentmanagementWorkspaces().then(function(workspaces){
     //iterate over the workspaces the user has access to
     for(var x=0; x< workspaces.entities.length; x++){
 
@@ -107,7 +107,7 @@ contentManagementApi.getWorkspaces().then(function(workspaces){
     }
 
     //get the documents for the workspace
-    contentManagementApi.getDocuments(usersWorkspaceId).then(function(documents){
+    contentManagementApi.getContentmanagementDocuments(usersWorkspaceId).then(function(documents){
       var entities = documents.entities;
       for(var x=0; x< entities.length; x++){
         let document =entities[x];
@@ -124,7 +124,7 @@ contentManagementApi.getWorkspaces().then(function(workspaces){
     {
         name: "User Paging",
         code: `//This example will log out a list of all users in the system.
-var users = new purecloud.platform.UsersApi(pureCloudSession);
+var users = new platformClient.UsersApi();
 
 console.log("getting ME");
 
@@ -144,9 +144,9 @@ users.getUsers().then(processPageOfUsers);`
     },
     {
         name: "Get Org Details",
-        code: `var orgApi = new purecloud.platform.OrganizationApi(pureCloudSession);
+        code: `var orgApi = new platformClient.OrganizationApi();
 
-orgApi.getMe().then(function(result){
+orgApi.getOrganizationsMe().then(function(result){
     console.log(result);
 });`
     }
