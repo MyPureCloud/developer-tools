@@ -24,3 +24,22 @@
       </div>
     </div>
 </div>
+
+<div class="panel panel-default">
+    <div class="panel-heading"><h3 class="panel-title panel-title-condensed">User Defined Views</h3></div>
+    <div class="panel-body">
+        <button class='btn btn-link btn-sm' {{action 'newView'}} title="Add View">
+            <i class="pc-moon pc-create-room"></i>Add View
+        </button>
+        <br/>
+
+
+
+        {{#each views as |vw|}}
+        <div class="filter-section">
+            {{user-defined-view viewRef=vw}}
+        </div>
+        {{/each}}
+
+    </div>
+</div>
