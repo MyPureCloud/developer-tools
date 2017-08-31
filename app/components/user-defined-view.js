@@ -29,21 +29,20 @@ export default Ember.Component.extend({
         this.get("metric");
     },
     _observeChanges: Ember.observer('metric', 'range','gte', 'lt', 'name', function() {
-        let range = this.get("range");
         let name = this.get("name");
 
         let viewRef = this.get("viewRef");
-        // viewRef.range = range;
-        // viewRef.name = name;
         Ember.set(viewRef,'name', name);
         Ember.set(viewRef,'target', this.get("metric"));
         Ember.set(viewRef,'range', {
             gte: this.get('gte'),
             lt: this.get('lt'),
         });
-        //Ember.set(viewRef,'range.gte', this.get('gte'));
-        //Ember.set(viewRef,'range.lt', this.get('lt'));
-
 
     }),
+    actions:{
+        delete(){
+            this.get("deleteView")(this.get("index"));
+        }
+    }
 });

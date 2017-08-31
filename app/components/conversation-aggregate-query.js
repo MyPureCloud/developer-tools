@@ -72,6 +72,9 @@ export default Ember.Component.extend({
                 }
 
             });
+        },
+        deleteView(index){
+            this.views.removeAt(index);
         }
     }
 });
