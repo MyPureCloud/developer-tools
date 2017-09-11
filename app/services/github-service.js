@@ -6,10 +6,7 @@ export default Ember.Service.extend(Ember.Evented,{
     _processSdkTags(tags){
         let releases = [];
         for(var x=0;x< tags.length; x++){
-            let tagSplit = tags[x].name.split('.');
-            if(tags[x].name.indexOf('v') === -1 && parseInt(tagSplit[0]) >= 0){
-                releases.push(tags[x].name);
-            }
+            releases.push(tags[x].name);
         }
         releases.sort(function compare(a, b) {
             let aSplit = a.split('.');

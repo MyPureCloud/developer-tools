@@ -28,18 +28,18 @@ export default Ember.Controller.extend({
         }
     ],
     queryTypes:[
-            "EXACT",
-            "CONTAINS",
-             "STARTS_WITH",
-    //         "REQUIRED_FIELDS",
-             "RANGE",
-             "DATE_RANGE",
-             "LESS_THAN",
-             "LESS_THAN_EQUAL_TO",
-             "GREATER_THAN",
-             "GREATER_THAN_EQUAL_TO",
-             "TERM"
-//             "TERMS".
+        "EXACT",
+        "CONTAINS",
+        "STARTS_WITH",
+        //         "REQUIRED_FIELDS",
+        "RANGE",
+        "DATE_RANGE",
+        "LESS_THAN",
+        "LESS_THAN_EQUAL_TO",
+        "GREATER_THAN",
+        "GREATER_THAN_EQUAL_TO",
+        "TERM"
+        //             "TERMS".
     ],
     aggregateTypes:["COUNT", "SUM", "AVERAGE", "TERM", "CONTAINS", "STARTS_WITH", "ENDS_WITH"],
     aggregateSort:["VALUE_DESC", "VALUE_ASC", "COUNT_DESC", "COUNT_ASC"],
@@ -58,9 +58,9 @@ export default Ember.Controller.extend({
     }),
     _calculateQueryJson(){
         let query = {
-        	"pageSize": this.get("pageSize"),
-        	"pageNumber": this.get("pageNumber"),
-        	"types": []
+            "pageSize": this.get("pageSize"),
+            "pageNumber": this.get("pageNumber"),
+            "types": []
         };
 
         if(this.get("searchType") === "general_search"){
@@ -98,10 +98,10 @@ export default Ember.Controller.extend({
         this.set('queryJson', JSON.stringify(query, null, "  "));
     },
     queryObserver: observer('queryFilters', 'queryFilters.@each','queryFilters.@each.fields','queryFilters.@each.type',
-                            'queryFilters.@each.operator','queryFilters.@each.value','queryFilters.@each.startValue',
-                            'queryFilters.@each.endValue','sort','pageSize','pageNumber','getUsers','getGroups',
-                            'getLocations', 'getChats', 'aggregates', 'aggregates.@each', 'aggregates.@each.field', 'aggregates.@each.type',
-                            'aggregates.@each.name', 'aggregates.@each.value', 'returnFields.@each', 'profileQueryParameter', function() {
+    'queryFilters.@each.operator','queryFilters.@each.value','queryFilters.@each.startValue',
+    'queryFilters.@each.endValue','sort','pageSize','pageNumber','getUsers','getGroups',
+    'getLocations', 'getChats', 'aggregates', 'aggregates.@each', 'aggregates.@each.field', 'aggregates.@each.type',
+    'aggregates.@each.name', 'aggregates.@each.value', 'returnFields.@each', 'profileQueryParameter', function() {
         this._calculateQueryJson();
         this._setAvailableFilterFields();
         this._setSearchTypeUrls();
@@ -123,8 +123,8 @@ export default Ember.Controller.extend({
         let thisContext = this;
         Ember.run.later((function() {
             if(thisContext.get("getLocations") === true ||
-                thisContext.get("getUsers") === true ||
-                thisContext.get("getGroups") === true){
+            thisContext.get("getUsers") === true ||
+            thisContext.get("getGroups") === true){
                 thisContext.set("getChats", false);
             }
         }), 1);
@@ -239,7 +239,7 @@ export default Ember.Controller.extend({
                 }
             }) .done(function( data ) {
                 self.set("queryResult", JSON.stringify(data, null,  "  "));
-            }).error(function(err){
+            }).catch(function(err){
                 self.set("queryResult", JSON.stringify(err, null,  "  "));
             });
         },

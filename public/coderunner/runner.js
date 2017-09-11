@@ -67,17 +67,13 @@
 
 
     function sendConsoleMessage(type, args){
-      try{
+
         parentWindow.postMessage(JSON.stringify({
-          action: 'console',
-          type: type,
-          arguments: args
+            action: 'console',
+            type: type,
+            arguments: args
 
         }), origin);
-      } catch(error){
-
-      }
-
     }
 
     var ANONOMOUS_REGEX = /<anonymous>:(\d+):\d+/;
@@ -117,6 +113,9 @@
                         }
                     }
                 }
+
+                //data = 'var pureCloudSession = purecloud.platform.PureCloudSession({strategy: "token",token: "' + authToken+ '", environment: "' + environment+ '"});' + data
+                data = "var platformClient = require('platformClient'); platformClient.ApiClient.instance.setAccessToken('"+ authToken +"'); platformClient.ApiClient.instance.setEnvironment('"+environment+"');"  + data;
                 eval(data);
             }
             catch (e) {

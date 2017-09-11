@@ -7,7 +7,7 @@ export default Ember.Service.extend(Ember.Evented,{
                 window.localStorage["developertools-" + key] = JSON.stringify(value);
             }
         }catch(ex){
-
+            console.warn(ex);
         }
     },
     localStorageGet(key){
@@ -18,7 +18,7 @@ export default Ember.Service.extend(Ember.Evented,{
               }
             }
         }catch(ex){
-
+            console.warn(ex);
         }
 
         return null;

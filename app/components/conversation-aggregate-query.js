@@ -7,6 +7,7 @@ export default Ember.Component.extend({
     interval: null,
     groupBy: [],
     selectedMetrics:[],
+    views: [],
     flattenMultivaluedDimensions: false,
     init(){
         this._super(...arguments);
@@ -38,6 +39,11 @@ export default Ember.Component.extend({
             query.filter = filter;
         }
 
+        var views = this.get("views");
+        if(views){
+            query.views = views;
+        }
+
         var selectedMetrics = this.get('selectedMetrics');
         if(selectedMetrics && selectedMetrics.length>0){
             query.metrics = selectedMetrics;
@@ -51,8 +57,24 @@ export default Ember.Component.extend({
         return query;
     },
     queryJson:null,
-    _observeChanges: Ember.observer('granularity', 'interval', 'groupBy', 'filter', "flattenMultivaluedDimensions", 'selectedMetrics', function() {
+    _observeChanges: Ember.observer('views.@each', 'views.@each.name','views.@each.range','views.@each.range.lt', 'views.@each.gte', 'granularity', 'interval', 'groupBy', 'filter', "flattenMultivaluedDimensions", 'selectedMetrics', function() {
         let query = JSON.stringify(this._computeValue(), null, " ");
         this.set('queryJson', query);
-    })
+    }),
+    actions:{
+        newView(){
+            this.views.pushObject({
+                name: "name",
+                function: "rangeBound",
+                range:{
+                    lt:10,
+                    gte:0
+                }
+
+            });
+        },
+        deleteView(index){
+            this.views.removeAt(index);
+        }
+    }
 });

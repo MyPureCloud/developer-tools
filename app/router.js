@@ -4,6 +4,7 @@ import config from './config/environment';
 
 const Router = Ember.Router.extend({
     location: config.locationType,
+    rootURL: config.rootURL,
     init: function(){
         this._super(...arguments);
         if(config.analyticsTrackingId && typeof(ga) !== 'undefined' && ga !== null){
