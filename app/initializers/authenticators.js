@@ -7,6 +7,12 @@ import {purecloudEnvironmentTld} from '../utils/purecloud-environment';
 export default {
     name: 'authenticators',
     featureTogglesToQuery: ['archDevToolsScripting'],
+  /**
+   * Creates the query string to get all the feature toggles that Dev-center tools cares about.
+   * Creates this string based on the featureTogglesToQuery array
+   * @return {string} - the query string
+   * @private
+   */
     _createQueryString() {
       var queryString = '';
       this.featureTogglesToQuery.forEach( function (toggle) {
@@ -36,7 +42,7 @@ export default {
         let loginPromise = session.login();
 
         loginPromise.then(function(){
-
+          // Makes call to platform api to get the feature toggles for the user that is logged in.
           $.ajax({
             url: 'https://apps.'+env+'/platform/api/v2/featuretoggles?' + this._createQueryString(),
             type: 'GET',

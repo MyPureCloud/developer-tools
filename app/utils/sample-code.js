@@ -7,11 +7,17 @@ const archLanguages     = archScripting.languages.archLanguages;       // Langua
 const archMenuFactory   = archScripting.factories.archFactoryMenus;    // Factory to create menus
 const archSession       = archScripting.environment.archSession;
 const archTaskFactory   = archScripting.factories.archFactoryTasks;    // Factory to create tasks
+const archPromiseFactory= archScripting.factories.archFactoryPromise;  // Factory to create Architect Promises
 `;
 const architectSessionStart = `
 
 archSession.startWithAuthToken(`+ architectRegion() + `, scriptMain, token);
 `;
+/**
+ * This is a map of all the sample code for the code editor.
+ * @type {object}
+ */
+
 const sampleCode = {
   pureCloudSdk: {
     getCurrentUser: {
@@ -229,7 +235,7 @@ function scriptMain() {
         });  
     });
     
-    return [flowPromise1, flowPromise2];
+    return  archPromiseFactory.createPromise([flowPromise1, flowPromise2]);
 }
 ` + architectSessionStart
     }

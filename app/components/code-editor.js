@@ -201,6 +201,7 @@ export default Ember.Component.extend({
     let defaultCode = '';
 
     let storage = this.get("storageService");
+    // This checks the feature toggle and if it is true it adds the apiType to the dropdown
     if (storage.localStorageGet('archDevToolsScripting') && !this.get('apiTypes')[1] ||  (this.get('apiTypes')[1] && this.get('apiTypes')[1].value !== 'architectSdk')) {
       this.get('apiTypes').push({displayName: 'Architect SDK', value: 'architectSdk'});
     }
@@ -213,6 +214,11 @@ export default Ember.Component.extend({
     this.set("code", code);
 
   },
+  /**
+   * Callback method that allows scripting to right to the console on the right hand side of the screen.
+   * @param logInfo - Log Info to be written the console displayed to the user
+   * @private
+   */
   _architectLoggingCallback(logInfo) {
     var messageType;
     switch  ( logInfo.logType) {
@@ -251,22 +257,34 @@ export default Ember.Component.extend({
 
   },
   actions: {
+    /**
+     * Selects which SDK version to use
+     * @param sdk [string] - key for sdk
+     */
     selectSdk(sdk) {
       this.set('selectedSdk', sdk);
     },
+    /**
+     * Selects which api to use
+     * @param api [string] - key for api
+     */
     selectApi(api) {
       this.set('selectedApi', api);
     },
+    /**
+     * Loads the correct sample code for the selected Api
+     * @param value [string] - key for sample code to load.
+     */
     loadSample(value) {
       let code;
       code = sampleCode[this.get('selectedApi').value][value].code;
+      if (!code) { return; }
       let editor = window.ace.edit('ace-code-editor');
       editor.getSession().setValue(code);
       this.set("code", code);
     },
 
     run() {
-      // need to expose architect as a window command so ace can nab it.
       this.get("analyticsService").logCodeExecution();
 
       this.messages.clear();
@@ -275,7 +293,7 @@ export default Ember.Component.extend({
 
       let storage = this.get("storageService");
       storage.localStorageSet("code", code);
-
+      // creating a token line that can be used by architect or purecloud
       var token = 'var token ="' + this.get('purecloud').get("session").options.token + '";';
 
       if (this.get('isPurecloudSdk')) {
@@ -283,8 +301,11 @@ export default Ember.Component.extend({
         // Append different setup code for which sdk we are currently using
         code = token + 'var pureCloudSession = purecloud.platform.PureCloudSession({strategy: "token",token: token, environment: "inindca.com"});' + code;
       } else if (this.get('isArchitectSdk')) {
+        // need to expose architect as a window command so ace can nab it.
         iframeBody.window.architect = architect;
+        // Sets the callback on the architect logging class so that the info logs are displayed in the UI not just the console
         iframeBody.window.architect.services.archLogging.setLoggingCallback(this._architectLoggingCallback.bind(this));
+        // All calls to scripting in the code window must be made with archScripting.
         code = token + 'var archScripting = window.architect;' + code;
       }
 
