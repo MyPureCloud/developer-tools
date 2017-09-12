@@ -23,7 +23,7 @@ const sampleCode = {
     getCurrentUser: {
       name: "Get Current User",
       code: `//use that session to interface with the API
-var users = new purecloud.platform.UsersApi(pureCloudSession);
+var users = new platformClient.UsersApi();
 
 console.log("getting ME");
 users.getUsersMe().then(function(userObject){
@@ -93,7 +93,7 @@ presenceApi.getPresencedefinitions().then(function(presenceData){
     },
     placeAPhoneCall: {
       name: "Place a Phone Call",
-      code: `var conversationsApi = new purecloud.platform.ConversationsApi(pureCloudSession);
+      code: `var conversationsApi = new platformClient.ConversationsApi();
 
 //create the request body, here (317) 222-2222 is the weather phone
 // in Indianapolis.
@@ -145,7 +145,7 @@ contentManagementApi.getContentmanagementWorkspaces().then(function(workspaces){
     userPaging: {
       name: "User Paging",
       code: `//This example will log out a list of all users in the system.
-var users = new purecloud.platform.UsersApi(pureCloudSession);
+var users =  new platformClient.UsersApi();
 
 console.log("getting ME");
 
@@ -165,8 +165,8 @@ users.getUsers().then(processPageOfUsers);`
     },
     getOrgDetails: {
       name: "Get Org Details",
-      code: `var orgApi = new purecloud.platform.OrganizationApi(pureCloudSession);
-orgApi.getMe().then(function(result){
+      code: `var orgApi = new platformClient.OrganizationApi();
+orgApi.getOrganizationsMe().then(function(result){
     console.log(result);
 });`
     }
