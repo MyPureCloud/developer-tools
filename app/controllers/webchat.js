@@ -20,7 +20,7 @@ export default Ember.Controller.extend({
     zip: "",
     phone: "",
     queue: "",
-    locale: "",
+    locale: "en",
     init(){
         this._super(...arguments);
 
