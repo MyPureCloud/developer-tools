@@ -20,7 +20,6 @@ export default Ember.Service.extend({
   },
   init() {
     let that = this;
-    that.set('metrics',['metric A', 'metric B']);
     var swaggerUrl = '/swagger-schema/publicapi-v2-latest.json';
     $.getJSON({
       url: swaggerUrl,
