@@ -20,6 +20,7 @@ export default Ember.Controller.extend({
     zip: "",
     phone: "",
     queue: "",
+    locale: "en",
     init(){
         this._super(...arguments);
 
@@ -40,7 +41,7 @@ export default Ember.Controller.extend({
                 this.set("zip", savedData.zip);
                 this.set("phone", savedData.phone);
                 this.set("queue", savedData.queue);
-
+                this.set("locale", savedData.locale);
             }
         });
 
@@ -50,7 +51,7 @@ export default Ember.Controller.extend({
     queues: computed('queueService.queues', function() {
         return this.get('queueService').get('queues');
     }),
-    chatConfig: computed('queue', 'firstName', 'lastName', 'address', 'city', 'zip', 'state', 'phone', function() {
+    chatConfig: computed('queue', 'firstName', 'lastName', 'address', 'city', 'zip', 'state', 'phone', 'locale', function() {
         try{
             let environment = purecloudEnvironmentTld();
             let companyLogo = $("#companyLogo").attr('src');
@@ -92,7 +93,7 @@ export default Ember.Controller.extend({
                 "logLevel": "DEBUG",
 
                 // Locale code
-                "locale": "en",
+                "locale": this.get("locale"),
 
                 // Data that will be included with interaction
                 "data": {
@@ -170,7 +171,8 @@ export default Ember.Controller.extend({
                 state: this.get("state"),
                 zip: this.get("zip"),
                 phone: this.get("phone"),
-                queue: this.get("queue")
+                queue: this.get("queue"),
+                locale: this.get("locale")
             };
 
             let storage = this.get("storageService");
@@ -186,6 +188,7 @@ export default Ember.Controller.extend({
             this.set("state", chance.state());
             this.set("zip", chance.zip());
             this.set("phone", chance.phone());
+            this.set("locale", "en");
         }
     }
 });
