@@ -49,7 +49,7 @@ export default Ember.Route.extend({
             search += "&" + swagger;
         }
 
-        let openApiExplorerUrl = `https://developer.${purecloudEnvironment}/openapi-explorer/`;
+        let openApiExplorerUrl = `https://developer.${purecloudEnvironment}/openapi-explorer/index.html`;
 
         if(purecloudEnvironment === 'ininsca.com'){
             //need to special case here
