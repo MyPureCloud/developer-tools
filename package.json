@@ -52,7 +52,7 @@
   },
   "private": true,
   "dependencies": {
-    "architect-scripting": "git+ssh://git@bitbucket.org:inindca/architect-scripting.git#1fbaa1d",
+    "architect-scripting": "git+ssh://git@bitbucket.org:inindca/architect-scripting.git",
     "babel-plugin-transform-es2015-block-scoping": "^6.24.1",
     "ember-cli-code-coverage": "^0.2.2",
     "ember-cli-test-loader":"^2.2.0"
