@@ -21,6 +21,7 @@ export default Ember.Controller.extend({
     phone: "",
     queue: "",
     locale: "en",
+    welcomeMessage: "Thanks for chatting using the dev tools chat page.",
     init(){
         this._super(...arguments);
 
@@ -42,6 +43,7 @@ export default Ember.Controller.extend({
                 this.set("phone", savedData.phone);
                 this.set("queue", savedData.queue);
                 this.set("locale", savedData.locale);
+                this.set("welcomeMessage", savedData.welcomeMessage);
             }
         });
 
@@ -51,7 +53,7 @@ export default Ember.Controller.extend({
     queues: computed('queueService.queues', function() {
         return this.get('queueService').get('queues');
     }),
-    chatConfig: computed('queue', 'firstName', 'lastName', 'address', 'city', 'zip', 'state', 'phone', 'locale', function() {
+    chatConfig: computed('queue', 'firstName', 'lastName', 'address', 'city', 'zip', 'state', 'phone', 'locale', 'welcomeMessage', function() {
         try{
             let environment = purecloudEnvironmentTld();
             let companyLogo = $("#companyLogo").attr('src');
@@ -128,7 +130,7 @@ export default Ember.Controller.extend({
                 },
 
                 // Text displayed with chat window is displayed
-                "welcomeMessage": "Thanks for chatting using the dev tools chat page.",
+                "welcomeMessage": this.get("welcomeMessage"),
 
                 // CSS class applied to the chat window
                 "cssClass": "webchat-frame",
@@ -172,7 +174,8 @@ export default Ember.Controller.extend({
                 zip: this.get("zip"),
                 phone: this.get("phone"),
                 queue: this.get("queue"),
-                locale: this.get("locale")
+                locale: this.get("locale"),
+                welcomeMessage: this.get("welcomeMessage")
             };
 
             let storage = this.get("storageService");
@@ -188,7 +191,6 @@ export default Ember.Controller.extend({
             this.set("state", chance.state());
             this.set("zip", chance.zip());
             this.set("phone", chance.phone());
-            this.set("locale", "en");
         }
     }
 });
