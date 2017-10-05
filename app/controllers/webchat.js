@@ -191,6 +191,8 @@ export default Ember.Controller.extend({
             this.set("state", chance.state());
             this.set("zip", chance.zip());
             this.set("phone", chance.phone());
+            this.set("locale", "en");
+            this.set("welcomeMessage", "Thanks for chatting using the dev tools chat page.");
         }
     }
 });
