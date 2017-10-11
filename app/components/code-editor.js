@@ -1,7 +1,7 @@
 /* global ace */
 /* global purecloud */
 /* global $ */
-import architect from 'npm:architect-scripting';
+import architect from 'npm:purecloud-flow-scripting-api-sdk-javascript';
 import Ember from 'ember';
 import sampleCode from '../utils/sample-code';
 
