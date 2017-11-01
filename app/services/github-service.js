@@ -11,13 +11,14 @@ export default Ember.Service.extend(Ember.Evented,{
         releases.sort(function compare(a, b) {
             let aSplit = a.split('.');
             let bSplit = b.split('.');
-            if(aSplit[0].localeCompare(bSplit[0])!== 0){
-                return bSplit[0].localeCompare(aSplit[0]);
+
+            if(parseInt(aSplit[0]) !== parseInt(bSplit[0])){
+                return parseInt(bSplit[0]) - parseInt(aSplit[0]);
             }
-            else if(aSplit[1].localeCompare(bSplit[1])!== 0){
-                return bSplit[1].localeCompare(aSplit[1]);
+            else if(parseInt(aSplit[1]) !== parseInt(bSplit[1])){
+                return parseInt(bSplit[1]) - parseInt(aSplit[1]);
             }else{
-                return bSplit[2].localeCompare(aSplit[2]);
+                return parseInt(bSplit[2]) - parseInt(aSplit[2]);
             }
 
         });
