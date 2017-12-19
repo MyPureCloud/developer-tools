@@ -50,7 +50,7 @@ export default Ember.Component.extend({
     organizationPresence: computed('presenceService.organizationPresence', function() {
        return this.get('presenceService').get('organizationPresence');
     }),
-    routingStatus:[{name:"OFF_QUEUE"}, {name:"INTERACTING"}, {name:"IDLE"}, {name:"NOT_RESPONDING"}],
+    routingStatus:[{name:"COMMUNICATING"}, {name:"IDLE"}, {name:"INTERACTING"}, {name:"NOT_RESPONDING"}, {name:"OFF_QUEUE"}],
     types:["dimension", "metric"], //TODO: Support property type
 
     selectedOperator: "matches",

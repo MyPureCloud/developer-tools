@@ -25,11 +25,11 @@ export default Ember.Component.extend({
 
         return messages;
     }),
-    unreadCount: computed('notificationService.websocketMessages.length,visible', function() {
+    unreadCount: computed('notificationService.websocketMessages.length', 'visible', "viewedMessages", function() {
         let messages = this.get('notificationService').get('websocketMessages');
 
         if(this.get("visible")){
-            return 0;
+            return "0";
         }else{
             return messages.length - this.get("viewedMessages");
         }
