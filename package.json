@@ -52,7 +52,7 @@
   },
   "private": true,
   "dependencies": {
-    "purecloud-flow-scripting-api-sdk-javascript": "0.0.3",
+    "purecloud-flow-scripting-api-sdk-javascript": "^0.0.5",
     "babel-plugin-transform-es2015-block-scoping": "^6.24.1",
     "ember-cli-code-coverage": "^0.2.2",
     "ember-cli-test-loader":"^2.2.0"
