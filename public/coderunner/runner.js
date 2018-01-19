@@ -115,7 +115,7 @@
                 }
 
                 //data = 'var pureCloudSession = purecloud.platform.PureCloudSession({strategy: "token",token: "' + authToken+ '", environment: "' + environment+ '"});' + data
-                data = "var platformClient = require('platformClient'); platformClient.ApiClient.instance.setAccessToken('"+ authToken +"'); platformClient.ApiClient.instance.setEnvironment('"+environment+"');"  + data
+                data = "var platformClient = require('platformClient'); platformClient.ApiClient.instance.setAccessToken('"+ authToken +"'); platformClient.ApiClient.instance.setEnvironment('"+environment+"');"  + data;
                 eval(data);
             }
             catch (e) {

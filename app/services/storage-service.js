@@ -13,7 +13,9 @@ export default Ember.Service.extend(Ember.Evented,{
     localStorageGet(key){
         try{
             if (typeof window.localStorage !== 'undefined') {
+              if (window.localStorage["developertools-"  +key]) {
                 return JSON.parse(window.localStorage["developertools-"  +key]);
+              }
             }
         }catch(ex){
             console.warn(ex);

@@ -1,9 +1,6 @@
 {
   "name": "developer-tools",
   "dependencies": {
-    "ember": "~2.5.0",
-    "ember-cli-test-loader": "0.2.2",
-    "ember-qunit-notifications": "0.1.0",
     "uri.js": "^1.18.1",
     "bootstrap": "^3.3.7",
     "font-awesome": "fontawesome#^4.6.3",
