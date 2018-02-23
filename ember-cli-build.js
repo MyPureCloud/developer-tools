@@ -9,6 +9,11 @@ module.exports = function(defaults) {
         autoprefixer: {
             browsers: ['> 1%', 'last 2 versions', 'Firefox ESR', 'Opera 12.1']
         },
+        minifyJS: {
+          options: {
+            exclude: ["**/vendor.js"]
+          }
+        },
         replace: {
             files: ['index.html'],
             patterns: [{

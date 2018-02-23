@@ -33,6 +33,8 @@ export default Ember.Service.extend(Ember.Evented, {
 
         let purecloudEnvironment = purecloudEnvironmentTld();
 
+        window.purecloud = purecloud;
+
         var session = new purecloud.platform.PureCloudSession({
           strategy: 'token',
           environment: purecloudEnvironment,

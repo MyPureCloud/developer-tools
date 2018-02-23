@@ -6,35 +6,56 @@
                     <li><a id='btn-run-code' class='btn btn-link' href="#" {{action 'run'}}><i class="fa fa-play" aria-hidden="true"></i> Run</a>
                     </li>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">SDK Version:
-                            {{#each sdkTags as |sdk index|}}
-                            <span {{action 'selectSdk' sdk}}>
-                                {{#if (eq selectedSdk sdk)}}
-                                <strong>{{sdk}}</strong>
-                                {{/if}}
-                            </span>
-                            {{/each}}
-                            <span class="caret"></span></a>
-                            <ul class="dropdown-menu dropdown-menu-with-check">
-                                {{#each sdkTags as |sdk index|}}
-                                <li {{action 'selectSdk' sdk}}>
-                                    <a href="#">
-                                        {{#if (eq selectedSdk sdk)}}
-                                        <i class="fa fa-check"></i> <strong>{{sdk}}</strong>
-                                        {{else}}
-                                        {{sdk}}
-                                        {{/if}}
-                                    </a>
-                                </li>
-                                {{/each}}
-                            </ul>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Api:
+                      <strong>{{selectedApi.displayName}}</strong>
+                      <span class="caret"></span></a>
+                    <ul class="dropdown-menu dropdown-menu-with-check">
+                      {{#each apiTypes as |api |}}
+                        <li {{action 'selectApi' api}}>
+                          <a href="#">
+                            {{#if (eq selectedApi.value api.value)}}
+                              <i class="fa fa-check"></i> <strong>{{api.displayName}}</strong>
+                            {{else}}
+                              {{api.displayName}}
+                            {{/if}}
+                          </a>
                         </li>
+                      {{/each}}
+                    </ul>
+                  </li>
+                    {{#if isPurecloudSdk}}
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">SDK Version:
+                          {{#each sdkTags as |sdk index|}}
+                            <span {{action 'selectSdk' sdk}}>
+                              {{#if (eq selectedSdk sdk)}}
+                                <strong>{{sdk}}</strong>
+                              {{/if}}
+                            </span>
+                          {{/each}}
+                          <span class="caret"></span></a>
+                        <ul class="dropdown-menu dropdown-menu-with-check">
+                          {{#each sdkTags as |sdk index|}}
+                            <li {{action 'selectSdk' sdk}}>
+                              <a href="#">
+                                {{#if (eq selectedSdk sdk)}}
+                                  <i class="fa fa-check"></i> <strong>{{sdk}}</strong>
+                                {{else}}
+                                  {{sdk}}
+                                {{/if}}
+                              </a>
+                            </li>
+                          {{/each}}
+                        </ul>
+                      </li>
+                    {{/if}}
+
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Load Code <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             {{#each codeSamples as |sample index|}}
-                            <li {{action 'loadSample' index}}>
-                                <a href="#"  >
+                            <li {{action 'loadSample' sample.value}}>
+                                <a href="#" value="sample.value" >
                                     {{sample.name}}
                                 </a>
                             </li>
@@ -77,7 +98,13 @@
                                 {{#if param.isObject}}
                                     {{ace-editor value=param.value aceInit=aceConsoleInit class="editor"}}
                                 {{else}}
+                                  {{#if param.header}}
+                                    <div class="param">{{param.header}}</div>
+                                    <div class="param body-text">{{param.body}}</div>
+                                  {{else}}
                                     <div class="param">{{param.value}}</div>
+                                  {{/if}}
+
                                 {{/if}}
                                 {{/each}}
                                 {{#if message.lineNumber}}
@@ -93,7 +120,12 @@
 
                     </div>
                     <div role="tabpanel" class="tab-pane" id="jsdoc">
-                        <iframe frameborder="0" src="https://developer.mypurecloud.com/api/rest/client-libraries/javascript-noborder/latest/" ></iframe>
+                         {{#if isPurecloudSdk}}
+                        <iframe frameborder="0" src="https://developer.mypurecloud.com/api/rest/client-libraries/javascript-noborder/" ></iframe>
+                         {{/if}}
+                      {{#if isArchitectSdk}}
+                        <iframe frameborder="0" src="https://mypurecloud.github.io/purecloud-flow-scripting-api-sdk-javascript/index.html" ></iframe>
+                      {{/if}}
                     </div>
                 </div>
             </div>

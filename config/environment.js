@@ -28,40 +28,60 @@ module.exports = function(environment) {
         'oauthProps': {
             localhost: {
                 clientId: 'f2f2762f-6c8f-4f06-9f13-0560c17cef2b',
-                redirect: 'http://localhost:4200/'
+                redirect: 'http://localhost:4200/',
+                region: 'dev',
+                architectEnumString: 'archEnums.LOCATIONS.dev'
             },
             inindca: {
                 clientId: 'f2f2762f-6c8f-4f06-9f13-0560c17cef2b',
-                redirect: 'https://developer.inindca.com/developer-tools/'
+                redirect: 'https://developer.inindca.com/developer-tools/',
+                region: 'dev',
+                architectEnumString: 'archEnums.LOCATIONS.dev'
             },
             inintca:{
                 clientId: '89814d34-de36-4f99-8f55-399aa84cb620',
-                redirect: 'https://developer.inintca.com/developer-tools/'
+                redirect: 'https://developer.inintca.com/developer-tools/',
+                region: 'test',
+                architectEnumString: 'archEnums.LOCATIONS.test'
             },
             ininsca: {
                 clientId: 'b16c40bf-1d9d-4f59-9f1c-07e60528c659',
-                redirect: 'https://apps.ininsca.com/developer-tools/'
+                redirect: 'https://apps.ininsca.com/developer-tools/',
+                region: 'stage',
+                architectEnumString: 'archEnums.LOCATIONS.stage'
             },
             mypurecloudcom: {
                 clientId: 'd7200ae7-b2bb-4ff6-afcf-e29ebd1d6f56',
-                redirect: 'https://developer.mypurecloud.com/developer-tools/'
+                redirect: 'https://developer.mypurecloud.com/developer-tools/',
+                region: 'prod',
+                architectEnumString: 'archEnums.LOCATIONS.prod_us_east_1'
             },
             mypurecloudie: {
                 clientId: '51729d1d-e816-4f3d-9fb7-cf5fa0b79041',
-                redirect: 'https://developer.mypurecloud.ie/developer-tools/'
+                redirect: 'https://developer.mypurecloud.ie/developer-tools/',
+                region: 'eu-west-1',
+                architectEnumString: 'archEnums.LOCATIONS.prod_ue_west_1'
+
             },
             mypurecloudcomau: {
                 clientId: '303ae267-3163-4fec-9f38-d02f9764a849',
-                redirect: 'https://developer.mypurecloud.com.au/developer-tools/'
+                redirect: 'https://developer.mypurecloud.com.au/developer-tools/',
+                region: 'ap-sourtheast-2',
+                architectEnumString: 'archEnums.LOCATIONS.ap_sourtheast_2'
             },
             mypurecloudjp: {
                 clientId: '818a2480-2f88-4f0a-afc0-777dce4f3f6e',
-                redirect: 'https://developer.mypurecloud.jp/developer-tools/'
+                redirect: 'https://developer.mypurecloud.jp/developer-tools/',
+                region: 'ap-northeast-1',
+                architectEnumString: 'archEnums.LOCATIONS.ap_northeast_1'
             },
             mypurecloudde: {
                 clientId: '96a7d55b-1ed5-4719-9094-08a2a69ca07c',
-                redirect: 'https://developer.mypurecloud.de/developer-tools/'
+                redirect: 'https://developer.mypurecloud.de/developer-tools/',
+                region: 'eu-central-1',
+                architectEnumString: 'archEnums.LOCATIONS.prod_ue_central_1'
             }
+
         }
     };
 
