@@ -57,6 +57,10 @@ module.exports = function(environment) {
             mypurecloudjp: {
                 clientId: '818a2480-2f88-4f0a-afc0-777dce4f3f6e',
                 redirect: 'https://developer.mypurecloud.jp/developer-tools/'
+            },
+            mypurecloudde: {
+                clientId: '96a7d55b-1ed5-4719-9094-08a2a69ca07c',
+                redirect: 'https://developer.mypurecloud.de/developer-tools/'
             }
         }
     };
