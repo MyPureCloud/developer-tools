@@ -60,7 +60,7 @@ export default Ember.Controller.extend({
         subscribeToConversations(){
             let me = this.get("purecloud").me;
 
-            this.get("notificationService").subscribe(`v2.users.${me.id}.conversationsummary`);
+            this.get("notificationService").subscribe(`v2.users.${me.id}.conversations`);
         },
         togglePin(){
             this.get('notificationService').togglePin();

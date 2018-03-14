@@ -299,7 +299,9 @@ export default Ember.Component.extend({
       if (this.get('isPurecloudSdk')) {
         iframeBody.window.purecloud = purecloud;
         // Append different setup code for which sdk we are currently using
-        code = token + 'var pureCloudSession = purecloud.platform.PureCloudSession({strategy: "token",token: token, environment: "inindca.com"});' + code;
+        let purecloud = this.get("purecloud").get("session");
+
+        code = token + ' ' + code;
       } else if (this.get('isArchitectSdk')) {
         // need to expose architect as a window command so ace can nab it.
         iframeBody.window.architect = architect;
