@@ -12,7 +12,9 @@ export default Ember.Component.extend({
         {value:"PT1H",
         text: "One Hour"},
         {value:"PT30M",
-        text: "30 Minutes"}
+        text: "30 Minutes"},
+        {value:"PT15M",
+        text: "15 Minutes"}
     ],
     init(){
 
