@@ -1,13 +1,15 @@
 import {architectRegion} from '../utils/purecloud-environment';
 const architectHeader = `// const archScripting is the variable that contains the architect scripting library
-const archActionFactory = archScripting.factories.archFactoryActions;  // Factory to create actions
-const archEnums         = archScripting.enums.archEnums;               // Enum support
-const archFlowFactory   = archScripting.factories.archFactoryFlows;    // Factory to create flows
-const archLanguages     = archScripting.languages.archLanguages;       // Language support
-const archMenuFactory   = archScripting.factories.archFactoryMenus;    // Factory to create menus
-const archSession       = archScripting.environment.archSession;
-const archTaskFactory   = archScripting.factories.archFactoryTasks;    // Factory to create tasks
-const archPromiseFactory= archScripting.factories.archFactoryPromise;  // Factory to create Architect Promises
+const archActionFactory  = archScripting.factories.archFactoryActions;  // Factory to create actions
+const archEnums          = archScripting.enums.archEnums;               // Enum support
+const archFlowFactory    = archScripting.factories.archFactoryFlows;    // Factory to create flows
+const archLanguages      = archScripting.languages.archLanguages;       // Language support
+const archMenuFactory    = archScripting.factories.archFactoryMenus;    // Factory to create menus
+const archSession        = archScripting.environment.archSession;
+const archTaskFactory    = archScripting.factories.archFactoryTasks;    // Factory to create tasks
+const archPromiseFactory = archScripting.factories.archFactoryPromise;  // Factory to create Architect Promises
+
+archSession.endTerminatesProcess = false;
 `;
 const architectSessionStart = `
 

@@ -52,7 +52,9 @@
   },
   "private": true,
   "dependencies": {
-    "purecloud-flow-scripting-api-sdk-javascript": "^0.0.5",
+    "moment":"2.22.1",
+    "moment-timezone":"^0.4.0",
+    "purecloud-flow-scripting-api-sdk-javascript": "0.0.14",
     "babel-plugin-transform-es2015-block-scoping": "^6.24.1",
     "ember-cli-code-coverage": "^0.2.2",
     "ember-cli-test-loader":"^2.2.0"
