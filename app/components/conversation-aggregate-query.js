@@ -65,10 +65,11 @@ export default Ember.Component.extend({
         newView(){
             this.views.pushObject({
                 name: "name",
+                target: "tAbandon",
                 function: "rangeBound",
                 range:{
-                    lt:10,
-                    gte:0
+                    gte: 0,
+                    lt: 1000                    
                 }
 
             });

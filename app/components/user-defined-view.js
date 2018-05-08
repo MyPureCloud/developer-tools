@@ -13,7 +13,7 @@ export default Ember.Component.extend({
             if (m[0] == "t"){
                 this.metrics.pushObject(m);
             }
-        })
+        });
     },
     didReceiveAttrs() {
         this._super(...arguments);
