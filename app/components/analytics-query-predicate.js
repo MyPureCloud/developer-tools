@@ -20,6 +20,7 @@ export default Ember.Component.extend({
         this.set("metrics", this.get("analyticsValueService").get("metrics"));
         this.set("operators", this.get("analyticsValueService").get("operators"));
         this.set("mediaTypes", this.get("analyticsValueService").get("mediaTypes"));
+        this.set("numericRangeOperators", this.get("analyticsValueService").get("numericRangeOperators"));
 
         let predicate = this.get("predicate");
         if(predicate){
@@ -60,6 +61,14 @@ export default Ember.Component.extend({
         this.set("predicate", this._computeValue());
         console.log(this.get("predicate"));
         this.get("updatePredicate")(this.get("index"), this._computeValue());
+
+        if(this.get('selectedType') === "metric"){
+            this.set("lhsValue", this.metrics[0]);
+            this.set("selectedOperator", this.numericRangeOperators[0]);
+        }else {
+            this.set("lhsValue", this.dimensions[0]);
+            this.set("selectedOperator", this.operators[0]);
+        }
     }),
     selectedOperatorChange: observer('selectedOperator', function() {
         if(this.get("selectedOperator") !== "matches"){
@@ -84,10 +93,14 @@ export default Ember.Component.extend({
             predicate.property = this.get("lhsValue");
         }
 
-        predicate.operator = this.get('selectedOperator');
-
-        predicate.value = this.get('value');
-
+        if(predicate.type === "metric"){
+            predicate.range= {};
+            predicate.range[this.get('selectedOperator')] = parseInt(this.get('value'));
+        }else{
+            predicate.operator = this.get('selectedOperator');
+            predicate.value = this.get('value');
+        }
+        
         return predicate;
     },
     actions:{
