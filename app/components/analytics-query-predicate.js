@@ -56,10 +56,15 @@ export default Ember.Component.extend({
 
     selectedOperator: "matches",
     selectedType: "dimension",
-    isOnChanged: observer('selectedType', 'selectedOperator', 'lhsValue', 'value', function() {
+    isOnChanged: observer('selectedOperator', 'lhsValue', 'value', function() {
         console.log("predicate changed");
         this.set("predicate", this._computeValue());
         console.log(this.get("predicate"));
+        this.get("updatePredicate")(this.get("index"), this._computeValue());       
+    }),
+
+    selectedTypeChanged: observer('selectedType', function() {
+        this.set("predicate", this._computeValue());
         this.get("updatePredicate")(this.get("index"), this._computeValue());
 
         if(this.get('selectedType') === "metric"){
