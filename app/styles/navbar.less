@@ -12,6 +12,25 @@
     background-size: contain;
     border-radius: 5px;
 }
+.user-menu-right{
+  max-width: 175px;
+  margin: auto 0 auto 20px;
+  position: absolute;
+  right: 15px;
+  color: #c4e1eb;
+
+  padding-top:4px;
+}
+.trusted-org-header{
+  background-color: #6a68d6;
+  top:0px;
+  height: 101%;
+  right:0;
+  margin-left: 10px;
+  margin-right: 0px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
 .navbar {
   border-radius: 0;
 
@@ -190,7 +209,7 @@
 
   .menu-right {
     color: @navbar-inverse-color;
-    max-width: 175px;
+    max-width: 200px;
     margin: auto 0 auto 20px;
     position: absolute;
     right: 15px;
@@ -214,6 +233,7 @@
       .col-text {
         display: flex;
         flex-flow: column;
+        margin-right: 4px;
 
         .username {
           max-width: 90px;
@@ -223,7 +243,7 @@
         .org-name {
           font-size: 11px;
           font-weight: 300;
-          max-width: 100px;
+          max-width: 150px;
           .text-overflow;
           text-transform: uppercase;
         }
@@ -231,8 +251,8 @@
 
       .link-sign-out {
         align-self: flex-start;
-        margin-left: 8px;
         margin-top: 4px;
+        margin-left: 2px;
 
         i {
           color: @navbar-inverse-color;

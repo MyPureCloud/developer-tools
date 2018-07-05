@@ -44,7 +44,7 @@ export default Ember.Service.extend(Ember.Evented, {
         var that = this;
         var api = new purecloud.platform.UsersApi(session);
 
-        api.getMe('geolocation,station,date,geolocationsettings,organization,presencedefinitions').then(function(me){
+        api.getMe('geolocation,station,date,geolocationsettings,organization,presencedefinitions,token').then(function(me){
             that.set('me',me);
         }).catch(function(error){
             console.error(error);

@@ -1,43 +1,51 @@
-<div id='user-info' {{action "toggleMe"}}>
-    <img src={{me.images.[0].imageUri}} class="img-circle profile-image"/>
+<div class="{{if isInTrustedOrg 'trusted-org-header'}} user-menu-right ">                   
+    <div id='user-info' {{action "toggleMe"}} >
+        <img src={{me.images.[0].imageUri}} class="img-circle profile-image"/>
 
-    <div class="col-text">
-        <div class="username hidden-xs">
-            {{me.name}}
-        </div>
-
-        <div class="org-name hidden-xs">
-            {{me.organization.name}}
-        </div>
-    </div>
-
-    <a class="link-sign-out hidden-xs" href="#" title='Sign Out' {{action 'logOut'}}>
-        <i class="fa fa-sign-out" aria-hidden="true"></i>
-    </a>
-</div>
-
-{{#if showMe}}
-<div id='users-me'>
-    <div class="user-info visible-xs">
         <div class="col-text">
-            <div class="username">
+            <div class="username hidden-xs">
                 {{me.name}}
             </div>
-            <div class="org-name">
-                {{me.organization.name}}
-            </div>
-        </div>
-        <a class="link-sign-out" href="#" title='Sign Out' {{action 'logOut'}}>
-            <i class="fa fa-sign-out" aria-hidden="true"></i> Sign Out
-        </a>
-    </div>
-    <button type="button" class="close pull-left" aria-label="Close" {{action "toggleMe"}}><span aria-hidden="true">&times;</span></button>
-    <label>/api/v2/users/me</label>
-    <pre class='scrollable'>
-        <code >
-{{meJson}}
-        </code>
-    </pre>
 
+            <div class="org-name hidden-xs">
+                {{me.organization.name}}
+            </div>        
+        </div>
+        <div>
+            {{#if isInTrustedOrg}}
+            <a class="link-sign-out hidden-xs" href="#"  title='Switch to Home Org'  {{action 'switchToHomeOrg' bubbles=false}}><i class="fa fa-home" aria-hidden="true"></i> </a>
+            {{/if}} 
+            <a class="link-sign-out hidden-xs" href="#" title='Sign Out' {{action 'logOut' bubbles=false}}>
+                <i class="fa fa-sign-out" aria-hidden="true"></i>
+            </a>
+            
+        </div>
+    
+    </div>
+    
+    {{#if showMe}}
+    <div id='users-me'>
+        <div class="user-info visible-xs">
+            <div class="col-text">
+                <div class="username">
+                    {{me.name}}
+                </div>
+                <div class="org-name">
+                    {{me.organization.name}}
+                </div>
+            </div>
+            <a class="link-sign-out" href="#" title='Sign Out' {{action 'logOut'}}>
+                <i class="fa fa-sign-out" aria-hidden="true"></i> Sign Out
+            </a>
+        </div>
+        <button type="button" class="close pull-left" aria-label="Close" {{action "toggleMe"}}><span aria-hidden="true">&times;</span></button>
+        <label>/api/v2/users/me</label>
+        <pre class='scrollable'>
+            <code >
+    {{meJson}}
+            </code>
+        </pre>
+
+    </div>
+    {{/if}}
 </div>
-{{/if}}
