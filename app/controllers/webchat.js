@@ -1,4 +1,3 @@
-/* global $ */
 /* global ININ */
 import Ember from 'ember';
 import Chance from 'npm:chance';
@@ -27,7 +26,7 @@ export default Ember.Controller.extend({
 
 		let orgApi = this.get('purecloud').orgApi();
 
-		orgApi.getMe().then(result => {
+		orgApi.getOrganizationsMe().then(result => {
 			this.set('org',result);
 
 			let storage = this.get('storageService');

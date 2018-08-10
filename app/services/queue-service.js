@@ -3,38 +3,35 @@ import Ember from 'ember';
 
 export default Ember.Service.extend({
 
-    purecloud: Ember.inject.service(),
+	purecloud: Ember.inject.service(),
 
-    queues: [],
+	queues: [],
 
-    updateQueuesFromPureCloud(){
-        let self = this;
-        return new Ember.RSVP.Promise(function(resolve, reject) {
-            let pureCloudSession = self.get("purecloud").get("session");
+	updateQueuesFromPureCloud(){
+		let self = this;
+		return new Ember.RSVP.Promise(function(resolve, reject) {
+			let routingApi = self.get('purecloud').routingApi();
 
-            let routingApi = self.get("purecloud").routingApi();
+			function processPageOfQueues(results){
+				self.queues.addObjects(results.entities);
 
-            function processPageOfQueues(results){
-                self.queues.addObjects(results.entities);
+				if (results.nextUri) {
+					//get the next page of users directly
+					self.get('purecloud').getMore(results.nextUri).then(processPageOfQueues).catch(function(err){
+						reject(err);
+					});
+				} else {
+					resolve();
+				}
+			}
+			routingApi.getRoutingQueues({ sortBy: 'name' }).then(processPageOfQueues).catch(function(err){
+				reject(err);
+			});
+		});
+	},
 
-                if(results.nextUri){
-                    //get the next page of users directly
-                    pureCloudSession.get(results.nextUri).then(processPageOfQueues).catch(function(err){
-                        reject(err);
-                    });
-                }else{
-                    resolve();
-                }
-
-            }
-            routingApi.getQueues(25,0,'name', null, true).then(processPageOfQueues).catch(function(err){
-                reject(err);
-            });
-        });
-    },
-
-    init() {
-        this._super(...arguments);
-        this.updateQueuesFromPureCloud();
-    }
+	init() {
+		this._super(...arguments);
+		this.updateQueuesFromPureCloud();
+	}
 });
