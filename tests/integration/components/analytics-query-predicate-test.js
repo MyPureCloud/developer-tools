@@ -16,7 +16,7 @@ const pureCloudStub = Ember.Service.extend({
     },
     routingApi(){
         return {
-            getQueues(){
+            getRoutingQueues(){
                 return new Ember.RSVP.Promise(function(resolve){
                         resolve({
                             entities:[]

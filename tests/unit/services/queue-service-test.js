@@ -22,7 +22,7 @@ moduleFor('service:queue-service', 'Unit | Service | queue service', {
         },
             routingApi : function(){
                 return {
-                    getQueues: function(){
+                    getRoutingQueues: function(){
                         return new Ember.RSVP.Promise(function(resolve){
                             resolve({
                                 entities:entityList,

@@ -7,12 +7,12 @@ const pureCloudStub = Ember.Service.extend({
 
     notificationsApi(){
         return {
-            postChannels(){
+            postNotificationsChannels(){
                 return {
                     then(){}
                 };
             },
-            getAvailabletopics(){
+            getNotificationsAvailabletopics(){
                 return {
                     then(){}
                 };
