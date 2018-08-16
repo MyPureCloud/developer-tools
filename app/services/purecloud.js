@@ -25,6 +25,9 @@ export default Ember.Service.extend(Ember.Evented, {
 	usersApi(){
 		return new platformClient.UsersApi();
 	},
+	webChatApi(){
+		return new platformClient.WebChatApi();
+	},
 	// Intended to be used with a path only for URLs at api.{env}
 	getMore(path, queryParams) {
 		return platformClient.ApiClient.instance.callApi(
