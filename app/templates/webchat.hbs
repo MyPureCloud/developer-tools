@@ -1,4 +1,5 @@
 <div class="container container-top-padding">
+    <form class="form-horizontal form-webchat">
     <div class="panel panel-default">
         <div class="panel-heading">
             <div class="panel-title panel-title-condensed">
@@ -8,154 +9,169 @@
             </div>
         </div>
         <div class="panel-body">
-            <form class="form-horizontal form-webchat">
-            		<div class="row">
-            				<div class="col-md-12">
-            						<div class="alert alert-error {{errorVisibility}}" role="alert">{{error}}</div>
-            				</div>
-            		</div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                            <label class="col-sm-4 control-label">First Name</label>
-                            <div class="col-sm-8">
-                                {{input class="form-control" value=firstName  placeholder="First Name"}}
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-4 control-label">Last Name</label>
-                            <div class="col-sm-8">
-                                {{input class="form-control" value=lastName  placeholder="Last Name"}}
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-4 control-label">Address</label>
-                            <div class="col-sm-8">
-                                {{input class="form-control" value=address  placeholder="Address"}}
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-4 control-label hidden-xs"></label>
-                            <div class="col-sm-8">
-                                {{input class="form-control" value=city  placeholder="City"}}
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-4 control-label hidden-xs"></label>
-                            <div class="col-sm-8">
-                                {{input class="form-control" value=state  placeholder="State"}}
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-4 control-label hidden-xs"></label>
-                            <div class="col-sm-8">
-                                {{input class="form-control" value=zip  placeholder="Zip"}}
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-sm-4 control-label">Phone</label>
-                            <div class="col-sm-8">
-                                {{input class="form-control" value=phone type="tel"  placeholder="Phone" }}
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-sm-4 control-label">Locale</label>
-                            <div class="col-sm-8">
-                                {{input class="form-control" value=locale  placeholder="Locale" }}
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-sm-4 control-label">Welcome Message</label>
-                            <div class="col-sm-8">
-                                {{input class="form-control" value=welcomeMessage  placeholder="Welcome Message" }}
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <div class="alert alert-danger" role="alert" id='missingRequiredFields' style='display:none'>Required setting fields are missing.</div>
+            <div class="row">
+                <div class="col-md-12">
+                    <strong>Chat Configuration</strong> <i>(required)</i>
+                    <hr />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-sm-4 control-label">Deployment</label>
+                        <div class="col-sm-8" id="deployment-select-container">
+                            {{select-box-advanced idKey='id' nameKey='name' items=deployments selectedItem=deployment includeBlank=true}}
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                            <label class="col-sm-4 control-label">Deployment</label>
-                            <div class="col-sm-8" id="deployment-select-container">
-                                {{select-box-advanced idKey='id' nameKey='name' items=deployments selectedItem=deployment includeBlank=true}}
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-4 control-label"></label>
-                            <div class="col-sm-8">
-                            		{{#if needsDeployment}}
-                                No web chat deployments found, 
-                                {{else}}
-                                Select a deployment above or 
-                                {{/if}}
-                                <a {{action 'createDeployment'}} href="#">click here</a> to create a new one.
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-4 control-label">Queue</label>
-                            <div class="col-sm-8">
-                                {{select-box-advanced idKey='name' nameKey='name' items=queues selectedItem=queue includeBlank=true}}
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-4 control-label">Field 1 Name</label>
-                            <div class="col-sm-8">
-                                {{input class="form-control" value=field1name type="tel"  placeholder="Custom data field name" }}
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-4 control-label">Field 1 Value</label>
-                            <div class="col-sm-8">
-                                {{input class="form-control" value=field1value type="tel"  placeholder="Custom data value" }}
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-4 control-label">Field 2 Name</label>
-                            <div class="col-sm-8">
-                                {{input class="form-control" value=field2name type="tel"  placeholder="Custom data field name" }}
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-4 control-label">Field 2 Value</label>
-                            <div class="col-sm-8">
-                                {{input class="form-control" value=field2value type="tel"  placeholder="Custom data value" }}
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-4 control-label">Field 3 Name</label>
-                            <div class="col-sm-8">
-                                {{input class="form-control" value=field3name type="tel"  placeholder="Custom data field name" }}
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-4 control-label">Field 3 Value</label>
-                            <div class="col-sm-8">
-                                {{input class="form-control" value=field3value type="tel"  placeholder="Custom data value" }}
-                            </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 control-label"></label>
+                        <div class="col-sm-8">
+                                {{#if needsDeployment}}
+                            No web chat deployments found, 
+                            {{else}}
+                            Select a deployment above or 
+                            {{/if}}
+                            <a {{action 'createDeployment'}} href="#">click here</a> to create a new one.
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group row">
-                            <label class="col-sm-4 control-label"></label>
-                            <div class="col-sm-8">
-                                <a class="btn btn-primary " {{action 'startChat'}} href="#" role="button">Start Chat</a>
-                                <a class="btn btn-info " {{action 'populate'}} href="#" role="button">Populate Fields</a>
-                            </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-sm-4 control-label">Queue</label>
+                        <div class="col-sm-8">
+                            {{select-box-advanced idKey='name' nameKey='name' items=queues selectedItem=queue includeBlank=true}}
                         </div>
                     </div>
                 </div>
-            </form>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <strong>Chat Data</strong> <i>(optional)</i>
+                    <hr />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-sm-4 control-label">First Name</label>
+                        <div class="col-sm-8">
+                            {{input class="form-control" value=firstName  placeholder="First Name"}}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 control-label">Last Name</label>
+                        <div class="col-sm-8">
+                            {{input class="form-control" value=lastName  placeholder="Last Name"}}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 control-label">Address</label>
+                        <div class="col-sm-8">
+                            {{input class="form-control" value=address  placeholder="Address"}}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 control-label hidden-xs"></label>
+                        <div class="col-sm-8">
+                            {{input class="form-control" value=city  placeholder="City"}}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 control-label hidden-xs"></label>
+                        <div class="col-sm-8">
+                            {{input class="form-control" value=state  placeholder="State"}}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 control-label hidden-xs"></label>
+                        <div class="col-sm-8">
+                            {{input class="form-control" value=zip  placeholder="Zip"}}
+                        </div>
+                    </div>
 
+                    <div class="form-group row">
+                        <label class="col-sm-4 control-label">Phone</label>
+                        <div class="col-sm-8">
+                            {{input class="form-control" value=phone type="tel"  placeholder="Phone" }}
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-4 control-label">Locale</label>
+                        <div class="col-sm-8">
+                            {{input class="form-control" value=locale  placeholder="Locale" }}
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-4 control-label">Welcome Message</label>
+                        <div class="col-sm-8">
+                            {{input class="form-control" value=welcomeMessage  placeholder="Welcome Message" }}
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="alert alert-danger" role="alert" id='missingRequiredFields' style='display:none'>Required setting fields are missing.</div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-sm-4 control-label">Field 1 Name</label>
+                        <div class="col-sm-8">
+                            {{input class="form-control" value=field1name type="tel"  placeholder="Custom data field name" }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 control-label">Field 1 Value</label>
+                        <div class="col-sm-8">
+                            {{input class="form-control" value=field1value type="tel"  placeholder="Custom data value" }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 control-label">Field 2 Name</label>
+                        <div class="col-sm-8">
+                            {{input class="form-control" value=field2name type="tel"  placeholder="Custom data field name" }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 control-label">Field 2 Value</label>
+                        <div class="col-sm-8">
+                            {{input class="form-control" value=field2value type="tel"  placeholder="Custom data value" }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 control-label">Field 3 Name</label>
+                        <div class="col-sm-8">
+                            {{input class="form-control" value=field3name type="tel"  placeholder="Custom data field name" }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 control-label">Field 3 Value</label>
+                        <div class="col-sm-8">
+                            {{input class="form-control" value=field3value type="tel"  placeholder="Custom data value" }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                        <div class="alert alert-error {{errorVisibility}}" role="alert">{{error}}</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-sm-4 control-label"></label>
+                        <div class="col-sm-8">
+                            <a class="btn btn-primary " {{action 'startChat'}} href="#" role="button">Start Chat</a>
+                            <a class="btn btn-info " {{action 'populate'}} href="#" role="button">Populate Fields</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-
     </div>
+    </form>
 
     <div class="panel panel-default">
         <div class="panel-heading">

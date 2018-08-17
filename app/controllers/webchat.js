@@ -218,11 +218,6 @@ export default Ember.Controller.extend({
 		try {
 			let chatConfig = JSON.parse(this.get('chatConfig'));
 
-			if (!chatConfig.queueName || chatConfig.queueName == '')
-				throw new Error('You must select a queue before starting the chat');
-			if (!this.deployment || this.deployment == '')
-				throw new Error('You must select a deployment before starting the chat');
-
 			ININ.webchat.create(chatConfig, (err, webchat) => {
 				if (err) {
 					this.setError(err);
@@ -266,6 +261,14 @@ export default Ember.Controller.extend({
 		startChat() {
 			try {
 				this.setError();
+
+				// Validation
+				let chatConfig = JSON.parse(this.get('chatConfig'));
+				if (!chatConfig.queueName || chatConfig.queueName == '')
+					throw new Error('You must select a queue before starting the chat');
+				if (!this.deployment || this.deployment == '')
+					throw new Error('You must select a deployment before starting the chat');
+
 
 				const chatScript = document.getElementById('purecloud-webchat-js');
 
