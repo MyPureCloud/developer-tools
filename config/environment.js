@@ -28,7 +28,7 @@ module.exports = function(environment) {
         'oauthProps': {
             localhost: {
                 clientId: 'f2f2762f-6c8f-4f06-9f13-0560c17cef2b',
-                redirect: 'http://localhost:4200/',
+                redirect: 'https://localhost:4200/',
                 region: 'dev',
                 architectEnumString: 'archEnums.LOCATIONS.dev'
             },

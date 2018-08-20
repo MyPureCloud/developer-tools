@@ -57,7 +57,7 @@ export default Ember.Route.extend({
         }
 
         //openApiExplorerUrl = 'http://localhost:8081/';
-        return `${openApiExplorerUrl}${search}#token_type=bearer&access_token=` + this.get("purecloud").get("session").options.token;
+        return `${openApiExplorerUrl}${search}#token_type=bearer&access_token=` + this.get("purecloud").get('accessToken');
 
     }
 });

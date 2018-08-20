@@ -1,55 +1,72 @@
-/* global purecloud */
 import Ember from 'ember';
-import {purecloudEnvironmentTld} from '../utils/purecloud-environment';
+import platformClient from 'platformClient';
 
 export default Ember.Service.extend(Ember.Evented, {
-    session: null,
+	session: null,
 
-    notificationsApi(){
-        return new purecloud.platform.NotificationsApi(this.get('session'));
-    },
-    presenceApi(){
-        return new purecloud.platform.PresenceApi(this.get('session'));
-    },
-    analyticsApi(){
-        return new purecloud.platform.AnalyticsApi(this.get('session'));
-    },
-    orgApi(){
-        return new purecloud.platform.OrganizationApi(this.get('session'));
-    },
-    routingApi(){
-        return new purecloud.platform.RoutingApi(this.get('session'));
-    },
-    conversationsApi(){
-        return new purecloud.platform.ConversationsApi(this.get('session'));
-    },
-    usersApi(){
-        return new purecloud.platform.UsersApi(this.get('session'));
-    },
-    me: null,
+	notificationsApi(){
+		return new platformClient.NotificationsApi();
+	},
+	presenceApi(){
+		return new platformClient.PresenceApi();
+	},
+	analyticsApi(){
+		return new platformClient.AnalyticsApi();
+	},
+	orgApi(){
+		return new platformClient.OrganizationApi();
+	},
+	routingApi(){
+		return new platformClient.RoutingApi();
+	},
+	conversationsApi(){
+		return new platformClient.ConversationsApi();
+	},
+	usersApi(){
+		return new platformClient.UsersApi();
+	},
+	webChatApi(){
+		return new platformClient.WebChatApi();
+	},
+	// Intended to be used with a path only for URLs at api.{env}
+	getMore(path, queryParams) {
+		return platformClient.ApiClient.instance.callApi(
+			path, 
+			'GET', 
+			{  }, 
+			queryParams,
+			{  }, 
+			{  }, 
+			null, 
+			['PureCloud Auth'], 
+			['application/json'], 
+			['application/json']
+		);
+	},
+	logout() {
+		console.log('logging out');
+		platformClient.ApiClient.instance.logout();
+	},
+	me: null,
 
-    init() {
-        this._super(...arguments);
+	init() {
+		this._super(...arguments);
 
-        let purecloudEnvironment = purecloudEnvironmentTld();
-
-        window.purecloud = purecloud;
-
-        var session = new purecloud.platform.PureCloudSession({
-          strategy: 'token',
-          environment: purecloudEnvironment,
-          storageKey:  'purecloud-dev-tools-auth'
-        });
-
-        var that = this;
-        var api = new purecloud.platform.UsersApi(session);
-
-        api.getMe('geolocation,station,date,geolocationsettings,organization,presencedefinitions,token').then(function(me){
-            that.set('me',me);
-        }).catch(function(error){
-            console.error(error);
-        });
-
-        this.set('session', session);
-    },
+		this.usersApi().getUsersMe({ 
+			expand: [
+				'geolocation',
+				'station',
+				'date',
+				'geolocationsettings',
+				'organization',
+				'presencedefinitions',
+				'token' 
+			]})
+			.then((me) => {
+				this.set('me', me);
+				this.set('accessToken', platformClient.ApiClient.instance.authData.accessToken);
+				this.set('environment', platformClient.ApiClient.instance.environment);
+			})
+			.catch((err) => console.error(err));
+	},
 });

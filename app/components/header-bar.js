@@ -47,7 +47,7 @@ export default Ember.Component.extend({
             this.toggleProperty('showMe');
         },
         logOut(){
-            this.get('purecloud').get("session").logout();
+            this.get('purecloud').logout();
         },
         switchToHomeOrg(){
             let oauthConfig = config.oauthProps[purecloudEnvironment()];
