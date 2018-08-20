@@ -313,10 +313,13 @@ export default Ember.Controller.extend({
 		createDeployment() {
 			this.setError();
 			this.get('webChatService').createDeployment()
-				.then(() => {
+				.then((newDeploymentId) => {
 					let storage = this.get('storageService');
 					let savedData = storage.localStorageGet('webChatParams');
-					this.set('deployment', savedData.deployment);
+					if (savedData && savedData.deployment)
+						this.set('deployment', savedData.deployment);
+					else
+						this.set('deployment', newDeploymentId);
 				})
 				.catch((err) => {
 					this.setError(err);
