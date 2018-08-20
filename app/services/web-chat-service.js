@@ -39,6 +39,7 @@ export default Ember.Service.extend({
 	createDeployment() {
 		return new Promise((resolve, reject) => {
 			const webChatApi = this.get('purecloud').webChatApi();
+			let deploymentId = '';
 
 			const body = {
 				'name': 'Developer Tools',
@@ -52,12 +53,13 @@ export default Ember.Service.extend({
 			webChatApi.postWebchatDeployments(body)
 				.then((deployment) => {
 					console.log(`Created web chat deployment "${deployment.name}" (${deployment.id})`);
+					deploymentId = deployment.id;
 
 					// Reload list after creating new one
 					return this.loadDeployments();
 				})
 				.then(() => {
-					resolve();
+					resolve(deploymentId);
 				})
 				.catch((err) => {
 					reject(err);
