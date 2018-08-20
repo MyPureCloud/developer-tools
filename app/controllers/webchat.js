@@ -286,7 +286,8 @@ export default Ember.Controller.extend({
 				chatScript.async = true;
 				chatScript.setAttribute('type', 'text/javascript');
 				chatScript.setAttribute('region', this.get('chatRegion'));
-				chatScript.setAttribute('env', 'dev');
+				if (this.get('chatEnv') !== '')
+					chatScript.setAttribute('env', this.get('chatEnv'));
 				chatScript.setAttribute('org-guid', this.get('org').id);
 				chatScript.setAttribute('deployment-key', this.get('deployment'));
 				chatScript.setAttribute('src', `https://apps.${this.get('chatEnvironment')}/webchat/jsapi-v1.js`);
