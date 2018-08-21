@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import {purecloudEnvironmentTld} from '../utils/purecloud-environment';
+import platformClient from 'platformClient';
 
 export default Ember.Route.extend({
     purecloud: Ember.inject.service(),
@@ -57,7 +58,7 @@ export default Ember.Route.extend({
         }
 
         //openApiExplorerUrl = 'http://localhost:8081/';
-        return `${openApiExplorerUrl}${search}#token_type=bearer&access_token=` + this.get("purecloud").get('accessToken');
+        return `${openApiExplorerUrl}${search}#token_type=bearer&access_token=` + platformClient.ApiClient.instance.authData.accessToken;
 
     }
 });
