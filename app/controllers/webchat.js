@@ -50,9 +50,16 @@ export default Ember.Controller.extend({
 			return 'eu-central-1';
 		else if (environment.endsWith('mypurecloud.com'))
 			return 'us-east-1';
-		else {
+		else if (environment.contains('tca')) {
+			this.set('chatEnv', 'test');
+			this.set('chatEnvTag', '\n  env="test"');
+			return 'us-east-1';
+		} else if (environment.contains('dca')) {
 			this.set('chatEnv', 'dev');
 			this.set('chatEnvTag', '\n  env="dev"');
+			return 'us-east-1';
+		} else {
+			console.warn(`Failed to identify environment: ${environment}`);
 			return 'us-east-1';
 		}
 	}),
