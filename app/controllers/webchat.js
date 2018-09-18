@@ -129,6 +129,23 @@ export default Ember.Controller.extend({
 				return '{}';
 			}
 
+			let chatData = {
+				'firstName': this.get('firstName'),
+				'lastName': this.get('lastName'),
+				'addressStreet': this.get('address'),
+				'addressCity': this.get('city'),
+				'addressPostalCode': this.get('zip'),
+				'addressState': this.get('state'),
+				'phoneNumber': this.get('phone'),
+			};
+			
+			for (let i = 1; i <= 3; i++) {
+				const fieldName = this.get(`field${i}name`);
+				if (fieldName != '') {
+					chatData[fieldName] = this.get(`field${i}value`);
+				}
+			}
+
 			let chatConfig = {
 				// Web chat application URL
 				'webchatAppUrl': 'https://apps.'+ environment +'/webchat',
@@ -151,21 +168,7 @@ export default Ember.Controller.extend({
 				'locale': this.get('locale'),
 
 				// Data that will be included with interaction
-				'data': {
-					'firstName': this.get('firstName'),
-					'lastName': this.get('lastName'),
-					'addressStreet': this.get('address'),
-					'addressCity': this.get('city'),
-					'addressPostalCode': this.get('zip'),
-					'addressState': this.get('state'),
-					'phoneNumber': this.get('phone'),
-					'customField1Label': this.get('field1name'),
-					'customField1': this.get('field1value'),
-					'customField2Label': this.get('field2name'),
-					'customField2': this.get('field2value'),
-					'customField3Label': this.get('field3name'),
-					'customField3': this.get('field3value'),
-				},
+				'data': chatData,
 
 				// Logo used at the top of the chat window
 				'companyLogo': {
