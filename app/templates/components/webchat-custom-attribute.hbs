@@ -1,0 +1,13 @@
+ <div class="form-group row">
+    <div class="col-sm-4">
+        {{input class="form-control" value=customAttribute.name type="tel"  placeholder="Attribute Name" }}
+    </div>
+    <div class="col-sm-6">
+        {{input class="form-control" value=customAttribute.value type="tel"  placeholder="Attribute value" }}
+    </div>
+    <div class="col-sm-2">
+        <a class="btn btn-danger" {{action 'deleteClicked'}} href="#" role="button">
+             <i class="fa fa-times"></i>
+        </a>
+    </div>
+</div>
