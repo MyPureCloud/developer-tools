@@ -27,6 +27,7 @@ export default Ember.Controller.extend({
 	field2value: '',
 	field3name: '',
 	field3value: '',
+	customAttributes: [],
 	error: '',
 	errorVisibility: computed('error', function() { 
 		const error = this.get('error');
@@ -94,6 +95,7 @@ export default Ember.Controller.extend({
 				this.set('field2value', savedData.field2value);
 				this.set('field3name', savedData.field3name);
 				this.set('field3value', savedData.field3value);
+				this.set('customAttributes', savedData.customAttributes || []);
 			}
 		});
 	},
@@ -106,7 +108,7 @@ export default Ember.Controller.extend({
 	queues: computed('queueService.queues', function() {
 		return this.get('queueService').get('queues');
 	}),
-	chatConfig: computed('queue', 'firstName', 'lastName', 'address', 'city', 'zip', 'state', 'phone', 'locale', 'welcomeMessage', 'field1name', 'field1value', 'field2name', 'field2value', 'field3name', 'field3value', function() {
+	chatConfig: computed('queue', 'firstName', 'lastName', 'address', 'city', 'zip', 'state', 'phone', 'locale', 'welcomeMessage', 'field1name', 'field1value', 'field2name', 'field2value', 'field3name', 'field3value', 'customAttributes.@each.name', 'customAttributes.@each.value', function() {
 		try{
 			let environment = purecloudEnvironmentTld();
 			let companyLogo = $('#companyLogo').attr('src');
@@ -137,12 +139,18 @@ export default Ember.Controller.extend({
 				'addressPostalCode': this.get('zip'),
 				'addressState': this.get('state'),
 				'phoneNumber': this.get('phone'),
+				'customField1Label': this.get('field1name'),
+				'customField1': this.get('field1value'),
+				'customField2Label': this.get('field2name'),
+				'customField2': this.get('field2value'),
+				'customField3Label': this.get('field3name'),
+				'customField3': this.get('field3value'),
 			};
-			
-			for (let i = 1; i <= 3; i++) {
-				const fieldName = this.get(`field${i}name`);
-				if (fieldName != '') {
-					chatData[fieldName] = this.get(`field${i}value`);
+
+			const customAttributes = this.get('customAttributes');
+			for (let attribute of customAttributes) {
+				if (attribute.name != '') {
+					chatData[attribute.name] = attribute.value;
 				}
 			}
 
@@ -259,6 +267,7 @@ export default Ember.Controller.extend({
 				field2value: this.get('field2value'),
 				field3name: this.get('field3name'),
 				field3value: this.get('field3value'),
+				customAttributes: this.get('customAttributes')
 			};
 
 			let storage = this.get('storageService');
@@ -335,6 +344,17 @@ export default Ember.Controller.extend({
 				.catch((err) => {
 					this.setError(err);
 				});
+		},
+		addCustomAttribute() {
+			let customAttributes = this.get('customAttributes');
+			customAttributes.pushObject({
+				name: '',
+				value: ''
+			});
+			this.set('customAttributes', customAttributes);
+		},
+		deleteCustomAttribute(attribute) {
+			this.get('customAttributes').removeObject(attribute);
 		}
 	}
 });

@@ -151,6 +151,18 @@
                             {{input class="form-control" value=field3value type="tel"  placeholder="Custom data value" }}
                         </div>
                     </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 control-label">Custom Attributes</label>
+                         <div class="col-sm-8">
+                             <a class="btn btn-primary " {{action 'addCustomAttribute'}} href="#" role="button">
+                                <i class="fa fa-plus"></i>
+                            </a>
+                         </div>
+                    </div>
+                    {{#each customAttributes as |customAttribute|}}
+                        {{webchat-custom-attribute customAttribute=customAttribute
+                            onDeleteClicked=(action 'deleteCustomAttribute' customAttribute)}}
+                    {{/each}}
                 </div>
             </div>
             <div class="row">
