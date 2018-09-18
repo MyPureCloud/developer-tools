@@ -33,8 +33,8 @@ cd ssl
 
 # Generate keys
 openssl genrsa -des3 -passout pass:x -out server.pass.key 2048
-rm server.pass.key
 openssl rsa -passin pass:x -in server.pass.key -out server.key
+rm server.pass.key
 
 # Generate CSR
 openssl req -new -key server.key -out server.csr
