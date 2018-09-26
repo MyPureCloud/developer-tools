@@ -71,33 +71,64 @@ export default Ember.Controller.extend({
 
 		let orgApi = this.get('purecloud').orgApi();
 
-		orgApi.getOrganizationsMe().then(result => {
-			this.set('org',result);
+		orgApi.getOrganizationsMe()
+			.then(result => {
+				this.set('org',result);
 
-			let storage = this.get('storageService');
-			let savedData = storage.localStorageGet('webChatParams');
+				let storage = this.get('storageService');
+				let savedData = storage.localStorageGet('webChatParams');
 
-			if(savedData){
-				this.set('firstName', savedData.firstName);
-				this.set('lastName', savedData.lastName);
-				this.set('address', savedData.address);
-				this.set('city', savedData.city);
-				this.set('state', savedData.state);
-				this.set('zip', savedData.zip);
-				this.set('phone', savedData.phone);
-				this.set('queue', savedData.queue);
-				this.set('locale', savedData.locale);
-				this.set('welcomeMessage', savedData.welcomeMessage);
-				this.set('deployment', savedData.deployment);
-				this.set('field1name', savedData.field1name);
-				this.set('field1value', savedData.field1value);
-				this.set('field2name', savedData.field2name);
-				this.set('field2value', savedData.field2value);
-				this.set('field3name', savedData.field3name);
-				this.set('field3value', savedData.field3value);
-				this.set('customAttributes', savedData.customAttributes || []);
-			}
-		});
+				if(savedData){
+					this.set('firstName', savedData.firstName);
+					this.set('lastName', savedData.lastName);
+					this.set('address', savedData.address);
+					this.set('city', savedData.city);
+					this.set('state', savedData.state);
+					this.set('zip', savedData.zip);
+					this.set('phone', savedData.phone);
+					this.set('queue', savedData.queue);
+					this.set('locale', savedData.locale);
+					this.set('welcomeMessage', savedData.welcomeMessage);
+					this.set('deployment', savedData.deployment);
+					this.set('field1name', savedData.field1name);
+					this.set('field1value', savedData.field1value);
+					this.set('field2name', savedData.field2name);
+					this.set('field2value', savedData.field2value);
+					this.set('field3name', savedData.field3name);
+					this.set('field3value', savedData.field3value);
+					this.set('customAttributes', savedData.customAttributes || []);
+				}
+
+				// Get the user's authorization. purecloud.me isn't populated yet.
+				// Not using the Authorization API here because that will return a 404 if the user doesn't have permission to view their permissions.
+				return this.get('purecloud').usersApi().getUsersMe({ expand: [ 'authorization' ]});
+			})
+			.then((me) => {
+				// Be sure we got permissions
+				let permissionsErr = '';
+				if (!me.authorization) {
+					this.setError('Unable to validate permissions. You may not see deployments or queues in the dropdowns. You\'re probably missing the permission "authorization:grant:view".');
+					return;
+				}
+
+				// Check for permissions
+				let hasReadDeployment = false;
+				let hasViewQueues = false;
+				me.authorization.permissions.forEach((p) => {
+					// Must check for startswith because of how permissions look with divisions. Can't use exact match here.
+					if (p.startsWith('webchat:deployment:read')) hasReadDeployment = true;
+					if (p.startsWith('routing:queue:view')) hasViewQueues = true;
+				});
+
+				// Set error messages
+				if (!hasReadDeployment)
+					permissionsErr += 'Unable to list deployments. Missing permission: webchat:deployment:read <br />';
+				if (!hasViewQueues)
+					permissionsErr += 'Unable to list queues. Missing permission: routing:queue:view <br />';
+
+				this.setError(permissionsErr);
+			})
+			.catch((err) => this.setError(err));
 	},
 	deployments: computed('webChatService.deployments', function() {
 		return this.get('webChatService').get('deployments');
@@ -229,6 +260,8 @@ export default Ember.Controller.extend({
 			this.set('error', err.body.message);
 		else if (err.message)
 			this.set('error', err.message);
+		else if (typeof(err) === 'string')
+			this.set('error', err.htmlSafe());
 		else
 			this.set('error', 'An error has occurred');
 	},

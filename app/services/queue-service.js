@@ -24,7 +24,7 @@ export default Ember.Service.extend({
 					resolve();
 				}
 			}
-			routingApi.getRoutingQueues({ sortBy: 'name' }).then(processPageOfQueues).catch(function(err){
+			routingApi.getRoutingQueues({ sortBy: 'name', pageSize: 100 }).then(processPageOfQueues).catch(function(err){
 				reject(err);
 			});
 		});
