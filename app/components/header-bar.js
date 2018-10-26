@@ -56,14 +56,6 @@ export default Ember.Component.extend({
             let me = this.get('purecloud').get('me');
 
             let redirect = `https://login.${env}/oauth/authorize?client_id=${oauthConfig.clientId}&response_type=token&redirect_uri=${oauthConfig.redirect}&target=${me.token.homeOrganization.id}`;
-            // var session = new purecloud.platform.PureCloudSession({
-            // strategy: 'implicit',
-            // clientId: oauthConfig.clientId,
-            // redirectUrl: oauthConfig.redirect,
-            // environment: env,
-            // state: state,
-            // storageKey: 'purecloud-dev-tools-auth'
-            // });
             window.location.replace(redirect);
         }
     }
