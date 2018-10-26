@@ -63,7 +63,8 @@ export default Ember.Service.extend(Ember.Evented, {
 				'geolocationsettings',
 				'organization',
 				'presencedefinitions',
-				'token' 
+				'token',
+				'trustors'
 			]})
 			.then((me) => {
 				this.set('me', me);
