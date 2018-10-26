@@ -1,4 +1,4 @@
-<div class="{{if isInTrustedOrg 'trusted-org-header'}} user-menu-right ">                   
+<div class="{{if orgauthorizationService.isInTrustedOrg 'trusted-org-header'}} user-menu-right ">                   
     <div id='user-info' {{action "toggleMe"}} >
         <img src={{me.images.[0].imageUri}} class="img-circle profile-image"/>
 
@@ -12,7 +12,7 @@
             </div>        
         </div>
         <div>
-            {{#if isInTrustedOrg}}
+            {{#if orgauthorizationService.isInTrustedOrg}}
             <a class="link-sign-out hidden-xs" href="#"  title='Switch to Home Org'  {{action 'switchToHomeOrg' bubbles=false}}><i class="fa fa-home" aria-hidden="true"></i> </a>
             {{/if}} 
             {{#if orgauthorizationService.isTrustedOrg}}
@@ -54,11 +54,13 @@
     {{/if}}
     {{#if showOrgTrusts}}
     <div id='org-trusts'>
-        <label>Select the org to switch to:</label>
+        <label>Select the org to switch to: </label>
+        
         <br>
         {{#each orgauthorizationService.orgTrusts as |org|}}
-        <button type="button" class="btn btn-small btn-primary"  {{action "switchToOrgTrust" org.organization.id}}>{{org.organization.name}}</button>
+        <button type="button" class="btn btn-small btn-primary"  {{action "switchToOrgTrust" org.id}}>{{org.name}}</button>
         {{/each}}
+        <div class='text-muted'>Your user may not have access in these orgs</div>
     </div>
     {{/if}}
 </div>

@@ -19,20 +19,6 @@ export default Ember.Component.extend({
 
         return "Developer Tools";
     }),
-    isInTrustedOrg: computed('purecloud.me', function() {
-        let me = this.get('purecloud').get('me');
-        
-        if(!me){
-            return false;
-        }
-
-        if(me.token && me.token.organization && me.token.homeOrganization){
-            return me.token.organization.id !== me.token.homeOrganization.id;
-        }    
-       
-        return false;
-    }),
-    
     me: computed('purecloud.me', function() {
         return this.get('purecloud').get('me');
     }),
