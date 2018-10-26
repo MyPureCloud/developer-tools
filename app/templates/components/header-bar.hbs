@@ -15,6 +15,10 @@
             {{#if isInTrustedOrg}}
             <a class="link-sign-out hidden-xs" href="#"  title='Switch to Home Org'  {{action 'switchToHomeOrg' bubbles=false}}><i class="fa fa-home" aria-hidden="true"></i> </a>
             {{/if}} 
+            {{#if orgauthorizationService.isTrustedOrg}}
+            <a class="link-sign-out hidden-xs" href="#"  title='Switch to Org Trust'  {{action 'toggleTrustedOrgs' bubbles=false}}><i class="fa fa-exchange" aria-hidden="true"></i> </a>
+            {{/if}} 
+            
             <a class="link-sign-out hidden-xs" href="#" title='Sign Out' {{action 'logOut' bubbles=false}}>
                 <i class="fa fa-sign-out" aria-hidden="true"></i>
             </a>
@@ -46,6 +50,15 @@
             </code>
         </pre>
 
+    </div>
+    {{/if}}
+    {{#if showOrgTrusts}}
+    <div id='org-trusts'>
+        <label>Select the org to switch to:</label>
+        <br>
+        {{#each orgauthorizationService.orgTrusts as |org|}}
+        <button type="button" class="btn btn-small btn-primary"  {{action "switchToOrgTrust" org.organization.id}}>{{org.organization.name}}</button>
+        {{/each}}
     </div>
     {{/if}}
 </div>

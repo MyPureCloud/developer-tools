@@ -260,7 +260,39 @@
         }
       }
   }
+  #org-trusts{
+    background: white;
+    border: solid 1px #ddd;
+    border-top-color: transparent;
+    border-right-color: transparent;
+    display: block;
+    max-width: 33%;
+    color: black;
+    position: fixed;
+    padding-bottom: 20px;
+    right: 0;
+    top: @navbar-height + 1px;
+    z-index: 100000;
+    border-radius: 0px;
+    min-width:100px;
 
+    label {
+      margin-left: 18px;
+      margin-right: 18px;
+      font-family: @font-family-sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      padding-top: 10px;
+      padding-bottom: 8px;
+    }
+
+    button {
+      margin-left: 18px;
+      margin-bottom:10px;
+    }
+
+
+  }
   #users-me {
       background: white;
       border: solid 1px #ddd;

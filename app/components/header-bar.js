@@ -1,7 +1,5 @@
 import Ember from 'ember';
 import toolsModules from '../utils/dev-tools-modules';
-import config from '../config/environment';
-import {purecloudEnvironmentTld, purecloudEnvironment} from '../utils/purecloud-environment';
 
 var  computed = Ember.computed;
 
@@ -9,6 +7,7 @@ export default Ember.Component.extend({
     purecloud: Ember.inject.service('purecloud'),
     modules: toolsModules,
     routing: Ember.inject.service('-routing'),
+    orgauthorizationService: Ember.inject.service(),
     routeTitle: computed('routing.currentPath', function(){
         let route = this.get("routing").get("currentPath");
         for(let x=0;x < toolsModules.length; x++){
@@ -22,7 +21,7 @@ export default Ember.Component.extend({
     }),
     isInTrustedOrg: computed('purecloud.me', function() {
         let me = this.get('purecloud').get('me');
-
+        
         if(!me){
             return false;
         }
@@ -30,9 +29,10 @@ export default Ember.Component.extend({
         if(me.token && me.token.organization && me.token.homeOrganization){
             return me.token.organization.id !== me.token.homeOrganization.id;
         }    
-        
+       
         return false;
     }),
+    
     me: computed('purecloud.me', function() {
         return this.get('purecloud').get('me');
     }),
@@ -42,21 +42,32 @@ export default Ember.Component.extend({
     }),
 
     showMe: false,
+    showOrgTrusts: false, 
+
+    init() {
+        this._super(...arguments);
+        this.get("orgauthorizationService");
+
+    },
+
     actions: {
         toggleMe: function() {
+            this.set("showOrgTrusts", false);
             this.toggleProperty('showMe');
+        },
+        toggleTrustedOrgs: function() {
+            this.set("showMe", false);
+            this.toggleProperty('showOrgTrusts');
         },
         logOut(){
             this.get('purecloud').logout();
         },
+        switchToOrgTrust(orgId){
+            this.get("orgauthorizationService").switchToOrg(orgId);
+        },
         switchToHomeOrg(){
-            let oauthConfig = config.oauthProps[purecloudEnvironment()];
-
-            let env = purecloudEnvironmentTld();
             let me = this.get('purecloud').get('me');
-
-            let redirect = `https://login.${env}/oauth/authorize?client_id=${oauthConfig.clientId}&response_type=token&redirect_uri=${oauthConfig.redirect}&target=${me.token.homeOrganization.id}`;
-            window.location.replace(redirect);
+            this.get("orgauthorizationService").switchToOrg(me.token.homeOrganization.id);
         }
     }
 });

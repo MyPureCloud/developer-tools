@@ -22,6 +22,9 @@ export default Ember.Service.extend(Ember.Evented, {
 	conversationsApi(){
 		return new platformClient.ConversationsApi();
 	},
+	orgAuthorizationApi(){
+		return new platformClient.OrganizationAuthorizationApi();
+	},
 	usersApi(){
 		return new platformClient.UsersApi();
 	},
