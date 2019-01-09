@@ -1,6 +1,8 @@
 import Ember from 'ember';
 import platformClient from 'platformClient';
 
+const SECURITY_NAME = 'PureCloud Auth';
+
 export default Ember.Service.extend(Ember.Evented, {
 	session: null,
 
@@ -31,6 +33,9 @@ export default Ember.Service.extend(Ember.Evented, {
 	webChatApi(){
 		return new platformClient.WebChatApi();
 	},
+	oauthApi(){
+		return new platformClient.OAuthApi();
+	},
 	// Intended to be used with a path only for URLs at api.{env}
 	getMore(path, queryParams) {
 		return platformClient.ApiClient.instance.callApi(
@@ -41,10 +46,38 @@ export default Ember.Service.extend(Ember.Evented, {
 			{  }, 
 			{  }, 
 			null, 
-			['PureCloud Auth'], 
+			[SECURITY_NAME], 
 			['application/json'], 
 			['application/json']
-		);
+		).catch((err) => console.error(err));
+	},
+	get(path, queryParams) {
+		return platformClient.ApiClient.instance.callApi(
+			path, 
+			'GET', 
+			{  }, 
+			queryParams,
+			{  }, 
+			{  }, 
+			null, 
+			[SECURITY_NAME], 
+			['application/json'], 
+			['application/json']
+		).catch((err) => console.error(err));
+	},
+	post(path, body) {
+		return platformClient.ApiClient.instance.callApi(
+			path, 
+			'POST', 
+			{  }, 
+			{  },
+			{  }, 
+			{  }, 
+			body, 
+			[SECURITY_NAME], 
+			['application/json'], 
+			['application/json']
+		).catch((err) => console.error(err));
 	},
 	logout() {
 		console.log('logging out');

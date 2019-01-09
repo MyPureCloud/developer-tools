@@ -1,0 +1,169 @@
+<div class='container'>
+    <nav class="navbar navbar-default ">
+        <ul class="nav navbar-nav">    
+            <li>
+                <p class="navbar-text">Client</p>
+                <form class="navbar-form navbar-left">
+                    <div class="form-group">                        
+                        {{select-box-advanced idKey='id' nameKey='name' items=clients selectedItem=clientId class=form-control}}
+                    </div>
+                </form>
+            </li>            
+        </ul>        
+    </nav>
+    <div class='inspector-nav '></div>
+
+    {{#if client}}
+        {{#if noresults}}
+        {{else if resources}}
+        <div class='panel panel-default'>
+            <div class='panel-heading'>
+                <div class="panel-title" >Usage</div>
+            </div>
+            <div class='panel-body'>
+                <form>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Org Count:</label>
+                        {{orgCount}}
+                    </div>
+                     <div class="form-group">
+                        <label for="exampleInputEmail1">User Count:</label>
+                        {{userCount}}
+                    </div>
+                </form>               
+            </div>
+        </div>
+
+        <div class='panel panel-default'>
+            <div class='panel-heading'>
+                <div class="panel-title" >Scopes</div>
+            </div>
+            <div class='panel-body'>
+                <div class='row'>
+                    <div class='col-md-4'>
+                        <h4>Required Scopes</h4>
+                        <div class='text-muted'>These are the minimum required scopes your app needs</div>
+                    </div>
+                    <div class='col-md-4'>
+                        <h4>Unused Scopes</h4>
+                        <div class='text-warning'>These scopes are listed on your app but possibly not being used</div>
+                    </div>
+                    <div class='col-md-4'>
+                        <h4>Downgrade Scopes</h4>
+                        <div class='text-warning'>These scopes are requesting read and write access, but only read may be needed </div>
+                    </div>
+                </div>
+                <div class='row'>
+                    <div class='col-md-4'>
+                        <ul class='panel-list'>
+                            {{#each requiredScopes as |scope|}}
+                            <li>{{scope}}</li>
+                            {{/each}}
+                        </ul>
+                    </div>
+                    <div class='col-md-4'>
+                        <ul class='panel-list'>
+                            {{#if (eq extraDefinedScopes.length 0)}}
+                            None
+                            {{else}}
+                            {{#each extraDefinedScopes as |scope|}}
+                            <li>{{scope}}</li>
+                            {{/each}}
+                            {{/if}}
+                        </ul>
+                    </div>    
+                    <div class='col-md-4'>
+                        <ul class='panel-list'>
+                            {{#if (eq scopesThatCanBeDowngraded.length 0)}}
+                            None
+                            {{else}}
+                            {{#each scopesThatCanBeDowngraded as |scope|}}
+                            <li>{{scope}}</li>
+                            {{/each}}
+                            {{/if}}
+                        </ul>
+                    </div>    
+                </div>
+            </div>
+        </div>
+        <div class='panel panel-default'>
+            <div class='panel-heading'>
+                <div class="panel-title" >Permissions</div>
+            </div>
+            <div class='panel-body'>
+                <div class='row'>
+                    <div class='col-md-6'>
+                        <h4>Required Permissions</h4>
+                        <div class='text-muted'>These are the permissions required to use your app.</div>
+                        <ul class='panel-list'>
+                            {{#each requiredPermissions as |permission|}}
+                            <li>{{permission}}</li>
+                            {{/each}}                    
+                        </ul>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        <div class='panel panel-default'>
+            <div class='panel-heading'>
+                <div class="panel-title" >Resources</div>
+            </div>
+            <div class='panel-body'>
+                <div class='row'>
+                    <div class='col-md-12'>
+                        <div class='text-muted '>These are the most used resources for the past {{lastNumberOfDays}} days </div>
+                        <table class='table table-striped'>
+                            <tbody>
+                                <tr>
+                                    <th>Method</th>
+                                    <th>Uri</th>
+                                    <th>Scopes</th>
+                                    <th>Permissions</th>
+                                </tr>
+                                {{#each resources as |resource|}}
+                                <tr >
+                                    <td>{{resource.method}}</td>
+                                    <td>{{resource.templateUri}} </td>
+                                    <td>{{resource.scope}}</td>
+                                    <td>{{resource.permissions}}</td>
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                            
+                        </table>
+                    
+                    </div>
+                    
+                </div>
+            </div>
+
+        </div>
+        {{else}}
+        <div class="api-loading">
+            <div class="load-indicator load-indicator-flex load-indicator-lg">
+                <i class="pc-moon pc-loading fa fa-spin"></i>
+                <p>Querying API Usage&hellip;</p>
+            </div>
+        </div>
+        {{/if}}
+   
+    {{/if}}
+</div>
+
+{{#unless client}}
+ <div class="empty-state">
+    <i class="fa fa-info-circle"></i>
+    <label>Select client to see details</label>
+</div>
+{{/unless}}
+
+{{#if noresults}}
+<div class='no-results' >
+<div class="empty-state empty-state-error" >
+    <i class="fa fa-info-circle"></i>
+    <label>No API requests in the past {{lastNumberOfDays}} days</label>
+</div>
+</div>
+
+{{/if}}
