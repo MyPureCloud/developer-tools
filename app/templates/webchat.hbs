@@ -1,4 +1,5 @@
 <div class="container container-top-padding">
+    {{#unless isInChat}}
     <form class="form-horizontal form-webchat">
     <div class="panel panel-default">
         <div class="panel-heading">
@@ -43,6 +44,19 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <div class="col-sm-8 col-md-offset-4" id="deployment-select-container">
+                            <div class="checkbox">
+                                <label>{{input type="checkbox" checked=openInNewWindow }}Open Chat in New Window</label>
+                            </div>                            
+                        </div>
+                    </div>
+                    
+                </div>
+              
             </div>
             <div class="row">
                 <div class="col-md-12">
@@ -218,17 +232,26 @@ ININ.webchat.create(chatConfig, function(err, webchat) {
         throw err;
     }
 
+{{#if openInNewWindow}}
     webchat.renderPopup({
         width: 400,
         height: 400,
         title: 'Chat'
     });
+{{else}}   
+    webchat.renderFrame({
+        containerEl: 'chat-container'
+    }); 
+{{/if}}
 });
                 </code>
             </pre>
         </div>
 
     </div>
+    {{/unless}}
+    <div id="chat-container" style="height:600px"></div>
+    
 </div>
 
 
