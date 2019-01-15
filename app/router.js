@@ -33,6 +33,7 @@ Router.map(function() {
   this.route('callback');
   this.route('analytics-query-builder');
   this.route('search-query-builder');
+  this.route('inspector');
 });
 
 export default Router;

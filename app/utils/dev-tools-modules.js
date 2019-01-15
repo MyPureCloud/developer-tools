@@ -42,6 +42,13 @@ const devToolsModules = [
         icon: "fa fa-search ",
         description: "Interactively build Search API queries."
 
+    },
+    {
+        name: "Application Inspector",
+        path: "inspector",
+        icon: "fa fa-binoculars ",
+        description: ""
+
     }
 ];
 
