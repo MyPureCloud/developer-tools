@@ -167,20 +167,6 @@ export default Ember.Component.extend({
         
         return null;
     },
- 
-    // queryUsage(client){
-    //     let purecloud = this.get("purecloud");
-        
-    //     let startDate = moment().startOf("day").add(-1 * this.get("lastNumberOfDays"), 'days');
-    //     let endDate = moment().startOf("day");
-        
-    //     let query = {
-    //         "interval": startDate.toISOString() + '/' + endDate.toISOString(),
-    //         "groupBy":["templateuri","httpmethod"]
-    //     }
-
-    //     return purecloud.post( `/api/v2/oauth/clients/${client.id}/usage/query`, query);
-    // },
     queryAndGetResults(clientId, groupByList){
         let purecloud = this.get("purecloud");
         
