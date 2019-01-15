@@ -11,6 +11,8 @@ export default Ember.Controller.extend({
 	storageService: Ember.inject.service(),
 	queueService: Ember.inject.service(),
 	webChatService: Ember.inject.service(),
+	openInNewWindow: true,
+	isInChat: false,
 	org: null,
 	firstName: '',
 	lastName: '',
@@ -97,6 +99,11 @@ export default Ember.Controller.extend({
 					this.set('field3name', savedData.field3name);
 					this.set('field3value', savedData.field3value);
 					this.set('customAttributes', savedData.customAttributes || []);
+
+					if(typeof 'savedData.openInNewWindow' !== 'undefined'){
+						this.set('openInNewWindow', savedData.openInNewWindow);
+					}
+					
 				}
 
 				// Get the user's authorization. purecloud.me isn't populated yet.
@@ -139,7 +146,7 @@ export default Ember.Controller.extend({
 	queues: computed('queueService.queues', function() {
 		return this.get('queueService').get('queues');
 	}),
-	chatConfig: computed('queue', 'firstName', 'lastName', 'address', 'city', 'zip', 'state', 'phone', 'locale', 'welcomeMessage', 'field1name', 'field1value', 'field2name', 'field2value', 'field3name', 'field3value', 'customAttributes.@each.name', 'customAttributes.@each.value', function() {
+	chatConfig: computed('openInNewWindow', 'queue', 'firstName', 'lastName', 'address', 'city', 'zip', 'state', 'phone', 'locale', 'welcomeMessage', 'field1name', 'field1value', 'field2name', 'field2value', 'field3name', 'field3value', 'customAttributes.@each.name', 'customAttributes.@each.value', function() {
 		try{
 			let environment = purecloudEnvironmentTld();
 			let companyLogo = $('#companyLogo').attr('src');
@@ -175,7 +182,7 @@ export default Ember.Controller.extend({
 				'customField2Label': this.get('field2name'),
 				'customField2': this.get('field2value'),
 				'customField3Label': this.get('field3name'),
-				'customField3': this.get('field3value'),
+				'customField3': this.get('field3value')				
 			};
 
 			const customAttributes = this.get('customAttributes');
@@ -275,11 +282,25 @@ export default Ember.Controller.extend({
 					return;
 				}
 
-				webchat.renderPopup({
-					width: 400,
-					height: 400,
-					title: 'PureCloud Developer Tools Web Chat'
-				});
+				if(this.get("openInNewWindow")){
+					webchat.renderPopup({
+						width: 400,
+						height: 400,
+						title: 'PureCloud Developer Tools Web Chat'				
+					});
+				}else{
+					this.set("isInChat", true);
+					webchat.renderFrame({
+						containerEl: 'chat-container'
+					});
+
+					let self = this;
+					webchat.chatEnded = function () {
+						self.set("isInChat", false);
+					};
+				}
+				
+
 			});
 
 			let savedData = {
@@ -300,7 +321,8 @@ export default Ember.Controller.extend({
 				field2value: this.get('field2value'),
 				field3name: this.get('field3name'),
 				field3value: this.get('field3value'),
-				customAttributes: this.get('customAttributes')
+				customAttributes: this.get('customAttributes'),
+				openInNewWindow: this.get('openInNewWindow'),
 			};
 
 			let storage = this.get('storageService');
