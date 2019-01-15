@@ -5,6 +5,7 @@ export default Ember.Component.extend({
     interval: null,
     segmentFilters: [],
     evaluationFilters: [],
+    surveyFilters: [],
     conversationFilters: [],
 
     order: "asc",
@@ -40,6 +41,10 @@ export default Ember.Component.extend({
 
         if(this.evaluationFilters.length > 0){
             query.evaluationFilters = this.get("evaluationFilters");
+        }
+
+        if(this.surveyFilters.length > 0){
+          query.surveyFilters = this.get("surveyFilters");
         }
 
         if(this.aggregations.length > 0){
@@ -96,6 +101,21 @@ export default Ember.Component.extend({
         deleteEvaluationFilter:function(index){
             this.evaluationFilters.removeAt(index);
             this.set("queryJson", JSON.stringify(this._computeValue(), null, " "));
+        },
+        newSurveyFilter: function(){
+          this.surveyFilters.addObject({
+            type: "or",
+            clauses: [],
+            predicates: []
+          });
+        },
+        updateSurveyFilter: function(index,filter){
+          this.surveyFilters[index] = filter;
+          this.set("queryJson", JSON.stringify(this._computeValue(), null, " "));
+        },
+        deleteSurveyFilter:function(index){
+          this.evaluationFilters.removeAt(index);
+          this.set("queryJson", JSON.stringify(this._computeValue(), null, " "));
         },
         newConversationFilter: function(){
             this.conversationFilters.addObject({
