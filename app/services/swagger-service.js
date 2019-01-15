@@ -5,8 +5,7 @@ export default Ember.Service.extend({
 	swagger: {},
   init() {
     let that = this;
-    // let swaggerUrl = '/swagger-schema/publicapi-v2-latest.json';
-    let swaggerUrl = '/publicapi-v2-latest.json';
+    let swaggerUrl = '/swagger-schema/publicapi-v2-latest.json';
     $.getJSON({
       url: swaggerUrl,
       xhrFields: {
