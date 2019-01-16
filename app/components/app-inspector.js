@@ -43,11 +43,6 @@ export default Ember.Component.extend({
             
         this.set("resources", null);
         this.set("noresults", false);
-  
-        this.queryAndGetResults(clientId, ["userId"]).then((results) => {
-            console.log("userCount count " + results.results.length());
-            this.set("userCount", results.results.length());
-        });
 
         this.queryAndGetResults(clientId, ["templateuri","httpmethod"]).then((results) => {
 
@@ -120,6 +115,8 @@ export default Ember.Component.extend({
             this.scopesThatCanBeDowngraded.setObjects(scopesThatCanBeDowngraded.sort());
             this.extraDefinedScopes.setObjects(definedScopes.sort());
             
+        }).catch((err) => {
+            console.error(err);
         });
     }),
     getScopeForResource(templateUri, httpMethod){
@@ -205,6 +202,6 @@ export default Ember.Component.extend({
     queryUsageResult(clientId, executionId){
         let purecloud = this.get("purecloud");
 
-        return purecloud.get( `/api/v2/oauth/clients/${clientId}/usage/query/results/${executionId}`);
+        return purecloud.getResource(`/api/v2/oauth/clients/${clientId}/usage/query/results/${executionId}`);
     }
 });

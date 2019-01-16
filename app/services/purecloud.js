@@ -49,9 +49,9 @@ export default Ember.Service.extend(Ember.Evented, {
 			[SECURITY_NAME], 
 			['application/json'], 
 			['application/json']
-		).catch((err) => console.error(err));
+		);
 	},
-	get(path, queryParams) {
+	getResource(path, queryParams) {
 		return platformClient.ApiClient.instance.callApi(
 			path, 
 			'GET', 
@@ -63,7 +63,7 @@ export default Ember.Service.extend(Ember.Evented, {
 			[SECURITY_NAME], 
 			['application/json'], 
 			['application/json']
-		).catch((err) => console.error(err));
+		);
 	},
 	post(path, body) {
 		return platformClient.ApiClient.instance.callApi(
@@ -77,7 +77,7 @@ export default Ember.Service.extend(Ember.Evented, {
 			[SECURITY_NAME], 
 			['application/json'], 
 			['application/json']
-		).catch((err) => console.error(err));
+		);
 	},
 	logout() {
 		console.log('logging out');

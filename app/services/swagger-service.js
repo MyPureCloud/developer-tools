@@ -6,6 +6,11 @@ export default Ember.Service.extend({
   init() {
     let that = this;
     let swaggerUrl = '/swagger-schema/publicapi-v2-latest.json';
+
+    if(window.location.host.indexOf("localhost") > -1){
+      swaggerUrl = '/publicapi-v2-latest.json';
+    }
+
     $.getJSON({
       url: swaggerUrl,
       xhrFields: {
