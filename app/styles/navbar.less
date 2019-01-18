@@ -17,9 +17,8 @@
   margin: auto 0 auto 20px;
   position: absolute;
   right: 15px;
-  color: #c4e1eb;
-
   padding-top:4px;
+  color: @navbar-inverse-link-color;
 }
 .trusted-org-header{
   background-color: #6a68d6;
@@ -33,6 +32,7 @@
 }
 .navbar {
   border-radius: 0;
+  border: 0px;
 
   .nav.navbar-nav {
     > li.dropdown {
@@ -144,6 +144,17 @@
       }
 
       > li {
+        &:active,
+        &:focus,
+        &:hover {
+          background-color: @brand-primary;
+          transition: background-color @animation-speed-fast ease-in-out;
+        }
+
+        .active {
+          background-color: @brand-primary;
+        }
+
         @media (max-width: @screen-sm) {
           display: inline-block;
         }
@@ -255,7 +266,7 @@
         margin-left: 2px;
 
         i {
-          color: @navbar-inverse-color;
+          color: @navbar-inverse-link-color;
           font-size: 19px;
         }
       }
