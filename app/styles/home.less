@@ -6,7 +6,7 @@
     }
 
     .hero {
-        background: @pc-eden;
+        background: @pc-anti-flash-white;
         display: flex;
         flex-flow: column;
         align-items: center;
@@ -15,7 +15,6 @@
         padding-bottom: 40px;
 
         h2 {
-            color: @pc-regent-blue;
             font-family: @font-family-secondary;
             font-size: 40px;
             font-weight: 300;
@@ -24,7 +23,6 @@
         }
 
         .lead {
-            color: @pc-boston-blue;
             font-family: @font-family-secondary;
         }
     }
@@ -67,6 +65,7 @@
             &:last-child {
               margin-left: 33.33%;
               border-bottom: none;
+              border-right: none;
               position: relative;
 
               @media (max-width: @screen-md) {
@@ -91,7 +90,7 @@
 
             &:hover {
                 i {
-                    color: @link-hover-color;
+                    color: @pc-english-violet;
                     transition: .25s;
                 }
             }
@@ -113,13 +112,13 @@
 
             i {
                 align-self: center;
-                color: mix(@pc-boston-blue, #aeaeae, 60%);
+                color: @brand-primary;
                 font-size: 48px;
                 margin-bottom: 12px;
             }
 
             strong {
-                color: #7b7b7b;
+                color: #272727;
                 font-family: @font-family-secondary;
                 font-size: 28px;
                 font-weight: 300;
@@ -130,7 +129,7 @@
             }
 
             p {
-                color: #888;
+                color: @secondary-text-color;
                 font-size: 16px;
                 font-weight: 300;
                 padding: 0 50px;

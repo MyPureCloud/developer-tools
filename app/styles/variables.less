@@ -13,9 +13,14 @@
 @pc-devil-grey: #666666;
 @pc-boulder: #777777;
 @pc-dusty-gray: #999999;
+@pc-anti-flash-white: #f2f0f2;
+@pc-nickel: #6b7178;
 @pc-lima: #77dd22;
+@pc-english-violet: #5D3E5D;
+@pc-atomic-tangerine: #ff8e6f;
+@pc-fire-opal: #e56643;
 
-@spinner-color: @pc-curious-blue;
+@spinner-color: @brand-primary;
 
 // basic spacing
 @spacing-xl: 60px;
@@ -44,7 +49,7 @@
 @form-column-min-width: 250px;
 
 // transition/animation speeds
-@animation-speed-fast: 100ms;
+@animation-speed-fast: 150ms;
 @animation-speed-medium: 200ms;
 @animation-speed-slow: 300ms;
 
@@ -64,7 +69,7 @@
 // @gray-light:             lighten(@gray-base, 46.7%); // #777
 // @gray-lighter:           lighten(@gray-base, 93.5%); // #eee
 
-@brand-primary:         #4a9cb6;
+@brand-primary:         #ff4f1f;
 // @brand-success:         #5cb85c;
 // @brand-info:            #5bc0de;
 // @brand-warning:         #f0ad4e;
@@ -78,12 +83,13 @@
 //** Background color for `<body>`.
 // @body-bg:               #fff;
 //** Global text color on `<body>`.
-@text-color:               #4c4c4c;
+@text-color:               #444a52;
+@secondary-text-color:     #757575;
 
 //** Global textual link color.
 @link-color:            @brand-primary;
 //** Link hover color set via `darken()` function.
-@link-hover-color:         @text-color;
+@link-hover-color:         @pc-fire-opal;
 //** Link hover decoration.
 // @link-hover-decoration: underline;
 
@@ -198,11 +204,14 @@
 @btn-default-bg-top:               #f7f7f7;
 @btn-default-bg-bottom:            #e5e5e5;
 @btn-default-border:               #b8b8b8;
+@btn-default-hover-color:          @btn-default-bg-bottom;
 
 @btn-primary-color:              #fff;
-@btn-primary-bg-top:             #61b8d4;
-@btn-primary-bg-bottom:          #4a9cb6;
-@btn-primary-border:             #4b9eb9;
+@btn-primary-bg-top:             #ff724b;
+@btn-primary-bg-bottom:          @brand-primary;
+@btn-primary-border:             #f25328;
+@btn-primary-hover-color:        @pc-english-violet;
+@btn-active-color:               #0062cc;
 
 @btn-disabled-color:              #7d7d7d;
 @btn-disabled-bg-top:             #d8d8d8;
@@ -356,7 +365,7 @@
 
 // Medium screen / desktop
 //** Deprecated `@screen-md` as of v3.0.1
-// @screen-md:                  992px;
+@screen-md:                  1200px;
 // @screen-md-min:              @screen-md;
 //** Deprecated `@screen-desktop` as of v3.0.1
 // @screen-desktop:             @screen-md-min;
@@ -421,8 +430,8 @@
 // @navbar-padding-vertical:          ((@navbar-height - @line-height-computed) / 2);
 // @navbar-collapse-max-height:       340px;
 
-// @navbar-default-color:             #777;
-// @navbar-default-bg:                #f8f8f8;
+@navbar-default-color:                white;
+// @navbar-default-bg:                #6B7178;
 // @navbar-default-border:            darken(@navbar-default-bg, 6.5%);
 
 // Navbar links
@@ -447,21 +456,21 @@
 
 //=== Inverted navbar
 // Reset inverted navbar basics
-@navbar-inverse-bg:                            @pc-fountain-blue;
-@navbar-inverse-color:                         lighten(@navbar-inverse-bg, 40%);
+@navbar-inverse-bg:                            @pc-nickel;
+// @navbar-inverse-color:                      @brand-primary;
 @navbar-inverse-border:                        transparent;
 
 // Inverted navbar links
-@navbar-inverse-link-color:                    lighten(@navbar-inverse-bg, 29%);
-// @navbar-inverse-link-hover-color:           #fff;
+@navbar-inverse-link-color:                    @navbar-default-color;
+// @navbar-inverse-link-hover-color:           darken(@navbar-inverse-link-color, 5%);
 // @navbar-inverse-link-hover-bg:              transparent;
 // @navbar-inverse-link-active-color:          @navbar-inverse-link-hover-color;
-// @navbar-inverse-link-active-bg:             darken(@navbar-inverse-bg, 10%);
+// @navbar-inverse-link-active-bg:             @brand-primary;
 // @navbar-inverse-link-disabled-color:        #444;
 // @navbar-inverse-link-disabled-bg:           transparent;
 
 // Inverted navbar brand label
-@navbar-inverse-brand-color:                   lighten(@navbar-inverse-bg, 40%);
+@navbar-inverse-brand-color:                   @navbar-default-color;
 // @navbar-inverse-brand-hover-color:          #fff;
 // @navbar-inverse-brand-hover-bg:             transparent;
 
