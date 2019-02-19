@@ -5,7 +5,7 @@ import platformClient from 'platformClient';
 
 export default {
 	name: 'authenticators',
-	featureTogglesToQuery: ['archDevToolsScripting'],
+	featureTogglesToQuery: ['archDevToolsScripting', 'relate.ui.useEmailAndPhoneForRWPLookupInWebChat'],
 	/**
 	 * Creates the query string to get all the feature toggles that Dev-center tools cares about.
 	 * Creates this string based on the featureTogglesToQuery array

@@ -102,6 +102,12 @@ export default Ember.Controller.extend({
 					this.set('field3value', savedData.field3value);
 					this.set('customAttributes', savedData.customAttributes || []);
 
+					let storage = this.get('storageService');
+					if(storage.localStorageGet('relate.ui.useEmailAndPhoneForRWPLookupInWebChat')) {
+						this.set('email', savedData.email);
+						this.set('showEmailField', true);
+					}
+
 					if(typeof 'savedData.openInNewWindow' !== 'undefined'){
 						this.set('openInNewWindow', savedData.openInNewWindow);
 					}
@@ -179,7 +185,6 @@ export default Ember.Controller.extend({
 				'addressPostalCode': this.get('zip'),
 				'addressState': this.get('state'),
 				'phoneNumber': this.get('phone'),
-				'email': this.get('email'),
 				'customField1Label': this.get('field1name'),
 				'customField1': this.get('field1value'),
 				'customField2Label': this.get('field2name'),
@@ -187,6 +192,11 @@ export default Ember.Controller.extend({
 				'customField3Label': this.get('field3name'),
 				'customField3': this.get('field3value')
 			};
+
+			let storage = this.get('storageService');
+			if(storage.localStorageGet('relate.ui.useEmailAndPhoneForRWPLookupInWebChat')) {
+				chatData.email = this.get('email');
+			}
 
 			const customAttributes = this.get('customAttributes');
 			for (let attribute of customAttributes) {
@@ -314,7 +324,6 @@ export default Ember.Controller.extend({
 				state: this.get('state'),
 				zip: this.get('zip'),
 				phone: this.get('phone'),
-				email: this.get('email'),
 				queue: this.get('queue'),
 				locale: this.get('locale'),
 				welcomeMessage: this.get('welcomeMessage'),
@@ -330,6 +339,10 @@ export default Ember.Controller.extend({
 			};
 
 			let storage = this.get('storageService');
+			if(storage.localStorageGet('relate.ui.useEmailAndPhoneForRWPLookupInWebChat')) {
+				savedData.email = this.get('email');
+			}
+
 			storage.localStorageSet('webChatParams', savedData);
 		} catch(err) {
 			this.setError(err);
