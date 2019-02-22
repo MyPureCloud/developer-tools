@@ -1,4 +1,5 @@
 /* global ININ */
+/* global $ */
 import Ember from 'ember';
 import Chance from 'npm:chance';
 import {purecloudEnvironmentTld} from '../utils/purecloud-environment';
@@ -310,6 +311,7 @@ export default Ember.Controller.extend({
 					let self = this;
 					webchat.chatEnded = function () {
 						self.set("isInChat", false);
+						$('#chat-container').html("");
 					};
 				}
 
