@@ -14,13 +14,13 @@ const devToolsModules = [
     {
         name: "Notifications",
         path: "notificationtester",
-        icon: "pc-moon pc-bell",
+        icon: "fa fa-bell",
         description: "Subscribe to events and see the data that comes in from the websocket."
     },
     {
         name: "Web Chats",
         path: "webchat",
-        icon: "pc-moon pc-chat",
+        icon: "fa fa-comments",
         description: "Generate web chats."
     },
     {
