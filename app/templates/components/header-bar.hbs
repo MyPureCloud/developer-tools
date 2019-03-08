@@ -1,5 +1,7 @@
-<div class="{{if orgauthorizationService.isInTrustedOrg 'trusted-org-header'}} user-menu-right ">
-    <div id='user-info' {{action "toggleMe"}} >
+<div class="{{if orgauthorizationService.isInTrustedOrg 'trusted-org-header'}} user-menu-right fa fa-id-card"  title="My Information" {{action "toggleMe"}} ></div>
+{{#if showMe}}
+<div id='users-me'>
+    <div id='user-info'>
         <img src={{me.images.[0].imageUri}} class="img-circle profile-image"/>
 
         <div class="col-text">
@@ -26,41 +28,37 @@
         </div>
 
     </div>
-
-    {{#if showMe}}
-    <div id='users-me'>
-        <div class="user-info visible-xs">
-            <div class="col-text">
-                <div class="username">
-                    {{me.name}}
-                </div>
-                <div class="org-name">
-                    {{me.organization.name}}
-                </div>
+    <div class="user-info visible-xs">
+        <div class="col-text">
+            <div class="username">
+                {{me.name}}
             </div>
-            <a class="link-sign-out" href="#" title='Sign Out' {{action 'logOut'}}>
-                <i class="fa fa-sign-out" aria-hidden="true"></i> Sign Out
-            </a>
+            <div class="org-name">
+                {{me.organization.name}}
+            </div>
         </div>
-        <button type="button" class="close pull-left" aria-label="Close" {{action "toggleMe"}}><span aria-hidden="true">&times;</span></button>
-        <label>/api/v2/users/me</label>
-        <pre class='scrollable'>
-            <code >
-    {{meJson}}
-            </code>
-        </pre>
-
+        <a class="link-sign-out" href="#" title='Sign Out' {{action 'logOut'}}>
+            <i class="fa fa-sign-out" aria-hidden="true"></i> Sign Out
+        </a>
     </div>
-    {{/if}}
-    {{#if showOrgTrusts}}
-    <div id='org-trusts'>
-        <label>Select the org to switch to: </label>
+    <button type="button" class="close pull-left" aria-label="Close" {{action "toggleMe"}}><span aria-hidden="true">&times;</span></button>
+    <label>/api/v2/users/me</label>
+    <pre class='scrollable'>
+        <code >
+{{meJson}}
+        </code>
+    </pre>
 
-        <br>
-        {{#each orgauthorizationService.orgTrusts as |org|}}
-        <button type="button" class="btn btn-small btn-primary"  {{action "switchToOrgTrust" org.id}}>{{org.name}}</button>
-        {{/each}}
-
-    </div>
-    {{/if}}
 </div>
+{{/if}}
+{{#if showOrgTrusts}}
+<div id='org-trusts'>
+    <label>Select the org to switch to: </label>
+
+    <br>
+    {{#each orgauthorizationService.orgTrusts as |org|}}
+    <button type="button" class="btn btn-small btn-primary"  {{action "switchToOrgTrust" org.id}}>{{org.name}}</button>
+    {{/each}}
+
+</div>
+{{/if}}

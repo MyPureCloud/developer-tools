@@ -13,12 +13,13 @@
     border-radius: 5px;
 }
 .user-menu-right{
-  max-width: 175px;
-  margin: auto 0 auto 20px;
-  position: absolute;
-  right: 15px;
-  padding-top:4px;
   color: @navbar-inverse-link-color;
+  width: @navbar-width;
+  max-height: @navbar-height;
+  text-align: center;
+  font-size: 19px;
+  padding: 15px 0;
+  cursor: pointer;
 }
 .trusted-org-header{
   background-color: #6a68d6;
@@ -30,11 +31,20 @@
   padding-left: 10px;
   padding-right: 10px;
 }
+
 .navbar {
+  float: left;
+  height: 100%;
+  width: @navbar-width;
   border-radius: 0;
   border: 0px;
 
   .nav.navbar-nav {
+    margin: 7.5px -15px;
+    > li {
+      width: @navbar-width;
+      text-align: center;
+    }
     > li.dropdown {
         a strong {
         color: @text-color;
@@ -68,7 +78,6 @@
         display: flex;
         margin: 0;
         width: 100%;
-
         > li {
           border-left: solid 1px #ddd;
 
@@ -128,21 +137,13 @@
   &.navbar-inverse {
     font-family: @font-family-secondary;
     margin-bottom: 0;
-    position: relative;
 
     .container-fluid {
       display: flex;
-    }
-
-    #navBar {
-      max-height: @navbar-height;
+      flex-direction: column;
     }
 
     .nav.navbar-nav {
-      @media (max-width: @screen-sm) {
-        margin: 4px 0;
-      }
-
       > li {
         &:active,
         &:focus,
@@ -169,11 +170,6 @@
 
           > i {
             font-size: 20px;
-
-            @media (min-width: 1270px) {
-              font-size: 15px;
-              margin-right: 5px;
-            }
           }
 
           > .navbar-link-text {
@@ -230,8 +226,7 @@
   #user-info {
       display: flex;
       align-items: center;
-      top: @navbar-height;
-      cursor: pointer;
+      justify-content: center;
 
       .profile-image {
           height: 40px;
@@ -243,7 +238,9 @@
 
       .col-text {
         display: flex;
+        text-align: center;
         flex-flow: column;
+        font-size: @font-size-h3;
         margin-right: 4px;
 
         .username {
@@ -252,7 +249,7 @@
         }
 
         .org-name {
-          font-size: 11px;
+          font-size: @font-size-base;
           font-weight: 300;
           max-width: 75px;
           .text-overflow;
@@ -266,8 +263,8 @@
         margin-left: 2px;
 
         i {
-          color: @navbar-inverse-link-color;
-          font-size: 19px;
+          color: black;
+          font-size: 35px;
         }
       }
   }
@@ -315,13 +312,14 @@
       border-top-color: transparent;
       border-right-color: transparent;
       display: block;
-      max-width: 33%;
+      max-width: 50%;
       color: black;
       min-height: 175px;
       position: fixed;
       padding-bottom: 20px;
-      right: 0;
-      top: @navbar-height + 1px;
+      top: 150px;;
+      text-align: left;
+      left: @navbar-width + 1px;
       z-index: 100000;
       height: calc(~"100% - 300px");
       border-radius: 0px;
