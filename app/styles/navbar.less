@@ -70,6 +70,9 @@
 
   &.navbar-default {
     display: flex;
+    height: @navbar-height;
+    width: 100%;
+    float: unset;
     margin-bottom: 0;
     min-height: 56px;
 
@@ -94,6 +97,7 @@
           }
 
           &.dropdown {
+            width: 100%;
             .dropdown-menu {
               left: -1px;
             }
@@ -309,14 +313,12 @@
   #users-me {
       background: @navbar-default-color;
       border: solid 1px #ddd;
-      border-top-color: transparent;
-      border-right-color: transparent;
       display: block;
       max-width: 50%;
       color: black;
       min-height: 175px;
       position: fixed;
-      padding-bottom: 20px;
+      padding: 20px 0;
       top: 150px;;
       text-align: left;
       left: @navbar-width + 1px;
@@ -371,10 +373,6 @@
           margin-right: 15px;
           max-width: 100%;
           height: calc(~"100% - 115px");
-
-          @media (min-width: @screen-sm) {
-            height: calc(~"100% - 40px");
-          }
       }
   }
 }
