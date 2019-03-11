@@ -255,7 +255,7 @@
         .org-name {
           font-size: @font-size-base;
           font-weight: 300;
-          max-width: 75px;
+          max-width: 150px;
           .text-overflow;
           text-transform: uppercase;
         }
@@ -327,7 +327,7 @@
       border-radius: 0px;
 
       .user-info {
-        padding: 15px 15px 0;
+        padding: 0 15px;
 
         .username {
           font-size: 16px;
@@ -349,14 +349,6 @@
           position: absolute;
           right: 14px;
           top: 15px;
-
-          @media (min-width: @screen-sm) {
-            position: static;
-            margin-left: 10px;
-            margin-right: 15px;
-            margin-top: 10px;
-            .pull-right;
-          }
       }
 
       label {
