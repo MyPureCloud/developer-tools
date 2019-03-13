@@ -1,8 +1,8 @@
-const ENV_REG_EXP = /(inin[dt]ca|[a-zA-Z]*\.mypurecloud\..*|localhost)/i;
+const ENV_REG_EXP = /inin[dt]ca\..*|mypurecloud\..*|localhost/i;
 import config from '../config/environment';
 
 function purecloudEnvironmentTld(){
-    let env = ENV_REG_EXP.exec(window.location.hostname)[1];
+    let env = ENV_REG_EXP.exec(window.location.hostname)[0];
 
     if(env === 'localhost'){
         env = "inindca.com";

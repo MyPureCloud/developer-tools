@@ -32,17 +32,29 @@ module.exports = function(environment) {
                 region: 'dev',
                 architectEnumString: 'archEnums.LOCATIONS.dev'
             },
-            inindca: {
+            appsinindcacom: {
                 clientId: '96a7d55b-1ed5-4719-9094-08a2a69ca07c',
-                redirect: 'https://developer.inindca.com/developer-tools/',
+                redirect: 'https://apps.inindca.com/developer-tools/',
                 region: 'dev',
                 architectEnumString: 'archEnums.LOCATIONS.dev'
             },
-            inintca:{
+            appsinintcacom:{
                 clientId: '96a7d55b-1ed5-4719-9094-08a2a69ca07c',
-                redirect: 'https://developer.inintca.com/developer-tools/',
+                redirect: 'https://apps.inintca.com/developer-tools/',
                 region: 'test',
                 architectEnumString: 'archEnums.LOCATIONS.test'
+            },
+            developerinindcacom: {
+              clientId: '96a7d55b-1ed5-4719-9094-08a2a69ca07c',
+              redirect: 'https://developer.inindca.com/developer-tools/',
+              region: 'dev',
+              architectEnumString: 'archEnums.LOCATIONS.dev'
+            },
+            developerinintcacom:{
+              clientId: '96a7d55b-1ed5-4719-9094-08a2a69ca07c',
+              redirect: 'https://developer.inintca.com/developer-tools/',
+              region: 'test',
+              architectEnumString: 'archEnums.LOCATIONS.test'
             },
             developermypurecloudcom: {
                 clientId: '96a7d55b-1ed5-4719-9094-08a2a69ca07c',
