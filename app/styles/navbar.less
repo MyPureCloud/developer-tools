@@ -21,6 +21,9 @@
   padding: 15px 0;
   cursor: pointer;
 }
+.user-menu-right.active{
+  background-color: @brand-primary;
+}
 .trusted-org-header{
   background-color: #6a68d6;
   top:0px;
@@ -82,6 +85,7 @@
         margin: 0;
         width: 100%;
         > li {
+          flex: 1;
           border-left: solid 1px #ddd;
 
           &:first-child {
@@ -108,6 +112,9 @@
             padding: 18px 15px;
             white-space: nowrap;
 
+            @media (min-width: 992px) and (max-width: 1200px) {
+              padding: 18px 5px;
+            }
             & > i {
               line-height: 17px;
               margin-bottom: 0;
@@ -120,7 +127,7 @@
             &.btn-link {
               display: inline-block;
               outline: none;
-              padding: 17px 15px 16px;
+              padding: 17px 10px;
             }
 
             .fa-play {

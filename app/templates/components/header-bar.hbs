@@ -1,4 +1,4 @@
-<div class="{{if orgauthorizationService.isInTrustedOrg 'trusted-org-header'}} user-menu-right fa fa-id-card"  title="My Information" {{action "toggleMe"}} ></div>
+<div class="{{if orgauthorizationService.isInTrustedOrg 'trusted-org-header'}} {{if showMe 'active'}} user-menu-right fa fa-id-card"  title="My Information" {{action "toggleMe"}} ></div>
 {{#if showMe}}
 <div id='users-me'>
     <button type="button" class="close pull-left" aria-label="Close" {{action "toggleMe"}}><span aria-hidden="true">&times;</span></button>
