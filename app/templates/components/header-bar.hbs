@@ -3,22 +3,25 @@
 <div id='users-me'>
     <button type="button" class="close pull-left" aria-label="Close" {{action "toggleMe"}}><span aria-hidden="true">&times;</span></button>
     <div class="user-info">
-        <div class="col-text">
-            <div class="username">
-                {{me.name}}
-            </div>
-            <div class="org-name">
+        {{#if isStandalone}}
+            <img src={{me.images.[0].imageUri}} class="img-circle profile-image"/>
+            <div>
+              <div class="username">
+                  {{me.name}}
+              </div>
+              <div class="org-name">
                 {{me.organization.name}}
+              </div>
             </div>
-        </div>
-        <a class="link-sign-out" href="#" title='Sign Out' {{action 'logOut'}}>
-            <i class="fa fa-sign-out" aria-hidden="true"></i> Sign Out
-        </a>
+          <a class="link-sign-out" href="#" title='Sign Out' {{action 'logOut'}}>
+            <i class="fa fa-sign-out" aria-hidden="true"></i>
+          </a>
+        {{/if}}
     </div>
     <label>/api/v2/users/me</label>
-    <pre class='scrollable'>
+    <pre class='scrollable {{if isStandalone 'standalone'}}'>
         <code >
-{{meJson}}
+            {{meJson}}
         </code>
     </pre>
 
