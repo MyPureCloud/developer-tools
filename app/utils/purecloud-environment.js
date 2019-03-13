@@ -13,7 +13,7 @@ function purecloudEnvironmentTld(){
 }
 
 function purecloudEnvironment(){
-    return window.location.hostname.replace(".", "");
+    return window.location.hostname.replace(/\./g, "");
 }
 
 function architectRegion() {
