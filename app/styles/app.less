@@ -49,9 +49,9 @@ body, html {
     overflow-y: auto;
     overflow-x: hidden;
     position: fixed;
-    height: calc(100% ~"-" @navbar-height);
-    top: @navbar-height;
-    width: 100%;
+    width: calc(100% ~"-" @navbar-width);
+    height: 100%;
+    right: 0;
 
     > div {
         .animated;
@@ -75,10 +75,6 @@ body, html {
     font-weight: 400;
     font-size: 20px;
     margin-left: 10px;
-}
-
-.container-top-padding {
-    padding-top: 40px;
 }
 
 .container-padding {

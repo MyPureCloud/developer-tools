@@ -27,8 +27,12 @@ export default Ember.Component.extend({
         return JSON.stringify(this.get('purecloud').get('me'),null, "  ");
     }),
 
+    isStandalone: computed(function() {
+      return window.location === window.parent.location
+    }),
+
     showMe: false,
-    showOrgTrusts: false, 
+    showOrgTrusts: false,
 
     init() {
         this._super(...arguments);
