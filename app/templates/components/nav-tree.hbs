@@ -1,4 +1,7 @@
 <ul class="nav navbar-nav">
+    <li>
+      {{#header-bar}}{{/header-bar}}
+    </li>
     {{#each modules as |module|}}
     <li>
         {{#link-to module.path title=module.name}}
@@ -6,7 +9,4 @@
         {{/link-to}}
     </li>
     {{/each}}
-    <li>
-      {{#header-bar}}{{/header-bar}}
-    </li>
 </ul>

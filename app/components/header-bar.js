@@ -27,6 +27,10 @@ export default Ember.Component.extend({
         return JSON.stringify(this.get('purecloud').get('me'),null, "  ");
     }),
 
+    profileImg: computed(function() {
+      return (this.me.images && this.me.images[0].imageUri) || "assets/images/profile-default.svg"
+    }),
+
     isStandalone: computed(function() {
       return window.location === window.parent.location
     }),
