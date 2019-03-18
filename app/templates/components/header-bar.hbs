@@ -1,5 +1,5 @@
 <div class="{{if orgauthorizationService.isInTrustedOrg 'trusted-org-header'}} {{if showMe 'active'}} user-menu-right"  title="My Information" {{action "toggleMe"}} >
-  <img src={{profileImg}} class="img-circle profile-image"/>
+  <img style="background: url({{profileImg}})" class="img-circle profile-image"/>
 </div>
 {{#if showMe}}
 <div id='users-me'>

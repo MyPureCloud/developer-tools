@@ -6,7 +6,6 @@ module.exports = function(environment) {
     var ENV = {
 
         modulePrefix: 'developer-tools',
-        rootURL: environment === 'development' || environment === 'test' ? '/' : '/developer-tools',
         environment: environment,
         baseURL: '/',
         locationType: 'auto',
