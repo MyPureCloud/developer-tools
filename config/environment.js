@@ -6,7 +6,7 @@ module.exports = function(environment) {
     var ENV = {
 
         modulePrefix: 'developer-tools',
-        rootURL: '/developer-tools',
+        rootURL: environment === 'development' || environment === 'test' ? '/' : '/developer-tools',
         environment: environment,
         baseURL: '/',
         locationType: 'auto',
@@ -29,7 +29,7 @@ module.exports = function(environment) {
         'oauthProps': {
             localhost: {
                 clientId: '96a7d55b-1ed5-4719-9094-08a2a69ca07c',
-                redirect: 'https://localhost:4200/developer-tools/',
+                redirect: 'https://localhost:4200/',
                 region: 'dev',
                 architectEnumString: 'archEnums.LOCATIONS.dev'
             },
