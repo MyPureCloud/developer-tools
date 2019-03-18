@@ -1,4 +1,5 @@
 /* global ININ */
+/* global $ */
 import Ember from 'ember';
 import Chance from 'npm:chance';
 import {purecloudEnvironmentTld} from '../utils/purecloud-environment';
@@ -21,6 +22,7 @@ export default Ember.Controller.extend({
 	state: '',
 	zip: '',
 	phone: '',
+	email: '',
 	queue: '',
 	locale: 'en',
 	field1name: '',
@@ -31,12 +33,12 @@ export default Ember.Controller.extend({
 	field3value: '',
 	customAttributes: [],
 	error: '',
-	errorVisibility: computed('error', function() { 
+	errorVisibility: computed('error', function() {
 		const error = this.get('error');
 		return !error || error == '' ? 'hidden' :  '';
 	}),
 	welcomeMessage: 'Thanks for chatting using the dev tools chat page.',
-	chatEnvironment: computed('purecloud.environment', function() { 
+	chatEnvironment: computed('purecloud.environment', function() {
 		return this.get('purecloud').get('environment');
 	}),
 	chatRegion: computed('purecloud.environment', function() {
@@ -88,6 +90,7 @@ export default Ember.Controller.extend({
 					this.set('state', savedData.state);
 					this.set('zip', savedData.zip);
 					this.set('phone', savedData.phone);
+					this.set('email', savedData.email);
 					this.set('queue', savedData.queue);
 					this.set('locale', savedData.locale);
 					this.set('welcomeMessage', savedData.welcomeMessage);
@@ -100,10 +103,16 @@ export default Ember.Controller.extend({
 					this.set('field3value', savedData.field3value);
 					this.set('customAttributes', savedData.customAttributes || []);
 
+					let storage = this.get('storageService');
+					if(storage.localStorageGet('relate.ui.useEmailAndPhoneForRWPLookupInWebChat')) {
+						this.set('email', savedData.email);
+						this.set('showEmailField', true);
+					}
+
 					if(typeof 'savedData.openInNewWindow' !== 'undefined'){
 						this.set('openInNewWindow', savedData.openInNewWindow);
 					}
-					
+
 				}
 
 				// Get the user's authorization. purecloud.me isn't populated yet.
@@ -146,7 +155,7 @@ export default Ember.Controller.extend({
 	queues: computed('queueService.queues', function() {
 		return this.get('queueService').get('queues');
 	}),
-	chatConfig: computed('openInNewWindow', 'queue', 'firstName', 'lastName', 'address', 'city', 'zip', 'state', 'phone', 'locale', 'welcomeMessage', 'field1name', 'field1value', 'field2name', 'field2value', 'field3name', 'field3value', 'customAttributes.@each.name', 'customAttributes.@each.value', function() {
+	chatConfig: computed('openInNewWindow', 'queue', 'firstName', 'lastName', 'address', 'city', 'zip', 'state', 'phone', 'email', 'locale', 'welcomeMessage', 'field1name', 'field1value', 'field2name', 'field2value', 'field3name', 'field3value', 'customAttributes.@each.name', 'customAttributes.@each.value', function() {
 		try{
 			let environment = purecloudEnvironmentTld();
 			let companyLogo = $('#companyLogo').attr('src');
@@ -182,8 +191,13 @@ export default Ember.Controller.extend({
 				'customField2Label': this.get('field2name'),
 				'customField2': this.get('field2value'),
 				'customField3Label': this.get('field3name'),
-				'customField3': this.get('field3value')				
+				'customField3': this.get('field3value')
 			};
+
+			let storage = this.get('storageService');
+			if(storage.localStorageGet('relate.ui.useEmailAndPhoneForRWPLookupInWebChat')) {
+				chatData.email = this.get('email');
+			}
 
 			const customAttributes = this.get('customAttributes');
 			for (let attribute of customAttributes) {
@@ -286,7 +300,7 @@ export default Ember.Controller.extend({
 					webchat.renderPopup({
 						width: 400,
 						height: 400,
-						title: 'PureCloud Developer Tools Web Chat'				
+						title: 'PureCloud Developer Tools Web Chat'
 					});
 				}else{
 					this.set("isInChat", true);
@@ -297,9 +311,10 @@ export default Ember.Controller.extend({
 					let self = this;
 					webchat.chatEnded = function () {
 						self.set("isInChat", false);
+						$('#chat-container').html("");
 					};
 				}
-				
+
 
 			});
 
@@ -326,6 +341,10 @@ export default Ember.Controller.extend({
 			};
 
 			let storage = this.get('storageService');
+			if(storage.localStorageGet('relate.ui.useEmailAndPhoneForRWPLookupInWebChat')) {
+				savedData.email = this.get('email');
+			}
+
 			storage.localStorageSet('webChatParams', savedData);
 		} catch(err) {
 			this.setError(err);
@@ -346,12 +365,12 @@ export default Ember.Controller.extend({
 
 				const chatScript = document.getElementById('purecloud-webchat-js');
 
-				// Skip injecting script tag if it's already been injected. 
+				// Skip injecting script tag if it's already been injected.
 				if (chatScript.getAttribute('src') != null) {
 					this.openChatWindow();
 					return;
 				} else {
-					// Once a script has been loaded, it cannot be unloaded. 
+					// Once a script has been loaded, it cannot be unloaded.
 					// Therefore, we must prevent the user from choosing another deployment until the page is reloaded.
 					$('#deployment-select-container select').prop('disabled', true);
 				}
@@ -382,6 +401,7 @@ export default Ember.Controller.extend({
 			this.set('state', chance.state());
 			this.set('zip', chance.zip());
 			this.set('phone', chance.phone());
+			this.set('email', chance.email());
 			this.set('locale', 'en');
 			this.set('welcomeMessage', 'Thanks for chatting using the dev tools chat page.');
 		},

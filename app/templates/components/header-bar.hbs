@@ -1,20 +1,20 @@
-<div class="{{if orgauthorizationService.isInTrustedOrg 'trusted-org-header'}} {{if showMe 'active'}} user-menu-right"  title="My Information" {{action "toggleMe"}} >
-  <img src={{profileImg}} class="img-circle profile-image"/>
-</div>
+<div class="{{if orgauthorizationService.isInTrustedOrg 'trusted-org-header'}} {{if showMe 'active'}} user-menu-right fa fa-id-card"  title="My Information" {{action "toggleMe"}} ></div>
 {{#if showMe}}
 <div id='users-me'>
     <button type="button" class="close pull-left" aria-label="Close" {{action "toggleMe"}}><span aria-hidden="true">&times;</span></button>
     <div class="user-info">
         {{#if isStandalone}}
-          <div class="username">
-              {{me.name}}
-          </div>
-          <div class="org-name">
-            {{me.organization.name}}
-          </div>
+            <img src={{me.images.[0].imageUri}} class="img-circle profile-image"/>
+            <div>
+              <div class="username">
+                  {{me.name}}
+              </div>
+              <div class="org-name">
+                {{me.organization.name}}
+              </div>
+            </div>
           <a class="link-sign-out" href="#" title='Sign Out' {{action 'logOut'}}>
             <i class="fa fa-sign-out" aria-hidden="true"></i>
-            <span>Sign out</span>
           </a>
         {{/if}}
     </div>

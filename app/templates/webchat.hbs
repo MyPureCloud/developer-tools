@@ -28,9 +28,9 @@
                         <label class="col-sm-4 control-label"></label>
                         <div class="col-sm-8">
                                 {{#if needsDeployment}}
-                            No web chat deployments found, 
+                            No web chat deployments found,
                             {{else}}
-                            Select a deployment above or 
+                            Select a deployment above or
                             {{/if}}
                             <a {{action 'createDeployment'}} href="#">click here</a> to create a new one.
                         </div>
@@ -51,12 +51,12 @@
                         <div class="col-sm-8 col-md-offset-4" id="deployment-select-container">
                             <div class="checkbox">
                                 <label>{{input type="checkbox" checked=openInNewWindow }}Open Chat in New Window</label>
-                            </div>                            
+                            </div>
                         </div>
                     </div>
-                    
+
                 </div>
-              
+
             </div>
             <div class="row">
                 <div class="col-md-12">
@@ -109,6 +109,15 @@
                             {{input class="form-control" value=phone type="tel"  placeholder="Phone" }}
                         </div>
                     </div>
+
+                    {{#if showEmailField}}
+                        <div class="form-group row">
+                            <label class="col-sm-4 control-label">Email</label>
+                            <div class="col-sm-8">
+                                {{input class="form-control" value=email type="email"  placeholder="Email" }}
+                            </div>
+                        </div>
+                    {{/if}}
 
                     <div class="form-group row">
                         <label class="col-sm-4 control-label">Locale</label>
@@ -225,7 +234,7 @@
         <div class="panel-body">
             <pre>
                 <code>let chatConfig = {{chatConfig}};
-                    
+
 ININ.webchat.create(chatConfig, function(err, webchat) {
     if (err) {
         console.error(err);
@@ -238,10 +247,10 @@ ININ.webchat.create(chatConfig, function(err, webchat) {
         height: 400,
         title: 'Chat'
     });
-{{else}}   
+{{else}}
     webchat.renderFrame({
         containerEl: 'chat-container'
-    }); 
+    });
 {{/if}}
 });
                 </code>
@@ -251,7 +260,7 @@ ININ.webchat.create(chatConfig, function(err, webchat) {
     </div>
     {{/unless}}
     <div id="chat-container" style="height:600px"></div>
-    
+
 </div>
 
 
