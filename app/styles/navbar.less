@@ -1,11 +1,11 @@
-.navbar-header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 .logo{
     display: block;
+    position: absolute;
     content: ' ';
+    top: 50%;
+    left: 26px;
+    margin-top: -18px;
+    margin-left: -18px;
     height: 36px;
     width: 36px;
     background: url(images/purecloud-by-genesys.jpg) center no-repeat;
@@ -16,19 +16,19 @@
   color: @navbar-inverse-link-color;
   width: @navbar-width;
   max-height: @navbar-height;
+  text-align: center;
   font-size: 19px;
   padding: 15px 0;
   cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 .user-menu-right.active{
   background-color: @brand-primary;
 }
 .trusted-org-header{
   background-color: #6a68d6;
+  top:0px;
   height: 101%;
+  right:0;
   margin-left: 10px;
   margin-right: 0px;
   padding-left: 10px;
@@ -195,13 +195,32 @@
     }
 
     .navbar-brand {
-      margin: 0;
       font-size: 11px;
+      position: relative;
+      padding-left: 50px;
+      padding-top: 15px;
       text-transform: uppercase;
+
+      @media (min-width: @screen-sm) {
+        margin-right: 36px;
+        padding-top: 14px;
+      }
 
       i {
         font-size: 28px;
         margin-right: 6px;
+        position: absolute;
+        left: 15px;
+        top: 11px;
+      }
+
+      .navbar-brand-text {
+        @media (min-width: @screen-sm) {
+          font-size: 20px;
+          margin-right: 0;
+          text-transform: none;
+          padding-top: 0;
+        }
       }
     }
   }
@@ -216,9 +235,10 @@
   }
 
   .user-info {
+    display: flex;
+    justify-content: center;
     font-size: @font-size-h3;
     margin-right: 4px;
-    white-space: nowrap;
 
     .profile-image {
       float: left;
@@ -229,27 +249,31 @@
       }
     }
 
-    .username {
-      max-width: 90px;
-      .text-overflow;
-    }
+    >div {
+      text-align: center;
 
-    .org-name {
-      font-size: @font-size-base;
-      font-weight: 300;
-      .text-overflow;
-      text-transform: uppercase;
+      .username {
+        max-width: 90px;
+        .text-overflow;
+      }
+
+      .org-name {
+        font-size: @font-size-base;
+        font-weight: 300;
+        max-width: 150px;
+        .text-overflow;
+        text-transform: uppercase;
+      }
     }
 
     .link-sign-out {
+      margin-left: 10px;
       display: flex;
-      &:hover, &:focus {
-        color: @pc-english-violet;
-      }
+      justify-content:center;
+      align-items: center;
+
       i {
-        padding-top: 3px;
-        margin-right: 5px;
-        font-size: 15px;
+        font-size: 30px;
       }
     }
   }
@@ -300,7 +324,7 @@
       min-height: 175px;
       position: fixed;
       padding: 20px 0;
-      top: 50px;;
+      top: 150px;;
       text-align: left;
       left: @navbar-width + 1px;
       z-index: 100000;
