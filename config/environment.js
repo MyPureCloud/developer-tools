@@ -6,6 +6,7 @@ module.exports = function(environment) {
     var ENV = {
 
         modulePrefix: 'developer-tools',
+        rootURL: '/developer-tools',
         environment: environment,
         baseURL: '/',
         locationType: 'auto',
