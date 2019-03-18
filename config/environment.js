@@ -29,7 +29,7 @@ module.exports = function(environment) {
         'oauthProps': {
             localhost: {
                 clientId: '96a7d55b-1ed5-4719-9094-08a2a69ca07c',
-                redirect: 'https://localhost:4200/',
+                redirect: 'https://localhost:4200/developer-tools/',
                 region: 'dev',
                 architectEnumString: 'archEnums.LOCATIONS.dev'
             },
