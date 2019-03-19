@@ -72,8 +72,8 @@ module.exports = function(environment) {
             developermypurecloudcomau: {
                 clientId: '96a7d55b-1ed5-4719-9094-08a2a69ca07c',
                 redirect: 'https://developer.mypurecloud.com.au/developer-tools/',
-                region: 'ap-sourtheast-2',
-                architectEnumString: 'archEnums.LOCATIONS.ap_sourtheast_2'
+                region: 'ap-southeast-2',
+                architectEnumString: 'archEnums.LOCATIONS.ap_southeast_2'
             },
             developermypurecloudjp: {
                 clientId: '96a7d55b-1ed5-4719-9094-08a2a69ca07c',
@@ -103,8 +103,8 @@ module.exports = function(environment) {
             appsmypurecloudcomau: {
                 clientId: '96a7d55b-1ed5-4719-9094-08a2a69ca07c',
                 redirect: 'https://apps.mypurecloud.com.au/developer-tools/',
-                region: 'ap-sourtheast-2',
-                architectEnumString: 'archEnums.LOCATIONS.ap_sourtheast_2'
+                region: 'ap-southeast-2',
+                architectEnumString: 'archEnums.LOCATIONS.ap_southeast_2'
             },
             appsmypurecloudjp: {
                 clientId: '96a7d55b-1ed5-4719-9094-08a2a69ca07c',
