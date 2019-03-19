@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import toolsModules from '../utils/dev-tools-modules';
+import config from '../config/environment';
 
 var  computed = Ember.computed;
 
@@ -28,11 +29,11 @@ export default Ember.Component.extend({
     }),
 
     profileImg: computed(function() {
-      return (this.me.images && this.me.images[0].imageUri) || "images/profile-default.svg"
+        return (this.me.images && this.me.images[0].imageUri) || `${config.APP.urlprefix.replace(/\/?$/, '/')}assets/images/profile-default.svg`
     }),
 
     isStandalone: computed(function() {
-      return window.location === window.parent.location
+        return window.location === window.parent.location
     }),
 
     showMe: false,
