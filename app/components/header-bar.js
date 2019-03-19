@@ -24,12 +24,14 @@ export default Ember.Component.extend({
         return this.get('purecloud').get('me');
     }),
 
-    meJson:computed('purecloud.me', function() {
+    meJson: computed('purecloud.me', function() {
         return JSON.stringify(this.get('purecloud').get('me'),null, "  ");
     }),
 
-    profileImg: computed(function() {
-        return (this.me.images && this.me.images[0].imageUri) || `${config.APP.urlprefix.replace(/\/?$/, '/')}assets/images/profile-default.svg`
+    profileImg: computed('purecloud.me', function() {
+      return this.get('purecloud.me') === null || !this.get('purecloud.me.images') ?
+        `${config.APP.urlprefix.replace(/\/?$/, '/')}assets/images/profile-default.svg`
+        : this.get('purecloud.me.images.0.imageUri')
     }),
 
     isStandalone: computed(function() {
@@ -42,7 +44,6 @@ export default Ember.Component.extend({
     init() {
         this._super(...arguments);
         this.get("orgauthorizationService");
-
     },
 
     actions: {
