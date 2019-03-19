@@ -28,7 +28,7 @@ export default Ember.Component.extend({
     }),
 
     profileImg: computed(function() {
-      return (this.me.images && this.me.images[0].imageUri) || "assets/images/profile-default.svg"
+      return (this.me.images && this.me.images[0].imageUri) || "images/profile-default.svg"
     }),
 
     isStandalone: computed(function() {
