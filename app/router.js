@@ -34,6 +34,7 @@ Router.map(function() {
   this.route('analytics-query-builder');
   this.route('search-query-builder');
   this.route('inspector');
+  this.route('screenshare');
 });
 
 export default Router;
