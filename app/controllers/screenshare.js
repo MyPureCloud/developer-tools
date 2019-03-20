@@ -20,12 +20,6 @@ export default Controller.extend({
     {name: 'Fatal', value: 'FATAL'}
   ],
 
-  mediaOptions: [
-    {name: 'Tab (Chrome Only)', key: 'tab'},
-    {name: 'Screen', key: 'screen'},
-    {name: 'Window', key: 'window'}
-  ],
-
   error: null,
 
   pcEnv: computed.reads('purecloud.environment'),
@@ -44,7 +38,6 @@ export default Controller.extend({
     this.set('standAloneMode', false);
     this.set('cssClass', 'screenshare-frame');
     this.set('containerEl', 'screenshareContainer');
-    this.set('chromeWebstoreUrl', 'https://chrome.google.com/webstore/detail/chpkaocjjopjgclkahflonfkhdhkdenh');
     this.set('webchatServiceUrl', `https://realtime.${environment}:443`);
 
     let orgApi = this.get('purecloud').orgApi();
@@ -89,45 +82,6 @@ export default Controller.extend({
     this.set('error', err);
   },
 
-  chatRegion: computed('purecloud.environment', function () {
-    let environment = this.get('purecloud.environment');
-    if (!environment || environment === '') {
-      return;
-    }
-
-    if (environment.endsWith('.jp')) {
-      return 'ap-northeast-1';
-    } else if (environment.endsWith('.com.au')) {
-      return 'ap-southeast-2';
-    } else if (environment.endsWith('.ie')) {
-      return 'eu-west-1';
-    } else if (environment.endsWith('.de')) {
-      return 'eu-central-1';
-    } else if (environment.endsWith('mypurecloud.com')) {
-      return 'us-east-1';
-    } else if (environment.includes('tca')) {
-      return 'us-east-1';
-    } else if (environment.includes('dca')) {
-      return 'us-east-1';
-    } else {
-      console.warn(`Failed to identify environment: ${environment}`);
-      return 'us-east-1';
-    }
-  }),
-
-  chatEnv: computed('purecloud.environment', function () {
-    let environment = this.get('purecloud.environment');
-    if (!environment || environment === '') {
-      return;
-    }
-
-    if (environment.includes('tca')) {
-      return 'test';
-    } else if (environment.includes('dca')) {
-      return 'dev';
-    }
-  }),
-
   deployments: computed('webChatService.deployments', function () {
     return this.get('webChatService').get('deployments');
   }),
@@ -153,8 +107,8 @@ export default Controller.extend({
     }
   }),
 
-  screenShareUrl: computed('org', 'locale', 'logLevel', 'standAloneMode', 'chromeWebstoreUrl', function () {
-    if (this.get('standAloneMode')) {
+  screenShareUrl: computed('org', 'locale', 'logLevel', 'standAloneMode', function () {
+    if (!this.get('standAloneMode')) {
       return '';
     }
 
@@ -162,19 +116,19 @@ export default Controller.extend({
     let url = `https://apps.${environment}/webchat/screenshare/#?`;
     url += `webchatServiceUrl=${encodeURIComponent(this.get('webchatServiceUrl'))}&logLevel=${this.get('logLevel')}`;
     url += `&orgId=${encodeURIComponent(this.get('org.thirdPartyOrgId'))}&orgGuid=${encodeURIComponent(this.get('org.id'))}`;
-    url += `&orgName=${encodeURIComponent(this.get('org.thirdPartyOrgName'))}&chromeWebstoreUrl=${encodeURIComponent(this.get('chromeWebstoreUrl'))}`;
+    url += `&orgName=${encodeURIComponent(this.get('org.thirdPartyOrgName'))}`;
 
     return url;
   }),
 
-  config: computed('org', 'locale', 'logLevel', 'contentCssUrl', 'standAloneMode', 'cssClass', 'verifiedCssJSON', 'chromeWebstoreUrl', 'mediaOptions.@each.checked', function () {
-    if (!this.get('standAloneMode')) {
+  config: computed('org', 'locale', 'logLevel', 'contentCssUrl', 'standAloneMode', 'cssClass', 'verifiedCssJSON', 'deployment', function () {
+    if (this.get('standAloneMode')) {
       return '';
     }
     let environment = purecloudEnvironmentTld();
     const obj = {
       webchatServiceUrl: this.get('webchatServiceUrl'),
-      webchatAppUrl: `https://apps.${environment}:webchat`,
+      webchatAppUrl: `https://apps.${environment}/webchat`,
       orgId: this.get('org.thirdPartyOrgId'),
       orgName: this.get('org.thirdPartyOrgName'),
       logLevel: this.get('logLevel'),
@@ -184,13 +138,8 @@ export default Controller.extend({
       css: this.get('verifiedCssJSON'),
       contentCssUrl: this.get('contentCssUrl'),
       standAloneApplication: this.get('standAloneMode'),
-      chromeWebstoreUrl: this.get('chromeWebstoreUrl')
+      webchatDeploymentKey: this.get('deployment')
     };
-
-    const selectedMediaOptions = this.get('mediaOptions').filterBy('checked', true).map((option) => option.key);
-    if (selectedMediaOptions.length) {
-      obj.screenShareMediaSource = selectedMediaOptions;
-    }
 
     return JSON.stringify(obj, null, 2);
   }),

@@ -33,17 +33,6 @@
           </div>
 
           <div class="form-group row">
-            <label class="control-label">Chrome Webstore Url</label>
-            <div class="description">URL to a deployed Chrome Extension for screen sharing permissions with inline
-              installation enabled. For more information about branding your own screen share Chrome extension, see <a
-                href="https://github.com/MyPureCloud/chrome-screenshare-extension">https://github.com/MyPureCloud/chrome-screenshare-extension</a>.
-            </div>
-            <div class="input-container">
-              {{input class="form-control" value=chromeWebstoreUrl}}
-            </div>
-          </div>
-
-          <div class="form-group row">
             <label class="control-label">Stand Alone Mode</label>
             <div class="description">Whether you are using a stand alone screen share client. If "no", then screen share
               only starts in supported browsers (Firefox and Chrome). Set this to "yes" if you want to use a stand alone
@@ -56,7 +45,7 @@
             </div>
           </div>
 
-          {{#if standAloneMode}}
+          {{#unless standAloneMode}}
             <div class="form-group row">
               <label class="control-label">Deployment</label>
               {{#unless deployment}}
@@ -124,19 +113,7 @@
                 {{textarea class="form-control" value=additionalCss cols="100" rows="6"}}
               </div>
             </div>
-            <div class="form-group row">
-              <label class="control-label">Limit Media Sources</label>
-              <div class="description">Options presented to the sharer. Leave blank for no restrictions.</div>
-              <div class="input-container">
-                {{#each mediaOptions as |mediaOption|}}
-                  <div>
-                    {{input id=mediaOption.key type="checkbox" name="mediaSources" checked=mediaOption.checked}}
-                    <label for="{{mediaOption.key}}">{{mediaOption.name}}</label>
-                  </div>
-                {{/each}}
-              </div>
-            </div>
-          {{/if}}
+          {{/unless}}
 
           <div class="row">
             <div class="col-md-12">
@@ -146,7 +123,7 @@
         </div>
       </div>
 
-    {{#if standAloneMode}}
+    {{#unless standAloneMode}}
       <div class="section">
         <div class="section-heading">
           Deployment <code>script</code> Tag
@@ -154,15 +131,8 @@
         <div class="section-body">
           <pre>
                 <code>&lt;script
-  id="purecloud-webchat-js"
   type="text/javascript"
   src="https://apps.{{pcEnv}}/webchat/jsapi-v1.js"
-  region="{{chatRegion}}"
-  org-guid="{{org.id}}"
-  deployment-key="{{deployment}}"
-  {{#if chatEnv}}
-  env="{{chatEnv}}"
-  {{/if}}
 >&lt;/script></code>
             </pre>
         </div>
@@ -212,7 +182,7 @@ function loadScreenshare() {
     </pre>
         </div>
       </div>
-    {{/if}}
+    {{/unless}}
   </div>
 </div>
 
