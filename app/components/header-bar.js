@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import toolsModules from '../utils/dev-tools-modules';
+import config from '../config/environment';
 
 var  computed = Ember.computed;
 
@@ -23,17 +24,26 @@ export default Ember.Component.extend({
         return this.get('purecloud').get('me');
     }),
 
-    meJson:computed('purecloud.me', function() {
+    meJson: computed('purecloud.me', function() {
         return JSON.stringify(this.get('purecloud').get('me'),null, "  ");
     }),
 
+    profileImg: computed('purecloud.me', function() {
+      return this.get('purecloud.me') === null || !this.get('purecloud.me.images') ?
+        `${config.APP.urlprefix.replace(/\/?$/, '/')}assets/images/profile-default.svg`
+        : this.get('purecloud.me.images.0.imageUri')
+    }),
+
+    isStandalone: computed(function() {
+        return window.location === window.parent.location
+    }),
+
     showMe: false,
-    showOrgTrusts: false, 
+    showOrgTrusts: false,
 
     init() {
         this._super(...arguments);
         this.get("orgauthorizationService");
-
     },
 
     actions: {
