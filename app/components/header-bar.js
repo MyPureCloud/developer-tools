@@ -35,7 +35,7 @@ export default Ember.Component.extend({
     }),
 
     isStandalone: computed(function() {
-        return window.location === window.parent.location
+        return this.get('purecloud.isStandalone')
     }),
 
     showMe: false,
