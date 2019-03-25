@@ -34,7 +34,7 @@ export default Ember.Component.extend({
         : this.get('purecloud.me.images.0.imageUri')
     }),
 
-    isStandalone: computed(function() {
+    isStandalone: computed('purecloud.isStandalone', function() {
         return this.get('purecloud.isStandalone')
     }),
 
