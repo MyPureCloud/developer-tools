@@ -116,7 +116,7 @@ export default Controller.extend({
     let url = `https://apps.${environment}/webchat/screenshare/#?`;
     url += `webchatServiceUrl=${encodeURIComponent(this.get('webchatServiceUrl'))}&logLevel=${this.get('logLevel')}`;
     url += `&orgId=${encodeURIComponent(this.get('org.thirdPartyOrgId'))}&orgGuid=${encodeURIComponent(this.get('org.id'))}`;
-    url += `&orgName=${encodeURIComponent(this.get('org.thirdPartyOrgName'))}`;
+    url += `&orgName=${encodeURIComponent(this.get('org.thirdPartyOrgName'))}&webchatDeploymentKey=${this.get('deployment')}`;
 
     return url;
   }),

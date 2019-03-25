@@ -15,6 +15,24 @@
               <hr />
             </div>
           </div>
+          <div class="form-group row">
+            <label class="control-label">Deployment</label>
+            {{#unless deployment}}
+              <div class="alert alert-error" role="alert">Required</div>
+            {{/unless}}
+            <div id="deployment-select-container">
+              {{select-box-advanced idKey='id' nameKey='name' items=deployments selectedItem=deployment includeBlank=true}}
+            </div>
+            <label class="control-label"></label>
+            <div class="">
+              {{#if needsDeployment}}
+                No web chat deployments found,
+              {{else}}
+                Select a deployment above or
+              {{/if}}
+              <a {{action 'createDeployment'}} href="#">click here</a> to create a new one.
+            </div>
+          </div>
 
           <div class="form-group row">
             <label class="control-label">Log Level</label>
@@ -46,25 +64,6 @@
           </div>
 
           {{#unless standAloneMode}}
-            <div class="form-group row">
-              <label class="control-label">Deployment</label>
-              {{#unless deployment}}
-                <div class="alert alert-error" role="alert">Required</div>
-              {{/unless}}
-              <div id="deployment-select-container">
-                {{select-box-advanced idKey='id' nameKey='name' items=deployments selectedItem=deployment includeBlank=true}}
-              </div>
-              <label class="control-label"></label>
-              <div class="">
-                {{#if needsDeployment}}
-                  No web chat deployments found,
-                {{else}}
-                  Select a deployment above or
-                {{/if}}
-                <a {{action 'createDeployment'}} href="#">click here</a> to create a new one.
-              </div>
-            </div>
-
             <div class="form-group row">
               <label class="control-label">Container Element Selector</label>
               <div class="description">Container Element Selector refers to the name of the screen share container div
