@@ -49,6 +49,9 @@ export default Ember.Controller.extend({
 	}),
 	queryJson: '',
 	queryResult:null,
+  isStandalone: computed('purecloud.isStandalone', function() {
+    return this.get('purecloud.isStandalone')
+  }),
 	actions:{
 		selectQueryType(type) {
 			let currentType = this.get('queryType');

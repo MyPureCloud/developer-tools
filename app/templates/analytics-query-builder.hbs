@@ -53,6 +53,6 @@
 
 </div>
 
-<div class='col-generated-query'>
+<div class='col-generated-query {{if isStandalone 'standalone'}}'>
     {{run-analytics-query queryJson=queryJson queryType=queryType queryResult=queryResult runQuery=(action 'runQuery')}}
 </div>

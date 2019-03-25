@@ -279,12 +279,16 @@
     }
 }
 
+.col-generated-query.standalone {
+  right: 0;
+}
+
 .col-generated-query {
     padding: 20px;
     position: fixed;
     width: calc(~"65% - 50px");
     height: 100%;
-    right: 0;
+    right: @navbar-width;
     display: flex;
     flex-flow: column;
     overflow-y: auto;

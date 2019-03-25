@@ -31,7 +31,9 @@ export default Ember.Controller.extend({
 	isPinned: computed('notificationService.isPinned', function() {
 		return this.get('notificationService').get('isPinned');
 	}),
-
+  isStandalone: computed('purecloud.isStandalone', function() {
+    return this.get('purecloud.isStandalone')
+  }),
 	actions: {
 
 		selectNotificationTopic(topicIndex) {

@@ -40,8 +40,12 @@
   padding-right: 10px;
 }
 
+.navbar.standalone {
+  left: 0;
+}
 .navbar {
-  float: left;
+  right: 0;
+  left: unset;
   height: 100%;
   width: @navbar-width;
   border-radius: 0;
@@ -284,8 +288,10 @@
       margin-left:10px;
       margin-right:10px;
     }
+  }
 
-
+  #users-me.standalone {
+    left: @navbar-width + 1px;
   }
   #users-me {
       background: @navbar-default-color;
@@ -297,8 +303,8 @@
       position: fixed;
       padding: 20px 0;
       top: 50px;;
+      right: @navbar-width + 1px;
       text-align: left;
-      left: @navbar-width + 1px;
       z-index: 100000;
       height: calc(~"100% - 300px");
       border-radius: 0px;

@@ -1,4 +1,4 @@
-<nav class="navbar navbar-inverse navbar-fixed-top">
+<nav class="navbar navbar-inverse navbar-fixed-top {{if isStandalone 'standalone'}}">
     <div class="container-fluid">
         <div class='navbar-header'>
             {{#link-to "index" class="navbar-brand"}}
@@ -10,7 +10,7 @@
         </div>
     </div>
 </nav>
-<div id="content">
+<div id="content" class={{if isStandalone "standalone" "embedded"}}>
     {{outlet}}
 </div>
 {{pinned-notifications}}

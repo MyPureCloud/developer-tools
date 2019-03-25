@@ -84,10 +84,11 @@ export default Ember.Service.extend(Ember.Evented, {
 		platformClient.ApiClient.instance.logout();
 	},
 	me: null,
+  isStandalone: true,
 
 	init() {
 		this._super(...arguments);
-
+    this.set('isStandalone', window.location === window.parent.location)
 		this.usersApi().getUsersMe({
 			expand: [
 				'geolocation',
