@@ -1,8 +1,12 @@
 <div class="{{if orgauthorizationService.isInTrustedOrg 'trusted-org-header'}} {{if showMe 'active'}} user-menu-right"  title="My Information" {{action "toggleMe"}} >
-  <img src={{profileImg}} class="img-circle profile-image"/>
+  {{#if isStandalone}}
+      <img src={{profileImg}} class="img-circle profile-image"/>
+  {{else}}
+      <div class="fa fa-id-card" aria-hidden="true"/>
+  {{/if}}
 </div>
 {{#if showMe}}
-<div id='users-me'>
+<div id='users-me' class={{if isStandalone "standalone"}}>
     <button type="button" class="close pull-left" aria-label="Close" {{action "toggleMe"}}><span aria-hidden="true">&times;</span></button>
     <div class="user-info">
         {{#if isStandalone}}
