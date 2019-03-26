@@ -35,7 +35,7 @@ export default Controller.extend({
     let environment = purecloudEnvironmentTld();
     this.set('locale', 'en');
     this.set('logLevel', this.get('logLevels.firstObject.value'));
-    this.set('standAloneMode', false);
+    this.set('standAloneMode', true);
     this.set('cssClass', 'screenshare-frame');
     this.set('containerEl', 'screenshareContainer');
     this.set('webchatServiceUrl', `https://realtime.${environment}:443`);
@@ -107,7 +107,7 @@ export default Controller.extend({
     }
   }),
 
-  screenShareUrl: computed('org', 'locale', 'logLevel', 'standAloneMode', function () {
+  screenShareUrl: computed('org', 'locale', 'logLevel', 'standAloneMode', 'deployment', function () {
     if (!this.get('standAloneMode')) {
       return '';
     }
