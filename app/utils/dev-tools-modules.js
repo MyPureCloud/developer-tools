@@ -24,6 +24,12 @@ const devToolsModules = [
         description: "Generate web chats."
     },
     {
+        name: "Screen Share",
+        path: "screenshare",
+        icon: "fa fa-desktop",
+        description: "Generate urls and/or config for screen sharing."
+    },
+    {
         name: "Callbacks",
         path: "callback",
         icon: "fa fa-reply ",
