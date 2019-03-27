@@ -107,7 +107,7 @@ export default Controller.extend({
     }
   }),
 
-  screenShareUrl: computed('org', 'locale', 'logLevel', 'standAloneMode', 'deployment', function () {
+  screenShareUrl: computed('org', 'locale', 'logLevel', 'standAloneMode', 'deployment', 'contentCssUrl', function () {
     if (!this.get('standAloneMode')) {
       return '';
     }
@@ -117,6 +117,10 @@ export default Controller.extend({
     url += `webchatServiceUrl=${encodeURIComponent(this.get('webchatServiceUrl'))}&logLevel=${this.get('logLevel')}`;
     url += `&orgId=${encodeURIComponent(this.get('org.thirdPartyOrgId'))}&orgGuid=${encodeURIComponent(this.get('org.id'))}`;
     url += `&orgName=${encodeURIComponent(this.get('org.thirdPartyOrgName'))}&webchatDeploymentKey=${this.get('deployment')}`;
+
+    if (this.get('contentCssUrl')) {
+      url += `&contentCssUrl=${encodeURIComponent(this.get('contentCssUrl'))}`;
+    }
 
     return url;
   }),

@@ -51,6 +51,15 @@
           </div>
 
           <div class="form-group row">
+            <label class="control-label">Content CSS Url</label>
+            <div class="description">A URL to a hosted stylesheet for customizing the screen share security code entry
+              form.</div>
+            <div class="input-container">
+              {{input class="form-control" value=contentCssUrl}}
+            </div>
+          </div>
+
+          <div class="form-group row">
             <label class="control-label">Stand Alone Mode</label>
             <div class="description">Whether you are using a stand alone screen share client. If "no", then screen share
               only starts in supported browsers (Firefox and Chrome). Set this to "yes" if you want to use a stand alone
@@ -70,15 +79,6 @@
                 id. The screen share form renders inside of this div.</div>
               <div class="input-container">
                 {{input class="form-control" value=containerEl}}
-              </div>
-            </div>
-
-            <div class="form-group row">
-              <label class="control-label">Content CSS Url</label>
-              <div class="description">A URL to a hosted stylesheet for customizing the screen share security code entry
-                form.</div>
-              <div class="input-container">
-                {{input class="form-control" value=contentCssUrl}}
               </div>
             </div>
 
