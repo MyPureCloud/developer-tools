@@ -55,7 +55,9 @@
     margin: 7.5px -15px;
     > li {
       width: @navbar-width;
+      height: @navbar-width;
       text-align: center;
+      float: unset;
     }
     > li.dropdown {
         a strong {
@@ -176,10 +178,6 @@
           background-color: @brand-primary;
         }
 
-        @media (max-width: @screen-sm) {
-          display: inline-block;
-        }
-
         > a {
           font-size: 15px;
           max-height: @navbar-height;
@@ -298,6 +296,7 @@
       border: solid 1px #ddd;
       display: block;
       max-width: 50%;
+      min-width: 300px;
       color: black;
       min-height: 175px;
       position: fixed;
