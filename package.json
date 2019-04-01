@@ -60,7 +60,6 @@
     "ember-router-generator": "^1.2.3",
     "moment": "2.22.1",
     "moment-timezone": "^0.4.0",
-    "purecloud-flow-scripting-api-sdk-javascript": "0.0.18",
     "rollup-plugin-node-builtins": "^2.1.2"
   }
 }

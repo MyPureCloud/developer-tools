@@ -40,7 +40,7 @@ export default {
 
 				// Makes call to platform api to get the feature toggles for the user that is logged in.
 				return $.ajax({
-					url: 'https://apps.'+env+'/platform/api/v2/featuretoggles?' + this._createQueryString(),
+					url: `https://apps.${env}/platform/api/v2/featuretoggles?` + this._createQueryString(),
 					type: 'GET',
 					dataType: 'json',
 					headers: {
