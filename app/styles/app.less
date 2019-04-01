@@ -22,6 +22,7 @@
 @import "loading-indicator.less";
 @import "home.less";
 @import "inspector.less";
+@import "screenshare.less";
 
 body {
     overflow:hidden;
@@ -49,9 +50,8 @@ body, html {
     overflow-y: auto;
     overflow-x: hidden;
     position: fixed;
-    height: calc(100% ~"-" @navbar-height);
-    top: @navbar-height;
-    width: 100%;
+    width: calc(100% ~"-" @navbar-width);
+    height: 100%;
 
     > div {
         .animated;
@@ -59,6 +59,13 @@ body, html {
         -webkit-animation-duration: .25s;
         animation-duration: .25s;
     }
+}
+
+#content.embedded {
+  left: 0
+}
+#content.standalone {
+  right: 0;
 }
 
 #developer-tools {
@@ -75,10 +82,6 @@ body, html {
     font-weight: 400;
     font-size: 20px;
     margin-left: 10px;
-}
-
-.container-top-padding {
-    padding-top: 40px;
 }
 
 .container-padding {

@@ -39,43 +39,43 @@ export default Ember.Service.extend(Ember.Evented, {
 	// Intended to be used with a path only for URLs at api.{env}
 	getMore(path, queryParams) {
 		return platformClient.ApiClient.instance.callApi(
-			path, 
-			'GET', 
-			{  }, 
+			path,
+			'GET',
+			{  },
 			queryParams,
-			{  }, 
-			{  }, 
-			null, 
-			[SECURITY_NAME], 
-			['application/json'], 
+			{  },
+			{  },
+			null,
+			[SECURITY_NAME],
+			['application/json'],
 			['application/json']
 		);
 	},
 	getResource(path, queryParams) {
 		return platformClient.ApiClient.instance.callApi(
-			path, 
-			'GET', 
-			{  }, 
+			path,
+			'GET',
+			{  },
 			queryParams,
-			{  }, 
-			{  }, 
-			null, 
-			[SECURITY_NAME], 
-			['application/json'], 
+			{  },
+			{  },
+			null,
+			[SECURITY_NAME],
+			['application/json'],
 			['application/json']
 		);
 	},
 	post(path, body) {
 		return platformClient.ApiClient.instance.callApi(
-			path, 
-			'POST', 
-			{  }, 
+			path,
+			'POST',
 			{  },
-			{  }, 
-			{  }, 
-			body, 
-			[SECURITY_NAME], 
-			['application/json'], 
+			{  },
+			{  },
+			{  },
+			body,
+			[SECURITY_NAME],
+			['application/json'],
 			['application/json']
 		);
 	},
@@ -84,11 +84,12 @@ export default Ember.Service.extend(Ember.Evented, {
 		platformClient.ApiClient.instance.logout();
 	},
 	me: null,
+  isStandalone: true,
 
 	init() {
 		this._super(...arguments);
-
-		this.usersApi().getUsersMe({ 
+    this.set('isStandalone', window.location === window.parent.location)
+		this.usersApi().getUsersMe({
 			expand: [
 				'geolocation',
 				'station',
