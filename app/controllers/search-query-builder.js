@@ -208,6 +208,9 @@ export default Ember.Controller.extend({
 		this._setAvailableFilterFields();
 		this._setSearchTypeUrls();
 	},
+  isStandalone: computed('purecloud.isStandalone', function() {
+    return this.get('purecloud.isStandalone')
+  }),
 	actions:{
 		selectSearchType(type) {
 			let currentType = this.get('searchType');

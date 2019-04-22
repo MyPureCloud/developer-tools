@@ -1,9 +1,11 @@
 <ul class="nav navbar-nav">
+    <li>
+      {{#header-bar}}{{/header-bar}}
+    </li>
     {{#each modules as |module|}}
     <li>
         {{#link-to module.path title=module.name}}
           <i class={{module.icon}} aria-hidden="true"></i>
-          <span class="navbar-link-text">{{module.name}}</span>
         {{/link-to}}
     </li>
     {{/each}}

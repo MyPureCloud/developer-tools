@@ -1,11 +1,11 @@
+.navbar-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .logo{
     display: block;
-    position: absolute;
     content: ' ';
-    top: 50%;
-    left: 26px;
-    margin-top: -18px;
-    margin-left: -18px;
     height: 36px;
     width: 36px;
     background: url(images/purecloud-by-genesys.jpg) center no-repeat;
@@ -13,28 +13,52 @@
     border-radius: 5px;
 }
 .user-menu-right{
-  max-width: 175px;
-  margin: auto 0 auto 20px;
-  position: absolute;
-  right: 15px;
-  padding-top:4px;
   color: @navbar-inverse-link-color;
+  width: @navbar-width;
+  max-height: @navbar-height;
+  font-size: 19px;
+  padding: 15px 0;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .profile-image {
+    height: 35px;
+    width: 35px;
+  }
+}
+.user-menu-right.active{
+  background-color: @brand-primary;
 }
 .trusted-org-header{
   background-color: #6a68d6;
-  top:0px;
   height: 101%;
-  right:0;
   margin-left: 10px;
   margin-right: 0px;
   padding-left: 10px;
   padding-right: 10px;
 }
+
+.navbar.standalone {
+  left: 0;
+}
 .navbar {
+  right: 0;
+  left: unset;
+  height: 100%;
+  width: @navbar-width;
   border-radius: 0;
   border: 0px;
 
   .nav.navbar-nav {
+    margin: 7.5px -15px;
+    > li {
+      width: @navbar-width;
+      height: @navbar-width;
+      text-align: center;
+      float: unset;
+    }
     > li.dropdown {
         a strong {
         color: @text-color;
@@ -60,6 +84,9 @@
 
   &.navbar-default {
     display: flex;
+    height: @navbar-height;
+    width: 100%;
+    float: unset;
     margin-bottom: 0;
     min-height: 56px;
 
@@ -68,8 +95,8 @@
         display: flex;
         margin: 0;
         width: 100%;
-
         > li {
+          flex: 1;
           border-left: solid 1px #ddd;
 
           &:first-child {
@@ -85,6 +112,7 @@
           }
 
           &.dropdown {
+            width: 100%;
             .dropdown-menu {
               left: -1px;
             }
@@ -95,6 +123,9 @@
             padding: 18px 15px;
             white-space: nowrap;
 
+            @media (min-width: 992px) and (max-width: 1200px) {
+              padding: 18px 5px;
+            }
             & > i {
               line-height: 17px;
               margin-bottom: 0;
@@ -107,7 +138,7 @@
             &.btn-link {
               display: inline-block;
               outline: none;
-              padding: 17px 15px 16px;
+              padding: 17px 10px;
             }
 
             .fa-play {
@@ -128,21 +159,13 @@
   &.navbar-inverse {
     font-family: @font-family-secondary;
     margin-bottom: 0;
-    position: relative;
 
     .container-fluid {
       display: flex;
-    }
-
-    #navBar {
-      max-height: @navbar-height;
+      flex-direction: column;
     }
 
     .nav.navbar-nav {
-      @media (max-width: @screen-sm) {
-        margin: 4px 0;
-      }
-
       > li {
         &:active,
         &:focus,
@@ -155,10 +178,6 @@
           background-color: @brand-primary;
         }
 
-        @media (max-width: @screen-sm) {
-          display: inline-block;
-        }
-
         > a {
           font-size: 15px;
           max-height: @navbar-height;
@@ -169,11 +188,6 @@
 
           > i {
             font-size: 20px;
-
-            @media (min-width: 1270px) {
-              font-size: 15px;
-              margin-right: 5px;
-            }
           }
 
           > .navbar-link-text {
@@ -188,32 +202,13 @@
     }
 
     .navbar-brand {
+      margin: 0;
       font-size: 11px;
-      position: relative;
-      padding-left: 50px;
-      padding-top: 15px;
       text-transform: uppercase;
-
-      @media (min-width: @screen-sm) {
-        margin-right: 36px;
-        padding-top: 14px;
-      }
 
       i {
         font-size: 28px;
         margin-right: 6px;
-        position: absolute;
-        left: 15px;
-        top: 11px;
-      }
-
-      .navbar-brand-text {
-        @media (min-width: @screen-sm) {
-          font-size: 20px;
-          margin-right: 0;
-          text-transform: none;
-          padding-top: 0;
-        }
       }
     }
   }
@@ -227,49 +222,34 @@
     top: 5px;
   }
 
-  #user-info {
+  .user-info {
+    font-size: @font-size-h3;
+    margin-right: 4px;
+    white-space: nowrap;
+
+    .username {
+      max-width: 90px;
+      .text-overflow;
+    }
+
+    .org-name {
+      font-size: @font-size-base;
+      font-weight: 300;
+      .text-overflow;
+      text-transform: uppercase;
+    }
+
+    .link-sign-out {
       display: flex;
-      align-items: center;
-      top: @navbar-height;
-      cursor: pointer;
-
-      .profile-image {
-          height: 40px;
-
-          @media (min-width: @screen-sm) {
-            margin-right: 10px;
-          }
+      &:hover, &:focus {
+        color: @pc-english-violet;
       }
-
-      .col-text {
-        display: flex;
-        flex-flow: column;
-        margin-right: 4px;
-
-        .username {
-          max-width: 90px;
-          .text-overflow;
-        }
-
-        .org-name {
-          font-size: 11px;
-          font-weight: 300;
-          max-width: 75px;
-          .text-overflow;
-          text-transform: uppercase;
-        }
+      i {
+        padding-top: 3px;
+        margin-right: 5px;
+        font-size: 15px;
       }
-
-      .link-sign-out {
-        align-self: flex-start;
-        margin-top: 4px;
-        margin-left: 2px;
-
-        i {
-          color: @navbar-inverse-link-color;
-          font-size: 19px;
-        }
-      }
+    }
   }
   #org-trusts{
     background: white;
@@ -306,28 +286,30 @@
       margin-left:10px;
       margin-right:10px;
     }
+  }
 
-
+  #users-me.standalone {
+    left: @navbar-width + 1px;
   }
   #users-me {
       background: @navbar-default-color;
       border: solid 1px #ddd;
-      border-top-color: transparent;
-      border-right-color: transparent;
       display: block;
-      max-width: 33%;
+      max-width: 50%;
+      min-width: 300px;
       color: black;
       min-height: 175px;
       position: fixed;
-      padding-bottom: 20px;
-      right: 0;
-      top: @navbar-height + 1px;
+      padding: 20px 0;
+      top: 50px;;
+      right: @navbar-width + 1px;
+      text-align: left;
       z-index: 100000;
       height: calc(~"100% - 300px");
       border-radius: 0px;
 
       .user-info {
-        padding: 15px 15px 0;
+        padding: 0 15px;
 
         .username {
           font-size: 16px;
@@ -348,15 +330,7 @@
       button {
           position: absolute;
           right: 14px;
-          top: 15px;
-
-          @media (min-width: @screen-sm) {
-            position: static;
-            margin-left: 10px;
-            margin-right: 15px;
-            margin-top: 10px;
-            .pull-right;
-          }
+          top: 20px;
       }
 
       label {
@@ -364,7 +338,6 @@
           font-family: @font-family-sans-serif;
           font-size: 16px;
           font-weight: 400;
-          padding-top: 10px;
           padding-bottom: 8px;
       }
 
@@ -372,11 +345,11 @@
           margin-left: 15px;
           margin-right: 15px;
           max-width: 100%;
-          height: calc(~"100% - 115px");
+          height: calc(~"100% - 50px");
+      }
 
-          @media (min-width: @screen-sm) {
-            height: calc(~"100% - 40px");
-          }
+      pre.standalone{
+        height: calc(~"100% - 90px");
       }
   }
 }

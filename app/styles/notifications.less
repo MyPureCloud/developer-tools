@@ -21,12 +21,13 @@
     }
 
     .flex-btns {
-      margin: 0 -5px 15px;
+      margin: 0 -5px 5px;
       display: flex;
+      flex-wrap: wrap;
 
       .btn {
         flex: 1 1 auto;
-        margin: 0 5px;
+        margin: 5px 5px;
       }
     }
 
@@ -58,10 +59,13 @@
   }
 }
 
+.col-received-events.standalone {
+  right: 0;
+}
 .col-received-events {
   position: fixed;
-  left: 35%;
-  width: 65%;
+  right: @navbar-width;
+  width: calc(~'65% - 50px');
   height: 100%;
   display: flex;
   flex-flow: column;
