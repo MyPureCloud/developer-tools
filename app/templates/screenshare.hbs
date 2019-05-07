@@ -1,0 +1,192 @@
+<div class="screenshare-page">
+  <div class="inner-page">
+      <div class="section">
+        <div class="section-heading">
+          <div class="section-title">
+            {{org.thirdPartyOrgName}}
+            <span class="org-id-label">Org ID</span>
+            <span class="org-id-value">{{org.thirdPartyOrgId}}</span>
+          </div>
+        </div>
+        <div class="section-body">
+          <div class="row">
+            <div>
+              <strong>Screen Share Configuration</strong>
+              <hr />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="control-label">Deployment</label>
+            {{#unless deployment}}
+              <div class="alert alert-error" role="alert">Required</div>
+            {{/unless}}
+            <div id="deployment-select-container">
+              {{select-box-advanced idKey='id' nameKey='name' items=deployments selectedItem=deployment includeBlank=true}}
+            </div>
+            <label class="control-label"></label>
+            <div class="">
+              {{#if needsDeployment}}
+                No web chat deployments found,
+              {{else}}
+                Select a deployment above or
+              {{/if}}
+              <a {{action 'createDeployment'}} href="#">click here</a> to create a new one.
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="control-label">Log Level</label>
+            <div class="description">The level of debugging output.</div>
+            <div class="input-container" id="deployment-select-container">
+              {{select-box-advanced idKey='value' nameKey='name' items=logLevels selectedItem=logLevel includeBlank=false}}
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="control-label">Locale</label>
+            <div class="description">The locale code. Specify this option if you plan to localize your widget.</div>
+            <div class="input-container">
+              {{input class="form-control" value=locale}}
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="control-label">Content CSS Url</label>
+            <div class="description">A URL to a hosted stylesheet for customizing the screen share security code entry
+              form.</div>
+            <div class="input-container">
+              {{input class="form-control" value=contentCssUrl}}
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="control-label">Stand Alone Mode</label>
+            <div class="description">Whether you are using a stand alone screen share client. If "no", then screen share
+              only starts in supported browsers (Firefox and Chrome). Set this to "yes" if you want to use a stand alone
+              screen share client.</div>
+            <div class="input-container">
+              <select onchange={{action "setStandAloneMode" value="target.value"}}>
+                <option value="false" selected={{if standAloneMode '' 'selected'}}>No</option>
+                <option value="true" selected={{if standAloneMode 'selected'}}>Yes</option>
+              </select>
+            </div>
+          </div>
+
+          {{#unless standAloneMode}}
+            <div class="form-group row">
+              <label class="control-label">Container Element Selector</label>
+              <div class="description">Container Element Selector refers to the name of the screen share container div
+                id. The screen share form renders inside of this div.</div>
+              <div class="input-container">
+                {{input class="form-control" value=containerEl}}
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label class="control-label">CSS Class</label>
+              <div class="description">CSS class if widget is rendered as frame</div>
+              <div class="input-container">
+                {{input class="form-control" value=cssClass}}
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label class="control-label">Additional CSS</label>
+              <div class="description">Additional CSS properties if widget is rendered as an iframe. These properties
+                apply to the iframe itself, not to its content. These rules should be in JSON format like the following
+                example:</div>
+              <div class="additional-css-ex">
+                <code>
+{
+  "width": "480px",
+  "height": "282px",
+  "border": "none"
+}
+              </code>
+              </div>
+              {{#if additionalCssError}}
+                <div class="alert alert-error" role="alert">Additional CSS is not properly formatted and will not be
+                  added to the config until it is.</div>
+              {{/if}}
+              <div class="input-container">
+                {{textarea class="form-control" value=additionalCss cols="100" rows="6"}}
+              </div>
+            </div>
+          {{/unless}}
+
+          <div class="row">
+            <div class="col-md-12">
+              <div class="alert alert-error {{errorVisibility}}" role="alert">{{error}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    {{#unless standAloneMode}}
+      <div class="section">
+        <div class="section-heading">
+          Deployment <code>script</code> Tag
+        </div>
+        <div class="section-body">
+          <pre>
+                <code>&lt;script
+  type="text/javascript"
+  src="https://apps.{{pcEnv}}/webchat/jsapi-v1.js"
+>&lt;/script></code>
+            </pre>
+        </div>
+
+      </div>
+
+      <div class="section">
+        <div class="section-heading">
+          Config Code
+        </div>
+        <div class="section-body">
+          <pre>
+      <code>
+const chatConfig = {{config}};
+
+function loadScreenshare() {
+  ININ.screenshare.create(config, function(err, screenshare) {
+    if (err) {
+      // You should change this block to properly handle errors.
+      console.error(err);
+      if (err.name === 'UNSUPPORTED_BROWSER') {
+        // Redirect to instructions for unsupported browser, or handle appropriately
+        alert('Sorry, either your browser is not supported, or the page is not being served over TLS (HTTPS).');
+        return;
+      }
+      alert('An error occurred launching the screen share widget. See console for details');
+    }
+
+    screenshare.renderScreenShareForm({
+      containerEl: '{{containerEl}}'
+    });
+  });
+}
+      </code>
+    </pre>
+        </div>
+
+      </div>
+    {{else}}
+      <div class="section">
+        <div class="section-heading">
+          Screen Share Url
+        </div>
+        <div class="section-body">
+          <pre>
+      <code>{{screenShareUrl}}</code>
+    </pre>
+        </div>
+      </div>
+    {{/unless}}
+  </div>
+</div>
+
+<div id="chat-container" style="height:600px"></div>
+
+<img src="assets/images/agent.jpg" id='agentAvatar' class="hide" />
+<img src="assets/images/companylogo.png" id='companyLogoSmall' class="hide" />
+<img src="assets/images/PC-blue-nomark.png" id='companyLogo' class="hide" />

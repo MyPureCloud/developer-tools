@@ -155,6 +155,10 @@ export default Ember.Controller.extend({
 	queues: computed('queueService.queues', function() {
 		return this.get('queueService').get('queues');
 	}),
+	queuesLoading: computed('queueService.isLoadingQueues', function() {
+		return this.get('queueService').get('isLoadingQueues');
+	}),
+
 	chatConfig: computed('org', 'openInNewWindow', 'queue', 'firstName', 'lastName', 'address', 'city', 'zip', 'state', 'phone', 'email', 'locale', 'welcomeMessage', 'field1name', 'field1value', 'field2name', 'field2value', 'field3name', 'field3value', 'customAttributes.@each.name', 'customAttributes.@each.value', function() {
 		try{
 			let environment = purecloudEnvironmentTld();
