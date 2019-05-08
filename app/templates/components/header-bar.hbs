@@ -44,11 +44,11 @@
 </div>
 {{/if}}
 {{#if showOrgTrusts}}
-<div id='org-trusts'>
+  <div id='org-trusts'>
     <label>Select the org to switch to: </label>
     <br>
     {{#each orgauthorizationService.orgTrusts as |org|}}
-    <button type="button" class="btn btn-small btn-primary"  {{action "switchToOrgTrust" org.id}}>{{org.name}}</button>
+      <button type="button" class="btn btn-small btn-primary"  {{action "switchToOrgTrust" org.id}}>{{org.name}}</button>
     {{/each}}
-</div>
+  </div>
 {{/if}}
