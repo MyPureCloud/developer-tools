@@ -16,18 +16,20 @@
           <div class="org-name">
             {{me.organization.name}}
           </div>
-          {{#if orgauthorizationService.isInTrustedOrg}}
-            <a class="link-sign-out hidden-xs" href="#"  title='Switch to Home Org'  {{action 'switchToHomeOrg' bubbles=false}}>
-              <i class="fa fa-home" aria-hidden="true"></i>
-              <span>Switch to Home Org</span>
-            </a>
-          {{/if}}
-          {{#if orgauthorizationService.isTrustedOrg}}
-            <a class="link-sign-out hidden-xs" href="#"  title='Switch to Org Trust'  {{action 'toggleTrustedOrgs' bubbles=false}}>
-              <i class="fa fa-exchange" aria-hidden="true"></i>
-              <span>Switch to Org Trust</span>
-            </a>
-          {{/if}}
+        {{/if}}
+        {{#if orgauthorizationService.isInTrustedOrg}}
+          <a class="link-sign-out hidden-xs" href="#"  title='Switch to Home Org'  {{action 'switchToHomeOrg' bubbles=false}}>
+            <i class="fa fa-home" aria-hidden="true"></i>
+            <span>Switch to Home Org</span>
+          </a>
+        {{/if}}
+        {{#if orgauthorizationService.isTrustedOrg}}
+          <a class="link-sign-out hidden-xs" href="#"  title='Switch to Org Trust'  {{action 'toggleTrustedOrgs' bubbles=false}}>
+            <i class="fa fa-exchange" aria-hidden="true"></i>
+            <span>Switch to Org Trust</span>
+          </a>
+        {{/if}}
+        {{#if isStandalone}}
           <a class="link-sign-out" href="#" title='Sign Out' {{action 'logOut'}}>
             <i class="fa fa-sign-out" aria-hidden="true"></i>
             <span>Sign out</span>
@@ -40,11 +42,10 @@
             {{meJson}}
         </code>
     </pre>
-
 </div>
 {{/if}}
 {{#if showOrgTrusts}}
-  <div id='org-trusts'>
+  <div id='org-trusts' class={{if isStandalone "standalone"}}>
     <label>Select the org to switch to: </label>
     <br>
     {{#each orgauthorizationService.orgTrusts as |org|}}
