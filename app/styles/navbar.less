@@ -261,7 +261,7 @@
     color: black;
     position: fixed;
     padding-bottom: 20px;
-    left: @navbar-height;
+    right: @navbar-height;
     top: @navbar-height + 1px;
     z-index: 100000;
     border-radius: 0px;
@@ -288,13 +288,18 @@
     }
   }
 
+  #org-trusts.standalone {
+    left: @navbar-height;
+  }
+
   #users-me.standalone {
     left: @navbar-width + 1px;
   }
   #users-me {
       background: @navbar-default-color;
       border: solid 1px #ddd;
-      display: block;
+      display: flex;
+      flex-direction: column;
       max-width: 50%;
       min-width: 300px;
       color: black;
@@ -342,15 +347,9 @@
       }
 
       pre {
-          margin-left: 15px;
-          margin-right: 15px;
-          max-width: 100%;
-          height: calc(~"100% - 50px");
+          margin: 0 15px;
       }
 
-      pre.standalone{
-        height: calc(~"100% - 90px");
-      }
   }
 }
 
