@@ -35,12 +35,13 @@ export default Ember.Service.extend({
 		});
 
 
-		api.getNotificationsAvailabletopics('description,schema').then(function(topics){
+		api.getNotificationsAvailabletopics({
+      expand: ['description', 'schema']
+    }).then(function(topics){
 			if ( !(self.get('isDestroyed') || self.get('isDestroying')) ) {
 				self.set('availableTopics', topics.entities );
 			}
 		});
-
 	},
 	subscribe(id){
 		let versionlessId = id.replace('v2.','');

@@ -9,6 +9,7 @@ export default Ember.Service.extend({
 
 	updateQueuesFromPureCloud(){
 		let self = this;
+		this.set("isLoadingQueues", true);
 		return new Ember.RSVP.Promise(function(resolve, reject) {
 			let routingApi = self.get('purecloud').routingApi();
 
@@ -18,13 +19,16 @@ export default Ember.Service.extend({
 				if (results.nextUri) {
 					//get the next page of users directly
 					self.get('purecloud').getMore(results.nextUri).then(processPageOfQueues).catch(function(err){
+						self.set("isLoadingQueues", false);
 						reject(err);
 					});
 				} else {
+					self.set("isLoadingQueues", false);
 					resolve();
 				}
 			}
 			routingApi.getRoutingQueues({ sortBy: 'name', pageSize: 100 }).then(processPageOfQueues).catch(function(err){
+				self.set("isLoadingQueues", false);
 				reject(err);
 			});
 		});
