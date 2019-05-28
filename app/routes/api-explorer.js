@@ -14,7 +14,8 @@ export default Ember.Route.extend({
                 //return;
             }
 
-            if(typeof(event.data) === 'object'){
+            // Note: Initializing a V2 chat triggers an event without a data property
+            if(!event.data ||typeof(event.data) === 'object'){
                 return;
             }
             let data = JSON.parse(event.data);
