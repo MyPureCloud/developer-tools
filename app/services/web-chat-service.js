@@ -28,7 +28,7 @@ export default Ember.Service.extend({
 						}
 
 						deployment.isV2 = deployment.clientType === 'v2';
-						if (deployment.isV2) deployment.name += ' (V2)';
+						if (deployment.isV2) deployment.name += ' (Version 2)';
 
 						deploymentList.push(deployment);
 					});
