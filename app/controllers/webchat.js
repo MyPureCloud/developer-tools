@@ -240,6 +240,7 @@ export default Ember.Controller.extend({
 					'webchatServiceUrl': 'https://realtime.'+ environment +':443',
 
 					'orgId': this.get('org').thirdPartyOrgId,
+					'orgGuid': this.get('org').id,
 
 					// Organization name
 					'orgName': this.get('org').thirdPartyOrgName,
