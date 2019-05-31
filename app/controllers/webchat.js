@@ -221,7 +221,7 @@ export default Ember.Controller.extend({
 			}
 
 			// Add custom fields if V1
-			if (this.get('isV1') === true) {
+			if (this.get('isV1')) {
 				const customAttributes = this.get('customAttributes');
 				for (let attribute of customAttributes) {
 					if (attribute.name != '') {
@@ -231,7 +231,7 @@ export default Ember.Controller.extend({
 			}
 
 			let chatConfig;
-			if (this.get('isV1') === true) {
+			if (this.get('isV1')) {
 				chatConfig = {
 					// Web chat application URL
 					'webchatAppUrl': 'https://apps.'+ environment +'/webchat',
