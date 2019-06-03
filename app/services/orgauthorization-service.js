@@ -8,7 +8,7 @@ export default Ember.Service.extend({
 	purecloud: Ember.inject.service(),
 	hasTrustedOrgs: false,
 	orgTrusts:[],
-	
+
 	switchToOrg(orgId){
 		let oauthConfig = config.oauthProps[purecloudEnvironment()];
 
@@ -26,15 +26,16 @@ export default Ember.Service.extend({
 		if(!me || !me.trustors){
             return false;
 		}
-		
+
 		me.trustors.forEach((trust)=>{
 			if(trust.enabled){
 				this.orgTrusts.pushObject(trust.organization);
 			}
 		});
+    this.orgTrusts = this.orgTrusts.sortBy("name");
 
 		this.set("isTrustedOrg", me.trustors.length > 0);
-		        
+
 	}),
 	isInTrustedOrg: computed('purecloud.me', function() {
 		let me = this.get('purecloud').get('me');
@@ -45,8 +46,8 @@ export default Ember.Service.extend({
 
         if(me.token && me.token.organization && me.token.homeOrganization){
             return me.token.organization.id !== me.token.homeOrganization.id;
-        }    
-       
+        }
+
         return false;
     }),
 });
