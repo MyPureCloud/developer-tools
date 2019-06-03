@@ -30,13 +30,13 @@
         if (api === 'architectSdk') {
             var architectSdkDomElement = document.createElement("script");
             architectSdkDomElement.type = "application/javascript";
-            architectSdkDomElement.src = `https://sdk-cdn.mypurecloud.com/architect/${sdk}/min.browserify.scripting.bundle.js`;
+            architectSdkDomElement.src = 'https://sdk-cdn.mypurecloud.com/architect/'+sdk+'/min.browserify.scripting.bundle.js';
             document.body.appendChild(architectSdkDomElement);
         } else {
             //load PureCloud API
             var jsElm = document.createElement("script");
             jsElm.type = "application/javascript";
-            jsElm.src = `https://sdk-cdn.mypurecloud.com/javascript/${sdk}/purecloud-platform-client-v2.min.js`;
+            jsElm.src = 'https://sdk-cdn.mypurecloud.com/javascript/'+sdk+'/purecloud-platform-client-v2.min.js';
             document.body.appendChild(jsElm);
         }
     });
@@ -131,7 +131,7 @@
                 }
                 const api = getQueryVariable('api');
                 if (api !== 'architectSdk') {
-                    data = `var platformClient = require('platformClient'); platformClient.ApiClient.instance.setAccessToken("${authToken}"); platformClient.ApiClient.instance.setEnvironment("${environment}"); ${data}`;
+                    data = 'var platformClient = require(\'platformClient\'); platformClient.ApiClient.instance.setAccessToken("'+authToken+'"); platformClient.ApiClient.instance.setEnvironment("'+environment+'"); '+data;
                 }
                 eval(data);
             }
