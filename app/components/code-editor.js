@@ -1,15 +1,14 @@
 /* global ace */
 /* global purecloud */
 /* global $ */
-import architect from 'npm:purecloud-flow-scripting-api-sdk-javascript';
 import Ember from 'ember';
 import sampleCode from '../utils/sample-code';
 
 var computed = Ember.computed;
 
 let classTypeRegex = /new\s*$/;
+let architect;
 
-window.architect = architect;
 
 export default Ember.Component.extend({
 	storageService: Ember.inject.service(),
@@ -40,14 +39,22 @@ export default Ember.Component.extend({
 	url: computed('enableDebugging', 'selectedSdk', function () {
 		let purecloud = this.get('purecloud');
 		let selectedSdk = this.get('selectedSdk');
-		let url = `coderunner/index.html?auth=${purecloud.get('accessToken')}&environment=${purecloud.get('environment')}&sdk=${selectedSdk}`;
+		let selectedApi = this.get('selectedApi').value;
+		let url = `coderunner/index.html?auth=${purecloud.get('accessToken')}&environment=${purecloud.get('environment')}&sdk=${selectedSdk}&api=${selectedApi}`;
 		return url;
 	}),
-	sdkTags: computed('githubService.jsSdkReleases', function () {
-		let releases = this.get('githubService').get('jsSdkReleases');
+	sdkTags: function () {
+		let releases;
+		if (this.get('isArchitectSdk')) {
+			var iframeBody = document.getElementById('code-runner').contentWindow;
+			releases = iframeBody.__architect_scripting_versions__.versions;
+		} else {
+			releases = this.get('githubService').get('jsSdkReleases');
+		}
+		// const releases = this.get('githubService').get('jsSdkReleases');
 		this.set('selectedSdk', releases[0]);
-		return this.get('githubService').get('jsSdkReleases');
-	}),
+		return releases
+	}.property('githubService.jsSdkReleases', 'selectedApi'),
 	runToggle: false,
 	aceConsoleInit: function (editor) {
 		editor.setHighlightActiveLine(false);
@@ -304,7 +311,8 @@ export default Ember.Component.extend({
 				code = token + ' ' + code;
 			} else if (this.get('isArchitectSdk')) {
 				// need to expose architect as a window command so ace can nab it.
-				iframeBody.window.architect = architect;
+				architect = iframeBody.__architectScripting__;
+				iframeBody.window.architect = iframeBody.__architectScripting__;
 				// Sets the callback on the architect logging class so that the info logs are displayed in the UI not just the console
 				iframeBody.window.architect.services.archLogging.setLoggingCallback(this._architectLoggingCallback.bind(this));
 				// All calls to scripting in the code window must be made with archScripting.
