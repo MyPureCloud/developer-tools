@@ -11,19 +11,29 @@ export default Ember.Service.extend({
 	},
 	loadDeployments() {
 		return new Promise((resolve, reject) => {
-			const webChatApi = this.get('purecloud').webChatApi();
-			webChatApi.getWebchatDeployments()
+			const widgetsApi = this.get('purecloud').widgetsApi();
+			widgetsApi.getWidgetsDeployments()
 				.then((deployments) => {
 					// Sort a-z
 					deployments.entities.sort((a,b) => (a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : ((b.name.toLowerCase() > a.name.toLowerCase()) ? -1 : 0));
 					
-					// Reset list
+					// Process list
+					const deploymentList = [];
 					deployments.entities.forEach((deployment) => {
+						if (deployment.disabled) return;
+						
 						if (deployment.authenticationRequired === true) {
 							console.warn(`Deployment "${deployment.name}" requires authentication and cannot be used from dev tools`);
 							deployment.name += ' (Requires Authentication, not supported with dev tools)';
 						}
+
+						deployment.isV2 = deployment.clientType === 'v2';
+						if (deployment.isV2) deployment.name += ' (Version 2)';
+
+						deploymentList.push(deployment);
 					});
+
+					// Reset list
 					this.deployments.clear();
 					this.deployments.addObjects(deployments.entities);
 					this.set('deploymentCount', deployments.entities.length);

@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import platformClient from 'platformClient';
 
-const SECURITY_NAME = 'PureCloud Auth';
+const SECURITY_NAME = 'PureCloud OAuth';
 
 export default Ember.Service.extend(Ember.Evented, {
 	session: null,
@@ -32,6 +32,9 @@ export default Ember.Service.extend(Ember.Evented, {
 	},
 	webChatApi(){
 		return new platformClient.WebChatApi();
+	},
+	widgetsApi() {
+		return new platformClient.WidgetsApi();
 	},
 	oauthApi(){
 		return new platformClient.OAuthApi();

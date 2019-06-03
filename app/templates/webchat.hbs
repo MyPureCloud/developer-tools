@@ -49,19 +49,19 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group row">
-                        <div class="col-sm-8 col-md-offset-4" id="deployment-select-container">
-                            <div class="checkbox">
-                                <label>{{input type="checkbox" checked=openInNewWindow }}Open Chat in New Window</label>
+            {{#if isV1}}
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <div class="col-sm-8 col-md-offset-4" id="deployment-select-container">
+                                <div class="checkbox">
+                                    <label>{{input type="checkbox" checked=openInNewWindow }}Open Chat in New Window</label>
+                                </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
-
-            </div>
+            {{/if}}
             <div class="row">
                 <div class="col-md-12">
                     <strong>Chat Data</strong> <i>(optional)</i>
@@ -123,19 +123,28 @@
                         </div>
                     {{/if}}
 
-                    <div class="form-group row">
-                        <label class="col-sm-4 control-label">Locale</label>
-                        <div class="col-sm-8">
-                            {{input class="form-control" value=locale  placeholder="Locale" }}
+                    {{#if isV1}}
+                        <div class="form-group row">
+                            <label class="col-sm-4 control-label">Locale</label>
+                            <div class="col-sm-8">
+                                {{input class="form-control" value=locale  placeholder="Locale" }}
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="form-group row">
-                        <label class="col-sm-4 control-label">Welcome Message</label>
-                        <div class="col-sm-8">
-                            {{input class="form-control" value=welcomeMessage  placeholder="Welcome Message" }}
+                        <div class="form-group row">
+                            <label class="col-sm-4 control-label">Welcome Message</label>
+                            <div class="col-sm-8">
+                                {{input class="form-control" value=welcomeMessage  placeholder="Welcome Message" }}
+                            </div>
                         </div>
-                    </div>
+                    {{else}}
+                        <div class="form-group row">
+                            <label class="col-sm-4 control-label">Subject</label>
+                            <div class="col-sm-8">
+                                {{input class="form-control" value=subject  placeholder="Subject" }}
+                            </div>
+                        </div>
+                    {{/if}}
 
                     <div class="form-group row">
                         <div class="alert alert-danger" role="alert" id='missingRequiredFields' style='display:none'>Required setting fields are missing.</div>
@@ -202,7 +211,11 @@
                     <div class="form-group row">
                         <label class="col-sm-4 control-label"></label>
                         <div class="col-sm-8">
-                            <a class="btn btn-primary " {{action 'startChat'}} href="#" role="button">Start Chat</a>
+                            {{#if isV1}}
+                                <a class="btn btn-primary " {{action 'startChat'}} href="#" role="button">Start Chat</a>
+                            {{else}}
+                                <a class="btn btn-primary " {{action 'startChatV2'}} href="#" role="button">Start Chat</a>
+                            {{/if}}
                             <a class="btn btn-info " {{action 'populate'}} href="#" role="button">Populate Fields</a>
                         </div>
                     </div>
@@ -212,6 +225,7 @@
     </div>
     </form>
 
+    {{#if isV1}}
     <div class="panel panel-default">
         <div class="panel-heading">
             Deployment <code>script</code> Tag
@@ -230,13 +244,14 @@
         </div>
 
     </div>
+    {{/if}}
 
     <div class="panel panel-default">
         <div class="panel-heading">
             Chat Code
         </div>
         <div class="panel-body">
-            <pre>
+            <pre>{{#if isV1}}
                 <code>let chatConfig = {{chatConfig}};
 
 ININ.webchat.create(chatConfig, function(err, webchat) {
@@ -256,8 +271,19 @@ ININ.webchat.create(chatConfig, function(err, webchat) {
         containerEl: 'chat-container'
     });
 {{/if}}
-});
-                </code>
+});</code>{{else}}<code>&lt;script src=&quot;https://apps.{{environmentTld}}/widgets/9.0/cxbus.min.js&quot; onload=&quot;javascript:CXBus.configure({debug:false,pluginsPath:'https://apps.{{environmentTld}}/widgets/9.0/plugins/'}); CXBus.loadPlugin('widgets-core');&quot;&gt;&lt;/script&gt;
+
+&lt;script&gt;
+  window._genesys = {{chatConfig}};
+
+  function getAdvancedConfig() {
+    return {{advancedConfig}};
+  }
+
+  const customPlugin = CXBus.registerPlugin('Custom');
+&lt;/script&gt;
+
+&lt;button type=&quot;button&quot; id=&quot;chat-button&quot; onclick=&quot;customPlugin.command('WebChat.open', getAdvancedConfig());&quot;&gt;Start Chat&lt;/button&gt;</code>{{/if}}
             </pre>
         </div>
 

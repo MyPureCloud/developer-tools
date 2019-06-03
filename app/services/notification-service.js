@@ -22,7 +22,6 @@ export default Ember.Service.extend({
 
 		api.postNotificationsChannels().then(function(channel){
 			if ( !(self.get('isDestroyed') || self.get('isDestroying')) ) {
-				console.log(channel);
 
 				const socket = self.get('socketService').socketFor(channel.connectUri);
 
@@ -36,8 +35,8 @@ export default Ember.Service.extend({
 
 
 		api.getNotificationsAvailabletopics({
-      expand: ['description', 'schema']
-    }).then(function(topics){
+			expand: ['description', 'schema']
+		}).then(function(topics){
 			if ( !(self.get('isDestroyed') || self.get('isDestroying')) ) {
 				self.set('availableTopics', topics.entities );
 			}
@@ -66,7 +65,7 @@ export default Ember.Service.extend({
 	},
 
 	websocketOpenHandler(event) {
-		console.log(`On open event has been called: ${event}`);
+		console.log('On open event has been called: ', event);
 	},
 
 	websocketMessageHandler(event) {

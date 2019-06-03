@@ -1,4 +1,4 @@
-/* global ININ */
+/* global ININ CXBus */
 /* global $ */
 import Ember from 'ember';
 import Chance from 'npm:chance';
@@ -23,6 +23,7 @@ export default Ember.Controller.extend({
 	zip: '',
 	phone: '',
 	email: '',
+	subject: '',
 	queue: '',
 	locale: 'en',
 	field1name: '',
@@ -33,6 +34,21 @@ export default Ember.Controller.extend({
 	field3value: '',
 	customAttributes: [],
 	error: '',
+	customPlugin: undefined,
+	environmentTld: computed('deployment', function() {
+		return purecloudEnvironmentTld();
+	}),
+	webChatVersion: computed('deployment', 'webChatService.deploymentCount', function() {
+		const deploymentId = this.get('deployment');
+		const deployment = this.get('deployments').find((d) => d.id === deploymentId);
+		return !deployment || !deployment.isV2 ? '1' : '2';
+	}),
+	isV2: computed('deployment', 'webChatService.deploymentCount', function() {
+		return this.get('webChatVersion') === '2';
+	}),
+	isV1: computed('deployment', 'webChatService.deploymentCount', function() {
+		return this.get('webChatVersion') !== '2';
+	}),
 	errorVisibility: computed('error', function() {
 		const error = this.get('error');
 		return !error || error == '' ? 'hidden' :  '';
@@ -102,6 +118,7 @@ export default Ember.Controller.extend({
 					this.set('field3name', savedData.field3name);
 					this.set('field3value', savedData.field3value);
 					this.set('customAttributes', savedData.customAttributes || []);
+					this.set('subject', savedData.subject);
 
 					let storage = this.get('storageService');
 					if(storage.localStorageGet('relate.ui.useEmailAndPhoneForRWPLookupInWebChat')) {
@@ -109,10 +126,9 @@ export default Ember.Controller.extend({
 						this.set('showEmailField', true);
 					}
 
-					if(typeof 'savedData.openInNewWindow' !== 'undefined'){
+					if(typeof savedData.openInNewWindow !== 'undefined'){
 						this.set('openInNewWindow', savedData.openInNewWindow);
 					}
-
 				}
 
 				// Get the user's authorization. purecloud.me isn't populated yet.
@@ -159,7 +175,7 @@ export default Ember.Controller.extend({
 		return this.get('queueService').get('isLoadingQueues');
 	}),
 
-	chatConfig: computed('org', 'openInNewWindow', 'queue', 'firstName', 'lastName', 'address', 'city', 'zip', 'state', 'phone', 'email', 'locale', 'welcomeMessage', 'field1name', 'field1value', 'field2name', 'field2value', 'field3name', 'field3value', 'customAttributes.@each.name', 'customAttributes.@each.value', function() {
+	chatConfig: computed('deployment', 'webChatService.deploymentCount', 'org', 'openInNewWindow', 'queue', 'firstName', 'lastName', 'address', 'city', 'zip', 'state', 'phone', 'email', 'locale', 'welcomeMessage', 'field1name', 'field1value', 'field2name', 'field2value', 'field3name', 'field3value', 'customAttributes.@each.name', 'customAttributes.@each.value', function() {
 		try{
 			let environment = purecloudEnvironmentTld();
 			let companyLogo = $('#companyLogo').attr('src');
@@ -198,81 +214,182 @@ export default Ember.Controller.extend({
 				'customField3': this.get('field3value')
 			};
 
+
 			let storage = this.get('storageService');
 			if(storage.localStorageGet('relate.ui.useEmailAndPhoneForRWPLookupInWebChat')) {
 				chatData.email = this.get('email');
 			}
 
-			const customAttributes = this.get('customAttributes');
-			for (let attribute of customAttributes) {
-				if (attribute.name != '') {
-					chatData[attribute.name] = attribute.value;
+			// Add custom fields if V1
+			if (this.get('isV1')) {
+				const customAttributes = this.get('customAttributes');
+				for (let attribute of customAttributes) {
+					if (attribute.name != '') {
+						chatData[attribute.name] = attribute.value;
+					}
 				}
 			}
 
-			let chatConfig = {
-				// Web chat application URL
-				'webchatAppUrl': 'https://apps.'+ environment +'/webchat',
+			let chatConfig;
+			if (this.get('isV1')) {
+				chatConfig = {
+					// Web chat application URL
+					'webchatAppUrl': 'https://apps.'+ environment +'/webchat',
 
-				// Web chat service URL
-				'webchatServiceUrl': 'https://realtime.'+ environment +':443',
+					// Web chat service URL
+					'webchatServiceUrl': 'https://realtime.'+ environment +':443',
 
-				'orgId': this.get('org').thirdPartyOrgId,
+					'orgId': this.get('org').thirdPartyOrgId,
+					'orgGuid': this.get('org').id,
 
-				// Organization name
-				'orgName': this.get('org').thirdPartyOrgName,
+					// Organization name
+					'orgName': this.get('org').thirdPartyOrgName,
 
 
-				'queueName': this.get('queue'),
+					'queueName': this.get('queue'),
 
-				// Log level
-				'logLevel': 'DEBUG',
+					// Log level
+					'logLevel': 'DEBUG',
 
-				// Locale code
-				'locale': this.get('locale'),
+					// Locale code
+					'locale': this.get('locale'),
 
-				// Data that will be included with interaction
-				'data': chatData,
+					// Data that will be included with interaction
+					'data': chatData,
 
-				// Logo used at the top of the chat window
-				'companyLogo': {
-					'width': 600,
-					'height': 149,
-					'url': companyLogo
-				},
+					// Logo used at the top of the chat window
+					'companyLogo': {
+						'width': 600,
+						'height': 149,
+						'url': companyLogo
+					},
 
-				// Logo used within the chat window
-				'companyLogoSmall': {
-					'width': 25,
-					'height': 25,
-					'url': companyLogoSmall
-				},
+					// Logo used within the chat window
+					'companyLogoSmall': {
+						'width': 25,
+						'height': 25,
+						'url': companyLogoSmall
+					},
 
-				// Image used for agent
-				'agentAvatar': {
-					'width': 462,
-					'height': 462,
-					'url': agentAvatar
-				},
+					// Image used for agent
+					'agentAvatar': {
+						'width': 462,
+						'height': 462,
+						'url': agentAvatar
+					},
 
-				// Text displayed with chat window is displayed
-				'welcomeMessage': this.get('welcomeMessage'),
+					// Text displayed with chat window is displayed
+					'welcomeMessage': this.get('welcomeMessage'),
 
-				// CSS class applied to the chat window
-				'cssClass': 'webchat-frame',
+					// CSS class applied to the chat window
+					'cssClass': 'webchat-frame',
 
-				// Custom style applied to the chat window
-				'css': {
-					'width': '100%',
-					'height': '100%'
-				}
-			};
+					// Custom style applied to the chat window
+					'css': {
+						'width': '100%',
+						'height': '100%'
+					}
+				};
+				return JSON.stringify(chatConfig, null, 2);
+			} else {
+				// Remove built-ins from userData
+				delete chatData.firstName;
+				delete chatData.lastName;
+				delete chatData.email;
+				delete chatData.subject;
 
-			return JSON.stringify(chatConfig, null, '  ');
+				chatConfig = {
+					widgets: {
+						webchat: {
+							transport: {
+								type: 'purecloud-v2-sockets',
+								dataURL: `https://api.${environment}`,
+								deploymentKey : this.get('deployment'),
+								orgGuid : this.get('org').id,
+								interactionData: {
+									routing: {
+										targetType: 'QUEUE',
+										targetAddress: this.get('queue'),
+										priority: 2
+									}
+								}
+							},
+							userData: chatData
+						}
+					}
+				};
+
+				// Indent 2 extra spaces
+				return JSON.stringify(chatConfig, null, 2).replace(/\n/gim, '\n  ');
+			}
+
 		}catch(ex){
 			console.error(ex);
 		}
 		return '{}';
+	}),
+	advancedConfig: computed('deployment', 'webChatService.deploymentCount', 'org', 'subject', 'openInNewWindow', 'queue', 'firstName', 'lastName', 'address', 'city', 'zip', 'state', 'phone', 'email', 'locale', 'welcomeMessage', 'field1name', 'field1value', 'field2name', 'field2value', 'field3name', 'field3value', 'customAttributes.@each.name', 'customAttributes.@each.value', function() {
+
+		const config = {
+			form: {
+				autoSubmit: false,
+				firstname: this.get('firstName'),
+				lastname: this.get('lastName'),
+				email: this.get('email'),
+				subject: this.get('subject')
+			},
+			formJSON: {
+				wrapper: '<table></table>',
+				inputs: [
+					// Default fields
+					{
+						id: 'cx_webchat_form_firstname',
+						name: 'firstname',
+						maxlength: '100',
+						placeholder: 'Required',
+						label: 'First Name'
+					},
+					{
+						id: 'cx_webchat_form_lastname',
+						name: 'lastname',
+						maxlength: '100',
+						placeholder: 'Required',
+						label: 'Last Name'
+					},
+					{
+						id: 'cx_webchat_form_email',
+						name: 'email', 
+						maxlength: '100',
+						placeholder: 'Optional',
+						label: 'Email'
+					},
+					{
+						id: 'cx_webchat_form_subject', 
+						name: 'subject', 
+						maxlength: '100',
+						placeholder: 'Optional',
+						label: 'Subject'
+					}
+				]
+			}
+		};
+
+		const customAttributes = this.get('customAttributes');
+		for (let attribute of customAttributes) {
+			if (attribute.name != '') {
+				config.formJSON.inputs.push({
+					id: `cx_webchat_form_${attribute.name.toLowerCase().replace(/[^a-z0-9]/gi, '_')}`, 
+					name: attribute.name.replace(/\s|[^a-z0-9-_]/gi, ''), 
+					maxlength: '100',
+					placeholder: 'Custom data placeholder',
+					label: attribute.name,
+					value: attribute.value
+				});
+			}
+		}
+
+		// Indent extra 4 spaces
+		return JSON.stringify(config, null, 2).replace(/\n/gim, '\n    ');
 	}),
 	setError(err) {
 		if (!err) {
@@ -322,6 +439,26 @@ export default Ember.Controller.extend({
 
 			});
 
+			this.saveData();
+		} catch(err) {
+			this.setError(err);
+		}
+	},
+	openChatWindowV2() {
+		try {
+			console.log('Starting V2 chat...');
+			window._genesys = JSON.parse(this.get('chatConfig'));
+			if (!this.get('customPlugin')) this.set('customPlugin', CXBus.registerPlugin('Custom'));
+			const customPlugin = this.get('customPlugin');
+			customPlugin.command('WebChat.open', JSON.parse(this.get('advancedConfig')));
+
+			this.saveData();
+		} catch(err) {
+			this.setError(err);
+		}
+	},
+	saveData() {
+		try {
 			let savedData = {
 				firstName: this.get('firstName'),
 				lastName: this.get('lastName'),
@@ -342,6 +479,7 @@ export default Ember.Controller.extend({
 				field3value: this.get('field3value'),
 				customAttributes: this.get('customAttributes'),
 				openInNewWindow: this.get('openInNewWindow'),
+				subject: this.get('subject')
 			};
 
 			let storage = this.get('storageService');
@@ -350,8 +488,10 @@ export default Ember.Controller.extend({
 			}
 
 			storage.localStorageSet('webChatParams', savedData);
-		} catch(err) {
-			this.setError(err);
+			
+		} catch (err) {
+			this.setError('Error saving chat config data');
+			console.log(err);
 		}
 	},
 	actions:{
@@ -394,6 +534,36 @@ export default Ember.Controller.extend({
 			} catch(err) {
 				this.setError(err);
 			}
+		},
+		startChatV2() {
+			this.setError();
+
+			// Validation
+			let chatConfig = JSON.parse(this.get('chatConfig'));
+			console.log(chatConfig);
+			if (!chatConfig.widgets.webchat.transport.interactionData.routing.targetAddress || chatConfig.widgets.webchat.transport.interactionData.routing.targetAddress == '')
+				throw new Error('You must select a queue before starting the chat');
+			if (!chatConfig.widgets.webchat.transport.deploymentKey || chatConfig.widgets.webchat.transport.deploymentKey == '')
+				throw new Error('You must select a deployment before starting the chat');
+
+			const chatScript = document.getElementById('purecloud-webchat-js');
+			
+			// Skip injecting script tag if it's already been injected.
+			if (chatScript.getAttribute('src') != null) {
+				this.openChatWindowV2();
+				return;
+			} else {
+				// Once a script has been loaded, it cannot be unloaded.
+				// Therefore, we must prevent the user from choosing another deployment until the page is reloaded.
+				$('#deployment-select-container select').prop('disabled', true);
+			}
+		
+			// Inject deployment script
+			chatScript.setAttribute('src', `https://apps.${this.get('environmentTld')}/widgets/9.0/cxbus.min.js`);
+			chatScript.setAttribute('onload', `javascript:CXBus.configure({debug:false,pluginsPath:'https://apps.${this.get('environmentTld')}/widgets/9.0/plugins/'}); CXBus.loadPlugin('widgets-core');`);
+			chatScript.addEventListener('error', () => this.setError('Error loading script.'));
+			chatScript.addEventListener('abort', () => this.setError('Script loading aborted.'));
+			chatScript.addEventListener('load', this.openChatWindowV2.bind(this));
 		},
 		populate() {
 			var chance = new Chance();
