@@ -1,10 +1,11 @@
-<div class='container'>
-                <p class="navbar-text">Client</p>
-                <form class="navbar-form navbar-left">
-                    <div class="form-group">
-                        {{select-box-advanced idKey='id' nameKey='name' items=clients selectedItem=clientId class=form-control}}
-                    </div>
-                </form>
+    <div class='container'>
+       <div class='panel panel-default'>
+        <div class='panel-heading'>
+            <div class="panel-title" >Select Client: {{select-box-advanced idKey='id' nameKey='name' items=clients selectedItem=clientId class=form-control}}</div>
+        </div>
+    </div>
+            
+
     <div class='inspector-nav '></div>
 
     {{#if client}}
