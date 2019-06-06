@@ -19,6 +19,16 @@ export default Ember.Controller.extend({
 			url: '/api/v2/analytics/conversations/aggregates/query'
 		},
 		{
+			name: 'Flow Aggregate',
+			id: 'flow_aggregate',
+			url: '/api/v2/analytics/flows/aggregates/query'
+		},
+		{
+			name: 'Flow Observation',
+			id: 'flow_observation',
+			url: '/api/v2/analytics/flows/observations/query'
+		},
+		{
 			name: 'Queue Observation',
 			id: 'queue_observation',
 			url: '/api/v2/analytics/queues/observations/query'

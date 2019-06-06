@@ -1,0 +1,48 @@
+{{analytics-query-interval value=interval}}
+{{analytics-query-granularity value=granularity}}
+{{analytics-query-groupby value=groupBy}}
+
+
+<div class="panel panel-default">
+    <div class="panel-heading"><h3 class="panel-title panel-title-condensed">Flatten Multivalued Dimensions</h3></div>
+    <div class="panel-body">
+        <p class="small text-muted">
+            Flattens any multivalued dimensions used in response groups (e.g. ['a','b','c']->'a,b,c')
+        </p>
+        <div class="checkbox">
+            <label>{{input type="checkbox" checked=flattenMultivaluedDimensions }}Flatten Multivalued Dimensions</label>
+        </div>
+    </div>
+</div>
+
+{{analytics-query-metrics selectedMetrics=selectedMetrics}}
+
+<div class="panel panel-default">
+    <div class="panel-heading"><h3 class="panel-title panel-title-condensed">Filter</h3></div>
+    <div class="panel-body">
+        <div class="filter-section">
+            {{analytics-query-filter filter=filter}}
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading"><h3 class="panel-title panel-title-condensed">User Defined Views</h3></div>
+    <div class="panel-body">
+        <p class="small text-muted">
+            Views are a means to apply specific functions/transformations to some of the built-in metrics in the API.
+        </p>
+
+        <button class='btn btn-link btn-sm' {{action 'newView'}} title="Add View">
+            <i class="fa fa-plus"></i>Add View
+        </button>
+        <br/>
+
+        {{#each views as |vw index|}}
+        <div class="filter-section">
+            {{user-defined-view viewRef=vw index=index deleteView=(action 'deleteView') }}
+        </div>
+        {{/each}}
+
+    </div>
+</div>
