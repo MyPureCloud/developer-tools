@@ -173,222 +173,265 @@ export default Ember.Controller.extend({
 		return this.get('queueService').get('isLoadingQueues');
 	}),
 
-	chatConfig: computed('deployment', 'webChatService.deploymentCount', 'org', 'openInNewWindow', 'queue', 'firstName', 'lastName', 'address', 'city', 'zip', 'state', 'phone', 'email', 'locale', 'welcomeMessage', 'field1name', 'field1value', 'field2name', 'field2value', 'field3name', 'field3value', 'customAttributes.@each.name', 'customAttributes.@each.value', function() {
-		try{
-			let environment = purecloudEnvironmentTld();
-			let companyLogo = $('#companyLogo').attr('src');
-			let companyLogoSmall = $('#companyLogoSmall').attr('src');
-			let agentAvatar = $('#agentAvatar').attr('src');
+	chatConfig: computed(
+		'deployment',
+		'webChatService.deploymentCount',
+		'org',
+		'openInNewWindow',
+		'queue',
+		'firstName',
+		'lastName',
+		'address',
+		'city',
+		'zip',
+		'state',
+		'phone',
+		'email',
+		'locale',
+		'welcomeMessage',
+		'field1name',
+		'field1value',
+		'field2name',
+		'field2value',
+		'field3name',
+		'field3value',
+		'customAttributes.@each.name',
+		'customAttributes.@each.value',
+		function() {
+			try {
+				let environment = purecloudEnvironmentTld();
+				let companyLogo = $('#companyLogo').attr('src');
+				let companyLogoSmall = $('#companyLogoSmall').attr('src');
+				let agentAvatar = $('#agentAvatar').attr('src');
 
-			let resourcePrefix = window.location.origin;
-			if(config.APP.urlprefix){
-				resourcePrefix = config.APP.urlprefix;
+				let resourcePrefix = window.location.origin;
+				if (config.APP.urlprefix) {
+					resourcePrefix = config.APP.urlprefix;
+				}
+
+				if (typeof companyLogo !== 'undefined' && companyLogo[0] !== 'h') {
+					companyLogo = resourcePrefix + companyLogo;
+					companyLogoSmall = resourcePrefix + companyLogoSmall;
+					agentAvatar = resourcePrefix + agentAvatar;
+				}
+
+				let org = this.get('org');
+				if (org === null) {
+					return '{}';
+				}
+
+				let chatData = {
+					firstName: this.get('firstName'),
+					lastName: this.get('lastName'),
+					addressStreet: this.get('address'),
+					addressCity: this.get('city'),
+					addressPostalCode: this.get('zip'),
+					addressState: this.get('state'),
+					phoneNumber: this.get('phone'),
+					customField1Label: this.get('field1name'),
+					customField1: this.get('field1value'),
+					customField2Label: this.get('field2name'),
+					customField2: this.get('field2value'),
+					customField3Label: this.get('field3name'),
+					customField3: this.get('field3value')
+				};
+
+				let storage = this.get('storageService');
+				if (storage.localStorageGet('relate.ui.useEmailAndPhoneForRWPLookupInWebChat')) {
+					chatData.email = this.get('email');
+				}
+
+				// Add custom fields if V1
+				if (this.get('isV1')) {
+					const customAttributes = this.get('customAttributes');
+					for (let attribute of customAttributes) {
+						if (attribute.name != '') {
+							chatData[attribute.name] = attribute.value;
+						}
+					}
+				}
+
+				let chatConfig;
+				if (this.get('isV1')) {
+					chatConfig = {
+						// Web chat application URL
+						webchatAppUrl: 'https://apps.' + environment + '/webchat',
+
+						// Web chat service URL
+						webchatServiceUrl: 'https://realtime.' + environment + ':443',
+
+						orgId: this.get('org').thirdPartyOrgId,
+						orgGuid: this.get('org').id,
+
+						// Organization name
+						orgName: this.get('org').thirdPartyOrgName,
+
+						queueName: this.get('queue'),
+
+						// Log level
+						logLevel: 'DEBUG',
+
+						// Locale code
+						locale: this.get('locale'),
+
+						// Data that will be included with interaction
+						data: chatData,
+
+						// Logo used at the top of the chat window
+						companyLogo: {
+							width: 600,
+							height: 149,
+							url: companyLogo
+						},
+
+						// Logo used within the chat window
+						companyLogoSmall: {
+							width: 25,
+							height: 25,
+							url: companyLogoSmall
+						},
+
+						// Image used for agent
+						agentAvatar: {
+							width: 462,
+							height: 462,
+							url: agentAvatar
+						},
+
+						// Text displayed with chat window is displayed
+						welcomeMessage: this.get('welcomeMessage'),
+
+						// CSS class applied to the chat window
+						cssClass: 'webchat-frame',
+
+						// Custom style applied to the chat window
+						css: {
+							width: '100%',
+							height: '100%'
+						}
+					};
+					return JSON.stringify(chatConfig, null, 2);
+				} else {
+					// Remove built-ins from userData
+					delete chatData.firstName;
+					delete chatData.lastName;
+					delete chatData.email;
+					delete chatData.subject;
+
+					chatConfig = {
+						transport: {
+							type: 'purecloud-v2-sockets',
+							dataURL: `https://api.${environment}`,
+							deploymentKey: this.get('deployment'),
+							orgGuid: this.get('org').id,
+							interactionData: {
+								routing: {
+									targetType: 'QUEUE',
+									targetAddress: this.get('queue'),
+									priority: 2
+								}
+							}
+						},
+						userData: chatData
+					};
+
+					// Indent 2 extra spaces
+					return JSON.stringify(chatConfig, null, 2).replace(/\n/gim, '\n  ');
+				}
+			} catch (ex) {
+				console.error(ex);
 			}
-
-			if(typeof companyLogo !== 'undefined' && companyLogo[0] !== 'h'){
-				companyLogo = resourcePrefix + companyLogo;
-				companyLogoSmall = resourcePrefix + companyLogoSmall;
-				agentAvatar = resourcePrefix + agentAvatar;
-			}
-
-			let org = this.get('org');
-			if(org === null){
-				return '{}';
-			}
-
-			let chatData = {
-				'firstName': this.get('firstName'),
-				'lastName': this.get('lastName'),
-				'addressStreet': this.get('address'),
-				'addressCity': this.get('city'),
-				'addressPostalCode': this.get('zip'),
-				'addressState': this.get('state'),
-				'phoneNumber': this.get('phone'),
-				'customField1Label': this.get('field1name'),
-				'customField1': this.get('field1value'),
-				'customField2Label': this.get('field2name'),
-				'customField2': this.get('field2value'),
-				'customField3Label': this.get('field3name'),
-				'customField3': this.get('field3value')
+			return '{}';
+		}
+	),
+	advancedConfig: computed(
+		'deployment',
+		'webChatService.deploymentCount',
+		'org',
+		'subject',
+		'openInNewWindow',
+		'queue',
+		'firstName',
+		'lastName',
+		'address',
+		'city',
+		'zip',
+		'state',
+		'phone',
+		'email',
+		'locale',
+		'welcomeMessage',
+		'field1name',
+		'field1value',
+		'field2name',
+		'field2value',
+		'field3name',
+		'field3value',
+		'customAttributes.@each.name',
+		'customAttributes.@each.value',
+		function() {
+			const config = {
+				form: {
+					autoSubmit: false,
+					firstname: this.get('firstName'),
+					lastname: this.get('lastName'),
+					email: this.get('email'),
+					subject: this.get('subject')
+				},
+				formJSON: {
+					wrapper: '<table></table>',
+					inputs: [
+						// Default fields
+						{
+							id: 'cx_webchat_form_firstname',
+							name: 'firstname',
+							maxlength: '100',
+							placeholder: 'Required',
+							label: 'First Name'
+						},
+						{
+							id: 'cx_webchat_form_lastname',
+							name: 'lastname',
+							maxlength: '100',
+							placeholder: 'Required',
+							label: 'Last Name'
+						},
+						{
+							id: 'cx_webchat_form_email',
+							name: 'email',
+							maxlength: '100',
+							placeholder: 'Optional',
+							label: 'Email'
+						},
+						{
+							id: 'cx_webchat_form_subject',
+							name: 'subject',
+							maxlength: '100',
+							placeholder: 'Optional',
+							label: 'Subject'
+						}
+					]
+				}
 			};
 
-
-			let storage = this.get('storageService');
-			if(storage.localStorageGet('relate.ui.useEmailAndPhoneForRWPLookupInWebChat')) {
-				chatData.email = this.get('email');
-			}
-
-			// Add custom fields if V1
-			if (this.get('isV1')) {
-				const customAttributes = this.get('customAttributes');
-				for (let attribute of customAttributes) {
-					if (attribute.name != '') {
-						chatData[attribute.name] = attribute.value;
-					}
+			const customAttributes = this.get('customAttributes');
+			for (let attribute of customAttributes) {
+				if (attribute.name != '') {
+					config.formJSON.inputs.push({
+						id: `cx_webchat_form_${attribute.name.toLowerCase().replace(/[^a-z0-9]/gi, '_')}`,
+						name: attribute.name.replace(/\s|[^a-z0-9-_]/gi, ''),
+						maxlength: '100',
+						placeholder: 'Custom data placeholder',
+						label: attribute.name,
+						value: attribute.value
+					});
 				}
 			}
 
-			let chatConfig;
-			if (this.get('isV1')) {
-				chatConfig = {
-					// Web chat application URL
-					'webchatAppUrl': 'https://apps.'+ environment +'/webchat',
-
-					// Web chat service URL
-					'webchatServiceUrl': 'https://realtime.'+ environment +':443',
-
-					'orgId': this.get('org').thirdPartyOrgId,
-					'orgGuid': this.get('org').id,
-
-					// Organization name
-					'orgName': this.get('org').thirdPartyOrgName,
-
-
-					'queueName': this.get('queue'),
-
-					// Log level
-					'logLevel': 'DEBUG',
-
-					// Locale code
-					'locale': this.get('locale'),
-
-					// Data that will be included with interaction
-					'data': chatData,
-
-					// Logo used at the top of the chat window
-					'companyLogo': {
-						'width': 600,
-						'height': 149,
-						'url': companyLogo
-					},
-
-					// Logo used within the chat window
-					'companyLogoSmall': {
-						'width': 25,
-						'height': 25,
-						'url': companyLogoSmall
-					},
-
-					// Image used for agent
-					'agentAvatar': {
-						'width': 462,
-						'height': 462,
-						'url': agentAvatar
-					},
-
-					// Text displayed with chat window is displayed
-					'welcomeMessage': this.get('welcomeMessage'),
-
-					// CSS class applied to the chat window
-					'cssClass': 'webchat-frame',
-
-					// Custom style applied to the chat window
-					'css': {
-						'width': '100%',
-						'height': '100%'
-					}
-				};
-				return JSON.stringify(chatConfig, null, 2);
-			} else {
-				// Remove built-ins from userData
-				delete chatData.firstName;
-				delete chatData.lastName;
-				delete chatData.email;
-				delete chatData.subject;
-
-				chatConfig = {
-					widgets: {
-						webchat: {
-							transport: {
-								type: 'purecloud-v2-sockets',
-								dataURL: `https://api.${environment}`,
-								deploymentKey : this.get('deployment'),
-								orgGuid : this.get('org').id,
-								interactionData: {
-									routing: {
-										targetType: 'QUEUE',
-										targetAddress: this.get('queue'),
-										priority: 2
-									}
-								}
-							},
-							userData: chatData
-						}
-					}
-				};
-
-				// Indent 2 extra spaces
-				return JSON.stringify(chatConfig, null, 2).replace(/\n/gim, '\n  ');
-			}
-
-		}catch(ex){
-			console.error(ex);
+			// Indent extra 4 spaces
+			return JSON.stringify(config, null, 2).replace(/\n/gim, '\n    ');
 		}
-		return '{}';
-	}),
-	advancedConfig: computed('deployment', 'webChatService.deploymentCount', 'org', 'subject', 'openInNewWindow', 'queue', 'firstName', 'lastName', 'address', 'city', 'zip', 'state', 'phone', 'email', 'locale', 'welcomeMessage', 'field1name', 'field1value', 'field2name', 'field2value', 'field3name', 'field3value', 'customAttributes.@each.name', 'customAttributes.@each.value', function() {
-
-		const config = {
-			form: {
-				autoSubmit: false,
-				firstname: this.get('firstName'),
-				lastname: this.get('lastName'),
-				email: this.get('email'),
-				subject: this.get('subject')
-			},
-			formJSON: {
-				wrapper: '<table></table>',
-				inputs: [
-					// Default fields
-					{
-						id: 'cx_webchat_form_firstname',
-						name: 'firstname',
-						maxlength: '100',
-						placeholder: 'Required',
-						label: 'First Name'
-					},
-					{
-						id: 'cx_webchat_form_lastname',
-						name: 'lastname',
-						maxlength: '100',
-						placeholder: 'Required',
-						label: 'Last Name'
-					},
-					{
-						id: 'cx_webchat_form_email',
-						name: 'email', 
-						maxlength: '100',
-						placeholder: 'Optional',
-						label: 'Email'
-					},
-					{
-						id: 'cx_webchat_form_subject', 
-						name: 'subject', 
-						maxlength: '100',
-						placeholder: 'Optional',
-						label: 'Subject'
-					}
-				]
-			}
-		};
-
-		const customAttributes = this.get('customAttributes');
-		for (let attribute of customAttributes) {
-			if (attribute.name != '') {
-				config.formJSON.inputs.push({
-					id: `cx_webchat_form_${attribute.name.toLowerCase().replace(/[^a-z0-9]/gi, '_')}`, 
-					name: attribute.name.replace(/\s|[^a-z0-9-_]/gi, ''), 
-					maxlength: '100',
-					placeholder: 'Custom data placeholder',
-					label: attribute.name,
-					value: attribute.value
-				});
-			}
-		}
-
-		// Indent extra 4 spaces
-		return JSON.stringify(config, null, 2).replace(/\n/gim, '\n    ');
-	}),
+	),
 	setError(err) {
 		if (!err) {
 			this.set('error', '');
@@ -527,13 +570,14 @@ export default Ember.Controller.extend({
 			// Validation
 			let chatConfig = JSON.parse(this.get('chatConfig'));
 			console.log(chatConfig);
-			if (!chatConfig.widgets.webchat.transport.interactionData.routing.targetAddress || chatConfig.widgets.webchat.transport.interactionData.routing.targetAddress == '')
+
+			if (!chatConfig.transport.interactionData.routing.targetAddress || chatConfig.transport.interactionData.routing.targetAddress == '')
 				throw new Error('You must select a queue before starting the chat');
-			if (!chatConfig.widgets.webchat.transport.deploymentKey || chatConfig.widgets.webchat.transport.deploymentKey == '')
+			if (!chatConfig.transport.deploymentKey || chatConfig.transport.deploymentKey == '')
 				throw new Error('You must select a deployment before starting the chat');
 
 			const chatScript = document.getElementById('purecloud-webchat-js');
-			
+
 			// Skip injecting script tag if it's already been injected.
 			if (chatScript.getAttribute('src') != null) {
 				this.openChatWindowV2();
@@ -543,13 +587,29 @@ export default Ember.Controller.extend({
 				// Therefore, we must prevent the user from choosing another deployment until the page is reloaded.
 				$('#deployment-select-container select').prop('disabled', true);
 			}
-		
+
 			// Inject deployment script
 			chatScript.setAttribute('src', `https://apps.${this.get('environmentTld')}/widgets/9.0/cxbus.min.js`);
-			chatScript.setAttribute('onload', `javascript:CXBus.configure({debug:false,pluginsPath:'https://apps.${this.get('environmentTld')}/widgets/9.0/plugins/'}); CXBus.loadPlugin('widgets-core');`);
 			chatScript.addEventListener('error', () => this.setError('Error loading script.'));
 			chatScript.addEventListener('abort', () => this.setError('Script loading aborted.'));
-			chatScript.addEventListener('load', this.openChatWindowV2.bind(this));
+			chatScript.addEventListener('load', () => {
+				// Set basic CXBus config
+				CXBus.configure({
+					debug: false,
+					pluginsPath: `https://apps.${this.get('environmentTld')}/widgets/9.0/plugins/`
+				});
+
+				// Set webchat config
+				if (!window._genesys) window._genesys = {};
+				if (!window._genesys.widgets) window._genesys.widgets = {};
+				window._genesys.widgets.webchat = chatConfig;
+
+				// Load widgets-core library
+				CXBus.loadPlugin('widgets-core').done(() => {
+					// Only start chat after it has been loaded
+					this.openChatWindowV2();
+				});
+			});
 		},
 		populate() {
 			var chance = new Chance();
