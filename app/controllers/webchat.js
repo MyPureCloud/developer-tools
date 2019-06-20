@@ -2,7 +2,7 @@
 /* global $ */
 import Ember from 'ember';
 import Chance from 'npm:chance';
-import {purecloudEnvironmentTld} from '../utils/purecloud-environment';
+import { purecloudEnvironmentTld } from '../utils/purecloud-environment';
 import config from '../config/environment';
 
 var computed = Ember.computed;
@@ -18,7 +18,7 @@ export default Ember.Controller.extend({
 	firstName: '',
 	lastName: '',
 	address: '',
-	city:'',
+	city: '',
 	state: '',
 	zip: '',
 	phone: '',
@@ -51,7 +51,7 @@ export default Ember.Controller.extend({
 	}),
 	errorVisibility: computed('error', function() {
 		const error = this.get('error');
-		return !error || error == '' ? 'hidden' :  '';
+		return !error || error == '' ? 'hidden' : '';
 	}),
 	welcomeMessage: 'Thanks for chatting using the dev tools chat page.',
 	chatEnvironment: computed('purecloud.environment', function() {
@@ -61,16 +61,11 @@ export default Ember.Controller.extend({
 		let environment = this.get('purecloud').get('environment');
 		if (!environment || environment === '') return;
 
-		if (environment.endsWith('.jp'))
-			return 'ap-northeast-1';
-		else if (environment.endsWith('.com.au'))
-			this.set('chatRegion', 'ap-southeast-2');
-		else if (environment.endsWith('.ie'))
-			return 'eu-west-1';
-		else if (environment.endsWith('.de'))
-			return 'eu-central-1';
-		else if (environment.endsWith('mypurecloud.com'))
-			return 'us-east-1';
+		if (environment.endsWith('.jp')) return 'ap-northeast-1';
+		else if (environment.endsWith('.com.au')) this.set('chatRegion', 'ap-southeast-2');
+		else if (environment.endsWith('.ie')) return 'eu-west-1';
+		else if (environment.endsWith('.de')) return 'eu-central-1';
+		else if (environment.endsWith('mypurecloud.com')) return 'us-east-1';
 		else if (environment.includes('tca')) {
 			this.set('chatEnv', 'test');
 			this.set('chatEnvTag', '\n  env="test"');
@@ -86,19 +81,20 @@ export default Ember.Controller.extend({
 	}),
 	chatEnv: '',
 	chatEnvTag: '',
-	init(){
+	init() {
 		this._super(...arguments);
 
 		let orgApi = this.get('purecloud').orgApi();
 
-		orgApi.getOrganizationsMe()
-			.then(result => {
-				this.set('org',result);
+		orgApi
+			.getOrganizationsMe()
+			.then((result) => {
+				this.set('org', result);
 
 				let storage = this.get('storageService');
 				let savedData = storage.localStorageGet('webChatParams');
 
-				if(savedData){
+				if (savedData) {
 					this.set('firstName', savedData.firstName);
 					this.set('lastName', savedData.lastName);
 					this.set('address', savedData.address);
@@ -121,25 +117,29 @@ export default Ember.Controller.extend({
 					this.set('subject', savedData.subject);
 
 					let storage = this.get('storageService');
-					if(storage.localStorageGet('relate.ui.useEmailAndPhoneForRWPLookupInWebChat')) {
+					if (storage.localStorageGet('relate.ui.useEmailAndPhoneForRWPLookupInWebChat')) {
 						this.set('email', savedData.email);
 						this.set('showEmailField', true);
 					}
 
-					if(typeof savedData.openInNewWindow !== 'undefined'){
+					if (typeof savedData.openInNewWindow !== 'undefined') {
 						this.set('openInNewWindow', savedData.openInNewWindow);
 					}
 				}
 
 				// Get the user's authorization. purecloud.me isn't populated yet.
 				// Not using the Authorization API here because that will return a 404 if the user doesn't have permission to view their permissions.
-				return this.get('purecloud').usersApi().getUsersMe({ expand: [ 'authorization' ]});
+				return this.get('purecloud')
+					.usersApi()
+					.getUsersMe({ expand: ['authorization'] });
 			})
 			.then((me) => {
 				// Be sure we got permissions
 				let permissionsErr = '';
 				if (!me.authorization) {
-					this.setError('Unable to validate permissions. You may not see deployments or queues in the dropdowns. You\'re probably missing the permission "authorization:grant:view".');
+					this.setError(
+						'Unable to validate permissions. You may not see deployments or queues in the dropdowns. You\'re probably missing the permission "authorization:grant:view".'
+					);
 					return;
 				}
 
@@ -153,10 +153,8 @@ export default Ember.Controller.extend({
 				});
 
 				// Set error messages
-				if (!hasReadDeployment)
-					permissionsErr += 'Unable to list deployments. Missing permission: webchat:deployment:read <br />';
-				if (!hasViewQueues)
-					permissionsErr += 'Unable to list queues. Missing permission: routing:queue:view <br />';
+				if (!hasReadDeployment) permissionsErr += 'Unable to list deployments. Missing permission: webchat:deployment:read <br />';
+				if (!hasViewQueues) permissionsErr += 'Unable to list queues. Missing permission: routing:queue:view <br />';
 
 				this.setError(permissionsErr);
 			})
@@ -398,14 +396,10 @@ export default Ember.Controller.extend({
 		}
 
 		console.error(err);
-		if (err.body && err.body.message)
-			this.set('error', err.body.message);
-		else if (err.message)
-			this.set('error', err.message);
-		else if (typeof(err) === 'string')
-			this.set('error', err.htmlSafe());
-		else
-			this.set('error', 'An error has occurred');
+		if (err.body && err.body.message) this.set('error', err.body.message);
+		else if (err.message) this.set('error', err.message);
+		else if (typeof err === 'string') this.set('error', err.htmlSafe());
+		else this.set('error', 'An error has occurred');
 	},
 	openChatWindow() {
 		try {
@@ -417,43 +411,40 @@ export default Ember.Controller.extend({
 					return;
 				}
 
-				if(this.get("openInNewWindow")){
+				if (this.get('openInNewWindow')) {
 					webchat.renderPopup({
 						width: 400,
 						height: 400,
 						title: 'PureCloud Developer Tools Web Chat'
 					});
-				}else{
-					this.set("isInChat", true);
+				} else {
+					this.set('isInChat', true);
 					webchat.renderFrame({
 						containerEl: 'chat-container'
 					});
 
 					let self = this;
-					webchat.chatEnded = function () {
-						self.set("isInChat", false);
-						$('#chat-container').html("");
+					webchat.chatEnded = function() {
+						self.set('isInChat', false);
+						$('#chat-container').html('');
 					};
 				}
-
-
 			});
 
 			this.saveData();
-		} catch(err) {
+		} catch (err) {
 			this.setError(err);
 		}
 	},
 	openChatWindowV2() {
 		try {
 			console.log('Starting V2 chat...');
-			window._genesys = JSON.parse(this.get('chatConfig'));
 			if (!this.get('customPlugin')) this.set('customPlugin', CXBus.registerPlugin('Custom'));
 			const customPlugin = this.get('customPlugin');
 			customPlugin.command('WebChat.open', JSON.parse(this.get('advancedConfig')));
 
 			this.saveData();
-		} catch(err) {
+		} catch (err) {
 			this.setError(err);
 		}
 	},
@@ -483,29 +474,25 @@ export default Ember.Controller.extend({
 			};
 
 			let storage = this.get('storageService');
-			if(storage.localStorageGet('relate.ui.useEmailAndPhoneForRWPLookupInWebChat')) {
+			if (storage.localStorageGet('relate.ui.useEmailAndPhoneForRWPLookupInWebChat')) {
 				savedData.email = this.get('email');
 			}
 
 			storage.localStorageSet('webChatParams', savedData);
-			
 		} catch (err) {
 			this.setError('Error saving chat config data');
 			console.log(err);
 		}
 	},
-	actions:{
+	actions: {
 		startChat() {
 			try {
 				this.setError();
 
 				// Validation
 				let chatConfig = JSON.parse(this.get('chatConfig'));
-				if (!chatConfig.queueName || chatConfig.queueName == '')
-					throw new Error('You must select a queue before starting the chat');
-				if (!this.deployment || this.deployment == '')
-					throw new Error('You must select a deployment before starting the chat');
-
+				if (!chatConfig.queueName || chatConfig.queueName == '') throw new Error('You must select a queue before starting the chat');
+				if (!this.deployment || this.deployment == '') throw new Error('You must select a deployment before starting the chat');
 
 				const chatScript = document.getElementById('purecloud-webchat-js');
 
@@ -523,15 +510,14 @@ export default Ember.Controller.extend({
 				chatScript.async = true;
 				chatScript.setAttribute('type', 'text/javascript');
 				chatScript.setAttribute('region', this.get('chatRegion'));
-				if (this.get('chatEnv') !== '')
-					chatScript.setAttribute('env', this.get('chatEnv'));
+				if (this.get('chatEnv') !== '') chatScript.setAttribute('env', this.get('chatEnv'));
 				chatScript.setAttribute('org-guid', this.get('org').id);
 				chatScript.setAttribute('deployment-key', this.get('deployment'));
 				chatScript.setAttribute('src', `https://apps.${this.get('chatEnvironment')}/webchat/jsapi-v1.js`);
 				chatScript.addEventListener('error', () => this.setError('Error loading script.'));
 				chatScript.addEventListener('abort', () => this.setError('Script loading aborted.'));
 				chatScript.addEventListener('load', this.openChatWindow.bind(this));
-			} catch(err) {
+			} catch (err) {
 				this.setError(err);
 			}
 		},
@@ -581,14 +567,13 @@ export default Ember.Controller.extend({
 		},
 		createDeployment() {
 			this.setError();
-			this.get('webChatService').createDeployment()
+			this.get('webChatService')
+				.createDeployment()
 				.then((newDeploymentId) => {
 					let storage = this.get('storageService');
 					let savedData = storage.localStorageGet('webChatParams');
-					if (savedData && savedData.deployment)
-						this.set('deployment', savedData.deployment);
-					else
-						this.set('deployment', newDeploymentId);
+					if (savedData && savedData.deployment) this.set('deployment', savedData.deployment);
+					else this.set('deployment', newDeploymentId);
 				})
 				.catch((err) => {
 					this.setError(err);
