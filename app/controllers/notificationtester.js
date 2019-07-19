@@ -71,6 +71,9 @@ export default Ember.Controller.extend({
 		},
 		togglePin() {
 			this.get('notificationService').togglePin();
+		},
+		clearNotifications() {
+			this.get('notificationService').set('websocketMessages', []);
 		}
 	}
 });
