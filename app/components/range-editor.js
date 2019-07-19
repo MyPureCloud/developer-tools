@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-    lt: 0,
-    gte: 0,
+	lt: 0,
+	gte: 0
 });

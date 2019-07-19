@@ -1,27 +1,22 @@
 const ENV_REG_EXP = /inin[dt]ca\..*|mypurecloud\..*|localhost/i;
 import config from '../config/environment';
 
-function purecloudEnvironmentTld(){
-    let env = ENV_REG_EXP.exec(window.location.hostname)[0];
+function purecloudEnvironmentTld() {
+	let env = ENV_REG_EXP.exec(window.location.hostname)[0];
 
-    if(env === 'localhost'){
-        env = "inindca.com";
-    }
+	if (env === 'localhost') {
+		env = 'inindca.com';
+	}
 
-    return env;
-
+	return env;
 }
 
-function purecloudEnvironment(){
-    return window.location.hostname.replace(/\./g, "");
+function purecloudEnvironment() {
+	return window.location.hostname.replace(/\./g, '');
 }
 
 function architectRegion() {
-    return config.oauthProps[purecloudEnvironment()].architectEnumString;
+	return config.oauthProps[purecloudEnvironment()].architectEnumString;
 }
 
-export{
-    architectRegion,
-    purecloudEnvironmentTld,
-    purecloudEnvironment
-};
+export { architectRegion, purecloudEnvironmentTld, purecloudEnvironment };

@@ -15,17 +15,15 @@ export default Ember.Service.extend({
 
 		let presenceApi = self.get('purecloud').presenceApi();
 
-		function processPageOfOrganizationPresence(results){
-
-			for(let x=0;x< results.entities.length; x++){
+		function processPageOfOrganizationPresence(results) {
+			for (let x = 0; x < results.entities.length; x++) {
 				let presence = results.entities[x];
 
-				if(presence.languageLabels[locale]){
+				if (presence.languageLabels[locale]) {
 					presence.name = presence.languageLabels[locale];
-				}else if(presence.languageLabels['en_US']){
-
+				} else if (presence.languageLabels['en_US']) {
 					presence.name = presence.languageLabels['en_US'];
-				}else{
+				} else {
 					let firstKey = Object.keys(presence.languageLabels)[0];
 					presence.name = presence.languageLabels[firstKey];
 				}
@@ -34,19 +32,22 @@ export default Ember.Service.extend({
 			}
 
 			if (results.nextUri) {
-				self.get('purecloud').getMore(results.nextUri).then(processPageOfOrganizationPresence).catch((err) => console.log(err));
+				self
+					.get('purecloud')
+					.getMore(results.nextUri)
+					.then(processPageOfOrganizationPresence)
+					.catch((err) => console.log(err));
 			} else {
 				console.log(self.get('organizationPresence'));
 			}
 		}
-		presenceApi.getPresencedefinitions(0,40, false, locale).then(processPageOfOrganizationPresence);
+		presenceApi.getPresencedefinitions(0, 40, false, locale).then(processPageOfOrganizationPresence);
 
-		presenceApi.getSystempresences().then((presence)=>{
-			for(let x=0;x< presence.length; x++){
+		presenceApi.getSystempresences().then((presence) => {
+			for (let x = 0; x < presence.length; x++) {
 				presence[x].id = presence[x].name;
 				self.systemPresence.addObject(presence[x]);
 			}
-
 		});
 	}
 });
