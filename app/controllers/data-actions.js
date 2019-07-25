@@ -11,6 +11,7 @@ export default Ember.Controller.extend({
 		this._super(...arguments);
         this.loadIntegrations();
         this.get("swaggerService").swagger;
+        this.set("name", "AKevin");
        
     },
     valuesChanged: Ember.observer('swaggerService.swagger', function() {
@@ -112,6 +113,7 @@ export default Ember.Controller.extend({
         });
     }, 
     flatten(target, opts) {
+        let self = this;
         opts = opts || {}
     
         var delimiter = opts.delimiter || '.'
@@ -124,7 +126,7 @@ export default Ember.Controller.extend({
                 var value = object[key]
                 var isarray = opts.safe && Array.isArray(value)
                 var type = Object.prototype.toString.call(value)
-                var isbuffer = isBuffer(value)
+                var isbuffer = self.isBuffer(value)
                 var isobject = (
                     type === '[object Object]' ||
                     type === '[object Array]'
@@ -154,7 +156,7 @@ export default Ember.Controller.extend({
         var overwrite = opts.overwrite || false
         var result = {}
      
-        var isbuffer = isBuffer(target)
+        var isbuffer = this.isBuffer(target)
         if (isbuffer || Object.prototype.toString.call(target) !== '[object Object]') {
           return target
         }
@@ -209,10 +211,14 @@ export default Ember.Controller.extend({
           }
      
           // unflatten again for 'messy objects'
-          recipient[key1] = unflatten(target[key], opts)
+          recipient[key1] = this.unflatten(target[key], opts)
         })
      
         return result
+    },
+    isBuffer(obj) {
+        return obj != null && obj.constructor != null &&
+            typeof obj.constructor.isBuffer === 'function' && obj.constructor.isBuffer(obj)
     },
      
     getUri(){    
@@ -221,6 +227,54 @@ export default Ember.Controller.extend({
         let url = `https://api.${environment}` + this.get("computedUrl");
         return url;
     },
+    buildOutputVariables() {
+        var outputJSON = JSON.parse(this.get("result"));
+        console.log("Output JSON:", outputJSON);
+     
+        var res = [];
+        var isArrayObj = false;
+        if (Array.isArray(outputJSON)) {
+            console.log('main response is array, get only first item');
+            outputJSON = outputJSON[0];
+            isArrayObj = true;
+        }
+     
+        if (outputJSON.hasOwnProperty("entities")) {
+            console.log('get only first array element');
+            let tmpArray = outputJSON.entities[0];
+            outputJSON.entities = [];
+            outputJSON.entities.push(tmpArray);
+        }
+     
+     
+        let temp = this.flatten(outputJSON)
+        console.log(temp);
+     
+         for (var elem in temp) {
+             var pathElement = elem.replace(/(.[0-99].)/g, '[*].'); // replace .0. to [*]. this is my Path
+             pathElement = pathElement.replace(/(.[0-99])/g, '[*]'); // replace last element (if array)
+     
+             console.log(pathElement);
+             pathElement = isArrayObj ? '$[*].' + pathElement : '$.' + pathElement;
+             let newName = elem.replace(/(entities.0.)/g, ''); // TODO
+             newName = newName.replace(/([.])/g, '_');
+     
+             let myType = pathElement.indexOf("[*]") != -1 ? "array" : typeof temp[elem] == "object" ? "array" : typeof temp[elem];
+     
+             if(typeof temp[elem] != "object") {
+                 let newEntry = {
+                  name: newName,
+                  path: pathElement,
+                  type: myType
+                 }
+                 res.push(newEntry);
+             }
+         }
+     
+     
+        return res;
+     
+    },     
     actions:{
         executeRequest(){
             let purecloud = this.get('purecloud');
@@ -280,22 +334,23 @@ export default Ember.Controller.extend({
             var outputContract = {};
             var outputTranslationMap = {};
             var outputSuccessTemplate = "{ ";
+
+            let outputParameters = this.buildOutputVariables();
  
-            // for (var j = 0; j < _input.outputParameters.length; j++) {
-            //     let item = _input.outputParameters[j];
-            //     outputContract[item.name] = {
-            //         type: item.type.toLowerCase(),
-            //         title: item.name.toLowerCase()
-            //     };
-            //     outputTranslationMap[item.name.toLowerCase()] = item.path;
-            //     outputSuccessTemplate = outputSuccessTemplate + " \"" + item.name.toLowerCase() + "\": ${" + item.name.toLowerCase() + "} ,";
-            // }
+            for (var j = 0; j < outputParameters.length; j++) {
+                let item = outputParameters[j];
+                outputContract[item.name] = {
+                    type: item.type.toLowerCase(),
+                    title: item.name.toLowerCase()
+                };
+                outputTranslationMap[item.name.toLowerCase()] = item.path;
+                outputSuccessTemplate = outputSuccessTemplate + " \"" + item.name.toLowerCase() + "\": ${" + item.name.toLowerCase() + "} ,";
+            }
 
 
             // remove last character & close bracket
             outputSuccessTemplate = outputSuccessTemplate.substring(0, outputSuccessTemplate.length - 1) + "}";
             console.log(`outputSuccessTemplate: ${outputSuccessTemplate}`);
- 
  
             // response successTemplate
  
@@ -326,9 +381,9 @@ export default Ember.Controller.extend({
                 },
                 config: {
                     request: {
-                        requestUrlTemplate: this.getUri(),
+                        requestUrlTemplate: operation.uri,
                         requestTemplate: requestTemplate,
-                        requestType: operation.method,
+                        requestType: operation.method.toUpperCase(),
                         headers: {
                             UserAgent: "PureCloudIntegrations/1.0",
                             'Content-Type': "application/json"
@@ -344,37 +399,37 @@ export default Ember.Controller.extend({
            }
             console.log(JSON.stringify(dataActionBody));
  
-            // // Create DataAction
-            // const apiInstance = this.get('purecloud').integrationsApi();
+            // Create DataAction
+            const apiInstance = this.get('purecloud').integrationsApi();
 
 
-            // if (this.get("publish")) {
-            //     apiInstance.postIntegrationsActions(dataActionBody)
-            //         .then((data) => {
-            //         console.log(`postIntegrationsActionsDrafts success! data: ${JSON.stringify(data, null, 2)}`);
-            //         console.log(`dataAtionId: ${data.id}`);
-            //         resolve(data.id)
-            //         // https://apps.mypurecloud.ie/directory/#/admin/integrations/actions/custom_-_da879bdb-25cc-4dd5-ae4c-a64a3aeabd1e/setup/test
-            //     })
-            //         .catch((err) => {
-            //         console.log('There was a failure calling postIntegrationsActionsDrafts');
-            //         console.error(err);
-            //         reject()
-            //     });
-            // } else {
-            //     apiInstance.postIntegrationsActionsDrafts(dataActionBody)
-            //         .then((data) => {
-            //         console.log(`postIntegrationsActionsDrafts success! data: ${JSON.stringify(data, null, 2)}`);
-            //         console.log(`dataAtionId: ${data.id}`);
-            //         resolve(data.id)
-            //         // https://apps.mypurecloud.ie/directory/#/admin/integrations/actions/custom_-_da879bdb-25cc-4dd5-ae4c-a64a3aeabd1e/setup/test
-            //     })
-            //         .catch((err) => {
-            //         console.log('There was a failure calling postIntegrationsActionsDrafts');
-            //         console.error(err);
-            //         reject()
-            //     });
-            // }
+            if (this.get("publish")) {
+                apiInstance.postIntegrationsActions(dataActionBody)
+                    .then((data) => {
+                    console.log(`postIntegrationsActionsDrafts success! data: ${JSON.stringify(data, null, 2)}`);
+                    console.log(`dataAtionId: ${data.id}`);
+                    
+                    // https://apps.mypurecloud.ie/directory/#/admin/integrations/actions/custom_-_da879bdb-25cc-4dd5-ae4c-a64a3aeabd1e/setup/test
+                })
+                    .catch((err) => {
+                    console.log('There was a failure calling postIntegrationsActionsDrafts');
+                    console.error(err);
+                    
+                });
+            } else {
+                apiInstance.postIntegrationsActionsDrafts(dataActionBody)
+                    .then((data) => {
+                    console.log(`postIntegrationsActionsDrafts success! data: ${JSON.stringify(data, null, 2)}`);
+                    console.log(`dataAtionId: ${data.id}`);
+                    
+                    // https://apps.mypurecloud.ie/directory/#/admin/integrations/actions/custom_-_da879bdb-25cc-4dd5-ae4c-a64a3aeabd1e/setup/test
+                })
+                    .catch((err) => {
+                    console.log('There was a failure calling postIntegrationsActionsDrafts');
+                    console.error(err);
+                    
+                });
+            }
             
 
             
