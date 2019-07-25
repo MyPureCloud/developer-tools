@@ -1,0 +1,71 @@
+
+<div class='container'>
+{{#power-select searchField="key" options=uris selected=selectedUri onchange=(action (mut selectedUri)) as |i|}}
+{{i.method}} {{i.uri}}
+{{/power-select}}
+
+<form id="createDataActionForm">
+{{#each selectedUri.parameters as |parameter|}}
+<div class="row">
+    {{#if (eq parameter.in 'body')}}
+    <div class='col-md-2'>
+        <label for="integrations" class="col-form-label">{{parameter.name}}</label>    
+    </div>
+    <div class='col'>
+        {{textarea class='form-control' value=parameter.value style="width: 505px; height: 279px;"}}
+    </div>
+    {{else}}
+    <div class='col-md-2'>
+        <label for="integrations" class="col-form-label">{{parameter.name}}</label>    
+    </div>
+    <div class='col-md-2'>
+    {{input value=parameter.value class='form-control'}}    
+    </div>
+    {{/if}}
+    
+    
+    </div>
+{{/each}}
+</form>
+
+<button type="button" id="create" class="btn btn-primary" {{action 'executeRequest'}}>Execute</button>
+
+
+{{#if result}}
+<h2>
+
+</h2>
+<h2>
+  <span>API Result</span>
+</h2>
+
+
+<pre style='max-height: 400px;'><code>{{result}}</code></pre>
+{{/if}}
+
+
+<form id="createDataActionForm">
+    <div class="form-group">
+    <label for="integrations" class="col-form-label">Which integration will use this action?</label>    
+    {{#power-select options=integrations selected=selectedIntegration onchange=(action (mut selectedIntegration)) as |i|}}
+    {{i.name}}
+    {{/power-select}}
+    </div>
+    <div class="form-group">
+    <label for="name" class="col-form-label">Action Name</label>
+    {{input class="form-control" value=name}}
+    </div>
+
+    <div class="form-check form-check-inline">
+    {{input class="form-check-input" type="checkbox" checked=publish id="publish" }}
+    <label class="form-check-label" for="publish">Publish Immediately</label>
+    </div>
+    <div class="form-check form-check-inline">
+    {{input class="form-check-input" type="checkbox" checked=secure id="secure" }}
+    <label class="form-check-label" for="secure">Secure</label>
+    </div>
+</form>
+
+<button type="button" id="create" class="btn btn-primary" {{action 'createAction'}}>Create</button>
+
+</div>

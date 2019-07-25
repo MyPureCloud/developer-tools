@@ -35,6 +35,7 @@ Router.map(function() {
   this.route('search-query-builder');
   this.route('inspector');
   this.route('screenshare');
+  this.route('data-actions');
 });
 
 export default Router;

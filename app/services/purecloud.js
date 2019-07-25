@@ -36,6 +36,9 @@ export default Ember.Service.extend(Ember.Evented, {
 	oauthApi(){
 		return new platformClient.OAuthApi();
 	},
+	integrationsApi(){
+		return new platformClient.IntegrationsApi();
+	},
 	// Intended to be used with a path only for URLs at api.{env}
 	getMore(path, queryParams) {
 		return platformClient.ApiClient.instance.callApi(

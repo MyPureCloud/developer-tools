@@ -37,6 +37,7 @@
     "ember-export-application-global": "^2.0.0",
     "ember-load-initializers": "^1.1.0",
     "ember-new-relic": "^0.5.3",
+    "ember-power-select": "^2.3.5",
     "ember-resolver": "^4.5.6",
     "ember-simple-auth": "^1.7.0",
     "ember-sinon": "^2.2.0",
