@@ -2,6 +2,7 @@
 
 import Ember from 'ember';
 import {purecloudEnvironmentTld} from '../utils/purecloud-environment';
+import OpenApiModelExample from "npm:openapi-model-example";
 
 export default Ember.Controller.extend({
     purecloud: Ember.inject.service(),
@@ -14,6 +15,7 @@ export default Ember.Controller.extend({
         this.set("name", "AKevin");
        
     },
+    
     valuesChanged: Ember.observer('swaggerService.swagger', function() {
         this.loadPaths();
     }),
@@ -71,15 +73,35 @@ export default Ember.Controller.extend({
             httpMethods.forEach((method)=>{
                 let api = apis[method];
                 api.uri = key;
-                api.method = method;
-                api.value = api.default
+                api.method = method.toUpperCase();
+                
+                api.parameters.forEach((parameter)=>{
+                    parameter.value = parameter.default;
+
+                    if(parameter.in === "body"){
+                        parameter.value = "{}";
+                        
+                        if(parameter.schema["$ref"]){
+                            parameter.value = OpenApiModelExample.getModelExample(parameter.schema["$ref"], swagger, false);
+  
+  
+                        }else if(parameter.schema.type === "array"){
+                          // Override when type is array of string
+                          if (parameter.schema.items && parameter.schema.items.type === 'string') {
+                            parameter.value = '[""]';
+                          } else {
+                            parameter.value= '['+ OpenApiModelExample.getModelExample(parameter.schema.items['$ref'], swagger, false) +']';
+                          }
+                        }
+                    }
+                });
 
                 paths.push(api);
             });
             
         });
 
-        paths.sortBy("uri");
+        paths = paths.sortBy("uri");
 
         this.set("uris", paths);        
     },
@@ -227,6 +249,12 @@ export default Ember.Controller.extend({
         let url = `https://api.${environment}` + this.get("computedUrl");
         return url;
     },
+    aceInit: function (editor) {
+		editor.setHighlightActiveLine(false);
+		editor.$blockScrolling = Infinity;
+		editor.setShowPrintMargin(false);
+		editor.getSession().setMode('ace/mode/json');
+	},
     buildOutputVariables() {
         var outputJSON = JSON.parse(this.get("result"));
         console.log("Output JSON:", outputJSON);
@@ -276,7 +304,23 @@ export default Ember.Controller.extend({
      
     },     
     actions:{
+        searchUrl(term) {
+       
+
+            return new Promise((resolve,reject) =>{
+                let returnUris = [];
+                this.get("uris").forEach((uri)=>{
+                    if(uri.uri.toLowerCase().indexOf(term.toLowerCase())> -1){
+                        returnUris.push(uri);
+                    }                
+                });
+    
+                resolve(returnUris);            
+            });        
+        },
         executeRequest(){
+            this.set("result", null);
+            this.set("resultError", null);
             let purecloud = this.get('purecloud');
             let operation = this.get('selectedUri');
            
@@ -294,10 +338,8 @@ export default Ember.Controller.extend({
             $.ajax(requestParams).then(( data, textStatus, jqXHR  ) => {
                 this.set("result",JSON.stringify(data, null,  '  '));
 
-            }).catch(function(jqXHR){
-                // that.set("hasResponse", true);
-                // that.set("hideRequest", true);
-                // that.set("response", handleResponse(jqXHR));
+            }).catch((data, textStatus, errorMessage) =>{
+                this.set("resultError",errorMessage + " " + data.responseText);
             });
 
 
@@ -321,7 +363,7 @@ export default Ember.Controller.extend({
                     
                     requestTemplate = JSON.stringify(this.unflatten(flat));
                 }else{
-                    inputCotract[param.name] = {
+                    inputContract[param.name] = {
                         type: 'string',
                         title: param.name
                     }
@@ -402,31 +444,42 @@ export default Ember.Controller.extend({
             // Create DataAction
             const apiInstance = this.get('purecloud').integrationsApi();
 
+            this.set("dataActionResult", null);
+            this.set("dataActionError", null);
+            this.set("dataActionId", null);
 
+            let environment = purecloudEnvironmentTld();
+            
             if (this.get("publish")) {
                 apiInstance.postIntegrationsActions(dataActionBody)
                     .then((data) => {
                     console.log(`postIntegrationsActionsDrafts success! data: ${JSON.stringify(data, null, 2)}`);
                     console.log(`dataAtionId: ${data.id}`);
-                    
-                    // https://apps.mypurecloud.ie/directory/#/admin/integrations/actions/custom_-_da879bdb-25cc-4dd5-ae4c-a64a3aeabd1e/setup/test
-                })
-                    .catch((err) => {
-                    console.log('There was a failure calling postIntegrationsActionsDrafts');
-                    console.error(err);
-                    
+
+                    this.set("dataActionResult", `Action successfully created`);
+                    this.set("dataActionId", data.id);
+
+                    this.set("dataActionUrl", `https://apps.${environment}/directory/#/admin/integrations/actions/${data.id}/setup/test` )
+                                        
+                }).catch((err) => {
+                    this.set("dataActionError", 'There was a failure calling postIntegrationsActionsDrafts' + err);
                 });
             } else {
                 apiInstance.postIntegrationsActionsDrafts(dataActionBody)
                     .then((data) => {
                     console.log(`postIntegrationsActionsDrafts success! data: ${JSON.stringify(data, null, 2)}`);
                     console.log(`dataAtionId: ${data.id}`);
+
+                    this.set("dataActionResult", `Action successfully created`);
+                    this.set("dataActionId", data.id);                   
+                    this.set("dataActionUrl", `https://apps.${environment}/directory/#/admin/integrations/actions/${data.id}/setup/test` )
                     
-                    // https://apps.mypurecloud.ie/directory/#/admin/integrations/actions/custom_-_da879bdb-25cc-4dd5-ae4c-a64a3aeabd1e/setup/test
                 })
                     .catch((err) => {
                     console.log('There was a failure calling postIntegrationsActionsDrafts');
                     console.error(err);
+
+                    this.set("dataActionError", 'There was a failure calling postIntegrationsActionsDrafts' + err);
                     
                 });
             }

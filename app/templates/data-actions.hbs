@@ -1,71 +1,105 @@
+<ul class="nav nav-tabs nav-tabs-flex" role="tablist">
+    <li role="presentation" class="active" id='pureclouddataaction-tab'><a href="#pureclouddataaction" aria-controls="pureclouddataaction" role="tab" data-toggle="tab">PureCloud API</a></li>
+    <li role="presentation"><a href="#genericDataAction" aria-controls="genericDataAction" role="tab" data-toggle="tab">Generic Web Service</a></li>
+</ul>
 
-<div class='container'>
-{{#power-select searchField="key" options=uris selected=selectedUri onchange=(action (mut selectedUri)) as |i|}}
-{{i.method}} {{i.uri}}
-{{/power-select}}
+<!-- Tab panes -->
+<div class="tab-content">
+    <div role="tabpanel" class="tab-pane tab-pane-console active" id="pureclouddataaction">
+        <div class='container'>
+            <label  class="col-form-label">Select method to call</label>    
+            {{#power-select search=(action "searchUrl")  selected=selectedUri onchange=(action (mut selectedUri)) as |i|}}
+            {{i.method}} {{i.uri}}
+            {{/power-select}}
 
-<form id="createDataActionForm">
-{{#each selectedUri.parameters as |parameter|}}
-<div class="row">
-    {{#if (eq parameter.in 'body')}}
-    <div class='col-md-2'>
-        <label for="integrations" class="col-form-label">{{parameter.name}}</label>    
+            <form id="createDataActionForm">
+            {{#each selectedUri.parameters as |parameter|}}
+            <div class="row">
+                {{#if (eq parameter.in 'body')}}
+                <div class='col-md-2'>
+                    <label for="integrations" class="col-form-label">{{parameter.name}}</label>    
+                </div>
+                <div class='col'>
+                     {{ace-editor  value=parameter.value aceInit=aceInit class="data-action-body-editor" }}
+                </div>
+                {{else}}
+                <div class='col-md-2'>
+                    <label for="integrations" class="col-form-label">{{parameter.name}}</label>  
+                    {{#if parameter.required}}
+                    <span class="help-block text-uppercase small">Required</span>
+                    {{/if}} 
+                </div>
+                <div class='col-md-2'>
+                {{input value=parameter.value class='form-control'}}    
+                </div>
+                <div class='col-md-6'>
+                {{parameter.description }}
+                </div>
+                {{/if}}
+                
+                
+                </div>
+            {{/each}}
+            </form>
+
+            <button type="button" id="create" class="btn btn-primary" {{action 'executeRequest'}}>Execute</button>
+
+            {{#if resultError}}
+            <div class="alert alert-danger" role="alert">
+            {{resultError}}
+            </div>
+            {{/if}}
+
+
+            {{#if result}}
+
+            <h2>
+            <span>API Result</span>
+            </h2>
+
+            <pre style='max-height: 400px;'><code>{{result}}</code></pre>
+           
+            
+
+            <form id="createDataActionForm">
+                <div class="form-group">
+                <label for="integrations" class="col-form-label">Which integration will use this action?</label>    
+                {{#power-select options=integrations selected=selectedIntegration onchange=(action (mut selectedIntegration)) as |i|}}
+                {{i.name}}
+                {{/power-select}}
+                </div>
+                <div class="form-group">
+                <label for="name" class="col-form-label">Action Name</label>
+                {{input class="form-control" value=name}}
+                </div>
+
+                <div class="form-check form-check-inline">
+                {{input class="form-check-input" type="checkbox" checked=publish id="publish" }}
+                <label class="form-check-label" for="publish">Publish Immediately</label>
+                </div>
+                <div class="form-check form-check-inline">
+                {{input class="form-check-input" type="checkbox" checked=secure id="secure" }}
+                <label class="form-check-label" for="secure">Secure</label>
+                </div>
+            </form>
+
+            <button type="button" id="create" class="btn btn-primary" {{action 'createAction'}}>Create</button>
+
+            {{#if dataActionResult}}
+             <div class="alert alert-success" role="alert">
+            {{dataActionResult}} <a href={{dataActionUrl}}  target="_blank">View in PureCloud</a>
+            </div>
+            {{/if}}
+
+            {{#if dataActionError}}
+            <div class="alert alert-danger" role="alert">
+            {{dataActionError}}
+            </div>
+            {{/if}}
+            {{/if}}
+
+        </div>
     </div>
-    <div class='col'>
-        {{textarea class='form-control' value=parameter.value style="width: 505px; height: 279px;"}}
+    <div role="tabpanel" class="tab-pane tab-pane-console" id="genericDataAction">
     </div>
-    {{else}}
-    <div class='col-md-2'>
-        <label for="integrations" class="col-form-label">{{parameter.name}}</label>    
-    </div>
-    <div class='col-md-2'>
-    {{input value=parameter.value class='form-control'}}    
-    </div>
-    {{/if}}
-    
-    
-    </div>
-{{/each}}
-</form>
-
-<button type="button" id="create" class="btn btn-primary" {{action 'executeRequest'}}>Execute</button>
-
-
-{{#if result}}
-<h2>
-
-</h2>
-<h2>
-  <span>API Result</span>
-</h2>
-
-
-<pre style='max-height: 400px;'><code>{{result}}</code></pre>
-{{/if}}
-
-
-<form id="createDataActionForm">
-    <div class="form-group">
-    <label for="integrations" class="col-form-label">Which integration will use this action?</label>    
-    {{#power-select options=integrations selected=selectedIntegration onchange=(action (mut selectedIntegration)) as |i|}}
-    {{i.name}}
-    {{/power-select}}
-    </div>
-    <div class="form-group">
-    <label for="name" class="col-form-label">Action Name</label>
-    {{input class="form-control" value=name}}
-    </div>
-
-    <div class="form-check form-check-inline">
-    {{input class="form-check-input" type="checkbox" checked=publish id="publish" }}
-    <label class="form-check-label" for="publish">Publish Immediately</label>
-    </div>
-    <div class="form-check form-check-inline">
-    {{input class="form-check-input" type="checkbox" checked=secure id="secure" }}
-    <label class="form-check-label" for="secure">Secure</label>
-    </div>
-</form>
-
-<button type="button" id="create" class="btn btn-primary" {{action 'createAction'}}>Create</button>
-
 </div>

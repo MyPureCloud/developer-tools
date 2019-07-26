@@ -141,6 +141,9 @@ body, html {
         }
     }
 
+    &.alert-danger{
+        color: rgb(169, 68, 66);
+    }
     &.alert-error {
         background: @state-danger-text;
         color: white;
@@ -156,6 +159,10 @@ body, html {
             top: 1px;
         }
     }
+}
+
+.col-form-label{
+    text-transform: capitalize;
 }
 
 @import "ember-power-select";

@@ -59,7 +59,7 @@ const devToolsModules = [
     {
         name: "Data Action Generator",
         path: "data-actions",
-        icon: "fa fa-binoculars ",
+        icon: "fa fa-paper-plane ",
         description: ""
 
     }
