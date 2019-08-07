@@ -87,6 +87,12 @@ module.exports = function(environment) {
                 region: 'eu-central-1',
                 architectEnumString: 'archEnums.LOCATIONS.prod_ue_central_1'
             },
+            developerusw2purecloud: {
+                clientId: '96a7d55b-1ed5-4719-9094-08a2a69ca07c',
+                redirect: 'https://developer.usw2.pure.cloud/developer-tools/',
+                region: 'us-west-2',
+                architectEnumString: 'archEnums.LOCATIONS.prod_us_west_2'
+            },
             appsmypurecloudcom: {
                 clientId: '96a7d55b-1ed5-4719-9094-08a2a69ca07c',
                 redirect: 'https://apps.mypurecloud.com/developer-tools/',
@@ -97,8 +103,7 @@ module.exports = function(environment) {
                 clientId: '96a7d55b-1ed5-4719-9094-08a2a69ca07c',
                 redirect: 'https://apps.mypurecloud.ie/developer-tools/',
                 region: 'eu-west-1',
-                architectEnumString: 'archEnums.LOCATIONS.prod_ue_west_1'
-
+                architectEnumString: 'archEnums.LOCATIONS.prod_eu_west_1'
             },
             appsmypurecloudcomau: {
                 clientId: '96a7d55b-1ed5-4719-9094-08a2a69ca07c',
@@ -116,7 +121,13 @@ module.exports = function(environment) {
                 clientId: '96a7d55b-1ed5-4719-9094-08a2a69ca07c',
                 redirect: 'https://apps.mypurecloud.de/developer-tools/',
                 region: 'eu-central-1',
-                architectEnumString: 'archEnums.LOCATIONS.prod_ue_central_1'
+                architectEnumString: 'archEnums.LOCATIONS.prod_eu_central_1'
+            },
+            appsusw2purecloud: {
+                clientId: '96a7d55b-1ed5-4719-9094-08a2a69ca07c',
+                redirect: 'https://apps.usw2.pure.cloud/developer-tools/',
+                region: 'us-west-2',
+                architectEnumString: 'archEnums.LOCATIONS.prod_us_west_2'
             }
 
         }
