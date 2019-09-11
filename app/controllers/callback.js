@@ -12,6 +12,7 @@ export default Ember.Controller.extend({
 	time: new Date().toTimeString().split(' ')[0],
 	date: new Date().toISOString().split('T')[0],
 	callbackCreated: false,
+	customAttributes: [],
 
 	init() {
 		this._super(...arguments);
@@ -27,6 +28,7 @@ export default Ember.Controller.extend({
 			this.set('name', savedData.name);
 			this.set('queue', savedData.queue);
 			this.set('phone', savedData.phone);
+			this.set('customAttributes', savedData.customAttributes);
 		}
 	},
 
@@ -34,6 +36,17 @@ export default Ember.Controller.extend({
 		return this.get('queueService').get('queues');
 	}),
 	actions: {
+		addCustomAttribute() {
+			let customAttributes = this.get('customAttributes');
+			customAttributes.pushObject({
+				name: '',
+				value: ''
+			});
+			this.set('customAttributes', customAttributes);
+		},
+		deleteCustomAttribute(attribute) {
+			this.get('customAttributes').removeObject(attribute);
+		},
 		createCallback() {
 			try {
 				this.set('callbackError', null);
@@ -48,8 +61,16 @@ export default Ember.Controller.extend({
 					// queueId of the queue onto which this callback will be placed
 					queueId: this.get('queue'),
 					// Should use default script if `null`
-					scriptId: null
+					scriptId: null,
+					data: {}
 				};
+
+				const customAttributes = this.get('customAttributes');
+				for (let attribute of customAttributes) {
+					if (attribute.name != '') {
+						data.data[attribute.name] = attribute.value;
+					}
+				}
 
 				let self = this;
 				let conversationsApi = this.get('purecloud').conversationsApi();
@@ -70,7 +91,8 @@ export default Ember.Controller.extend({
 				let savedData = {
 					name: this.get('name'),
 					queue: this.get('queue'),
-					phone: this.get('phone')
+					phone: this.get('phone'),
+					customAttributes: this.get('customAttributes')
 				};
 
 				let storage = this.get('storageService');

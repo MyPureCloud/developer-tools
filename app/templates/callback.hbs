@@ -9,55 +9,79 @@
 </div>
 {{/if}}
 
-<div class="container container-padding">
+
+
+<div class="container container-top-padding">
     <form class="form-horizontal">
         <div class="row">
-            <div class="form-group">
-                <label class="col-sm-1 col-sm-offset-4 control-label">Name</label>
-                <div class="col-sm-3">
-                    {{input class="form-control" value=name  placeholder="Name"}}
-                </div>
+            <div class="col-md-12">
+                <strong>Callback Data</strong> 
+                <hr />
             </div>
+        </div>
+        <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">Name</label>
+                        <div class="col-sm-8">
+                            {{input class="form-control" value=name  placeholder="Name"}}
+                        </div>
+                    </div>
 
-            <div class="form-group">
-                <label for='lastName' class="col-sm-1 col-sm-offset-4 control-label">Phone</label>
-                <div class="col-sm-3">
-                    {{input class="form-control" value=phone type="tel"  placeholder="Phone" }}
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-1 col-sm-offset-4 control-label">Date</label>
-                <div class="col-sm-3">
-                    {{input class="form-control" value=date  type="date"  }}
-                </div>
-            </div>
+                    <div class="form-group">
+                        <label for='lastName' class="col-sm-4 control-label">Phone</label>
+                        <div class="col-sm-8">
+                            {{input class="form-control" value=phone type="tel"  placeholder="Phone" }}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">Date</label>
+                        <div class="col-sm-8">
+                            {{input class="form-control" value=date  type="date"  }}
+                        </div>
+                    </div>
 
-            <div class="form-group">
-                <label class="col-sm-1 col-sm-offset-4 control-label">Time</label>
-                <div class="col-sm-3">
-                    {{input class="form-control" value=time  type="time"}}
-                </div>
-            </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">Time</label>
+                        <div class="col-sm-8">
+                            {{input class="form-control" value=time  type="time"}}
+                        </div>
+                    </div>
 
-            <div class="form-group">
-                <label for='lastName' class="col-sm-1 col-sm-offset-4 control-label">Queue</label>
-                <div class="col-sm-3">
-                    <select  class="form-control setting" onchange={{action 'selectQueue' value="target.value"}}>
-                        <option value=""></option>
-                        {{#each queues as |queueOption|}}
-                          <option value={{queueOption.id}} selected={{eq queue queueOption.id}}>{{queueOption.name}}</option>
-                        {{/each}}
-                    </select>
-                </div>
-            </div>
+                    <div class="form-group">
+                        <label for='lastName' class="col-sm-4 control-label">Queue</label>
+                        <div class="col-sm-8">
+                            <select  class="form-control setting" onchange={{action 'selectQueue' value="target.value"}}>
+                                <option value=""></option>
+                                {{#each queues as |queueOption|}}
+                                <option value={{queueOption.id}} selected={{eq queue queueOption.id}}>{{queueOption.name}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                    </div>
 
-            <div class="form-group">
-                <label class="col-sm-1 col-sm-offset-4 control-label"></label>
-                <div class="col-sm-3">
-                    <a class="btn btn-primary" {{action 'createCallback'}} href="#" role="button">Create Callback</a>
-                </div>
-            </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label"></label>
+                        <div class="col-sm-3">
+                            <a class="btn btn-primary" {{action 'createCallback'}} href="#" role="button">Create Callback</a>
+                        </div>
+                    </div>
 
+                </div>
+                <div class='col-md-6'>
+                    <div class="form-group row">
+                        <label class="col-sm-4 control-label">Custom Attributes</label>
+                         <div class="col-sm-8">
+                             <a class="btn btn-primary " {{action 'addCustomAttribute'}} href="#" role="button">
+                                <i class="fa fa-plus"></i>
+                            </a>
+                         </div>
+                    </div>
+                    {{#each customAttributes as |customAttribute|}}
+                        {{webchat-custom-attribute customAttribute=customAttribute
+                            onDeleteClicked=(action 'deleteCustomAttribute' customAttribute)}}
+                    {{/each}}
+                </div>
         </div>
     </form>
 </div>
