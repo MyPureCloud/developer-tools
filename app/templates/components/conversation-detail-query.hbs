@@ -27,19 +27,23 @@
         <p class="small text-muted">
             Page size and number to control iterating through large result sets.
         </p>
-        <form class="form form-horizontal form-flex form-flex-2-col">
-            <div class="form-group">
-                <div class="control-label">
-                    <label>Page Size</label>
+        <form class="form form-horizontal form-flex form-flex-2-col">            
+                <div class='col'>
+                     <div class="form-group">
+                        <div class="control-label">
+                            <label>Page Size</label>
+                        </div>
+                        {{input type="number" value=pageSize class="form-control" }}
+                    </div>
                 </div>
-                {{input type="number" value=pageSize class="form-control" }}
-            </div>
-            <div class="form-group">
-                <div class="control-label">
-                    <label>Page Number</label>
-                </div>
-                {{input type="number" value=pageNumber class="form-control" }}
-            </div>
+                <div class='col'>
+                    <div class="form-group">
+                        <div class="control-label">
+                            <label>Page Number</label>
+                        </div>
+                        {{input type="number" value=pageNumber class="form-control" }}
+                    </div>
+                </div>                  
         </form>
     </div>
 </div>
