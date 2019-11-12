@@ -162,7 +162,7 @@ export default Ember.Service.extend({
 	propertyTypes: ['', 'bool', 'integer', 'real', 'date', 'string', 'uuid'].sort(),
 	operators: ['matches', 'exists', 'notExists'],
 	numericRangeOperators: ['lt', 'lte', 'gt', 'gte'],
-	mediaTypes: ['', 'voice', 'chat', 'email', 'callback', 'screenshare', 'cobrowse'].sort(),
+	mediaTypes: ['', 'voice', 'chat', 'email', 'callback', 'screenshare', 'cobrowse', 'message'].sort(),
 	aggregationTypes: ['termFrequency', 'numericRange'],
 	swaggerService: Ember.inject.service(),
 	filteredMetrics: function(filter) {
