@@ -345,6 +345,9 @@ export default Ember.Controller.extend({
 			return '{}';
 		}
 	),
+	v2ConfigDisplay: computed('chatConfig', function() {
+		return JSON.stringify({ widgets: { webchat: JSON.parse(this.get('chatConfig')) } }, null, 2).replace(/\n/gim, '\n  ');
+	}),
 	advancedConfig: computed(
 		'deployment',
 		'webChatService.deploymentCount',

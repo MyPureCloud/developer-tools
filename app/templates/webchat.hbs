@@ -274,7 +274,7 @@ ININ.webchat.create(chatConfig, function(err, webchat) {
 });</code>{{else}}<code>&lt;script src=&quot;https://apps.{{environmentTld}}/widgets/9.0/cxbus.min.js&quot; onload=&quot;javascript:CXBus.configure({debug:false,pluginsPath:'https://apps.{{environmentTld}}/widgets/9.0/plugins/'}); CXBus.loadPlugin('widgets-core');&quot;&gt;&lt;/script&gt;
 
 &lt;script&gt;
-  window._genesys = {{chatConfig}};
+  window._genesys = {{v2ConfigDisplay}};
 
   function getAdvancedConfig() {
     return {{advancedConfig}};
