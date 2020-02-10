@@ -66,12 +66,14 @@ export default Ember.Controller.extend({
 				};
 
 				const customAttributes = this.get('customAttributes');
-				for (let attribute of customAttributes) {
-					if (attribute.name != '') {
-						data.data[attribute.name] = attribute.value;
+				if(typeof customAttributes !== "undefined"){
+					for (let attribute of customAttributes) {
+						if (attribute.name !== '') {
+							data.data[attribute.name] = attribute.value;
+						}
 					}
 				}
-
+				
 				let self = this;
 				let conversationsApi = this.get('purecloud').conversationsApi();
 				conversationsApi
