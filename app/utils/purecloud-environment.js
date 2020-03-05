@@ -1,4 +1,4 @@
-const ENV_REG_EXP = /inin[dt]ca\..*|mypurecloud\..*|localhost|usw2.pure.cloud/i;
+const ENV_REG_EXP = /mypurecloud\.[a-z0-9.]{2,6}$|\.[a-z0-9]{4,5}.pure.cloud|inin[a-z0-9]{3}\.com|localhost/i;
 import config from '../config/environment';
 
 function purecloudEnvironmentTld() {
