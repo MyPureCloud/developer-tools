@@ -9,7 +9,6 @@ var computed = Ember.computed;
 let classTypeRegex = /new\s*$/;
 let architect;
 
-
 export default Ember.Component.extend({
 	storageService: Ember.inject.service(),
 	githubService: Ember.inject.service(),
@@ -17,33 +16,37 @@ export default Ember.Component.extend({
 	purecloud: Ember.inject.service('purecloud'),
 	messages: [],
 	code: '',
-	codeSamples: function () {
+	codeSamples: function() {
 		let filteredSampleCode = [];
-		Object.keys(sampleCode[this.get('selectedApi').value]).forEach(function(key) {
-			if (!sampleCode[this.get('selectedApi').value][key].hideInDropDown) {
-				filteredSampleCode.push({name:sampleCode[this.get('selectedApi').value][key].name, value: key});
-			}
-		}.bind(this));
+		Object.keys(sampleCode[this.get('selectedApi').value]).forEach(
+			function(key) {
+				if (!sampleCode[this.get('selectedApi').value][key].hideInDropDown) {
+					filteredSampleCode.push({ name: sampleCode[this.get('selectedApi').value][key].name, value: key });
+				}
+			}.bind(this)
+		);
 		return filteredSampleCode;
 	}.property('selectedApi'),
 	enableDebugging: false,
-	apiTypes: [ {displayName: 'PureCloud SDK', value: 'pureCloudSdk'}],
+	apiTypes: [{ displayName: 'PureCloud SDK', value: 'pureCloudSdk' }],
 	selectedSdk: null,
-	selectedApi: {displayName: 'PureCloud SDK', value: 'pureCloudSdk'},
-	isPurecloudSdk: function () {
+	selectedApi: { displayName: 'PureCloud SDK', value: 'pureCloudSdk' },
+	isPurecloudSdk: function() {
 		return this.get('selectedApi').value === 'pureCloudSdk';
 	}.property('selectedApi'),
-	isArchitectSdk: function () {
+	isArchitectSdk: function() {
 		return this.get('selectedApi').value === 'architectSdk';
 	}.property('selectedApi'),
-	url: computed('enableDebugging', 'selectedSdk', function () {
+	url: computed('enableDebugging', 'selectedSdk', function() {
 		let purecloud = this.get('purecloud');
 		let selectedSdk = this.get('selectedSdk');
 		let selectedApi = this.get('selectedApi').value;
-		let url = `coderunner/index.html?auth=${purecloud.get('accessToken')}&environment=${purecloud.get('environment')}&sdk=${selectedSdk}&api=${selectedApi}`;
+		let url = `coderunner/index.html?auth=${purecloud.get('accessToken')}&environment=${purecloud.get(
+			'environment'
+		)}&sdk=${selectedSdk}&api=${selectedApi}`;
 		return url;
 	}),
-	sdkTags: function () {
+	sdkTags: function() {
 		let releases;
 		if (this.get('isArchitectSdk')) {
 			var iframeBody = document.getElementById('code-runner').contentWindow;
@@ -53,29 +56,28 @@ export default Ember.Component.extend({
 		}
 		// const releases = this.get('githubService').get('jsSdkReleases');
 		this.set('selectedSdk', releases[0]);
-		return releases
+		return releases;
 	}.property('githubService.jsSdkReleases', 'selectedApi'),
 	runToggle: false,
-	aceConsoleInit: function (editor) {
+	aceConsoleInit: function(editor) {
 		editor.setHighlightActiveLine(false);
 		editor.$blockScrolling = Infinity;
 		editor.setShowPrintMargin(false);
 		editor.setReadOnly(true);
 		editor.getSession().setMode('ace/mode/json');
 	},
-	aceInit: function (editor) {
+	aceInit: function(editor) {
 		editor.setHighlightActiveLine(false);
 		editor.setShowPrintMargin(false);
 		editor.$blockScrolling = Infinity;
 		editor.getSession().setTabSize(2);
 		editor.getSession().setMode('ace/mode/javascript');
-		editor.setOptions({enableBasicAutocompletion: true});
+		editor.setOptions({ enableBasicAutocompletion: true });
 
 		let langTools = ace.require('ace/ext/language_tools');
 
 		let methodCompleter = {
-			getCompletions: function (editor, session, pos, prefix, callback) {
-
+			getCompletions: function(editor, session, pos, prefix, callback) {
 				let code = editor.getSession().getValue();
 
 				let codeArray = code.split('\n');
@@ -89,13 +91,12 @@ export default Ember.Component.extend({
 					let pureCloudClasses = [];
 
 					for (var m in window) {
-						if (m.indexOf('Api') > 0 && typeof(window[m]) === 'function') {
+						if (m.indexOf('Api') > 0 && typeof window[m] === 'function') {
 							pureCloudClasses.push({
 								word: m,
 								value: m + '(pureCloudSession);',
 								score: 100,
 								meta: 'PureCloud Class'
-
 							});
 						}
 					}
@@ -104,9 +105,7 @@ export default Ember.Component.extend({
 						return a.value.localeCompare(b.value);
 					});
 					callback(null, pureCloudClasses);
-				}
-				else if (methodMatch) {
-
+				} else if (methodMatch) {
 					let variableName = methodMatch[1];
 
 					let regex = new RegExp(variableName + '\\s*=\\s*new\\s*(\\w*Api)');
@@ -126,10 +125,8 @@ export default Ember.Component.extend({
 										value: i,
 										score: 100,
 										meta: apiType + ' Function'
-
 									});
 								}
-
 							}
 						}
 						functions.sort(function compare(a, b) {
@@ -148,7 +145,7 @@ export default Ember.Component.extend({
 				return;
 			}
 
-			if (typeof(event.data) === 'object') {
+			if (typeof event.data === 'object') {
 				return;
 			}
 			let data = JSON.parse(event.data);
@@ -159,11 +156,11 @@ export default Ember.Component.extend({
 				for (let key in data.arguments) {
 					let o = data.arguments[key];
 					let isObject = false;
-					if (typeof(o) === 'object') {
+					if (typeof o === 'object') {
 						o = JSON.stringify(o, null, '  ');
 						isObject = true;
 					}
-					array.push({value: o, isObject: isObject});
+					array.push({ value: o, isObject: isObject });
 				}
 
 				let message = {
@@ -172,54 +169,57 @@ export default Ember.Component.extend({
 				};
 
 				this.messages.pushObject(message);
-			}
-			else if (data.action === 'runerror') {
+			} else if (data.action === 'runerror') {
 				let isObject = false;
-				if (typeof(data.message) === 'object') {
+				if (typeof data.message === 'object') {
 					data.message = JSON.stringify(data.message, null, '  ');
 					isObject = true;
 				}
 
 				this.messages.pushObject({
 					type: 'critical',
-					messageParams: [{value: data.name + ' ' + data.message, isObject: isObject}],
+					messageParams: [{ value: data.name + ' ' + data.message, isObject: isObject }],
 					lineNumber: data.lineNumber
 				});
 			}
 		} catch (ex) {
 			console.error(ex);
 		}
-
 	},
 	init() {
 		this._super(...arguments);
 
 		this.get('enableDebugging');
 
-		this.addObserver('runToggle', function () {
+		this.addObserver('runToggle', function() {
 			this.messages.clear();
 			var iframeBody = document.getElementById('code-runner').contentWindow;
-			iframeBody.postMessage(JSON.stringify({
-				action: 'javascript',
-				data: this.get('code')
-			}), '*');
+			iframeBody.postMessage(
+				JSON.stringify({
+					action: 'javascript',
+					data: this.get('code')
+				}),
+				'*'
+			);
 		});
 
 		let defaultCode = '';
 
 		let storage = this.get('storageService');
 		// This checks the feature toggle and if it is true it adds the apiType to the dropdown
-		if (storage.localStorageGet('archDevToolsScripting') && !this.get('apiTypes')[1] ||  (this.get('apiTypes')[1] && this.get('apiTypes')[1].value !== 'architectSdk')) {
-			this.get('apiTypes').push({displayName: 'Architect SDK', value: 'architectSdk'});
+		if (
+			(storage.localStorageGet('archDevToolsScripting') && !this.get('apiTypes')[1]) ||
+			(this.get('apiTypes')[1] && this.get('apiTypes')[1].value !== 'architectSdk')
+		) {
+			this.get('apiTypes').push({ displayName: 'Architect SDK', value: 'architectSdk' });
 		}
 		let code = storage.localStorageGet('code');
 
-		if (code === null || typeof(code) === 'undefined' || code.length === 0) {
+		if (code === null || typeof code === 'undefined' || code.length === 0) {
 			code = defaultCode;
 		}
 
 		this.set('code', code);
-
 	},
 	/**
 	 * Callback method that allows scripting to right to the console on the right hand side of the screen.
@@ -228,7 +228,7 @@ export default Ember.Component.extend({
 	 */
 	_architectLoggingCallback(logInfo) {
 		var messageType;
-		switch  ( logInfo.logType) {
+		switch (logInfo.logType) {
 			case architect.enums.archEnums.LOG_TYPES.info:
 				messageType = 'log';
 				break;
@@ -243,7 +243,7 @@ export default Ember.Component.extend({
 		}
 		this.messages.pushObject({
 			type: messageType,
-			messageParams: [{header: logInfo.messageParts.header, body: logInfo.messageParts.message, isObject: false}],
+			messageParams: [{ header: logInfo.messageParts.header, body: logInfo.messageParts.message, isObject: false }],
 			lineNumber: undefined
 		});
 	},
@@ -253,7 +253,6 @@ export default Ember.Component.extend({
 			this._onWindowMessage = this._receivePostMessage.bind(this);
 			window.addEventListener('message', this._onWindowMessage, false);
 		}
-
 	},
 
 	willDestroyElement() {
@@ -261,7 +260,6 @@ export default Ember.Component.extend({
 			window.removeEventListener('message', this._onWindowMessage, false);
 			this._onWindowMessage = null;
 		}
-
 	},
 	actions: {
 		/**
@@ -285,7 +283,9 @@ export default Ember.Component.extend({
 		loadSample(value) {
 			let code;
 			code = sampleCode[this.get('selectedApi').value][value].code;
-			if (!code) { return; }
+			if (!code) {
+				return;
+			}
 			let editor = window.ace.edit('ace-code-editor');
 			editor.getSession().setValue(code);
 			this.set('code', code);
@@ -319,10 +319,13 @@ export default Ember.Component.extend({
 				code = token + 'var archScripting = window.architect;' + code;
 			}
 
-			iframeBody.postMessage(JSON.stringify({
-				action: 'javascript',
-				data: code
-			}), '*');
+			iframeBody.postMessage(
+				JSON.stringify({
+					action: 'javascript',
+					data: code
+				}),
+				'*'
+			);
 
 			$('li, .tab-pane').removeClass('active');
 			$('#console-tab, #console').addClass('active');

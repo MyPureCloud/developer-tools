@@ -1,8 +1,8 @@
 /*global $*/
 
 import Ember from 'ember';
-var  {observer, computed} = Ember;
-import {purecloudEnvironmentTld} from '../utils/purecloud-environment';
+var { observer, computed } = Ember;
+import { purecloudEnvironmentTld } from '../utils/purecloud-environment';
 
 export default Ember.Controller.extend({
 	purecloud: Ember.inject.service('purecloud'),
@@ -12,22 +12,22 @@ export default Ember.Controller.extend({
 	getGroups: true,
 	getLocations: true,
 	getChats: false,
-	sortOptions:['ASC', 'DESC', 'SCORE'],
+	sortOptions: ['ASC', 'DESC', 'SCORE'],
 	sort: 'SCORE',
 	searchType: 'general_search',
-	searchTypes:[
+	searchTypes: [
 		{
 			name: 'General search',
-			id:'general_search',
-			url:'/api/v2/search'
+			id: 'general_search',
+			url: '/api/v2/search'
 		},
 		{
 			name: 'Suggest',
-			id:'suggest',
-			url:'/api/v2/search/suggest'
+			id: 'suggest',
+			url: '/api/v2/search/suggest'
 		}
 	],
-	queryTypes:[
+	queryTypes: [
 		'EXACT',
 		'CONTAINS',
 		'STARTS_WITH',
@@ -41,126 +41,145 @@ export default Ember.Controller.extend({
 		'TERM'
 		//             'TERMS'.
 	],
-	aggregateTypes:['COUNT', 'SUM', 'AVERAGE', 'TERM', 'CONTAINS', 'STARTS_WITH', 'ENDS_WITH'],
-	aggregateSort:['VALUE_DESC', 'VALUE_ASC', 'COUNT_DESC', 'COUNT_ASC'],
-	aggregates:[],
-	queryFilters:[],
-	queryFilterOperators:['AND', 'OR', 'NOT'],
+	aggregateTypes: ['COUNT', 'SUM', 'AVERAGE', 'TERM', 'CONTAINS', 'STARTS_WITH', 'ENDS_WITH'],
+	aggregateSort: ['VALUE_DESC', 'VALUE_ASC', 'COUNT_DESC', 'COUNT_ASC'],
+	aggregates: [],
+	queryFilters: [],
+	queryFilterOperators: ['AND', 'OR', 'NOT'],
 	profileQueryParameter: false,
-	returnFields:['guid'],
+	returnFields: ['guid'],
 	url: computed('searchType', 'profileQueryParameter', function() {
 		let type = this.get('searchType');
-		for(let x=0; x< this.searchTypes.length; x++){
-			if(this.searchTypes[x].id === type){
+		for (let x = 0; x < this.searchTypes.length; x++) {
+			if (this.searchTypes[x].id === type) {
 				return this.searchTypes[x].url;
 			}
 		}
 	}),
-	_calculateQueryJson(){
+	_calculateQueryJson() {
 		let query = {
-			'pageSize': this.get('pageSize'),
-			'pageNumber': this.get('pageNumber'),
-			'types': []
+			pageSize: this.get('pageSize'),
+			pageNumber: this.get('pageNumber'),
+			types: []
 		};
 
-		if(this.get('searchType') === 'general_search'){
+		if (this.get('searchType') === 'general_search') {
 			query.sortOrder = this.get('sort');
 		}
 
-		if ((this.get('searchType') === 'general_search') && this.profileQueryParameter) {
+		if (this.get('searchType') === 'general_search' && this.profileQueryParameter) {
 			query.returnFields = this.get('returnFields');
 		}
 
-		if(this.queryFilters.length > 0){
+		if (this.queryFilters.length > 0) {
 			query.query = this.queryFilters;
 		}
 
-		if(this.get('getUsers') === true){
+		if (this.get('getUsers') === true) {
 			query.types.push('users');
 		}
 
-		if(this.get('getGroups') === true){
+		if (this.get('getGroups') === true) {
 			query.types.push('groups');
 		}
 
-		if(this.get('getLocations') === true){
+		if (this.get('getLocations') === true) {
 			query.types.push('locations');
 		}
 
-		if(this.get('getChats') === true){
+		if (this.get('getChats') === true) {
 			query.types.push('messages');
 		}
 
-		if(this.aggregates.length > 0){
+		if (this.aggregates.length > 0) {
 			query.aggregations = this.aggregates;
 		}
 
 		this.set('queryJson', JSON.stringify(query, null, '  '));
 	},
-	queryObserver: observer('queryFilters', 'queryFilters.@each','queryFilters.@each.fields','queryFilters.@each.type',
-		'queryFilters.@each.operator','queryFilters.@each.value','queryFilters.@each.startValue',
-		'queryFilters.@each.endValue','sort','pageSize','pageNumber','getUsers','getGroups',
-		'getLocations', 'getChats', 'aggregates', 'aggregates.@each', 'aggregates.@each.field', 'aggregates.@each.type',
-		'aggregates.@each.name', 'aggregates.@each.value', 'returnFields.@each', 'profileQueryParameter', function() {
+	queryObserver: observer(
+		'queryFilters',
+		'queryFilters.@each',
+		'queryFilters.@each.fields',
+		'queryFilters.@each.type',
+		'queryFilters.@each.operator',
+		'queryFilters.@each.value',
+		'queryFilters.@each.startValue',
+		'queryFilters.@each.endValue',
+		'sort',
+		'pageSize',
+		'pageNumber',
+		'getUsers',
+		'getGroups',
+		'getLocations',
+		'getChats',
+		'aggregates',
+		'aggregates.@each',
+		'aggregates.@each.field',
+		'aggregates.@each.type',
+		'aggregates.@each.name',
+		'aggregates.@each.value',
+		'returnFields.@each',
+		'profileQueryParameter',
+		function() {
 			this._calculateQueryJson();
 			this._setAvailableFilterFields();
 			this._setSearchTypeUrls();
-		}),
-	searchTypeObserver: observer('searchType', function(){
+		}
+	),
+	searchTypeObserver: observer('searchType', function() {
 		this.queryFilters.clear();
 		this._setInitialFilter();
 		this.aggregates.clear();
 	}),
-	chatTypeObserver: observer('getChats', function(){
-		if(this.get('getChats') === true){
+	chatTypeObserver: observer('getChats', function() {
+		if (this.get('getChats') === true) {
 			this.set('getLocations', false);
 			this.set('getUsers', false);
 			this.set('getGroups', false);
 		}
 		this._setInitialFilter();
 	}),
-	nonChatTypeObserver: observer('getLocations','getUsers', 'getGroups', function(){
+	nonChatTypeObserver: observer('getLocations', 'getUsers', 'getGroups', function() {
 		let thisContext = this;
-		Ember.run.later((function() {
-			if(thisContext.get('getLocations') === true ||
-				thisContext.get('getUsers') === true ||
-				thisContext.get('getGroups') === true){
+		Ember.run.later(function() {
+			if (thisContext.get('getLocations') === true || thisContext.get('getUsers') === true || thisContext.get('getGroups') === true) {
 				thisContext.set('getChats', false);
 			}
-		}), 1);
+		}, 1);
 	}),
-	_setAvailableFilterFields(){
+	_setAvailableFilterFields() {
 		let properties = [];
 
-		function getPropertiesFromModel(modelProperties){
-			for(let x=0;x<modelProperties.length;x++){
+		function getPropertiesFromModel(modelProperties) {
+			for (let x = 0; x < modelProperties.length; x++) {
 				let property = modelProperties[x];
-				if(properties.indexOf(property) === -1){
+				if (properties.indexOf(property) === -1) {
 					properties.push(property);
 				}
 			}
 		}
 
 		let modelProperties = {
-			'User':['id','name','department','email','title', 'username', 'presence', 'routingStatus', 'station', 'profileSkills'],
-			'Group': ['id', 'name', 'description', 'dateModified', 'state', 'type', 'addresses', 'visibility'],
-			'Location': ['id', 'name', 'address', 'addressVerified', 'emergencyNumber', 'state'],
-			'Chat': ['body', 'created']
+			User: ['id', 'name', 'department', 'email', 'title', 'username', 'presence', 'routingStatus', 'station', 'profileSkills'],
+			Group: ['id', 'name', 'description', 'dateModified', 'state', 'type', 'addresses', 'visibility'],
+			Location: ['id', 'name', 'address', 'addressVerified', 'emergencyNumber', 'state'],
+			Chat: ['body', 'created']
 		};
 
-		if(this.get('getUsers') === true){
+		if (this.get('getUsers') === true) {
 			getPropertiesFromModel(modelProperties['User']);
 		}
 
-		if(this.get('getGroups') === true){
+		if (this.get('getGroups') === true) {
 			getPropertiesFromModel(modelProperties['Group']);
 		}
 
-		if(this.get('getLocations') === true){
+		if (this.get('getLocations') === true) {
 			getPropertiesFromModel(modelProperties['Location']);
 		}
 
-		if(this.get('getChats') === true){
+		if (this.get('getChats') === true) {
 			getPropertiesFromModel(modelProperties['Chat']);
 		}
 
@@ -168,8 +187,8 @@ export default Ember.Controller.extend({
 
 		this.set('availableFilterFields', properties);
 	},
-	_setSearchTypeUrls(){
-		for (let x=0; x< this.searchTypes.length; x++){
+	_setSearchTypeUrls() {
+		for (let x = 0; x < this.searchTypes.length; x++) {
 			if (this.searchTypes[x].id === 'general_search') {
 				this.searchTypes[x].url = this.profileQueryParameter ? '/api/v2/search' : '/api/v2/search?profile=false';
 			} else if (this.searchTypes[x].id === 'suggest') {
@@ -177,11 +196,11 @@ export default Ember.Controller.extend({
 			}
 		}
 	},
-	_setInitialFilter(){
-		if (this.get('searchType') === 'general_search'){
+	_setInitialFilter() {
+		if (this.get('searchType') === 'general_search') {
 			let queryFilter = {
-				type:'TERM',
-				fields:[],
+				type: 'TERM',
+				fields: [],
 				value: 'mySearchKeyword',
 				operator: 'AND'
 			};
@@ -198,9 +217,9 @@ export default Ember.Controller.extend({
 			});
 		}
 	},
-	queryJson:'',
-	queryResult:null,
-	init(){
+	queryJson: '',
+	queryResult: null,
+	init() {
 		this._setInitialFilter();
 		this._calculateQueryJson();
 		this.get('getUsers');
@@ -208,18 +227,18 @@ export default Ember.Controller.extend({
 		this._setAvailableFilterFields();
 		this._setSearchTypeUrls();
 	},
-  isStandalone: computed('purecloud.isStandalone', function() {
-    return this.get('purecloud.isStandalone')
-  }),
-	actions:{
+	isStandalone: computed('purecloud.isStandalone', function() {
+		return this.get('purecloud.isStandalone');
+	}),
+	actions: {
 		selectSearchType(type) {
 			let currentType = this.get('searchType');
 
-			if(currentType !== type){
+			if (currentType !== type) {
 				this.set('searchType', type);
 			}
 		},
-		runQuery(){
+		runQuery() {
 			let query = this.get('queryJson');
 
 			let url = this.get('url');
@@ -237,44 +256,45 @@ export default Ember.Controller.extend({
 				timeout: 5000,
 				contentType: 'application/json; charset=utf-8',
 				dataType: 'json',
-				headers:{
-					'Authorization' : 'bearer ' + purecloud.get('accessToken')
+				headers: {
+					Authorization: 'bearer ' + purecloud.get('accessToken')
 				}
-			}) .done(function( data ) {
-				self.set('queryResult', JSON.stringify(data, null,  '  '));
-			}).catch(function(err){
-				self.set('queryResult', JSON.stringify(err, null,  '  '));
-			});
+			})
+				.done(function(data) {
+					self.set('queryResult', JSON.stringify(data, null, '  '));
+				})
+				.catch(function(err) {
+					self.set('queryResult', JSON.stringify(err, null, '  '));
+				});
 		},
-		updateQuery(queryJson){
+		updateQuery(queryJson) {
 			console.log('update query', queryJson);
 			this.set('queryJson', queryJson);
-
 		},
-		newQueryFilter(){
-			if(this.get('searchType') === 'general_search'){
+		newQueryFilter() {
+			if (this.get('searchType') === 'general_search') {
 				this.queryFilters.pushObject({
-					type:'TERM',
-					fields:[],
+					type: 'TERM',
+					fields: [],
 					operator: 'AND'
 				});
-			}else{
+			} else {
 				this.queryFilters.pushObject({
 					value: 'mySuggestKeyword'
 				});
 			}
 		},
-		deleteQueryFilter(index){
+		deleteQueryFilter(index) {
 			this.queryFilters.removeAt(index);
 		},
-		newAggregate(){
+		newAggregate() {
 			this.aggregates.pushObject({
-				type:'TERM',
+				type: 'TERM',
 				field: this.get('availableFilterFields')[4],
 				name: 'myAggregationBucketName'
 			});
 		},
-		deleteAggregate(index){
+		deleteAggregate(index) {
 			this.aggregates.removeAt(index);
 		}
 	}

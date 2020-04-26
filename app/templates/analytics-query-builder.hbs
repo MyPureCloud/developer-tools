@@ -52,7 +52,10 @@
             {{user-aggregate-query queryJson=queryJson}}
         {{else if (eq queryType "user_detail")}}
             {{user-detail-query queryJson=queryJson}}
-        {{/if}}
+        {{/if}}     
+
+        <!-- keep here to make sure controls at bottom dont get cut off -->
+        <p style='height:60px'></p>
     </div>
 
 </div>

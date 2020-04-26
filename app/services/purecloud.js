@@ -6,37 +6,37 @@ const SECURITY_NAME = 'PureCloud OAuth';
 export default Ember.Service.extend(Ember.Evented, {
 	session: null,
 
-	notificationsApi(){
+	notificationsApi() {
 		return new platformClient.NotificationsApi();
 	},
-	presenceApi(){
+	presenceApi() {
 		return new platformClient.PresenceApi();
 	},
-	analyticsApi(){
+	analyticsApi() {
 		return new platformClient.AnalyticsApi();
 	},
-	orgApi(){
+	orgApi() {
 		return new platformClient.OrganizationApi();
 	},
-	routingApi(){
+	routingApi() {
 		return new platformClient.RoutingApi();
 	},
-	conversationsApi(){
+	conversationsApi() {
 		return new platformClient.ConversationsApi();
 	},
-	orgAuthorizationApi(){
+	orgAuthorizationApi() {
 		return new platformClient.OrganizationAuthorizationApi();
 	},
-	usersApi(){
+	usersApi() {
 		return new platformClient.UsersApi();
 	},
-	webChatApi(){
+	webChatApi() {
 		return new platformClient.WebChatApi();
 	},
 	widgetsApi() {
 		return new platformClient.WidgetsApi();
 	},
-	oauthApi(){
+	oauthApi() {
 		return new platformClient.OAuthApi();
 	},
 	// Intended to be used with a path only for URLs at api.{env}
@@ -44,10 +44,10 @@ export default Ember.Service.extend(Ember.Evented, {
 		return platformClient.ApiClient.instance.callApi(
 			path,
 			'GET',
-			{  },
+			{},
 			queryParams,
-			{  },
-			{  },
+			{},
+			{},
 			null,
 			[SECURITY_NAME],
 			['application/json'],
@@ -58,10 +58,10 @@ export default Ember.Service.extend(Ember.Evented, {
 		return platformClient.ApiClient.instance.callApi(
 			path,
 			'GET',
-			{  },
+			{},
 			queryParams,
-			{  },
-			{  },
+			{},
+			{},
 			null,
 			[SECURITY_NAME],
 			['application/json'],
@@ -72,10 +72,10 @@ export default Ember.Service.extend(Ember.Evented, {
 		return platformClient.ApiClient.instance.callApi(
 			path,
 			'POST',
-			{  },
-			{  },
-			{  },
-			{  },
+			{},
+			{},
+			{},
+			{},
 			body,
 			[SECURITY_NAME],
 			['application/json'],
@@ -87,27 +87,20 @@ export default Ember.Service.extend(Ember.Evented, {
 		platformClient.ApiClient.instance.logout();
 	},
 	me: null,
-  isStandalone: true,
+	isStandalone: true,
 
 	init() {
 		this._super(...arguments);
-    this.set('isStandalone', window.location === window.parent.location)
-		this.usersApi().getUsersMe({
-			expand: [
-				'geolocation',
-				'station',
-				'date',
-				'geolocationsettings',
-				'organization',
-				'presencedefinitions',
-				'token',
-				'trustors'
-			]})
+		this.set('isStandalone', window.location === window.parent.location);
+		this.usersApi()
+			.getUsersMe({
+				expand: ['geolocation', 'station', 'date', 'geolocationsettings', 'organization', 'presencedefinitions', 'token', 'trustors']
+			})
 			.then((me) => {
 				this.set('me', me);
 				this.set('accessToken', platformClient.ApiClient.instance.authData.accessToken);
 				this.set('environment', platformClient.ApiClient.instance.environment);
 			})
 			.catch((err) => console.error(err));
-	},
+	}
 });
