@@ -67,9 +67,9 @@ export default Ember.Controller.extend({
 		else if (environment.endsWith('.de')) return 'eu-central-1';
 		else if (environment.endsWith('mypurecloud.com')) return 'us-east-1';
 		else if (environment.endsWith('usw2.pure.cloud')) return 'us-west-2';
-		else if (environment.endsWith('cac1.pure.cloud')) return 'cac1';
-		else if (environment.endsWith('apne2.pure.cloud')) return 'apne2';
-		else if (environment.endsWith('euw2.pure.cloud')) return 'euw2';
+		else if (environment.endsWith('cac1.pure.cloud')) return 'ca-central-1';
+		else if (environment.endsWith('apne2.pure.cloud')) return 'ap-northeast-2';
+		else if (environment.endsWith('euw2.pure.cloud')) return 'eu-west-2';
 		else if (environment.includes('tca')) {
 			this.set('chatEnv', 'test');
 			this.set('chatEnvTag', '\n  env="test"');
