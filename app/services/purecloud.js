@@ -39,6 +39,9 @@ export default Ember.Service.extend(Ember.Evented, {
 	oauthApi() {
 		return new platformClient.OAuthApi();
 	},
+	tokensApi() {
+		return new platformClient.TokensApi();
+	},
 	// Intended to be used with a path only for URLs at api.{env}
 	getMore(path, queryParams) {
 		return platformClient.ApiClient.instance.callApi(
@@ -84,7 +87,14 @@ export default Ember.Service.extend(Ember.Evented, {
 	},
 	logout() {
 		console.log('logging out');
-		platformClient.ApiClient.instance.logout();
+		this.tokensApi()
+			.deleteTokensMe()
+			.then(() => {
+				console.log('token destroyed');
+				window.localStorage.removeItem('purecloud_dev_tools_auth_auth_data');
+				platformClient.ApiClient.instance.logout();
+			})
+			.catch(console.error);
 	},
 	me: null,
 	isStandalone: true,
@@ -94,7 +104,7 @@ export default Ember.Service.extend(Ember.Evented, {
 		this.set('isStandalone', window.location === window.parent.location);
 		this.usersApi()
 			.getUsersMe({
-				expand: ['geolocation', 'station', 'date', 'geolocationsettings', 'organization', 'presencedefinitions', 'token', 'trustors']
+				expand: ['geolocation', 'station', 'date', 'geolocationsettings', 'organization', 'presencedefinitions', 'token', 'trustors'],
 			})
 			.then((me) => {
 				this.set('me', me);
@@ -102,5 +112,5 @@ export default Ember.Service.extend(Ember.Evented, {
 				this.set('environment', platformClient.ApiClient.instance.environment);
 			})
 			.catch((err) => console.error(err));
-	}
+	},
 });
