@@ -158,6 +158,84 @@ export default Ember.Service.extend({
 		'organizationPresenceId',
 		'routingStatus'
 	].sort(),
+	flowAggregate: {
+		metrics: [
+			"nFlow",
+			"nFlowOutcome",
+			"nFlowOutcomeFailed",
+			"oFlow",
+			"tFlow",
+			"tFlowDisconnect",
+			"tFlowExit",
+			"tFlowOutcome"
+		  ],
+		groupBy: [
+			"addressFrom",
+			"addressTo",
+			"agentScore",
+			"ani",
+			"conversationId",
+			"convertedFrom",
+			"convertedTo",
+			"direction",
+			"disconnectType",
+			"divisionId",
+			"dnis",
+			"edgeId",
+			"endingLanguage",
+			"entryReason",
+			"entryType",
+			"exitReason",
+			"externalMediaCount",
+			"externalOrganizationId",
+			"flaggedReason",
+			"flowId",
+			"flowName",
+			"flowOutType",
+			"flowOutcome",
+			"flowOutcomeId",
+			"flowOutcomeValue",
+			"flowType",
+			"flowVersion",
+			"groupId",
+			"interactionType",
+			"journeyActionId",
+			"journeyActionMapId",
+			"journeyActionMapVersion",
+			"journeyCustomerId",
+			"journeyCustomerIdType",
+			"journeyCustomerSessionId",
+			"journeyCustomerSessionIdType",
+			"mediaCount",
+			"mediaType",
+			"messageType",
+			"originatingDirection",
+			"outboundCampaignId",
+			"outboundContactId",
+			"outboundContactListId",
+			"participantName",
+			"peerId",
+			"provider",
+			"purpose",
+			"queueId",
+			"remote",
+			"requestedLanguageId",
+			"requestedRoutingSkillId",
+			"roomId",
+			"routingPriority",
+			"scoredAgentId",
+			"sessionDnis",
+			"sessionId",
+			"startingLanguage",
+			"stationId",
+			"teamId",
+			"transferTargetAddress",
+			"transferTargetName",
+			"transferType",
+			"userId",
+			"wrapUpCode"
+		  ]
+	},
 
 	propertyTypes: ['', 'bool', 'integer', 'real', 'date', 'string', 'uuid'].sort(),
 	operators: ['matches', 'exists', 'notExists'],
@@ -180,20 +258,56 @@ export default Ember.Service.extend({
 				return;
 			}
 
-			var dimensions = swagger.definitions.AnalyticsQueryPredicate.properties.dimension.enum;
-			this.dimensions.clear();
-			this.dimensions.pushObjects(dimensions.sort());
+			// console.dir(swagger, {depth: null});
 
-			var metrics = swagger.definitions.AnalyticsQueryPredicate.properties.metric.enum;
-			this.metrics.clear();
-			this.metrics.pushObjects(metrics.sort());
+			/*
+			All of these requests have been failing in production due to the swagger file differing from the local file
+			As such they would always result in using the default values
+			After updating the local file to match the current (5/5/20) swagger file, I have commented these lines out
+			*/
 
-			var groupBys = swagger.definitions.AggregationQuery.properties.groupBy.items.enum;
-			this.groupBy.clear();
-			this.groupBy.pushObjects(groupBys.sort());
+			// TODO: Add custom metrics and group by for each query
+
+			// var dimensions = swagger.definitions.AnalyticsQueryPredicate.properties.dimension.enum;
+			// this.dimensions.clear();
+			// this.dimensions.pushObjects(dimensions.sort());
+
+			// var metrics = swagger.definitions.AnalyticsQueryPredicate.properties.metric.enum;
+			// this.metrics.clear();
+			// this.metrics.pushObjects(metrics.sort());
+
+			// var groupBys = swagger.definitions.AggregationQuery.properties.groupBy.items.enum;
+			// this.groupBy.clear();
+			// this.groupBy.pushObjects(groupBys.sort());
+
+			var flowAggregateMetrics = swagger.definitions.FlowAggregationQuery.properties.metrics.items.enum;
+			this.flowAggregate.metrics.clear();
+			this.flowAggregate.metrics.pushObjects(flowAggregateMetrics.sort());
+
+			var flowAggregateGroupBy = swagger.definitions.FlowAggregationQuery.properties.groupBy.items.enum;
+			this.flowAggregate.groupBy.clear();
+			this.flowAggregate.groupBy.pushObjects(flowAggregateGroupBy.sort());
 		} catch (err) {
-			console.log(err);
+			console.error(err);
 		}
+	},
+	getGroupBy(query) {
+		if (query !== undefined && query === "default") {
+			return this.groupBy;
+		} else if (query === undefined || this[query] === undefined || this[query].groupBy === undefined) {
+			console.error("Failed to find groupBy values for query '" + query + "', returning defaults");
+			return this.groupBy;
+		}
+		return this[query].groupBy;
+	},
+	getMetrics(query) {
+		if (query !== undefined && query === "default") {
+			return this.metrics;
+		} else if (query === undefined || this[query] === undefined || this[query].groupBy === undefined) {
+			console.error("Failed to find metrics for query '" + query + "', returning defaults");
+			return this.metrics;
+		}
+		return this[query].metrics;
 	},
 	init() {
 		let that = this;
