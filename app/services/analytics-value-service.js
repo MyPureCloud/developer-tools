@@ -238,7 +238,10 @@ export default Ember.Service.extend({
 	},
 	flowObservation: {
 		metrics: ["oFlow"],
-		dimensions: []
+		dimensions: [
+            "flowId",
+            "mediaType"
+          ]
 	},
 	conversationAggregate: {
 		metrics: [
@@ -354,6 +357,12 @@ export default Ember.Service.extend({
 			"tSystemPresence"
 		  ]
 	},
+	userObservation: {
+		metrics: [
+			"oActiveQueues",
+			"oMemberQueues"
+		  ]
+	},
 
 	propertyTypes: ['', 'bool', 'integer', 'real', 'date', 'string', 'uuid'].sort(),
 	operators: ['matches', 'exists', 'notExists'],
@@ -429,6 +438,10 @@ export default Ember.Service.extend({
 			var userAggregateMetrics = swagger.definitions.UserAggregationQuery.properties.metrics.items.enum;
 			this.userAggregate.metrics.clear();
 			this.userAggregate.metrics.pushObjects(userAggregateMetrics.sort());
+
+			var userObservationMetrics = swagger.definitions.UserObservationQuery.properties.metrics.items.enum;
+			this.userObservation.metrics.clear();
+			this.userObservation.metrics.pushObjects(userObservationMetrics.sort());
 
 		} catch (err) {
 			console.error("Failed while trying to parse swagger definitions");
