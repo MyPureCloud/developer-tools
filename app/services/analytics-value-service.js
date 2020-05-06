@@ -240,6 +240,101 @@ export default Ember.Service.extend({
 		metrics: ["oFlow"],
 		dimensions: []
 	},
+	conversationAggregate: {
+		metrics: [
+			"nBlindTransferred",
+			"nConnected",
+			"nConsult",
+			"nConsultTransferred",
+			"nError",
+			"nOffered",
+			"nOutbound",
+			"nOutboundAbandoned",
+			"nOutboundAttempted",
+			"nOutboundConnected",
+			"nOverSla",
+			"nStateTransitionError",
+			"nTransferred",
+			"oExternalMediaCount",
+			"oInteracting",
+			"oMediaCount",
+			"oServiceLevel",
+			"oServiceTarget",
+			"oWaiting",
+			"tAbandon",
+			"tAcd",
+			"tAcw",
+			"tAgentResponseTime",
+			"tAlert",
+			"tAnswered",
+			"tContacting",
+			"tDialing",
+			"tFlowOut",
+			"tHandle",
+			"tHeld",
+			"tHeldComplete",
+			"tIvr",
+			"tMonitoring",
+			"tNotResponding",
+			"tShortAbandon",
+			"tTalk",
+			"tTalkComplete",
+			"tUserResponseTime",
+			"tVoicemail",
+			"tWait"
+		  ],
+		groupBy: [
+			"addressFrom",
+			"addressTo",
+			"agentScore",
+			"ani",
+			"conversationId",
+			"convertedFrom",
+			"convertedTo",
+			"direction",
+			"disconnectType",
+			"divisionId",
+			"dnis",
+			"edgeId",
+			"externalMediaCount",
+			"externalOrganizationId",
+			"flaggedReason",
+			"flowOutType",
+			"groupId",
+			"interactionType",
+			"journeyActionId",
+			"journeyActionMapId",
+			"journeyActionMapVersion",
+			"journeyCustomerId",
+			"journeyCustomerIdType",
+			"journeyCustomerSessionId",
+			"journeyCustomerSessionIdType",
+			"mediaCount",
+			"mediaType",
+			"messageType",
+			"originatingDirection",
+			"outboundCampaignId",
+			"outboundContactId",
+			"outboundContactListId",
+			"participantName",
+			"peerId",
+			"provider",
+			"purpose",
+			"queueId",
+			"remote",
+			"requestedLanguageId",
+			"requestedRoutingSkillId",
+			"roomId",
+			"routingPriority",
+			"scoredAgentId",
+			"sessionDnis",
+			"sessionId",
+			"stationId",
+			"teamId",
+			"userId",
+			"wrapUpCode"
+		  ]
+	},
 
 	propertyTypes: ['', 'bool', 'integer', 'real', 'date', 'string', 'uuid'].sort(),
 	operators: ['matches', 'exists', 'notExists'],
@@ -299,6 +394,14 @@ export default Ember.Service.extend({
 			var flowObservationDimensions = swagger.definitions.FlowObservationQueryPredicate.properties.dimension.enum;
 			this.flowObservation.dimensions.clear();
 			this.flowObservation.dimensions.pushObjects(flowObservationDimensions.sort());
+
+			var conversationAggregateMetrics = swagger.definitions.ConversationAggregationQuery.properties.metrics.items.enum;
+			this.conversationAggregate.metrics.clear();
+			this.conversationAggregate.metrics.pushObjects(conversationAggregateMetrics.sort());
+
+			var conversationAggregateGroupBy = swagger.definitions.ConversationAggregationQuery.properties.groupBy.items.enum;
+			this.conversationAggregate.groupBy.clear();
+			this.conversationAggregate.groupBy.pushObjects(conversationAggregateGroupBy.sort());
 
 		} catch (err) {
 			console.error("Failed while trying to parse swagger definitions");

@@ -1,6 +1,6 @@
 {{analytics-query-interval value=interval}}
 {{analytics-query-granularity value=granularity}}
-{{analytics-query-groupby value=groupBy}}
+{{analytics-query-groupby value=groupBy query="conversationAggregate"}}
 
 <div class="panel panel-default">
     <div class="panel-heading"><h3 class="panel-title panel-title-condensed">Flatten Multivalued Dimensions</h3></div>
@@ -14,7 +14,7 @@
     </div>
 </div>
 
-{{analytics-query-metrics selectedMetrics=selectedMetrics}}
+{{analytics-query-metrics selectedMetrics=selectedMetrics query="conversationAggregate"}}
 
 <div class="panel panel-default">
     <div class="panel-heading"><h3 class="panel-title panel-title-condensed">Filter</h3></div>
