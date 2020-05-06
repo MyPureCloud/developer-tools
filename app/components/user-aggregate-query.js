@@ -7,7 +7,7 @@ export default Ember.Component.extend({
 	interval: null,
 	groupBy: ['userId'],
 	selectedMetrics: [],
-	userMetrics: ['tSystemPresence', 'tOrganizationPresence', 'tAgentRoutingStatus'],
+	// userMetrics: ['tSystemPresence', 'tOrganizationPresence', 'tAgentRoutingStatus'],
 	userFilters: ['', 'userId'],
 	init() {
 		this._super(...arguments);

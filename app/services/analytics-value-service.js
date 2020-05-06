@@ -347,6 +347,13 @@ export default Ember.Service.extend({
 			"oWaiting"
 		  ]
 	},
+	userAggregate: {
+		metrics: [
+			"tAgentRoutingStatus",
+			"tOrganizationPresence",
+			"tSystemPresence"
+		  ]
+	},
 
 	propertyTypes: ['', 'bool', 'integer', 'real', 'date', 'string', 'uuid'].sort(),
 	operators: ['matches', 'exists', 'notExists'],
@@ -418,6 +425,10 @@ export default Ember.Service.extend({
 			var queueObservationMetrics = swagger.definitions.QueueObservationQuery.properties.metrics.items.enum;
 			this.queueObservation.metrics.clear();
 			this.queueObservation.metrics.pushObjects(queueObservationMetrics.sort());
+
+			var userAggregateMetrics = swagger.definitions.UserAggregationQuery.properties.metrics.items.enum;
+			this.userAggregate.metrics.clear();
+			this.userAggregate.metrics.pushObjects(userAggregateMetrics.sort());
 
 		} catch (err) {
 			console.error("Failed while trying to parse swagger definitions");
