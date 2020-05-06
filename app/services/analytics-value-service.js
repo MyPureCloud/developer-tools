@@ -335,6 +335,18 @@ export default Ember.Service.extend({
 			"wrapUpCode"
 		  ]
 	},
+	queueObservation: {
+		metrics: [
+			"oActiveUsers",
+			"oInteracting",
+			"oMemberUsers",
+			"oOffQueueUsers",
+			"oOnQueueUsers",
+			"oUserPresences",
+			"oUserRoutingStatuses",
+			"oWaiting"
+		  ]
+	},
 
 	propertyTypes: ['', 'bool', 'integer', 'real', 'date', 'string', 'uuid'].sort(),
 	operators: ['matches', 'exists', 'notExists'],
@@ -402,6 +414,10 @@ export default Ember.Service.extend({
 			var conversationAggregateGroupBy = swagger.definitions.ConversationAggregationQuery.properties.groupBy.items.enum;
 			this.conversationAggregate.groupBy.clear();
 			this.conversationAggregate.groupBy.pushObjects(conversationAggregateGroupBy.sort());
+
+			var queueObservationMetrics = swagger.definitions.QueueObservationQuery.properties.metrics.items.enum;
+			this.queueObservation.metrics.clear();
+			this.queueObservation.metrics.pushObjects(queueObservationMetrics.sort());
 
 		} catch (err) {
 			console.error("Failed while trying to parse swagger definitions");
