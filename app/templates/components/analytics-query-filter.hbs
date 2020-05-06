@@ -37,7 +37,7 @@
         </p>
 
         {{#each predicates as |predicate index|}}
-        {{analytics-query-predicate predicate=predicate index=index updatePredicate=(action 'updatePredicate') deletePredicate=(action 'deletePredicate') filterValueOverride=filterValueOverride}}
+        {{analytics-query-predicate predicate=predicate index=index updatePredicate=(action 'updatePredicate') deletePredicate=(action 'deletePredicate') filterValueOverride=filterValueOverride query=query}}
 
         {{/each}}
 

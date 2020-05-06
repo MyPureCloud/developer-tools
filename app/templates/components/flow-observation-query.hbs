@@ -2,9 +2,9 @@
     <div class="panel-heading"><h3 class="panel-title panel-title-condensed">Filter</h3></div>
     <div class="panel-body">
       <div class="filter-section">
-        {{analytics-query-filter filter=filter}}
+        {{analytics-query-filter filter=filter query="flowObservation"}}
       </div>
     </div>
 </div>
 
-{{analytics-query-metrics selectedMetrics=selectedMetrics}}
+{{analytics-query-metrics selectedMetrics=selectedMetrics queryType="flowObservation"}}

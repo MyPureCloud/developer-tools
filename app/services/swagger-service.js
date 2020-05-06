@@ -9,6 +9,7 @@ export default Ember.Service.extend({
 
 		if (window.location.host.indexOf('localhost') > -1) {
 			swaggerUrl = '/publicapi-v2-latest.json';
+			console.warn("Using local publicapi-v2-latest.json file, this may be outdated!");
 		}
 
 		$.getJSON({

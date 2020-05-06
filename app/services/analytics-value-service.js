@@ -236,6 +236,10 @@ export default Ember.Service.extend({
 			"wrapUpCode"
 		  ]
 	},
+	flowObservation: {
+		metrics: ["oFlow"],
+		dimensions: []
+	},
 
 	propertyTypes: ['', 'bool', 'integer', 'real', 'date', 'string', 'uuid'].sort(),
 	operators: ['matches', 'exists', 'notExists'],
@@ -287,7 +291,17 @@ export default Ember.Service.extend({
 			var flowAggregateGroupBy = swagger.definitions.FlowAggregationQuery.properties.groupBy.items.enum;
 			this.flowAggregate.groupBy.clear();
 			this.flowAggregate.groupBy.pushObjects(flowAggregateGroupBy.sort());
+
+			var flowObservationMetrics = swagger.definitions.FlowObservationQuery.properties.metrics.items.enum;
+			this.flowObservation.metrics.clear();
+			this.flowObservation.metrics.pushObjects(flowObservationMetrics.sort());
+
+			var flowObservationDimensions = swagger.definitions.FlowObservationQueryPredicate.properties.dimension.enum;
+			this.flowObservation.dimensions.clear();
+			this.flowObservation.dimensions.pushObjects(flowObservationDimensions.sort());
+
 		} catch (err) {
+			console.error("Failed while trying to parse swagger definitions");
 			console.error(err);
 		}
 	},
@@ -303,11 +317,20 @@ export default Ember.Service.extend({
 	getMetrics(query) {
 		if (query !== undefined && query === "default") {
 			return this.metrics;
-		} else if (query === undefined || this[query] === undefined || this[query].groupBy === undefined) {
+		} else if (query === undefined || this[query] === undefined || this[query].metrics === undefined) {
 			console.error("Failed to find metrics for query '" + query + "', returning defaults");
 			return this.metrics;
 		}
 		return this[query].metrics;
+	},
+	getDimensions(query) {
+		if (query !== undefined && query === "default") {
+			return this.dimensions;
+		} else if (query === undefined || this[query] === undefined || this[query].dimensions === undefined) {
+			console.error("Failed to find dimensions for query '" + query + "', returning defaults");
+			return this.dimensions;
+		}
+		return this[query].dimensions;
 	},
 	init() {
 		let that = this;
