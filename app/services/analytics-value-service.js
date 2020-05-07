@@ -385,27 +385,7 @@ export default Ember.Service.extend({
 				return;
 			}
 
-			// console.dir(swagger, {depth: null});
-
-			/*
-			All of these requests have been failing in production due to the swagger file differing from the local file
-			As such they would always result in using the default values
-			After updating the local file to match the current (5/5/20) swagger file, I have commented these lines out
-			*/
-
-			// TODO: Add custom metrics and group by for each query
-
-			// var dimensions = swagger.definitions.AnalyticsQueryPredicate.properties.dimension.enum;
-			// this.dimensions.clear();
-			// this.dimensions.pushObjects(dimensions.sort());
-
-			// var metrics = swagger.definitions.AnalyticsQueryPredicate.properties.metric.enum;
-			// this.metrics.clear();
-			// this.metrics.pushObjects(metrics.sort());
-
-			// var groupBys = swagger.definitions.AggregationQuery.properties.groupBy.items.enum;
-			// this.groupBy.clear();
-			// this.groupBy.pushObjects(groupBys.sort());
+			// Define available values for each query, otherwise query is provided default values
 
 			var flowAggregateMetrics = swagger.definitions.FlowAggregationQuery.properties.metrics.items.enum;
 			this.flowAggregate.metrics.clear();
