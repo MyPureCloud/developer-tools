@@ -7,6 +7,7 @@ export default Ember.Component.extend({
 	selectedType: '',
 	clauses: [],
 	predicates: [],
+	query: "default",
 	init: function() {
 		let self = this;
 		this._super(...arguments);

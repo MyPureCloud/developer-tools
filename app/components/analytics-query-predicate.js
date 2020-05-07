@@ -8,6 +8,7 @@ export default Ember.Component.extend({
 	queueService: Ember.inject.service(),
 	userService: Ember.inject.service(),
 	presenceService: Ember.inject.service(),
+	query: "default",
 
 	//TODO: support queue ids, user Ids,
 	init: function() {
@@ -15,7 +16,7 @@ export default Ember.Component.extend({
 
 		this._super(...arguments);
 
-		this.set('dimensions', this.get('analyticsValueService').get('dimensions'));
+		this.set('dimensions', this.get('analyticsValueService').getDimensions(this.get("query")));
 		this.set('propertyTypes', this.get('analyticsValueService').get('propertyTypes'));
 		this.set('metrics', this.get('analyticsValueService').get('metrics'));
 		this.set('operators', this.get('analyticsValueService').get('operators'));
