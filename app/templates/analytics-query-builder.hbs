@@ -42,13 +42,20 @@
             {{user-observation-query queryJson=queryJson}}
         {{else if (eq queryType "conversation_aggregate")}}
             {{conversation-aggregate-query queryJson=queryJson}}
+        {{else if (eq queryType "flow_observation")}}
+            {{flow-observation-query queryJson=queryJson}}
+        {{else if (eq queryType "flow_aggregate")}}
+            {{flow-aggregate-query queryJson=queryJson}}
         {{else if (eq queryType "conversation_detail")}}
             {{conversation-detail-query queryJson=queryJson}}
         {{else if (eq queryType "user_aggregate")}}
             {{user-aggregate-query queryJson=queryJson}}
         {{else if (eq queryType "user_detail")}}
             {{user-detail-query queryJson=queryJson}}
-        {{/if}}
+        {{/if}}     
+
+        <!-- keep here to make sure controls at bottom dont get cut off -->
+        <p style='height:60px'></p>
     </div>
 
 </div>

@@ -1,6 +1,6 @@
 import config from '../config/environment';
-import {purecloudEnvironment} from '../utils/purecloud-environment';
-import {purecloudEnvironmentTld} from '../utils/purecloud-environment';
+import { purecloudEnvironment } from '../utils/purecloud-environment';
+import { purecloudEnvironmentTld } from '../utils/purecloud-environment';
 import platformClient from 'platformClient';
 
 export default {
@@ -14,13 +14,15 @@ export default {
 	 */
 	_createQueryString() {
 		var queryString = '';
-		this.featureTogglesToQuery.forEach( function (toggle) {
-			queryString = queryString + 'feature=' + toggle + '&';
-		}.bind(this));
+		this.featureTogglesToQuery.forEach(
+			function(toggle) {
+				queryString = queryString + 'feature=' + toggle + '&';
+			}.bind(this)
+		);
 		return queryString;
 	},
 
-	initialize: function (application) {
+	initialize: function(application) {
 		application.deferReadiness();
 
 		const env = purecloudEnvironmentTld();
@@ -33,23 +35,26 @@ export default {
 		client.setEnvironment(env);
 
 		// Authenticate
-		client.loginImplicitGrant(oauthConfig.clientId, oauthConfig.redirect, { state: state })
+		client
+			.loginImplicitGrant(oauthConfig.clientId, oauthConfig.redirect, { state: state })
 			.then((data) => {
 				// Store returned state
 				returnedState = data.state;
 
 				// Makes call to platform api to get the feature toggles for the user that is logged in.
 				return $.ajax({
-					url: 'https://apps.'+env+'/platform/api/v2/featuretoggles?' + this._createQueryString(),
+					url: `https://apps.${env}/platform/api/v2/featuretoggles?` + this._createQueryString(),
 					type: 'GET',
 					dataType: 'json',
 					headers: {
-						'Authorization': `bearer ${data.accessToken}`
+						Authorization: `bearer ${data.accessToken}`
 					}
 				});
 			})
 			.then((data) => {
-				if (!data) { return; }
+				if (!data) {
+					return;
+				}
 				for (var key in data) {
 					try {
 						// Can't use storage-service yet since this is in the initializer
@@ -61,9 +66,9 @@ export default {
 
 				application.advanceReadiness();
 				//debugger;
-				var redirectTo = decodeURIComponent(returnedState).replace(/\|/g,'=');
+				var redirectTo = decodeURIComponent(returnedState).replace(/\|/g, '=');
 
-				if(redirectTo && redirectTo !== 'null' && redirectTo !== window.location.href){
+				if (redirectTo && redirectTo !== 'null' && redirectTo !== window.location.href) {
 					window.location.replace(redirectTo);
 				}
 			})

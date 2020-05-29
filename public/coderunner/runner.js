@@ -11,7 +11,8 @@
 
     document.addEventListener('DOMContentLoaded', function() {
 
-        var sdk = getQueryVariable('sdk');
+        const sdk = getQueryVariable('sdk');
+        const api = getQueryVariable('api');
 
         if(sdk === null || sdk === "undefined"){
             //don't load url if sdk is undefined
@@ -20,12 +21,24 @@
 
         domLoaded = true;
 
-        //load PureCloud API
-        var jsElm = document.createElement("script");
-        jsElm.type = "application/javascript";
-        jsElm.src = "https://sdk-cdn.mypurecloud.com/javascript/"+ sdk +"/"+ "purecloud-platform-client-v2.min.js";
-        document.body.appendChild(jsElm);
+        // Load in the versions of the architect sdk
+        var architectSdkVersionDomElement = document.createElement("script");
+        architectSdkVersionDomElement.type = "application/javascript";
+        architectSdkVersionDomElement.src = "https://sdk-cdn.mypurecloud.com/architect/sdk_versions.js";
+        document.body.appendChild(architectSdkVersionDomElement);
 
+        if (api === 'architectSdk') {
+            var architectSdkDomElement = document.createElement("script");
+            architectSdkDomElement.type = "application/javascript";
+            architectSdkDomElement.src = 'https://sdk-cdn.mypurecloud.com/architect/'+sdk+'/min.browserify.scripting.bundle.js';
+            document.body.appendChild(architectSdkDomElement);
+        } else {
+            //load PureCloud API
+            var jsElm = document.createElement("script");
+            jsElm.type = "application/javascript";
+            jsElm.src = 'https://sdk-cdn.mypurecloud.com/javascript/'+sdk+'/purecloud-platform-client-v2.min.js';
+            document.body.appendChild(jsElm);
+        }
     });
 
     function getQueryVariable(variable)
@@ -67,13 +80,16 @@
 
 
     function sendConsoleMessage(type, args){
-
-        parentWindow.postMessage(JSON.stringify({
-            action: 'console',
-            type: type,
-            arguments: args
-
-        }), origin);
+        try {
+            parentWindow.postMessage(JSON.stringify({
+                action: 'console',
+                type: type,
+                arguments: args
+    
+            }), origin);
+        } catch (err) {
+            return;
+        }
     }
 
     var ANONOMOUS_REGEX = /<anonymous>:(\d+):\d+/;
@@ -113,9 +129,10 @@
                         }
                     }
                 }
-
-                //data = 'var pureCloudSession = purecloud.platform.PureCloudSession({strategy: "token",token: "' + authToken+ '", environment: "' + environment+ '"});' + data
-                data = "var platformClient = require('platformClient'); platformClient.ApiClient.instance.setAccessToken('"+ authToken +"'); platformClient.ApiClient.instance.setEnvironment('"+environment+"');"  + data;
+                const api = getQueryVariable('api');
+                if (api !== 'architectSdk') {
+                    data = 'var platformClient = require(\'platformClient\'); platformClient.ApiClient.instance.setAccessToken("'+authToken+'"); platformClient.ApiClient.instance.setEnvironment("'+environment+'"); '+data;
+                }
                 eval(data);
             }
             catch (e) {

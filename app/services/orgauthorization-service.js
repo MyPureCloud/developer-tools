@@ -1,15 +1,15 @@
 import Ember from 'ember';
 import config from '../config/environment';
-import {purecloudEnvironmentTld, purecloudEnvironment} from '../utils/purecloud-environment';
+import { purecloudEnvironmentTld, purecloudEnvironment } from '../utils/purecloud-environment';
 
-var  computed = Ember.computed;
+var computed = Ember.computed;
 
 export default Ember.Service.extend({
 	purecloud: Ember.inject.service(),
 	hasTrustedOrgs: false,
-	orgTrusts:[],
-	
-	switchToOrg(orgId){
+	orgTrusts: [],
+
+	switchToOrg(orgId) {
 		let oauthConfig = config.oauthProps[purecloudEnvironment()];
 
 		let env = purecloudEnvironmentTld();
@@ -23,30 +23,30 @@ export default Ember.Service.extend({
 
 		let me = this.get('purecloud').get('me');
 
-		if(!me || !me.trustors){
-            return false;
+		if (!me || !me.trustors) {
+			return false;
 		}
-		
-		me.trustors.forEach((trust)=>{
-			if(trust.enabled){
+
+		me.trustors.forEach((trust) => {
+			if (trust.enabled) {
 				this.orgTrusts.pushObject(trust.organization);
 			}
 		});
+		this.orgTrusts = this.orgTrusts.sortBy('name');
 
-		this.set("isTrustedOrg", me.trustors.length > 0);
-		        
+		this.set('isTrustedOrg', me.trustors.length > 0);
 	}),
 	isInTrustedOrg: computed('purecloud.me', function() {
 		let me = this.get('purecloud').get('me');
 
-        if(!me){
-            return false;
-        }
+		if (!me) {
+			return false;
+		}
 
-        if(me.token && me.token.organization && me.token.homeOrganization){
-            return me.token.organization.id !== me.token.homeOrganization.id;
-        }    
-       
-        return false;
-    }),
+		if (me.token && me.token.organization && me.token.homeOrganization) {
+			return me.token.organization.id !== me.token.homeOrganization.id;
+		}
+
+		return false;
+	})
 });
