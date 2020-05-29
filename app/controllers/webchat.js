@@ -520,8 +520,7 @@ export default Ember.Controller.extend({
 				field3value: this.get('field3value'),
 				customAttributes: this.get('customAttributes'),
 				openInNewWindow: this.get('openInNewWindow'),
-				subject: this.get('subject'),
-        email: this.get('email')
+				subject: this.get('subject')
 			};
 
 			let storage = this.get('storageService');
