@@ -218,7 +218,6 @@ export default Ember.Controller.extend({
 					companyLogoSmall = resourcePrefix + companyLogoSmall;
 					agentAvatar = resourcePrefix + agentAvatar;
 				}
-
 				let org = this.get('org');
 				if (org === null) {
 					return '{}';
@@ -508,6 +507,7 @@ export default Ember.Controller.extend({
 				state: this.get('state'),
 				zip: this.get('zip'),
 				phone: this.get('phone'),
+				email: this.get('email'),
 				queue: this.get('queue'),
 				locale: this.get('locale'),
 				welcomeMessage: this.get('welcomeMessage'),
@@ -524,10 +524,6 @@ export default Ember.Controller.extend({
 			};
 
 			let storage = this.get('storageService');
-			if (storage.localStorageGet('relate.ui.useEmailAndPhoneForRWPLookupInWebChat')) {
-				savedData.email = this.get('email');
-			}
-
 			storage.localStorageSet('webChatParams', savedData);
 		} catch (err) {
 			this.setError('Error saving chat config data');
