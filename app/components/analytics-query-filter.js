@@ -3,6 +3,7 @@ import Ember from 'ember';
 var observer = Ember.observer;
 
 export default Ember.Component.extend({
+	analyticsValueService: Ember.inject.service(),
 	types: ['and', 'or'],
 	selectedType: '',
 	clauses: [],
@@ -62,13 +63,14 @@ export default Ember.Component.extend({
 		return null;
 	},
 	valuesChanged: observer('selectedType', 'clauses.@each', 'predicates.@each', function() {
-		console.log('filter values changed');
 		this.set('filter', this._computeValue());
 	}),
 	actions: {
 		newPredicate: function() {
+			let dimensions = this.get('analyticsValueService').getDimensions(this.get('query')).sort();
 			this.predicates.addObject({
 				type: 'dimension',
+				dimension: dimensions[0],
 				operator: 'matches'
 			});
 		},

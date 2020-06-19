@@ -13,7 +13,7 @@
 <h6>Predicates</h6>
 
 {{#each predicates as |predicate index|}}
-    {{analytics-query-predicate predicate=predicate index=index updatePredicate=(action 'updatePredicate') deletePredicate=(action 'deletePredicate') filterValueOverride=filterValueOverride}}
+    {{analytics-query-predicate query=query predicate=predicate index=index updatePredicate=(action 'updatePredicate') deletePredicate=(action 'deletePredicate') filterValueOverride=filterValueOverride}}
 {{/each}}
 
 <button class='btn btn-link btn-sm' {{action 'newPredicate'}}>

@@ -18,7 +18,9 @@ export default Ember.Component.extend({
 			let selectedItems = this.get('selectedItems').concat(selectedAvailable);
 
 			for (let x = 0; x < selectedAvailable.length; x++) {
-				availableItems.removeObject(selectedAvailable[x]);
+				let item = selectedAvailable[x];
+				if (this.selectedItems.includes(item)) return;
+				availableItems.removeObject(item);
 			}
 
 			this.set('availableItems', availableItems);
@@ -31,7 +33,9 @@ export default Ember.Component.extend({
 			let availableItems = this.get('availableItems').concat(selectedSelectedItems);
 
 			for (let x = 0; x < selectedSelectedItems.length; x++) {
-				selectedItems.removeObject(selectedSelectedItems[x]);
+				let item = selectedSelectedItems[x];
+				if (!this.selectedItems.includes(item)) return;
+				selectedItems.removeObject(item);
 			}
 
 			this.set('availableItems', availableItems);

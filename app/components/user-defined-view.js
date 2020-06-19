@@ -9,13 +9,7 @@ export default Ember.Component.extend({
 	analyticsValueService: Ember.inject.service(),
 	init() {
 		this._super(...arguments);
-		this.get('analyticsValueService')
-			.get('metrics')
-			.forEach((m) => {
-				if (m[0] == 't') {
-					this.metrics.pushObject(m);
-				}
-			});
+		this.metrics = this.get('analyticsValueService').getMetrics(this.get('query'));
 	},
 	didReceiveAttrs() {
 		this._super(...arguments);

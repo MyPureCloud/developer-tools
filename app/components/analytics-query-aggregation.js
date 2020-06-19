@@ -5,20 +5,19 @@ export default Ember.Component.extend({
 	analyticsValueService: Ember.inject.service(),
 	dimensions: [
 		'',
-		'purpose',
 		'queueId',
-		'participantType',
-		'segmentType',
-		'howEnded',
+		'purpose',
+		'groupId',
+		'requestedRoutingSkillId',
+		'requestedLanguageId',
 		'wrapUpCode',
 		'direction',
-		'requestedLanguageId',
-		'requestedSkillIds',
-		'groupId'
+		'segmentType'
 	],
 	metrics: ['', 'tSegmentDuration'],
 	aggregationTypes: [],
 	aggregationType: 'termFrequency',
+	query: 'default',
 
 	init: function() {
 		this._super(...arguments);
@@ -38,6 +37,13 @@ export default Ember.Component.extend({
 			if (aggregation.ranges && aggregation.ranges.length > 0) {
 				this.set('range', aggregation.ranges[0]);
 			}
+		}
+
+		let query = this.get('query');
+		if (query && query !== 'default') {
+			let values = this.get('analyticsValueService').getMetrics(query);
+			this.metrics = [''];
+			for (const value of values)	this.metrics.push(value);
 		}
 	},
 

@@ -121,7 +121,7 @@
 
         {{#each aggregations as |aggregation index|}}
         <div class="filter-section filter-has-delete">
-            {{analytics-query-aggregation aggregation=aggregation index=index updateAggregation=(action 'updateAggregation') deleteAggregation=(action 'deleteAggregation') dimensions=presenceFilterValues}}
+            {{analytics-query-aggregation query="userAggregate" aggregation=aggregation index=index updateAggregation=(action 'updateAggregation') deleteAggregation=(action 'deleteAggregation') dimensions=presenceFilterValues}}
         </div>
         {{/each}}
     </div>
@@ -142,7 +142,7 @@
 
         {{#each routingStatusAggregations as |aggregation index|}}
         <div class="filter-section filter-has-delete">
-            {{analytics-query-aggregation aggregation=aggregation index=index updateAggregation=(action 'updateRoutingStatusAggregation') deleteAggregation=(action 'deleteRoutingStatusAggregation') dimensions=routingStatusFilterValues}}
+            {{analytics-query-aggregation query="userAggregate" aggregation=aggregation index=index updateAggregation=(action 'updateRoutingStatusAggregation') deleteAggregation=(action 'deleteRoutingStatusAggregation') dimensions=routingStatusFilterValues}}
         </div>
         {{/each}}
     </div>

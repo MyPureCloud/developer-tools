@@ -18,7 +18,7 @@ export default Ember.Component.extend({
 
 		this.set('dimensions', this.get('analyticsValueService').getDimensions(this.get("query")));
 		this.set('propertyTypes', this.get('analyticsValueService').get('propertyTypes'));
-		this.set('metrics', this.get('analyticsValueService').get('metrics'));
+		this.set('metrics', this.get('analyticsValueService').getMetrics(this.get("query")));
 		this.set('operators', this.get('analyticsValueService').get('operators'));
 		this.set('mediaTypes', this.get('analyticsValueService').get('mediaTypes'));
 		this.set('numericRangeOperators', this.get('analyticsValueService').get('numericRangeOperators'));
@@ -57,9 +57,7 @@ export default Ember.Component.extend({
 	selectedOperator: 'matches',
 	selectedType: 'dimension',
 	isOnChanged: observer('selectedOperator', 'lhsValue', 'value', function() {
-		console.log('predicate changed');
 		this.set('predicate', this._computeValue());
-		console.log(this.get('predicate'));
 		this.get('updatePredicate')(this.get('index'), this._computeValue());
 	}),
 

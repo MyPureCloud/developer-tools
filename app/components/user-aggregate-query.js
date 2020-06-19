@@ -2,15 +2,20 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
 	purecloud: Ember.inject.service('purecloud'),
+	analyticsValueService: Ember.inject.service(),
 	filter: null,
 	granularity: null,
 	interval: null,
-	groupBy: ['userId'],
+	groupBy: [],
 	selectedMetrics: [],
-	userFilters: ['', 'userId'],
+	viewMetrics: [],
+	flattenMultivaluedDimensions: false,
+	userFilters: [],
 	init() {
 		this._super(...arguments);
 		this.get('filter');
+		this.userFilters = this.get('analyticsValueService').getDimensions(this.get('query'));
+		this.viewMetrics = this.get('analyticsValueService').getMetrics(this.get('view'));
 	},
 	_computeValue: function() {
 		let query = {};
@@ -40,11 +45,24 @@ export default Ember.Component.extend({
 			query.metrics = selectedMetrics;
 		}
 
+		var flattenMultivaluedDimensions = this.get('flattenMultivaluedDimensions');
+		if (flattenMultivaluedDimensions === true) {
+			query.flattenMultivaluedDimensions = flattenMultivaluedDimensions;
+		}
+
 		return query;
 	},
 	queryJson: null,
-	_observeChanges: Ember.observer('granularity', 'interval', 'groupBy', 'filter', 'selectedMetrics', function() {
-		let query = JSON.stringify(this._computeValue(), null, ' ');
-		this.set('queryJson', query);
-	})
+	_observeChanges: Ember.observer(
+		'granularity',
+		'interval',
+		'groupBy.@each',
+		'filter',
+		'flattenMultivaluedDimensions',
+		'selectedMetrics.@each',
+		function() {
+			let query = JSON.stringify(this._computeValue(), null, ' ');
+			this.set('queryJson', query);
+		}
+	)
 });
