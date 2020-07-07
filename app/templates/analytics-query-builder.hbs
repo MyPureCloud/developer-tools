@@ -37,19 +37,19 @@
             </div>
         </div>
         {{#if (eq queryType "queue_observation")}}
-            {{queue-observation-query queryJson=queryJson}}
+            {{queue-observation-query query="queueObservation" queryJson=queryJson}}
         {{else if (eq queryType "user_observation")}}
-            {{user-observation-query queryJson=queryJson}}
+            {{user-observation-query query="userObservation" queryJson=queryJson}}
         {{else if (eq queryType "conversation_aggregate")}}
-            {{conversation-aggregate-query queryJson=queryJson}}
+            {{conversation-aggregate-query query="conversationAggregateFilter" view="conversationAggregateView" queryJson=queryJson}}
         {{else if (eq queryType "flow_observation")}}
-            {{flow-observation-query queryJson=queryJson}}
+            {{flow-observation-query query="flowObservation" queryJson=queryJson}}
         {{else if (eq queryType "flow_aggregate")}}
-            {{flow-aggregate-query queryJson=queryJson}}
+            {{flow-aggregate-query query="flowAggregateFilter" view="flowAggregateView" queryJson=queryJson}}
         {{else if (eq queryType "conversation_detail")}}
             {{conversation-detail-query queryJson=queryJson}}
         {{else if (eq queryType "user_aggregate")}}
-            {{user-aggregate-query queryJson=queryJson}}
+            {{user-aggregate-query query="userAggregateFilter" queryJson=queryJson}}
         {{else if (eq queryType "user_detail")}}
             {{user-detail-query queryJson=queryJson}}
         {{/if}}     

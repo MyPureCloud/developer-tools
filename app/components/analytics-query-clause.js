@@ -2,6 +2,7 @@ import Ember from 'ember';
 var observer = Ember.observer;
 
 export default Ember.Component.extend({
+	analyticsValueService: Ember.inject.service(),
 	classNames: ['clause-section'],
 	types: ['and', 'or'],
 	selectedType: 'or',
@@ -30,8 +31,10 @@ export default Ember.Component.extend({
 	},
 	actions: {
 		newPredicate: function() {
+			let dimensions = this.get('analyticsValueService').getDimensions(this.get('query')).sort();
 			this.predicates.addObject({
 				type: 'dimension',
+				dimension: dimensions[0],
 				predicates: []
 			});
 		},

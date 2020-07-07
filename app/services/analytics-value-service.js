@@ -1,368 +1,33 @@
 import Ember from 'ember';
+import Fallbacks from '../models/analytics-value-service-query-fallbacks';
 
 export default Ember.Service.extend({
 	// dimensions, metrics, and groupBy will be overwritten, but leaving some initial values as a fallback
-	dimensions: [
-		'conversationId',
-		'sessionId',
-		'mediaType',
-		'queueId',
-		'userId',
-		'participantId',
-		'participantName',
-		'direction',
-		'wrapUpCode',
-		'wrapUpNote',
-		'interactionType',
-		'requestedRoutingSkillId',
-		'requestedLanguageId',
-		'purpose',
-		'participantType',
-		'segmentType',
-		'disconnectType',
-		'errorCode',
-		'conversationEnd',
-		'segmentEnd',
-		'externalContactId',
-		'externalOrganizationId',
-		'stationId',
-		'edgeId',
-		'dnis',
-		'ani',
-		'outboundCampaignId',
-		'outboundContactId',
-		'outboundContactListId',
-		'monitoredParticipantId',
-		'sourceSessionId',
-		'destinationSessionId',
-		'sourceConversationId',
-		'destinationConversationId',
-		'remoteNameDisplayable',
-		'sipResponseCode',
-		'q850ResponseCode',
-		'conference',
-		'groupId',
-		'roomId',
-		'addressFrom',
-		'addressTo',
-		'subject',
-		'peerId',
-		'scriptId',
-		'evaluationId',
-		'evaluatorId',
-		'contextId',
-		'formId',
-		'formName',
-		'eventTime',
-		'systemPresence',
-		'organizationPresenceId',
-		'routingStatus'
-	].sort(),
-	metrics: [
-		'tSegmentDuration',
-		'tConversationDuration',
-		'oTotalCriticalScore',
-		'oTotalScore',
-		'nEvaluations',
-		'tAbandon',
-		'tIvr',
-		'tAnswered',
-		'tAcd',
-		'tTalk',
-		'tHeld',
-		'tTalkComplete',
-		'tHeldComplete',
-		'tAcw',
-		'tHandle',
-		'tWait',
-		'tAgentRoutingStatus',
-		'tOrganizationPresence',
-		'tSystemPresence',
-		'tUserResponseTime',
-		'tAgentResponseTime',
-		'nOffered',
-		'nOverSla',
-		'nTransferred',
-		'nOutboundAttempted',
-		'nOutboundConnected',
-		'nOutboundAbandoned',
-		'nError',
-		'oServiceTarget',
-		'oServiceLevel',
-		'tActive',
-		'tInactive',
-		'oActiveUsers',
-		'oMemberUsers',
-		'oActiveQueues',
-		'oMemberQueues',
-		'oInteracting',
-		'oWaiting',
-		'oOnQueueUsers',
-		'oOffQueueUsers',
-		'oUserPresences',
-		'oUserRoutingStatuses'
-	].sort(),
-	groupBy: [
-		'conversationId',
-		'sessionId',
-		'mediaType',
-		'queueId',
-		'userId',
-		'participantId',
-		'participantName',
-		'direction',
-		'wrapUpCode',
-		'wrapUpNote',
-		'interactionType',
-		'requestedRoutingSkillId',
-		'requestedLanguageId',
-		'purpose',
-		'participantType',
-		'segmentType',
-		'disconnectType',
-		'errorCode',
-		'conversationEnd',
-		'segmentEnd',
-		'externalContactId',
-		'externalOrganizationId',
-		'stationId',
-		'edgeId',
-		'dnis',
-		'ani',
-		'outboundCampaignId',
-		'outboundContactId',
-		'outboundContactListId',
-		'monitoredParticipantId',
-		'sourceSessionId',
-		'destinationSessionId',
-		'sourceConversationId',
-		'destinationConversationId',
-		'remoteNameDisplayable',
-		'sipResponseCode',
-		'q850ResponseCode',
-		'conference',
-		'groupId',
-		'roomId',
-		'addressFrom',
-		'addressTo',
-		'subject',
-		'peerId',
-		'scriptId',
-		'evaluationId',
-		'evaluatorId',
-		'contextId',
-		'formId',
-		'formName',
-		'eventTime',
-		'systemPresence',
-		'organizationPresenceId',
-		'routingStatus'
-	].sort(),
-	flowAggregate: {
-		metrics: [
-			"nFlow",
-			"nFlowOutcome",
-			"nFlowOutcomeFailed",
-			"oFlow",
-			"tFlow",
-			"tFlowDisconnect",
-			"tFlowExit",
-			"tFlowOutcome"
-		  ],
-		groupBy: [
-			"addressFrom",
-			"addressTo",
-			"agentScore",
-			"ani",
-			"conversationId",
-			"convertedFrom",
-			"convertedTo",
-			"direction",
-			"disconnectType",
-			"divisionId",
-			"dnis",
-			"edgeId",
-			"endingLanguage",
-			"entryReason",
-			"entryType",
-			"exitReason",
-			"externalMediaCount",
-			"externalOrganizationId",
-			"flaggedReason",
-			"flowId",
-			"flowName",
-			"flowOutType",
-			"flowOutcome",
-			"flowOutcomeId",
-			"flowOutcomeValue",
-			"flowType",
-			"flowVersion",
-			"groupId",
-			"interactionType",
-			"journeyActionId",
-			"journeyActionMapId",
-			"journeyActionMapVersion",
-			"journeyCustomerId",
-			"journeyCustomerIdType",
-			"journeyCustomerSessionId",
-			"journeyCustomerSessionIdType",
-			"mediaCount",
-			"mediaType",
-			"messageType",
-			"originatingDirection",
-			"outboundCampaignId",
-			"outboundContactId",
-			"outboundContactListId",
-			"participantName",
-			"peerId",
-			"provider",
-			"purpose",
-			"queueId",
-			"remote",
-			"requestedLanguageId",
-			"requestedRoutingSkillId",
-			"roomId",
-			"routingPriority",
-			"scoredAgentId",
-			"sessionDnis",
-			"sessionId",
-			"startingLanguage",
-			"stationId",
-			"teamId",
-			"transferTargetAddress",
-			"transferTargetName",
-			"transferType",
-			"userId",
-			"wrapUpCode"
-		  ]
-	},
-	flowObservation: {
-		metrics: ["oFlow"],
-		dimensions: [
-            "flowId",
-            "mediaType"
-          ]
-	},
-	conversationAggregate: {
-		metrics: [
-			"nBlindTransferred",
-			"nConnected",
-			"nConsult",
-			"nConsultTransferred",
-			"nError",
-			"nOffered",
-			"nOutbound",
-			"nOutboundAbandoned",
-			"nOutboundAttempted",
-			"nOutboundConnected",
-			"nOverSla",
-			"nStateTransitionError",
-			"nTransferred",
-			"oExternalMediaCount",
-			"oInteracting",
-			"oMediaCount",
-			"oServiceLevel",
-			"oServiceTarget",
-			"oWaiting",
-			"tAbandon",
-			"tAcd",
-			"tAcw",
-			"tAgentResponseTime",
-			"tAlert",
-			"tAnswered",
-			"tContacting",
-			"tDialing",
-			"tFlowOut",
-			"tHandle",
-			"tHeld",
-			"tHeldComplete",
-			"tIvr",
-			"tMonitoring",
-			"tNotResponding",
-			"tShortAbandon",
-			"tTalk",
-			"tTalkComplete",
-			"tUserResponseTime",
-			"tVoicemail",
-			"tWait"
-		  ],
-		groupBy: [
-			"addressFrom",
-			"addressTo",
-			"agentScore",
-			"ani",
-			"conversationId",
-			"convertedFrom",
-			"convertedTo",
-			"direction",
-			"disconnectType",
-			"divisionId",
-			"dnis",
-			"edgeId",
-			"externalMediaCount",
-			"externalOrganizationId",
-			"flaggedReason",
-			"flowOutType",
-			"groupId",
-			"interactionType",
-			"journeyActionId",
-			"journeyActionMapId",
-			"journeyActionMapVersion",
-			"journeyCustomerId",
-			"journeyCustomerIdType",
-			"journeyCustomerSessionId",
-			"journeyCustomerSessionIdType",
-			"mediaCount",
-			"mediaType",
-			"messageType",
-			"originatingDirection",
-			"outboundCampaignId",
-			"outboundContactId",
-			"outboundContactListId",
-			"participantName",
-			"peerId",
-			"provider",
-			"purpose",
-			"queueId",
-			"remote",
-			"requestedLanguageId",
-			"requestedRoutingSkillId",
-			"roomId",
-			"routingPriority",
-			"scoredAgentId",
-			"sessionDnis",
-			"sessionId",
-			"stationId",
-			"teamId",
-			"userId",
-			"wrapUpCode"
-		  ]
-	},
-	queueObservation: {
-		metrics: [
-			"oActiveUsers",
-			"oInteracting",
-			"oMemberUsers",
-			"oOffQueueUsers",
-			"oOnQueueUsers",
-			"oUserPresences",
-			"oUserRoutingStatuses",
-			"oWaiting"
-		  ]
-	},
-	userAggregate: {
-		metrics: [
-			"tAgentRoutingStatus",
-			"tOrganizationPresence",
-			"tSystemPresence"
-		  ]
-	},
-	userObservation: {
-		metrics: [
-			"oActiveQueues",
-			"oMemberQueues"
-		  ]
-	},
+	dimensions: Fallbacks.dimensions,
+	metrics: Fallbacks.metrics,
+	groupBy: Fallbacks.groupBy,
+
+	conversationDetailConversationFilter: Fallbacks.conversationDetailConversationFilter,
+	conversationDetailEvaluationFilter: Fallbacks.conversationDetailEvaluationFilter,
+	conversationDetailSurveyFilter: Fallbacks.conversationDetailSurveyFilter,
+	conversationDetailSegmentFilter: Fallbacks.conversationDetailSegmentFilter,
+
+	conversationAggregate: Fallbacks.conversationAggregate,
+	conversationAggregateFilter: Fallbacks.conversationAggregateFilter,
+	conversationAggregateView: Fallbacks.conversationAggregateView,
+
+	flowAggregate: Fallbacks.flowAggregate,
+	flowAggregateFilter: Fallbacks.flowAggregateFilter,
+	flowAggregateView: Fallbacks.flowAggregateView,
+
+	userAggregate: Fallbacks.userAggregate,
+	userAggregateFilter: Fallbacks.userAggregateFilter,
+	
+	flowObservation: Fallbacks.flowObservation,
+	
+	queueObservation: Fallbacks.queueObservation,
+	
+	userObservation: Fallbacks.userObservation,
 
 	propertyTypes: ['', 'bool', 'integer', 'real', 'date', 'string', 'uuid'].sort(),
 	operators: ['matches', 'exists', 'notExists'],
@@ -385,44 +50,48 @@ export default Ember.Service.extend({
 				return;
 			}
 
-			// Define available values for each query, otherwise query is provided default values
+			let queryToSwaggerMappings = [
+				{ query: "conversationDetailConversationFilter", swaggerDefinition: "ConversationDetailQueryPredicate" },
+				{ query: "conversationDetailEvaluationFilter", swaggerDefinition:  "EvaluationDetailQueryPredicate" },
+				{ query: "conversationDetailSurveyFilter", swaggerDefinition: "SurveyDetailQueryPredicate" },
+				{ query: "conversationDetailSegmentFilter", swaggerDefinition: "SegmentDetailQueryPredicate" },
 
-			var flowAggregateMetrics = swagger.definitions.FlowAggregationQuery.properties.metrics.items.enum;
-			this.flowAggregate.metrics.clear();
-			this.flowAggregate.metrics.pushObjects(flowAggregateMetrics.sort());
+				{ query: "conversationAggregate", swaggerDefinition: "ConversationAggregationQuery" },
+				{ query: "conversationAggregateFilter", swaggerDefinition: "ConversationAggregateQueryPredicate" },
+				{ query: "conversationAggregateView", swaggerDefinition: "ConversationAggregationView" },
 
-			var flowAggregateGroupBy = swagger.definitions.FlowAggregationQuery.properties.groupBy.items.enum;
-			this.flowAggregate.groupBy.clear();
-			this.flowAggregate.groupBy.pushObjects(flowAggregateGroupBy.sort());
+				{ query: "flowAggregate", swaggerDefinition: "FlowAggregationQuery" },
+				{ query: "flowAggregateFilter", swaggerDefinition: "FlowAggregateQueryPredicate" },
+				{ query: "flowAggregateView", swaggerDefinition: "FlowAggregationView" },
 
-			var flowObservationMetrics = swagger.definitions.FlowObservationQuery.properties.metrics.items.enum;
-			this.flowObservation.metrics.clear();
-			this.flowObservation.metrics.pushObjects(flowObservationMetrics.sort());
+				{ query: "userAggregate", swaggerDefinition: "UserAggregationQuery" }
+			];
 
-			var flowObservationDimensions = swagger.definitions.FlowObservationQueryPredicate.properties.dimension.enum;
-			this.flowObservation.dimensions.clear();
-			this.flowObservation.dimensions.pushObjects(flowObservationDimensions.sort());
-
-			var conversationAggregateMetrics = swagger.definitions.ConversationAggregationQuery.properties.metrics.items.enum;
-			this.conversationAggregate.metrics.clear();
-			this.conversationAggregate.metrics.pushObjects(conversationAggregateMetrics.sort());
-
-			var conversationAggregateGroupBy = swagger.definitions.ConversationAggregationQuery.properties.groupBy.items.enum;
-			this.conversationAggregate.groupBy.clear();
-			this.conversationAggregate.groupBy.pushObjects(conversationAggregateGroupBy.sort());
-
-			var queueObservationMetrics = swagger.definitions.QueueObservationQuery.properties.metrics.items.enum;
-			this.queueObservation.metrics.clear();
-			this.queueObservation.metrics.pushObjects(queueObservationMetrics.sort());
-
-			var userAggregateMetrics = swagger.definitions.UserAggregationQuery.properties.metrics.items.enum;
-			this.userAggregate.metrics.clear();
-			this.userAggregate.metrics.pushObjects(userAggregateMetrics.sort());
-
-			var userObservationMetrics = swagger.definitions.UserObservationQuery.properties.metrics.items.enum;
-			this.userObservation.metrics.clear();
-			this.userObservation.metrics.pushObjects(userObservationMetrics.sort());
-
+			for (const value of queryToSwaggerMappings) {
+				if (value.query.endsWith("View")) {
+					var metrics = swagger.definitions[value.swaggerDefinition].properties.target;
+					if (metrics && this[value.query].metrics) {
+						this[value.query].metrics.clear();
+						this[value.query].metrics.pushObjects(metrics.enum.sort());
+					}
+				} else {
+					var dimensions = swagger.definitions[value.swaggerDefinition].properties.dimension;
+					if (dimensions && this[value.query].dimensions) {
+						this[value.query].dimensions.clear();
+						this[value.query].dimensions.pushObjects(dimensions.enum.sort());
+					}
+					var metrics = swagger.definitions[value.swaggerDefinition].properties.metric;
+					if (metrics && this[value.query].metrics) {
+						this[value.query].metrics.clear();
+						this[value.query].metrics.pushObjects(metrics.enum.sort());
+					}
+					var groupBy = swagger.definitions[value.swaggerDefinition].properties.groupBy;
+					if (groupBy && this[value.query].groupBy) {
+						this[value.query].groupBy.clear();
+						this[value.query].groupBy.pushObjects(groupBy.items.enum.sort());
+					}
+				}
+			}
 		} catch (err) {
 			console.error("Failed while trying to parse swagger definitions");
 			console.error(err);

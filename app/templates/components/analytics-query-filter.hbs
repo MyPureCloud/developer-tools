@@ -22,7 +22,7 @@
         </p>
 
         {{#each clauses as |clause index|}}
-        {{analytics-query-clause clause=clause index=index updateClause=(action 'updateClause') deleteClause=(action 'deleteClause') filterValueOverride=filterValueOverride}}
+        {{analytics-query-clause clause=clause index=index updateClause=(action 'updateClause') deleteClause=(action 'deleteClause') filterValueOverride=filterValueOverride query=query}}
         {{/each}}
 
         <button class='btn btn-link btn-sm' {{action 'newClause'}} title="Add Clause">

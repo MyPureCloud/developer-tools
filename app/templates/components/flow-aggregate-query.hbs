@@ -21,7 +21,7 @@
     <div class="panel-heading"><h3 class="panel-title panel-title-condensed">Filter</h3></div>
     <div class="panel-body">
         <div class="filter-section">
-            {{analytics-query-filter filter=filter}}
+            {{analytics-query-filter query="flowAggregateFilter" filter=filter filterValueOverride=userFilters}}
         </div>
     </div>
 </div>
@@ -40,7 +40,7 @@
 
         {{#each views as |vw index|}}
         <div class="filter-section">
-            {{user-defined-view viewRef=vw index=index deleteView=(action 'deleteView') }}
+            {{user-defined-view query="flowAggregateView" viewRef=vw index=index deleteView=(action 'deleteView') }}
         </div>
         {{/each}}
 

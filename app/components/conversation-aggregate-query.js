@@ -2,16 +2,21 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
 	purecloud: Ember.inject.service('purecloud'),
+	analyticsValueService: Ember.inject.service(),
 	filter: null,
 	granularity: null,
 	interval: null,
 	groupBy: [],
 	selectedMetrics: [],
 	views: [],
+	viewMetrics: [],
 	flattenMultivaluedDimensions: false,
+	userFilters: [],
 	init() {
 		this._super(...arguments);
 		this.get('filter');
+		this.userFilters = this.get('analyticsValueService').getDimensions(this.get('query'));
+		this.viewMetrics = this.get('analyticsValueService').getMetrics(this.get('view'));
 	},
 	_computeValue: function() {
 		let query = {};
@@ -62,10 +67,10 @@ export default Ember.Component.extend({
 		'views.@each.gte',
 		'granularity',
 		'interval',
-		'groupBy',
+		'groupBy.@each',
 		'filter',
 		'flattenMultivaluedDimensions',
-		'selectedMetrics',
+		'selectedMetrics.@each',
 		function() {
 			let query = JSON.stringify(this._computeValue(), null, ' ');
 			this.set('queryJson', query);
@@ -75,7 +80,7 @@ export default Ember.Component.extend({
 		newView() {
 			this.views.pushObject({
 				name: 'name',
-				target: 'tAbandon',
+				target: this.viewMetrics[0],
 				function: 'rangeBound',
 				range: {
 					gte: 0,

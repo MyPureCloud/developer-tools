@@ -102,7 +102,6 @@ export default Ember.Controller.extend({
 				});
 		},
 		updateQuery(queryJson) {
-			console.log('update query', queryJson);
 			this.set('queryJson', queryJson);
 		}
 	}
