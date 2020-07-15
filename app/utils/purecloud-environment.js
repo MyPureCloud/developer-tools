@@ -5,7 +5,7 @@ function purecloudEnvironmentTld() {
 	let env = ENV_REG_EXP.exec(window.location.hostname)[0];
 
 	if (env === 'localhost') {
-		env = 'inindca.com';
+		env = 'mypurecloud.com';
 	}
 
 	return env;

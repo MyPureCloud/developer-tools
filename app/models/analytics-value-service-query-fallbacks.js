@@ -100,6 +100,8 @@ class Fallbacks {
             "oUserPresences",
             "oUserRoutingStatuses"
         ].sort()
+        this.detailMetrics = ["testValue"]
+
         this.groupBy = [
             "conversationId",
             "sessionId",
@@ -321,7 +323,8 @@ class Fallbacks {
             dimensions: [
                 "flowId",
                 "mediaType"
-            ]
+            ],
+            detailMetrics: ["oFlow"]
         }
         this.conversationAggregate = {
             metrics: [
@@ -530,6 +533,16 @@ class Fallbacks {
             dimensions: [
                 "mediaType",
                 "queueId"
+            ],
+            detailMetrics: [
+                "oActiveUsers",
+                "oInteracting",
+                "oMemberUsers",
+                "oOffQueueUsers",
+                "oOnQueueUsers",
+                "oUserPresences",
+                "oUserRoutingStatuses",
+                "oWaiting"
             ]
         }
         this.userAggregate = {
@@ -557,7 +570,8 @@ class Fallbacks {
             ],
             dimensions: [
                 "userId",
-            ]
+            ],
+            detailMetrics: ["asf"]
         }
         this.conversationDetailConversationFilter = {
             metrics: [

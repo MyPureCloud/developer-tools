@@ -4,6 +4,7 @@ export default Ember.Component.extend({
 	purecloud: Ember.inject.service('purecloud'),
 	analyticsValueService: Ember.inject.service(),
 	selectedMetrics: [],
+	selectedDetailMetrics: [],
 	userObservationFilter: [],
 	filter: null,
 	init() {
@@ -14,6 +15,7 @@ export default Ember.Component.extend({
 	},
 	_computeValue: function() {
 		var selectedMetrics = this.get('selectedMetrics');
+		var selectedDetailMetrics = this.get('selectedDetailMetrics');
 
 		let query = {
 			filter: this.get('filter')
@@ -22,10 +24,14 @@ export default Ember.Component.extend({
 		if (selectedMetrics && selectedMetrics.length > 0) {
 			query.metrics = selectedMetrics;
 		}
+
+		if (selectedDetailMetrics && selectedDetailMetrics.length > 0) {
+			query.detailMetrics = selectedDetailMetrics;
+		}
 		return query;
 	},
 	queryJson: null,
-	_observeChanges: Ember.observer('selectedMetrics.@each', 'filter', function() {
+	_observeChanges: Ember.observer('selectedMetrics.@each', 'selectedDetailMetrics.@each', 'filter', function() {
 		let query = JSON.stringify(this._computeValue(), null, ' ');
 		this.set('queryJson', query);
 	})
