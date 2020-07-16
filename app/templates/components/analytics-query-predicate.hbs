@@ -33,7 +33,7 @@
         {{#if (eq selectedType 'metric')}}
             {{input class='form-control' value=value}}
         {{else}}
-            {{#if (eq selectedOperator "matches")}}
+            {{#if (eq selectedOperator "matches") or (eq selectedOperator undefined)}}
         
                 {{#if (eq lhsValue "queueId")}}
                 {{select-box-advanced idKey='id' nameKey='name' items=queues selectedItem=value includeBlank=true}}
@@ -50,7 +50,6 @@
                 {{else}}
                 {{input class='form-control' value=value}}
                 {{/if}}
-            
             {{/if}}
         {{/if}}
     </div>
