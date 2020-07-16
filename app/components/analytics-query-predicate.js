@@ -9,6 +9,7 @@ export default Ember.Component.extend({
 	userService: Ember.inject.service(),
 	presenceService: Ember.inject.service(),
 	query: "default",
+	isDevOrStaging: !window.location.hostname.includes('purecloud'),
 
 	//TODO: support queue ids, user Ids,
 	init: function() {

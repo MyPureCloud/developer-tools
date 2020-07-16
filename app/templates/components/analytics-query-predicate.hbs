@@ -30,6 +30,10 @@
     </div>
      <div class="form-group form-group-offset">
             <label class="control-label">Value</label>
+        {{#if isDevOrStaging}}
+            {{log "selectedType: " selectedType}}
+            {{log "selectedOperator: " selectedOperator}}
+        {{/if}}
         {{#if (eq selectedType 'metric')}}
             {{input class='form-control' value=value}}
         {{else}}
@@ -50,7 +54,9 @@
                 {{else}}
                 {{input class='form-control' value=value}}
                 {{/if}}
-            
+
+            {{else}}
+            {{input class='form-control' value=value}}
             {{/if}}
         {{/if}}
     </div>
