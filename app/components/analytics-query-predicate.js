@@ -3,12 +3,29 @@ var observer = Ember.observer;
 var computed = Ember.computed;
 
 export default Ember.Component.extend({
+	query: "default",
+	selectedOperator: 'matches',
+	selectedType: 'dimension',
 	classNames: ['predicate-section'],
 	analyticsValueService: Ember.inject.service(),
 	queueService: Ember.inject.service(),
 	userService: Ember.inject.service(),
 	presenceService: Ember.inject.service(),
-	query: "default",
+
+	queues: computed('queueService.queues', function() {
+		return this.get('queueService').get('queues');
+	}),
+	users: computed('userService.users', function() {
+		return this.get('userService').get('users');
+	}),
+	systemPresence: computed('presenceService.systemPresence', function() {
+		return this.get('presenceService').get('systemPresence');
+	}),
+	organizationPresence: computed('presenceService.organizationPresence', function() {
+		return this.get('presenceService').get('organizationPresence');
+	}),
+	routingStatus: [{ name: 'COMMUNICATING' }, { name: 'IDLE' }, { name: 'INTERACTING' }, { name: 'NOT_RESPONDING' }, { name: 'OFF_QUEUE' }],
+	types: ['dimension', 'metric'], //TODO: Support property type
 
 	//TODO: support queue ids, user Ids,
 	init: function() {
@@ -27,7 +44,8 @@ export default Ember.Component.extend({
 		if (predicate) {
 			this.set('selectedType', predicate.type);
 			this.set('lhsValue', predicate.dimension || predicate.metric || predicate.property);
-			this.set('selectedOperator', predicate.operator);
+			if (predicate.operator)
+				this.set('selectedOperator', predicate.operator);
 			this.set('value', predicate.value);
 		}
 	},
@@ -39,23 +57,7 @@ export default Ember.Component.extend({
 			this.set('types', ['dimension']);
 		}
 	},
-	queues: computed('queueService.queues', function() {
-		return this.get('queueService').get('queues');
-	}),
-	users: computed('userService.users', function() {
-		return this.get('userService').get('users');
-	}),
-	systemPresence: computed('presenceService.systemPresence', function() {
-		return this.get('presenceService').get('systemPresence');
-	}),
-	organizationPresence: computed('presenceService.organizationPresence', function() {
-		return this.get('presenceService').get('organizationPresence');
-	}),
-	routingStatus: [{ name: 'COMMUNICATING' }, { name: 'IDLE' }, { name: 'INTERACTING' }, { name: 'NOT_RESPONDING' }, { name: 'OFF_QUEUE' }],
-	types: ['dimension', 'metric'], //TODO: Support property type
 
-	selectedOperator: 'matches',
-	selectedType: 'dimension',
 	isOnChanged: observer('selectedOperator', 'lhsValue', 'value', function() {
 		this.set('predicate', this._computeValue());
 		this.get('updatePredicate')(this.get('index'), this._computeValue());
