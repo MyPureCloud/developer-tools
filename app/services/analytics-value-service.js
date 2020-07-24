@@ -5,7 +5,10 @@ export default Ember.Service.extend({
 	// dimensions, metrics, and groupBy will be overwritten, but leaving some initial values as a fallback
 	dimensions: Fallbacks.dimensions,
 	metrics: Fallbacks.metrics,
+	detailMetrics: Fallbacks.detailMetrics,
 	groupBy: Fallbacks.groupBy,
+
+	swaggerLoaded: false,
 
 	conversationDetailConversationFilter: Fallbacks.conversationDetailConversationFilter,
 	conversationDetailEvaluationFilter: Fallbacks.conversationDetailEvaluationFilter,
@@ -64,7 +67,14 @@ export default Ember.Service.extend({
 				{ query: "flowAggregateFilter", swaggerDefinition: "FlowAggregateQueryPredicate" },
 				{ query: "flowAggregateView", swaggerDefinition: "FlowAggregationView" },
 
-				{ query: "userAggregate", swaggerDefinition: "UserAggregationQuery" }
+				{ query: "userAggregate", swaggerDefinition: "UserAggregationQuery" },
+
+				{ query: "queueObservation", swaggerDefinition: "QueueObservationQuery" },
+
+				{ query: "flowObservation", swaggerDefinition: "FlowObservationQuery" },
+
+				{ query: "userObservation", swaggerDefinition: "UserObservationQuery" }
+
 			];
 
 			for (const value of queryToSwaggerMappings) {
@@ -85,6 +95,11 @@ export default Ember.Service.extend({
 						this[value.query].metrics.clear();
 						this[value.query].metrics.pushObjects(metrics.enum.sort());
 					}
+					var detailMetrics = swagger.definitions[value.swaggerDefinition].properties.detailMetrics;
+					if (detailMetrics && this[value.query].detailMetrics) {
+						this[value.query].detailMetrics.clear();
+						this[value.query].detailMetrics.pushObjects(detailMetrics.items.enum.sort());
+					}
 					var groupBy = swagger.definitions[value.swaggerDefinition].properties.groupBy;
 					if (groupBy && this[value.query].groupBy) {
 						this[value.query].groupBy.clear();
@@ -92,6 +107,7 @@ export default Ember.Service.extend({
 					}
 				}
 			}
+			this.set('swaggerLoaded',true);
 		} catch (err) {
 			console.error("Failed while trying to parse swagger definitions");
 			console.error(err);
@@ -114,6 +130,15 @@ export default Ember.Service.extend({
 			return this.metrics;
 		}
 		return this[query].metrics;
+	},
+	getDetailMetrics(query) {
+		if (query !== undefined && query === "default") {
+			return this.detailMetrics;
+		} else if (query === undefined || this[query] === undefined || this[query].detailMetrics === undefined) {
+			console.error("Failed to find detail metrics for query '" + query + "', returning defaults");
+			return this.detailMetrics;
+		}
+		return this[query].detailMetrics;
 	},
 	getDimensions(query) {
 		if (query !== undefined && query === "default") {
