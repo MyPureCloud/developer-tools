@@ -13,8 +13,6 @@ export default Ember.Component.extend({
 	init: function() {
 
 		this._super(...arguments);
-
-		// this.set('availableDetailMetrics', this.get('analyticsValueService').getDetailMetrics(this.get('query')).slice());
 	},
 	didReceiveAttrs() {
 		this._super(...arguments);
