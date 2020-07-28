@@ -15,7 +15,7 @@ export default Ember.Service.extend({
 			function processPageOfQueues(results) {
 				self.queues.addObjects(results.entities);
 
-				if (results.nextUri) {
+				if (results.nextUri && !self.isDestroyed) {
 					//get the next page of users directly
 					self
 						.get('purecloud')
@@ -26,7 +26,9 @@ export default Ember.Service.extend({
 							reject(err);
 						});
 				} else {
-					self.set('isLoadingQueues', false);
+					if(!self.isDestroyed) {
+						self.set('isLoadingQueues', false);
+					}
 					resolve();
 				}
 			}
@@ -34,7 +36,9 @@ export default Ember.Service.extend({
 				.getRoutingQueues({ sortBy: 'name', pageSize: 100 })
 				.then(processPageOfQueues)
 				.catch(function(err) {
-					self.set('isLoadingQueues', false);
+					if(!self.isDestroyed) {
+						self.set('isLoadingQueues', false);
+					}
 					reject(err);
 				});
 		});

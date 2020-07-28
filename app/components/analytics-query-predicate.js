@@ -62,6 +62,7 @@ export default Ember.Component.extend({
 	}),
 
 	selectedTypeChanged: observer('selectedType', function() {
+
 		this.set('predicate', this._computeValue());
 		this.get('updatePredicate')(this.get('index'), this._computeValue());
 
@@ -74,6 +75,7 @@ export default Ember.Component.extend({
 		}
 	}),
 	selectedOperatorChange: observer('selectedOperator', function() {
+
 		if (this.get('selectedOperator') !== 'matches') {
 			this.set('value', null);
 		}

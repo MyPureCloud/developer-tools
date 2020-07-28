@@ -12,5 +12,4 @@ test('it renders', function(assert) {
   this.render(hbs`{{analytics-query-metrics}}`);
 
   assert.notEqual(this.$().text().trim(), '');
-
 });

@@ -6,6 +6,11 @@ moduleFor('route:screenshare', 'Unit | Route | screenshare', {
 });
 
 test('it exists', function(assert) {
-  let route = this.subject();
-  assert.ok(route);
+  try {
+    let route = this.subject();
+    console.log("this is the route test");
+    assert.ok(route);
+  } catch(err) {
+    console.log(err.stack);
+  }
 });

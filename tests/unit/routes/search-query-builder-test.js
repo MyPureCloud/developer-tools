@@ -6,6 +6,11 @@ moduleFor('route:search-query-builder', 'Unit | Route | search query builder', {
 });
 
 test('it exists', function(assert) {
-  let route = this.subject();
-  assert.ok(route);
+  try {
+    let route = this.subject();
+    console.log("this is the search-query-builder test");
+    assert.ok(route);
+  } catch(err) {
+    console.log(err.stack);
+  }
 });

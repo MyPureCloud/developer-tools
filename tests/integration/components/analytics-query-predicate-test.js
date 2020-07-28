@@ -43,8 +43,9 @@ test('it renders', function(assert) {
   // Set any properties with this.set('myProperty', 'value');
   // Handle any actions with this.on('myAction', function(val) { ... });
 
-  this.render(hbs`{{analytics-query-predicate}}`);
+    this.render(hbs`{{analytics-query-predicate}}`);
+    
+    assert.notEqual(this.$().text().trim(), '');
 
-  assert.notEqual(this.$().text().trim(), '');
 
 });

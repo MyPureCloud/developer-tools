@@ -78,7 +78,7 @@ export default Controller.extend({
 	},
 
 	setError(err) {
-		this.set('error', err);
+		if(!this.isDestroyed) this.set('error', err);
 	},
 
 	deployments: computed('webChatService.deployments', function() {
@@ -155,10 +155,12 @@ export default Controller.extend({
 				.then((newDeploymentId) => {
 					let storage = this.get('storageService');
 					let savedData = storage.localStorageGet('webChatParams');
-					if (savedData && savedData.deployment) {
-						this.set('deployment', savedData.deployment);
-					} else {
-						this.set('deployment', newDeploymentId);
+					if(!this.isDestroyed) {
+						if (savedData && savedData.deployment) {
+							this.set('deployment', savedData.deployment);
+						} else {
+							this.set('deployment', newDeploymentId);
+						}
 					}
 				})
 				.catch((err) => {
@@ -166,7 +168,7 @@ export default Controller.extend({
 				});
 		},
 		setStandAloneMode(value) {
-			this.set('standAloneMode', value === 'true');
+			if(!this.isDestroyed) this.set('standAloneMode', value === 'true');
 		}
 	}
 });

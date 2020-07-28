@@ -1,8 +1,9 @@
 import { moduleFor, test } from 'ember-qunit';
 
 moduleFor('service:github-service', 'Unit | Service | github service', {
-
+  needs: ['service:github-service']
 });
+
 
 const tagList = [  {
     "name": "0.51.0",
@@ -25,10 +26,16 @@ const tagList = [  {
 ];
 
 test('process github tags', function(assert) {
-    let service = this.subject();
 
-    let result = service._processSdkTags(tagList);
+    try {
+      let service = this.subject();
+
+    var result = service._processSdkTags(tagList);
     
     assert.equal(result.length, 2);
     assert.equal(result[0],'0.52.0');
+    } catch(err) {
+      console.log(err.stack);
+    }
+
 });

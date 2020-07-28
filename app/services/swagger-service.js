@@ -19,8 +19,16 @@ export default Ember.Service.extend({
 			}
 		})
 			.done(function(swagger) {
-				console.log('swagger loaded');
-				that.set('swagger', swagger);
+				try {
+					console.log('swagger loaded');
+
+					if(!that.isDestroyed) {
+
+						that.set('swagger', swagger);
+					}
+				} catch(err) {
+					console.log(err.stack);
+				}
 			})
 			.fail(function(err) {
 				console.error(err);
