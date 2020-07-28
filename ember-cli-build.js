@@ -27,6 +27,9 @@ module.exports = function(defaults) {
 			exclude: ['emojify', 'leaflet', 'patches/'],
 			extensions: ['js', 'css'],
 			customHash: null
+		},
+		babel: {
+			sourceMaps: 'inline'
 		}
 	});
 

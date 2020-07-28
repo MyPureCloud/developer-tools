@@ -1,7 +1,7 @@
 import { moduleFor, test } from 'ember-qunit';
 
-moduleFor('service:analytics-value-service', 'Unit | Service | analytics value service', {
-
+moduleFor('service:analytics-value-service', 'Unit | Service | analytics value service' ,{
+    needs : ['service:swaggerService']
 });
 
 test('filter tSegmentDuration', function(assert) {

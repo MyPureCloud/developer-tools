@@ -8,7 +8,7 @@ export default Ember.Service.extend({
 	detailMetrics: Fallbacks.detailMetrics,
 	groupBy: Fallbacks.groupBy,
 
-	swaggerLoaded: false,
+	// swaggerLoaded: false,
 
 	conversationDetailConversationFilter: Fallbacks.conversationDetailConversationFilter,
 	conversationDetailEvaluationFilter: Fallbacks.conversationDetailEvaluationFilter,
@@ -107,7 +107,7 @@ export default Ember.Service.extend({
 					}
 				}
 			}
-			this.set('swaggerLoaded',true);
+			// this.set('swaggerLoaded',true);
 		} catch (err) {
 			console.error("Failed while trying to parse swagger definitions");
 			console.error(err);

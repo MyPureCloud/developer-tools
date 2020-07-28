@@ -12,14 +12,6 @@ test('it renders', function(assert) {
 
   this.render(hbs`{{flow-observation-query}}`);
 
-  assert.equal(this.$().text().trim(), '');
+  assert.notEqual(this.$().text().trim(), '');
 
-  // Template block usage:
-  this.render(hbs`
-    {{#flow-observation-query}}
-      template block text
-    {{/flow-observation-query}}
-  `);
-
-  assert.equal(this.$().text().trim(), 'template block text');
 });

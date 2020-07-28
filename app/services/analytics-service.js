@@ -4,16 +4,21 @@ import config from '../config/environment';
 
 let DEV_TOOLS_CATEGORY = 'Dev Tools';
 export default Ember.Service.extend(Ember.Evented, {
-	logEvent(action, label) {
-		if (typeof window.ga !== 'undefined' && config.analyticsTrackingId) {
-			window.ga('send', 'event', DEV_TOOLS_CATEGORY, action, label);
-		}
 
-		if (typeof window.newrelic !== 'undefined') {
-			newrelic.addPageAction(DEV_TOOLS_CATEGORY, {
-				action: action,
-				lanel: label
-			});
+	logEvent(action, label) {
+		try{
+			if (typeof window.ga !== 'undefined' && config.analyticsTrackingId) {
+				window.ga('send', 'event', DEV_TOOLS_CATEGORY, action, label);
+			}
+
+			if (typeof window.newrelic !== 'undefined') {
+				newrelic.addPageAction(DEV_TOOLS_CATEGORY, {
+					action: action,
+					lanel: label
+				});
+			}
+		} catch(err) {
+			console.log(err.stack);
 		}
 	},
 	logNotificationRegistration(id) {
