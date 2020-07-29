@@ -8,8 +8,6 @@ export default Ember.Service.extend({
 	detailMetrics: Fallbacks.detailMetrics,
 	groupBy: Fallbacks.groupBy,
 
-	// swaggerLoaded: false,
-
 	conversationDetailConversationFilter: Fallbacks.conversationDetailConversationFilter,
 	conversationDetailEvaluationFilter: Fallbacks.conversationDetailEvaluationFilter,
 	conversationDetailSurveyFilter: Fallbacks.conversationDetailSurveyFilter,
@@ -73,7 +71,9 @@ export default Ember.Service.extend({
 
 				{ query: "flowObservation", swaggerDefinition: "FlowObservationQuery" },
 
-				{ query: "userObservation", swaggerDefinition: "UserObservationQuery" }
+				{ query: "userObservation", swaggerDefinition: "UserObservationQuery" },
+
+				{ query: "userAggregateFilter", swaggerDefinition: "UserAggregateQueryPredicate"}
 
 			];
 
@@ -90,10 +90,10 @@ export default Ember.Service.extend({
 						this[value.query].dimensions.clear();
 						this[value.query].dimensions.pushObjects(dimensions.enum.sort());
 					}
-					var metrics = swagger.definitions[value.swaggerDefinition].properties.metric;
+					var metrics = swagger.definitions[value.swaggerDefinition].properties.metrics;
 					if (metrics && this[value.query].metrics) {
 						this[value.query].metrics.clear();
-						this[value.query].metrics.pushObjects(metrics.enum.sort());
+						this[value.query].metrics.pushObjects(metrics.items.enum.sort());
 					}
 					var detailMetrics = swagger.definitions[value.swaggerDefinition].properties.detailMetrics;
 					if (detailMetrics && this[value.query].detailMetrics) {
@@ -107,7 +107,6 @@ export default Ember.Service.extend({
 					}
 				}
 			}
-			// this.set('swaggerLoaded',true);
 		} catch (err) {
 			console.error("Failed while trying to parse swagger definitions");
 			console.error(err);

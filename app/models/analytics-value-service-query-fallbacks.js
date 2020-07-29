@@ -528,7 +528,7 @@ class Fallbacks {
                 "oOnQueueUsers",
                 "oUserPresences",
                 "oUserRoutingStatuses",
-                "oWaiting"
+                "oWaiting123"
             ],
             dimensions: [
                 "mediaType",
@@ -542,7 +542,7 @@ class Fallbacks {
                 "oOnQueueUsers",
                 "oUserPresences",
                 "oUserRoutingStatuses",
-                "oWaiting"
+                "oWaiting123"
             ]
         }
         this.userAggregate = {

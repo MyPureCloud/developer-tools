@@ -12,6 +12,10 @@ export default Ember.Component.extend({
 	userService: Ember.inject.service(),
 	presenceService: Ember.inject.service(),
 
+	dimensions: computed('analyticsValueService.swaggerLoaded', function() {
+		return this.get('analyticsValueService').getDimensions(this.get('query'));
+	}),
+
 	queues: computed('queueService.queues', function() {
 		return this.get('queueService').get('queues');
 	}),
@@ -33,7 +37,6 @@ export default Ember.Component.extend({
 
 		this._super(...arguments);
 
-		this.set('dimensions', this.get('analyticsValueService').getDimensions(this.get("query")));
 		this.set('propertyTypes', this.get('analyticsValueService').get('propertyTypes'));
 		this.set('metrics', this.get('analyticsValueService').getMetrics(this.get("query")));
 		this.set('operators', this.get('analyticsValueService').get('operators'));

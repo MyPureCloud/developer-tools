@@ -4,7 +4,7 @@ var computed = Ember.computed;
 export default Ember.Component.extend({
 	analyticsValueService: Ember.inject.service(),
 	availableDetailMetrics: computed('analyticsValueService.swaggerLoaded', function() {
-		return this.get('analyticsValueService').getDetailMetrics(this.get('query')).slice();
+		return this.get('analyticsValueService').getDetailMetrics(this.get('query'));
 	}),
 	query: "default",
 	queues: computed('queueService.queues', function() {
