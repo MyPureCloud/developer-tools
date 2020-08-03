@@ -20,14 +20,10 @@ moduleFor('route:api-explorer', 'Unit | Route | api explorer', {
           this.register('service:platformClient', purecloudStub);
           this.inject.service('platformClient', { as: 'platformClient' });
 
-        // sinon.stub(platformClient.prototype,'platformClient').value({'accessToken':fakeToken});
       }
 });
 
 // test('it exists', function(assert) {
 //   let route = this.subject();
-
-//   sinon.stub(platformClient.prototype,'platformClient').value({'accessToken':fakeToken});
-
 //   assert.ok(route.model().indexOf(`access_token=${fakeToken}`) > -1);
 // });
