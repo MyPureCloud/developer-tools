@@ -35,7 +35,6 @@ export default Ember.Service.extend(Ember.Evented, {
 		try {
 			let that = this;
 			$.getJSON('https://api.github.com/repos/MyPureCloud/platform-client-sdk-javascript/tags').done(function(tags) {
-				// that._processSdkTags(tags);
 				if (!(that.get('isDestroyed') || that.get('isDestroying'))) {
 					that.set('jsSdkReleases', that._processSdkTags(tags));
 				}

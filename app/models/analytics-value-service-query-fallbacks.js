@@ -100,7 +100,49 @@ class Fallbacks {
             "oUserPresences",
             "oUserRoutingStatuses"
         ].sort()
-        this.detailMetrics = ["testValue"]
+        this.detailMetrics = [
+        "tSegmentDuration",
+        "tConversationDuration",
+        "oTotalCriticalScore",
+        "oTotalScore",
+        "nEvaluations",
+        "tAbandon",
+        "tIvr",
+        "tAnswered",
+        "tAcd",
+        "tTalk",
+        "tHeld",
+        "tTalkComplete",
+        "tHeldComplete",
+        "tAcw",
+        "tHandle",
+        "tWait",
+        "tAgentRoutingStatus",
+        "tOrganizationPresence",
+        "tSystemPresence",
+        "tUserResponseTime",
+        "tAgentResponseTime",
+        "nOffered",
+        "nOverSla",
+        "nTransferred",
+        "nOutboundAttempted",
+        "nOutboundConnected",
+        "nOutboundAbandoned",
+        "nError",
+        "oServiceTarget",
+        "oServiceLevel",
+        "tActive",
+        "tInactive",
+        "oActiveUsers",
+        "oMemberUsers",
+        "oActiveQueues",
+        "oMemberQueues",
+        "oInteracting",
+        "oWaiting",
+        "oOnQueueUsers",
+        "oOffQueueUsers",
+        "oUserPresences",
+        "oUserRoutingStatuses"]
 
         this.groupBy = [
             "conversationId",
@@ -528,7 +570,7 @@ class Fallbacks {
                 "oOnQueueUsers",
                 "oUserPresences",
                 "oUserRoutingStatuses",
-                "oWaiting123"
+                "oWaiting"
             ],
             dimensions: [
                 "mediaType",
@@ -542,7 +584,7 @@ class Fallbacks {
                 "oOnQueueUsers",
                 "oUserPresences",
                 "oUserRoutingStatuses",
-                "oWaiting123"
+                "oWaiting"
             ]
         }
         this.userAggregate = {
@@ -571,7 +613,10 @@ class Fallbacks {
             dimensions: [
                 "userId",
             ],
-            detailMetrics: ["asf"]
+            detailMetrics: [
+                "oActiveQueues",
+                "oMemberQueues"
+            ]
         }
         this.conversationDetailConversationFilter = {
             metrics: [

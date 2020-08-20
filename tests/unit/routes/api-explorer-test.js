@@ -22,8 +22,3 @@ moduleFor('route:api-explorer', 'Unit | Route | api explorer', {
 
       }
 });
-
-// test('it exists', function(assert) {
-//   let route = this.subject();
-//   assert.ok(route.model().indexOf(`access_token=${fakeToken}`) > -1);
-// });
