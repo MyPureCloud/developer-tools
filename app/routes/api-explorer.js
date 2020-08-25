@@ -58,6 +58,7 @@ export default Ember.Route.extend({
 		}
 
 		//openApiExplorerUrl = 'http://localhost:8081/';
+
 		return `${openApiExplorerUrl}${search}#token_type=bearer&access_token=` + platformClient.ApiClient.instance.authData.accessToken;
 	}
 });

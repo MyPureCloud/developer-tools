@@ -1,14 +1,14 @@
 
 import { moduleFor, test } from 'ember-qunit';
 import Ember from 'ember';
+import wait from 'ember-test-helpers/wait';
 
 var entityList = [];
 var nextUri = null;
 
 
-
-moduleFor('service:queue-service', 'Unit | Service | queue service', {
-    beforeEach: function () {
+moduleFor('service:queue-service', 'Unit | Service | queue service',{
+    beforeEach: function() {
         let purecloudStub = Ember.Service.extend({
             session: {
             get: function(){
@@ -36,14 +36,17 @@ moduleFor('service:queue-service', 'Unit | Service | queue service', {
 
         this.register('service:purecloud', purecloudStub);
         this.inject.service('purecloud', { as: 'purecloud' });
-    }
+    },
 });
 
 test('can process empty page', function(assert) {
     assert.expect(1);
 
     let service = this.subject();
-    service.updateQueuesFromPureCloud().then(function(){
+
+    service.updateQueuesFromPureCloud();
+    
+    return wait().then(() => {
         assert.equal(service.queues.length,  0);
     });
 });
@@ -58,9 +61,8 @@ test('can process results', function(assert) {
         }
     ];
     let service = this.subject();
-    service.updateQueuesFromPureCloud().then(function(){
+
+    return service.updateQueuesFromPureCloud().then(function(){
         assert.equal(service.queues.length,  1);
     });
-
-
 });

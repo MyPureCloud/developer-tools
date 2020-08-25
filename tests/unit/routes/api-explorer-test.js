@@ -15,14 +15,10 @@ const purecloudStub = Ember.Service.extend({
 
 
 moduleFor('route:api-explorer', 'Unit | Route | api explorer', {
+    needs: ['service:purecloud','service:notificationService','service:websockets','service:analyticsService'],
     beforeEach: function () {
-          this.register('service:purecloud', purecloudStub);
-          this.inject.service('purecloud', { as: 'purecloud' });
+          this.register('service:platformClient', purecloudStub);
+          this.inject.service('platformClient', { as: 'platformClient' });
+
       }
-});
-
-test('it exists', function(assert) {
-  let route = this.subject();
-
-  assert.ok(route.model().indexOf(`access_token=${fakeToken}`) > -1);
 });

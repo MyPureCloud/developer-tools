@@ -100,6 +100,50 @@ class Fallbacks {
             "oUserPresences",
             "oUserRoutingStatuses"
         ].sort()
+        this.detailMetrics = [
+        "tSegmentDuration",
+        "tConversationDuration",
+        "oTotalCriticalScore",
+        "oTotalScore",
+        "nEvaluations",
+        "tAbandon",
+        "tIvr",
+        "tAnswered",
+        "tAcd",
+        "tTalk",
+        "tHeld",
+        "tTalkComplete",
+        "tHeldComplete",
+        "tAcw",
+        "tHandle",
+        "tWait",
+        "tAgentRoutingStatus",
+        "tOrganizationPresence",
+        "tSystemPresence",
+        "tUserResponseTime",
+        "tAgentResponseTime",
+        "nOffered",
+        "nOverSla",
+        "nTransferred",
+        "nOutboundAttempted",
+        "nOutboundConnected",
+        "nOutboundAbandoned",
+        "nError",
+        "oServiceTarget",
+        "oServiceLevel",
+        "tActive",
+        "tInactive",
+        "oActiveUsers",
+        "oMemberUsers",
+        "oActiveQueues",
+        "oMemberQueues",
+        "oInteracting",
+        "oWaiting",
+        "oOnQueueUsers",
+        "oOffQueueUsers",
+        "oUserPresences",
+        "oUserRoutingStatuses"]
+
         this.groupBy = [
             "conversationId",
             "sessionId",
@@ -321,7 +365,8 @@ class Fallbacks {
             dimensions: [
                 "flowId",
                 "mediaType"
-            ]
+            ],
+            detailMetrics: ["oFlow"]
         }
         this.conversationAggregate = {
             metrics: [
@@ -530,6 +575,16 @@ class Fallbacks {
             dimensions: [
                 "mediaType",
                 "queueId"
+            ],
+            detailMetrics: [
+                "oActiveUsers",
+                "oInteracting",
+                "oMemberUsers",
+                "oOffQueueUsers",
+                "oOnQueueUsers",
+                "oUserPresences",
+                "oUserRoutingStatuses",
+                "oWaiting"
             ]
         }
         this.userAggregate = {
@@ -557,6 +612,10 @@ class Fallbacks {
             ],
             dimensions: [
                 "userId",
+            ],
+            detailMetrics: [
+                "oActiveQueues",
+                "oMemberQueues"
             ]
         }
         this.conversationDetailConversationFilter = {

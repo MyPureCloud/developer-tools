@@ -5,6 +5,7 @@ export default Ember.Service.extend({
 	// dimensions, metrics, and groupBy will be overwritten, but leaving some initial values as a fallback
 	dimensions: Fallbacks.dimensions,
 	metrics: Fallbacks.metrics,
+	detailMetrics: Fallbacks.detailMetrics,
 	groupBy: Fallbacks.groupBy,
 
 	conversationDetailConversationFilter: Fallbacks.conversationDetailConversationFilter,
@@ -64,7 +65,16 @@ export default Ember.Service.extend({
 				{ query: "flowAggregateFilter", swaggerDefinition: "FlowAggregateQueryPredicate" },
 				{ query: "flowAggregateView", swaggerDefinition: "FlowAggregationView" },
 
-				{ query: "userAggregate", swaggerDefinition: "UserAggregationQuery" }
+				{ query: "userAggregate", swaggerDefinition: "UserAggregationQuery" },
+
+				{ query: "queueObservation", swaggerDefinition: "QueueObservationQuery" },
+
+				{ query: "flowObservation", swaggerDefinition: "FlowObservationQuery" },
+
+				{ query: "userObservation", swaggerDefinition: "UserObservationQuery" },
+
+				{ query: "userAggregateFilter", swaggerDefinition: "UserAggregateQueryPredicate"}
+
 			];
 
 			for (const value of queryToSwaggerMappings) {
@@ -80,10 +90,15 @@ export default Ember.Service.extend({
 						this[value.query].dimensions.clear();
 						this[value.query].dimensions.pushObjects(dimensions.enum.sort());
 					}
-					var metrics = swagger.definitions[value.swaggerDefinition].properties.metric;
+					var metrics = swagger.definitions[value.swaggerDefinition].properties.metrics;
 					if (metrics && this[value.query].metrics) {
 						this[value.query].metrics.clear();
-						this[value.query].metrics.pushObjects(metrics.enum.sort());
+						this[value.query].metrics.pushObjects(metrics.items.enum.sort());
+					}
+					var detailMetrics = swagger.definitions[value.swaggerDefinition].properties.detailMetrics;
+					if (detailMetrics && this[value.query].detailMetrics) {
+						this[value.query].detailMetrics.clear();
+						this[value.query].detailMetrics.pushObjects(detailMetrics.items.enum.sort());
 					}
 					var groupBy = swagger.definitions[value.swaggerDefinition].properties.groupBy;
 					if (groupBy && this[value.query].groupBy) {
@@ -114,6 +129,15 @@ export default Ember.Service.extend({
 			return this.metrics;
 		}
 		return this[query].metrics;
+	},
+	getDetailMetrics(query) {
+		if (query !== undefined && query === "default") {
+			return this.detailMetrics;
+		} else if (query === undefined || this[query] === undefined || this[query].detailMetrics === undefined) {
+			console.error("Failed to find detail metrics for query '" + query + "', returning defaults");
+			return this.detailMetrics;
+		}
+		return this[query].detailMetrics;
 	},
 	getDimensions(query) {
 		if (query !== undefined && query === "default") {

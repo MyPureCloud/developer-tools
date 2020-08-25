@@ -3,8 +3,8 @@ var computed = Ember.computed;
 
 export default Ember.Component.extend({
 	analyticsValueService: Ember.inject.service(),
-	availableMetrics: computed('analyticsValueService.swaggerLoaded', function() {
-		return this.get('analyticsValueService').getMetrics(this.get('query'));
+	availableDetailMetrics: computed('analyticsValueService.swaggerLoaded', function() {
+		return this.get('analyticsValueService').getDetailMetrics(this.get('query'));
 	}),
 	query: "default",
 	queues: computed('queueService.queues', function() {
@@ -20,7 +20,7 @@ export default Ember.Component.extend({
 		let override = this.get('metricsOverride');
 
 		if (typeof override !== 'undefined' && override !== null) {
-			this.set('availableMetrics', override);
+			this.set('availableDetailMetrics', override);
 		}
 	}
 });
