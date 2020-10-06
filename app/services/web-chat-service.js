@@ -56,7 +56,7 @@ export default Ember.Service.extend({
 
 			const body = {
 				name: 'Developer Tools',
-				description: 'Created by the PureCloud Developer Tools',
+				description: 'Created by the Genesys Cloud Developer Tools',
 				authenticationRequired: false,
 				disabled: false,
 				webChatConfig: {
