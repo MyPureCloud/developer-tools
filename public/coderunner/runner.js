@@ -33,7 +33,7 @@
             architectSdkDomElement.src = 'https://sdk-cdn.mypurecloud.com/architect/'+sdk+'/min.browserify.scripting.bundle.js';
             document.body.appendChild(architectSdkDomElement);
         } else {
-            //load PureCloud API
+            //load Genesys Cloud API
             var jsElm = document.createElement("script");
             jsElm.type = "application/javascript";
             jsElm.src = 'https://sdk-cdn.mypurecloud.com/javascript/'+sdk+'/purecloud-platform-client-v2.min.js';

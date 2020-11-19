@@ -28,9 +28,9 @@ export default Ember.Component.extend({
 		return filteredSampleCode;
 	}.property('selectedApi'),
 	enableDebugging: false,
-	apiTypes: [{ displayName: 'PureCloud SDK', value: 'pureCloudSdk' }],
+	apiTypes: [{ displayName: 'Genesys Cloud SDK', value: 'pureCloudSdk' }],
 	selectedSdk: null,
-	selectedApi: { displayName: 'PureCloud SDK', value: 'pureCloudSdk' },
+	selectedApi: { displayName: 'Genesys Cloud SDK', value: 'pureCloudSdk' },
 	isPurecloudSdk: function() {
 		return this.get('selectedApi').value === 'pureCloudSdk';
 	}.property('selectedApi'),
