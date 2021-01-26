@@ -92,6 +92,7 @@ export default Ember.Service.extend(Ember.Evented, {
 			.then(() => {
 				console.log('token destroyed');
 				window.localStorage.removeItem('purecloud_dev_tools_auth_auth_data');
+				window.localStorage.removeItem("environment");
 				platformClient.ApiClient.instance.logout();
 			})
 			.catch(console.error);
