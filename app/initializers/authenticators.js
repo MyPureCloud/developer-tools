@@ -29,48 +29,48 @@ export default {
 
 		// Authenticate
 		client
-		.loginImplicitGrant(oauthConfig.clientId, oauthConfig.redirect, { state: state })
-		.then((data) => {
-			window.localStorage.setItem(this.environment, client.environment);
-			// Store returned state
-			returnedState = data.state;
+			.loginImplicitGrant(oauthConfig.clientId, oauthConfig.redirect, { state: state })
+			.then((data) => {
+				window.localStorage.setItem(this.environment, client.environment);
+				// Store returned state
+				returnedState = data.state;
 
-			// Makes call to platform api to get the feature toggles for the user that is logged in.
-			return $.ajax({
-				url: `https://apps.${client.environment}/platform/api/v2/featuretoggles?` + this._createQueryString(),
-				type: 'GET',
-				dataType: 'json',
-				headers: {
-					Authorization: `bearer ${data.accessToken}`
+				// Makes call to platform api to get the feature toggles for the user that is logged in.
+				return $.ajax({
+					url: `https://apps.${client.environment}/platform/api/v2/featuretoggles?` + this._createQueryString(),
+					type: 'GET',
+					dataType: 'json',
+					headers: {
+						Authorization: `bearer ${data.accessToken}`
+					}
+				});
+			})
+			.then((data) => {
+				if (!data) {
+					return;
 				}
+				for (var key in data) {
+					try {
+						// Can't use storage-service yet since this is in the initializer
+						window.localStorage['developertools-' + key] = data[key];
+					} catch (error) {
+						console.log('Could not write feature toggle to local storage: ' + key);
+					}
+				}
+
+				application.advanceReadiness();
+				//debugger;
+				var returnedStateObj = JSON.parse(decodeURIComponent(returnedState).replace(/\|/g, '='));
+				var redirectTo = returnedStateObj.redirectUrl;
+
+				if (redirectTo && redirectTo !== 'null' && redirectTo !== window.location.href) {
+					window.location.replace(redirectTo);
+				}
+			})
+			.catch((err) => {
+				console.log('Could not get feature toggles');
+				console.log(err);
 			});
-		})
-		.then((data) => {
-			if (!data) {
-				return;
-			}
-			for (var key in data) {
-				try {
-					// Can't use storage-service yet since this is in the initializer
-					window.localStorage['developertools-' + key] = data[key];
-				} catch (error) {
-					console.log('Could not write feature toggle to local storage: ' + key);
-				}
-			}
-
-			application.advanceReadiness();
-			//debugger;
-			var returnedStateObj = JSON.parse(decodeURIComponent(returnedState).replace(/\|/g, '='));
-			var redirectTo = returnedStateObj.redirectUrl;
-
-			if (redirectTo && redirectTo !== 'null' && redirectTo !== window.location.href) {
-				window.location.replace(redirectTo);
-			}
-		})
-		.catch((err) => {
-			console.log('Could not get feature toggles');
-			console.log(err);
-		});
 	},
 
 	initialize: function (application) {
