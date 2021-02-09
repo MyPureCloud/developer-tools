@@ -24,7 +24,6 @@ export default {
 	},
 
 	authenticate(client, oauthConfig, state, application) {
-
 		let returnedState;
 
 		// Authenticate
@@ -41,8 +40,8 @@ export default {
 					type: 'GET',
 					dataType: 'json',
 					headers: {
-						Authorization: `bearer ${data.accessToken}`
-					}
+						Authorization: `bearer ${data.accessToken}`,
+					},
 				});
 			})
 			.then((data) => {
@@ -80,16 +79,17 @@ export default {
 		const client = platformClient.ApiClient.instance;
 		client.setPersistSettings(true, 'purecloud-dev-tools-auth');
 		var env;
-		
+
 		var url = window.location.href;
 		var stateStr = decodeURIComponent(decodeURIComponent(url));
 
-		if (stateStr.includes("state")) { // Check if the url has state in it. If so, means authenticated, then check for environment
-			stateStr = stateStr.substring(stateStr.indexOf("{"), stateStr.lastIndexOf("&")); // Extract state from url for JSON parse
+		if (stateStr.includes('state')) {
+			// Check if the url has state in it. If so, means authenticated, then check for environment
+			stateStr = stateStr.substring(stateStr.indexOf('{'), stateStr.lastIndexOf('&')); // Extract state from url for JSON parse
 
 			var preStateObj = JSON.parse(stateStr);
-	
-			if(preStateObj.environment) {
+
+			if (preStateObj.environment) {
 				env = preStateObj.environment;
 			} else {
 				env = purecloudEnvironmentTld();
@@ -98,30 +98,47 @@ export default {
 			env = purecloudEnvironmentTld();
 		}
 
-		if (!env || env === "null") { // type of variable "env" is string, so needs to check "null" instead of null
+		if (!env || env === 'null') {
+			// type of variable "env" is string, so needs to check "null" instead of null
 			var that = this;
-			document.getElementById("regionModal").style.display = "block";
-			$('.regionButton').on("click", function () {
-				env = $(this).attr("value");
+
+			// Append lower envs
+			const lowerEnvRegex = /inin[dt]ca|localhost/i;
+			if (window.location.host.match(lowerEnvRegex)) {
+				const regionButton = (name, domain) => {
+					const btn = document.createElement('button');
+					btn.type = 'button';
+					btn.className = 'regionButton';
+					btn.value = domain;
+					btn.textContent = `${name} (${domain})`;
+					return btn;
+				};
+				document.getElementById('regionModalBody').appendChild(regionButton('DCA', 'inindca.com'));
+				document.getElementById('regionModalBody').appendChild(regionButton('TCA', 'inintca.com'));
+			}
+
+			document.getElementById('regionModal').style.display = 'block';
+			$('.regionButton').on('click', function () {
+				env = $(this).attr('value');
 
 				var stateObj = {
 					redirectUrl: window.location.href.replace(/=/g, '|'),
-					environment: env
-				}
+					environment: env,
+				};
 				var state = JSON.stringify(stateObj);
 				client.setEnvironment(env);
 				that.authenticate(client, oauthConfig, state, application);
-			})
+			});
 		} else {
-			document.getElementById("regionModal").style.display = "none";
+			document.getElementById('regionModal').style.display = 'none';
 
 			var stateObj = {
 				redirectUrl: window.location.href.replace(/=/g, '|'),
-				environment: env
-			}
+				environment: env,
+			};
 			var state = JSON.stringify(stateObj);
 			client.setEnvironment(env);
 			this.authenticate(client, oauthConfig, state, application);
 		}
-	}
+	},
 };
