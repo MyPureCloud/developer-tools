@@ -103,7 +103,7 @@ export default {
 			var that = this;
 
 			// Append lower envs
-			const lowerEnvRegex = /inin[dt]ca|localhost/i;
+			const lowerEnvRegex = /inin[dt]ca|localhost|(?:dev|test)-genesys/i;
 			if (window.location.host.match(lowerEnvRegex)) {
 				const regionButton = (name, domain) => {
 					const btn = document.createElement('button');
