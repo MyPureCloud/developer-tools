@@ -49,9 +49,21 @@ module.exports = function (environment) {
 				region: 'dev',
 				architectEnumString: 'archEnums.LOCATIONS.dev',
 			},
+			developerdevgenesyscloud: {
+				clientId: '96a7d55b-1ed5-4719-9094-08a2a69ca07c',
+				redirect: 'https://developer.dev-genesys.cloud/developer-tools/',
+				region: 'dev',
+				architectEnumString: 'archEnums.LOCATIONS.dev',
+			},
 			developerinintcacom: {
 				clientId: '96a7d55b-1ed5-4719-9094-08a2a69ca07c',
 				redirect: 'https://developer.inintca.com/developer-tools/',
+				region: 'test',
+				architectEnumString: 'archEnums.LOCATIONS.test',
+			},
+			developertestgenesyscloud: {
+				clientId: '96a7d55b-1ed5-4719-9094-08a2a69ca07c',
+				redirect: 'https://developer.test-genesys.cloud/developer-tools/',
 				region: 'test',
 				architectEnumString: 'archEnums.LOCATIONS.test',
 			},
@@ -108,6 +120,12 @@ module.exports = function (environment) {
 				redirect: 'https://developer.euw2.pure.cloud/developer-tools/',
 				region: 'us-west-2',
 				architectEnumString: 'archEnums.LOCATIONS.prod_eu_west_2',
+			},
+			developergenesyscloud: {
+				clientId: '96a7d55b-1ed5-4719-9094-08a2a69ca07c',
+				redirect: 'https://developer.genesys.cloud/developer-tools/',
+				region: 'us-east-1',
+				architectEnumString: 'archEnums.LOCATIONS.prod_us_east_1',
 			},
 			appsmypurecloudcom: {
 				clientId: '96a7d55b-1ed5-4719-9094-08a2a69ca07c',
