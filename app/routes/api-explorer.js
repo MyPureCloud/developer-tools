@@ -52,6 +52,11 @@ export default Ember.Route.extend({
 
 		let openApiExplorerUrl = `https://developer.${purecloudEnvironment}/openapi-explorer/index.html`;
 
+		if (purecloudEnvironment === 'aps1.pure.cloud') {
+			//Mumbai region redirect to useast-1
+			openApiExplorerUrl = `https://developer.mypurecloud.com/openapi-explorer/index.html`;
+		}
+
 		if (purecloudEnvironment === 'ininsca.com') {
 			//need to special case here
 			openApiExplorerUrl = `https://apps.${purecloudEnvironment}/openapi-explorer/`;
@@ -60,5 +65,5 @@ export default Ember.Route.extend({
 		//openApiExplorerUrl = 'http://localhost:8081/';
 
 		return `${openApiExplorerUrl}${search}#token_type=bearer&access_token=` + platformClient.ApiClient.instance.authData.accessToken;
-	}
+	},
 });
