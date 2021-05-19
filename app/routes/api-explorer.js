@@ -36,9 +36,21 @@ export default Ember.Route.extend({
 		}
 
 		let purecloudEnvironment = purecloudEnvironmentTld();
+		const match = /^developer\.(.+)$/i.exec(window.location.hostname);
+		let siteHost = match ? match[1] : 'genesys.cloud';
 
+		// Build swagger url
 		let swaggerUrl = `https://api.${purecloudEnvironment}/api/v2/docs/swagger`;
-		swaggerUrl = `/swagger-schema/publicapi-v2-latest.json`;
+
+		// Determine override
+		var query = window.location.search.substring(1);
+		var vars = query.split('&');
+		for (var i = 0; i < vars.length; i++) {
+			var pair = vars[i].split('=');
+			if (decodeURIComponent(pair[0] || '').toLowerCase() === 'swaggeroverride') {
+				swaggerUrl = decodeURIComponent(pair[1]);
+			}
+		}
 
 		let swagger =
 			`openApiUrl=${swaggerUrl}&host=api.${purecloudEnvironment}&shareUrl=${window.location.origin}` +
@@ -50,19 +62,12 @@ export default Ember.Route.extend({
 			search += '&' + swagger;
 		}
 
-		let openApiExplorerUrl = `https://developer.${purecloudEnvironment}/openapi-explorer/index.html`;
+		let openApiExplorerUrl = `https://developer.${siteHost}/openapi-explorer/index.html`;
 
-		if (purecloudEnvironment === 'aps1.pure.cloud') {
-			//Mumbai region redirect to useast-1
-			openApiExplorerUrl = `https://developer.mypurecloud.com/openapi-explorer/index.html`;
-		}
-
-		if (purecloudEnvironment === 'ininsca.com') {
+		if (siteHost === 'ininsca.com') {
 			//need to special case here
-			openApiExplorerUrl = `https://apps.${purecloudEnvironment}/openapi-explorer/`;
+			openApiExplorerUrl = `https://apps.${siteHost}/openapi-explorer/`;
 		}
-
-		//openApiExplorerUrl = 'http://localhost:8081/';
 
 		return `${openApiExplorerUrl}${search}#token_type=bearer&access_token=` + platformClient.ApiClient.instance.authData.accessToken;
 	},
