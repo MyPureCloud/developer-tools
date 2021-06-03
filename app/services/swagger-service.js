@@ -9,15 +9,10 @@ export default Ember.Service.extend({
 		let purecloudEnvironment = purecloudEnvironmentTld();
         let swaggerUrl = `https://api.${purecloudEnvironment}/api/v2/docs/swagger`;
 
-        if (window.location.host.indexOf('localhost') > -1) {
-            swaggerUrl = '/publicapi-v2-latest.json';
-            console.warn("Using local publicapi-v2-latest.json file, this may be outdated!");
-        }
-
 		$.getJSON({
 			url: swaggerUrl,
 			xhrFields: {
-				withCredentials: true
+				withCredentials: false
 			}
 		})
 			.done(function(swagger) {
