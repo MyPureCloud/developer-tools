@@ -9,15 +9,8 @@ export default Ember.Service.extend({
 		let purecloudEnvironment = purecloudEnvironmentTld();
         let swaggerUrl = `https://api.${purecloudEnvironment}/api/v2/docs/swagger`;
 
-        const withCredentials = window.location.host.indexOf('localhost') > -1 
-			? false
-			: true;
-
 		$.getJSON({
-			url: swaggerUrl,
-			xhrFields: {
-				withCredentials
-			}
+			url: swaggerUrl
 		})
 			.done(function(swagger) {
 				try {
