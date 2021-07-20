@@ -1,0 +1,33 @@
+<div class='account-selector'>
+	{{#each accountManager.initialized as |account|}}
+		<div>{{account-card account=account}}</div>
+	{{/each}}
+
+	<div>
+		<div class='account-button add-account'>
+			<div class='fa fa-user-plus add-icon'></div>
+			<span class='add-text' {{action 'toggleRegionSelection'}}>Add Account</span>
+		</div>
+	</div>
+
+	{{#if showRegions}}
+		<div class='account-button region-selection'>
+			<span class='title'>Select a region</span>
+			<div class='region-list'>
+				<span class='region' value='mypurecloud.com' {{action 'addAccount' 'mypurecloud.com'}}>USE</span>
+				<span class='region' value='usw2.pure.cloud' {{action 'addAccount' 'usw2.pure.cloud'}}>USW2</span>
+				<span class='region' value='cac1.pure.cloud' {{action 'addAccount' 'cac1.pure.cloud'}}>CAC1</span>
+				<span class='region' value='mypurecloud.de' {{action 'addAccount' 'mypurecloud.de'}}>EUC</span>
+				<span class='region' value='mypurecloud.ie' {{action 'addAccount' 'mypurecloud.ie'}}>EUWI</span>
+				<span class='region' value='euw2.pure.cloud' {{action 'addAccount' 'euw2.pure.cloud'}}>EUW2</span>
+				<span class='region' value='mypurecloud.com.au' {{action 'addAccount' 'mypurecloud.com.au'}}>APACS</span>
+				<span class='region' value='apne2.pure.cloud' {{action 'addAccount' 'apne2.pure.cloud'}}>APNE2</span>
+				<span class='region' value='mypurecloud.jp' {{action 'addAccount' 'mypurecloud.jp'}}>APACN</span>
+				<span class='region' value='aps1.pure.cloud' {{action 'addAccount' 'aps1.pure.cloud'}}>APS1</span>
+			</div>
+			<span class='cancel-button' {{action 'toggleRegionSelection'}}>
+				Cancel
+			</span>
+		</div>
+	{{/if}}
+</div>

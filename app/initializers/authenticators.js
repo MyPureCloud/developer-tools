@@ -1,107 +1,176 @@
 import config from '../config/environment';
 import { purecloudEnvironment } from '../utils/purecloud-environment';
 import { purecloudEnvironmentTld } from '../utils/purecloud-environment';
+import Account from '../utils/account';
 import platformClient from 'platformClient';
+import Ember from 'ember';
 
 export default {
 	name: 'authenticators',
 	featureTogglesToQuery: ['archDevToolsScripting'],
 	environment: 'environment',
-	/**
-	 * Creates the query string to get all the feature toggles that Dev-center tools cares about.
-	 * Creates this string based on the featureTogglesToQuery array
-	 * @return {string} - the query string
-	 * @private
-	 */
-	_createQueryString() {
-		var queryString = '';
-		this.featureTogglesToQuery.forEach(
-			function (toggle) {
-				queryString = queryString + 'feature=' + toggle + '&';
-			}.bind(this)
-		);
-		return queryString;
+
+	removeAccount(account) {
+		let accountList;
+		let storage = window.localStorage;
+		let StoredAccounts = storage.getItem('accounts');
+		if (StoredAccounts === 'null' || !StoredAccounts) {
+		} else {
+			accountList = JSON.parse(StoredAccounts);
+			for (let i = 0; i < accountList.accounts.length; i++) {
+				if (accountList.accounts[i].token === account.token) {
+					accountList.accounts.splice(i, 1);
+				}
+			}
+			storage.setItem('accounts', JSON.stringify(accountList));
+		}
 	},
 
-	authenticate(client, oauthConfig, state, application) {
-		let returnedState;
-
-		// Authenticate
-		client
-			.loginImplicitGrant(oauthConfig.clientId, oauthConfig.redirect, { state: state })
-			.then((data) => {
-				window.localStorage.setItem(this.environment, client.environment);
-				// Store returned state
-				returnedState = data.state;
-
-				// Makes call to platform api to get the feature toggles for the user that is logged in.
-				return $.ajax({
-					url: `https://apps.${client.environment}/platform/api/v2/featuretoggles?` + this._createQueryString(),
-					type: 'GET',
-					dataType: 'json',
-					headers: {
-						Authorization: `bearer ${data.accessToken}`,
-					},
-				});
-			})
-			.then((data) => {
-				if (!data) {
-					return;
+	removeinitializedDuplicates() {
+		let accountList;
+		let storage = window.localStorage;
+		let StoredAccounts = storage.getItem('initialized');
+		if (StoredAccounts === 'null' || !StoredAccounts) {
+		} else {
+			accountList = JSON.parse(StoredAccounts);
+			let keepAccount = [];
+			let temp = [];
+			for (let i = accountList.accounts.length - 1; i >= 0; i--) {
+				const userId = accountList.accounts[i].userId;
+				if (temp.includes(userId)) {
+					continue;
 				}
-				for (var key in data) {
-					try {
-						// Can't use storage-service yet since this is in the initializer
-						window.localStorage['developertools-' + key] = data[key];
-					} catch (error) {
-						console.log('Could not write feature toggle to local storage: ' + key);
+				if (userId && userId !== '') {
+					temp.push(userId);
+				}
+				keepAccount.push(accountList.accounts[i]);
+			}
+			accountList.accounts = keepAccount.reverse();
+			storage.setItem('initialized', JSON.stringify(accountList));
+		}
+	},
+
+	removeDuplicates() {
+		let accountList;
+		let storage = window.localStorage;
+		let StoredAccounts = storage.getItem('accounts');
+		if (StoredAccounts === 'null' || !StoredAccounts) {
+		} else {
+			accountList = JSON.parse(StoredAccounts);
+			let keepAccount = [];
+			let temp = [];
+			for (let i = accountList.accounts.length - 1; i >= 0; i--) {
+				const userId = accountList.accounts[i].userId;
+				if (temp.includes(userId) || userId === undefined) {
+					continue;
+				}
+				if (userId) {
+					temp.push(userId);
+				}
+				keepAccount.push(accountList.accounts[i]);
+			}
+			accountList.accounts = keepAccount.reverse();
+			storage.setItem('accounts', JSON.stringify(accountList));
+		}
+	},
+
+	initAccount(accountData) {
+		let that = this;
+		let newAccount = new Account(accountData.token, accountData.env);
+
+		try {
+			// Initialize account info
+			newAccount.inited().then(
+				function () {
+					let accountsObj = {
+						accounts: [],
+					};
+					let storage = window.localStorage;
+					let storedAccounts = storage.getItem('accounts');
+					let storedInitialized = storage.getItem('initialized');
+					if (storedAccounts === 'null' || !storedAccounts) {
+						storage.setItem('selectedAccount', JSON.stringify(newAccount));
 					}
+					if (storedInitialized === 'null' || !storedInitialized) {
+						accountsObj.accounts.push(newAccount);
+						storage.setItem('initialized', JSON.stringify(accountsObj));
+						that.addAccountData(newAccount.getData());
+					} else {
+						accountsObj = JSON.parse(storedInitialized);
+						accountsObj.accounts.push(newAccount);
+						storage.setItem('initialized', JSON.stringify(accountsObj));
+						that.removeinitializedDuplicates();
+						that.addAccountData(newAccount.getData());
+						that.removeDuplicates();
+					}
+				},
+				function (error) {
+					console.log(error);
+					that.removeAccount(newAccount);
 				}
+			);
+		} catch (err) {
+			console.log(err);
+		}
+	},
 
-				application.advanceReadiness();
-				//debugger;
-				var returnedStateObj = JSON.parse(decodeURIComponent(returnedState).replace(/\|/g, '='));
-				var redirectTo = returnedStateObj.redirectUrl;
+	addAccountData(account) {
+		let accountsList = {
+			accounts: [],
+		};
+		let storage = window.localStorage;
+		let StoredAccounts = storage.getItem('accounts');
+		if (StoredAccounts === 'null' || !StoredAccounts) {
+			accountsList.accounts.push(account);
+			storage.setItem('accounts', JSON.stringify(accountsList));
+		} else {
+			accountsList = JSON.parse(StoredAccounts);
+			accountsList.accounts.push(account);
+			storage.setItem('accounts', JSON.stringify(accountsList));
+		}
+	},
 
-				if (redirectTo && redirectTo !== 'null' && redirectTo !== window.location.href) {
-					window.location.replace(redirectTo);
-				}
-			})
-			.catch((err) => {
-				console.log('Could not get feature toggles');
-				console.log(err);
-			});
+	addAccount(environment) {
+		const oauthConfig = config.oauthProps[purecloudEnvironment()];
+		window.location.assign(
+			`https://login.${environment}/oauth/authorize?client_id=${oauthConfig.clientId}&response_type=token&redirect_uri=${encodeURI(
+				oauthConfig.redirect
+			)}&state=${encodeURIComponent(environment)}`
+		);
 	},
 
 	initialize: function (application) {
 		application.deferReadiness();
+		let thi = this;
+		let accountsList;
+		let storage = window.localStorage;
+		storage.removeItem('initialized');
+		console.log(JSON.parse(window.localStorage.getItem('accounts')));
+		let StoredAccounts = storage.getItem('accounts');
+		accountsList = JSON.parse(StoredAccounts) || [];
+		let accounts = accountsList.accounts || [];
+		accounts.forEach(start);
 
-		const oauthConfig = config.oauthProps[purecloudEnvironment()];
-		const client = platformClient.ApiClient.instance;
-		client.setPersistSettings(true, 'purecloud-dev-tools-auth');
-		var env;
-
-		var url = window.location.href;
-		var stateStr = decodeURIComponent(decodeURIComponent(url));
-
-		if (stateStr.includes('state')) {
-			// Check if the url has state in it. If so, means authenticated, then check for environment
-			stateStr = stateStr.substring(stateStr.indexOf('{'), stateStr.lastIndexOf('&')); // Extract state from url for JSON parse
-
-			var preStateObj = JSON.parse(stateStr);
-
-			if (preStateObj.environment) {
-				env = preStateObj.environment;
-			} else {
-				env = purecloudEnvironmentTld();
-			}
-		} else {
-			env = purecloudEnvironmentTld();
+		function start(accountData) {
+			thi.initAccount(accountData);
 		}
 
-		if (!env || env === 'null') {
-			// type of variable "env" is string, so needs to check "null" instead of null
+		if (window.location.hash) {
+			const hash = window.location.hash.substring(1);
+			var params = {};
+			hash.split('&').map((hk) => {
+				let temp = hk.split('=');
+				params[temp[0]] = temp[1];
+			});
+			console.log(params);
+			if (params.access_token) {
+				this.initAccount({ token: params.access_token, env: params.state || 'aps1.pure.cloud' });
+				window.location.hash = '';
+				document.getElementById('regionModal').style.display = 'none';
+				application.advanceReadiness();
+			}
+		} else if (!accountsList || accountsList.accounts.length == 0) {
 			var that = this;
-
 			// Append lower envs
 			const lowerEnvRegex = /inin[dt]ca|localhost|(?:dev|test)-genesys/i;
 			if (window.location.host.match(lowerEnvRegex)) {
@@ -119,26 +188,13 @@ export default {
 
 			document.getElementById('regionModal').style.display = 'block';
 			$('.regionButton').on('click', function () {
-				env = $(this).attr('value');
+				let env = $(this).attr('value');
 
-				var stateObj = {
-					redirectUrl: window.location.href.replace(/=/g, '|'),
-					environment: env,
-				};
-				var state = JSON.stringify(stateObj);
-				client.setEnvironment(env);
-				that.authenticate(client, oauthConfig, state, application);
+				that.addAccount(env);
 			});
 		} else {
 			document.getElementById('regionModal').style.display = 'none';
-
-			var stateObj = {
-				redirectUrl: window.location.href.replace(/=/g, '|'),
-				environment: env,
-			};
-			var state = JSON.stringify(stateObj);
-			client.setEnvironment(env);
-			this.authenticate(client, oauthConfig, state, application);
+			application.advanceReadiness();
 		}
 	},
 };

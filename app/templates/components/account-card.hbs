@@ -1,0 +1,19 @@
+<div class='account-card {{if active 'active-card' 'removable'}}'>
+	<div class='col-region'>
+		<span>{{env}}</span>
+	</div>
+	<div class='col-image'>
+		<img src={{profileImg}} alt='profile pic' />
+	</div>
+	<div class='col-info'>
+		<span class='name' title={{me.name}} {{action 'switchaccounts'}}>
+			{{me.name}}
+		</span>
+		<span class='org' title={{me.organization.name}}>
+			{{me.organization.name}}
+		</span>
+	</div>
+	<div class='{{if active '' 'col-remove-button'}}' {{action 'deleteAccount' me.id}}>
+		<i class='{{if active '' 'fa fa-times remove-button'}}'></i>
+	</div>
+</div>

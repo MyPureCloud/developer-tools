@@ -2,8 +2,11 @@ import Ember from 'ember';
 import platformClient from 'platformClient';
 
 const SECURITY_NAME = 'PureCloud OAuth';
+var computed = Ember.computed;
 
-export default Ember.Service.extend(Ember.Evented, {
+export default Ember.Service.extend({
+	accountManager: Ember.inject.service('accountManager'),
+
 	session: null,
 
 	notificationsApi() {
@@ -85,6 +88,7 @@ export default Ember.Service.extend(Ember.Evented, {
 			['application/json']
 		);
 	},
+
 	logout() {
 		console.log('logging out');
 		this.tokensApi()
@@ -92,7 +96,9 @@ export default Ember.Service.extend(Ember.Evented, {
 			.then(() => {
 				console.log('token destroyed');
 				window.localStorage.removeItem('purecloud_dev_tools_auth_auth_data');
-				window.localStorage.removeItem("environment");
+				window.localStorage.removeItem('accounts');
+				window.localStorage.removeItem('selected');
+				window.localStorage.removeItem('initiated');
 				platformClient.ApiClient.instance.logout();
 			})
 			.catch(console.error);
@@ -100,9 +106,30 @@ export default Ember.Service.extend(Ember.Evented, {
 	me: null,
 	isStandalone: true,
 
+	setSelected(selectedAccount) {
+		platformClient.ApiClient.instance.setEnvironment(selectedAccount.environment);
+		platformClient.ApiClient.instance.setAccessToken(selectedAccount.token);
+		this.usersApi()
+			.getUsersMe({
+				expand: ['geolocation', 'station', 'date', 'geolocationsettings', 'organization', 'presencedefinitions', 'token', 'trustors'],
+			})
+			.then((me) => {
+				this.set('me', me);
+				this.set('accessToken', platformClient.ApiClient.instance.authData.accessToken);
+				this.set('environment', platformClient.ApiClient.instance.environment);
+			})
+			.catch((err) => console.error(err));
+	},
+
 	init() {
 		this._super(...arguments);
+		let storage = window.localStorage;
+		let selectedAccount = JSON.parse(storage.getItem('selected'));
+		platformClient.ApiClient.instance.setEnvironment(selectedAccount.environment);
+		platformClient.ApiClient.instance.setAccessToken(selectedAccount.token);
+
 		this.set('isStandalone', window.location === window.parent.location);
+
 		this.usersApi()
 			.getUsersMe({
 				expand: ['geolocation', 'station', 'date', 'geolocationsettings', 'organization', 'presencedefinitions', 'token', 'trustors'],
