@@ -2,8 +2,6 @@ import config from '../config/environment';
 import { purecloudEnvironment } from '../utils/purecloud-environment';
 import { purecloudEnvironmentTld } from '../utils/purecloud-environment';
 import Account from '../utils/account';
-import platformClient from 'platformClient';
-import Ember from 'ember';
 
 export default {
 	name: 'authenticators',
@@ -145,9 +143,8 @@ export default {
 		let accountsList;
 		let storage = window.localStorage;
 		storage.removeItem('initialized');
-		console.log(JSON.parse(window.localStorage.getItem('accounts')));
-		let StoredAccounts = storage.getItem('accounts');
-		accountsList = JSON.parse(StoredAccounts) || [];
+		let storedAccounts = storage.getItem('accounts');
+		accountsList = JSON.parse(storedAccounts) || [];
 		let accounts = accountsList.accounts || [];
 		accounts.forEach(start);
 
@@ -155,6 +152,7 @@ export default {
 			thi.initAccount(accountData);
 		}
 
+		//New Login
 		if (window.location.hash) {
 			const hash = window.location.hash.substring(1);
 			var params = {};
@@ -164,7 +162,7 @@ export default {
 			});
 			console.log(params);
 			if (params.access_token) {
-				this.initAccount({ token: params.access_token, env: params.state || 'aps1.pure.cloud' });
+				this.initAccount({ token: params.access_token, env: params.state || 'mypurecloud.com' });
 				window.location.hash = '';
 				document.getElementById('regionModal').style.display = 'none';
 				application.advanceReadiness();

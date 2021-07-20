@@ -7,21 +7,27 @@ export default Ember.Service.extend({
 	savedAccounts: [],
 	localInitialized: [],
 	selectedAccount: null,
+	finalAccount: false,
 
-	acc: Ember.computed('initialized', function () {
-		return this.get('initialized');
-	}),
+	// acc: Ember.computed('initialized', function () {
+	// 	return this.get('initialized');
+	// }),
 
-	getSelected: Ember.observer('selected', function () {
+	getSelected: Ember.observer('selectedAccount', function () {
 		let selectedAccount = this.get('selectedAccount');
 		this.get('purecloud').setSelected(selectedAccount);
+	}),
+
+	getLastAccount: Ember.observer('initialized', function () {
+		if (this.localInitialized.length === 1) {
+			this.set('finalAccount', true);
+		}
 	}),
 
 	init() {
 		let storage = window.localStorage;
 		let initializedAccounts = JSON.parse(storage.getItem('initialized'));
 		this.localInitialized = initializedAccounts.accounts;
-		//this.set('initialized', initializedAccounts.accounts);
 		let selectedAccount = JSON.parse(storage.getItem('selectedAccount'));
 		this.setSelected(selectedAccount);
 		let savedAccountsData = JSON.parse(storage.getItem('accounts'));
@@ -41,11 +47,12 @@ export default Ember.Service.extend({
 		temp = [...this.localInitialized];
 		this.set('initialized', temp);
 
-		//store in modified initialized accounts in local storage
+		//store modified initialized accounts in local storage
 		let storedInitialized = JSON.parse(window.localStorage.getItem('initialized'));
 		storedInitialized.accounts = temp;
 		window.localStorage.setItem('initialized', JSON.stringify(storedInitialized));
 		this.set('selectedAccount', account);
+		window.localStorage.setItem('selectedAccount', JSON.stringify(account));
 	},
 
 	deleteAccount(accountId) {
@@ -54,7 +61,7 @@ export default Ember.Service.extend({
 		for (let i = 0; i < this.savedAccounts.length; i++) {
 			if (this.savedAccounts[i].userId === accountId) {
 				this.savedAccounts.splice(i, 1);
-				tempAccounts = [...this.savedAccount];
+				tempAccounts = [...this.savedAccounts];
 			}
 		}
 		for (let i = 0; i < this.localInitialized.length; i++) {

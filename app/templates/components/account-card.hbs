@@ -13,7 +13,7 @@
 			{{me.organization.name}}
 		</span>
 	</div>
-	<div class='{{if active '' 'col-remove-button'}}' {{action 'deleteAccount' me.id}}>
-		<i class='{{if active '' 'fa fa-times remove-button'}}'></i>
+	<div class='{{if active '' 'col-remove-button'}} {{if lastAccount 'col-remove-button'}}' {{action 'deleteAccount' me.id}}>
+		<i class='{{if active '' 'fa fa-times remove-button'}} {{if lastAccount 'fa fa-times remove-button'}}'></i>
 	</div>
 </div>
