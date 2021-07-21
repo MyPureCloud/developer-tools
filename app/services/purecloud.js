@@ -124,7 +124,7 @@ export default Ember.Service.extend({
 	init() {
 		this._super(...arguments);
 		let storage = window.localStorage;
-		let selectedAccount = JSON.parse(storage.getItem('selected'));
+		let selectedAccount = JSON.parse(storage.getItem('selectedAccount'));
 		platformClient.ApiClient.instance.setEnvironment(selectedAccount.environment);
 		platformClient.ApiClient.instance.setAccessToken(selectedAccount.token);
 

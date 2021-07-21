@@ -1,10 +1,9 @@
 import config from '../config/environment';
 
 function purecloudEnvironmentTld() {
-
 	let storage = window.localStorage;
-	let env = storage.getItem("environment");
-
+	let selectedAccount = JSON.parse(storage.getItem('selectedAccount'));
+	let env = selectedAccount.environment;
 	return env;
 }
 

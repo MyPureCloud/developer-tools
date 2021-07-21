@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import toolsModules from '../utils/dev-tools-modules';
 import config from '../config/environment';
-// import orgauthorizationService from '../services/orgauthorization-service';
+import orgauthorizationService from '../services/orgauthorization-service';
 
 var computed = Ember.computed;
 
@@ -9,7 +9,7 @@ export default Ember.Component.extend({
 	purecloud: Ember.inject.service('purecloud'),
 	modules: toolsModules,
 	routing: Ember.inject.service('-routing'),
-	orgauthorizationService: Ember.inject.service('orgauthorization-service'),
+	orgauthorizationService: Ember.inject.service(),
 	routeTitle: computed('routing.currentPath', function () {
 		let route = this.get('routing').get('currentPath');
 		for (let x = 0; x < toolsModules.length; x++) {
@@ -44,7 +44,7 @@ export default Ember.Component.extend({
 
 	init() {
 		this._super(...arguments);
-		//this.get('orgauthorizationService');
+		this.get('orgauthorizationService');
 	},
 
 	actions: {

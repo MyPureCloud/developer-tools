@@ -10,20 +10,13 @@
 	{{/if}}
 </div>
 {{#if showMe}}
-
 	<div id='users-me' class={{if isStandalone 'standalone'}}>
 		<h3>Accout Selection</h3>
 		{{account-selector}}
+
 		<button type='button' class='close pull-left' aria-label='Close' {{action 'toggleMe'}}><span aria-hidden='true'>&times;</span></button>
-		{{!-- <div class='user-info'>
-			{{#if isStandalone}}
-				<div class='username'>
-					{{me.name}}
-				</div>
-				<div class='org-name'>
-					{{me.organization.name}}
-				</div>
-			{{/if}}
+
+		<div class='user-info'>
 			{{#if orgauthorizationService.isInTrustedOrg}}
 				<a class='link-sign-out hidden-xs' href='#' title='Switch to Home Org' {{action 'switchToHomeOrg' bubbles=false}}>
 					<i class='fa fa-home' aria-hidden='true'></i>
@@ -36,13 +29,8 @@
 					<span>Switch to Org Trust</span>
 				</a>
 			{{/if}}
-			{{#if isStandalone}}
-				<a class='link-sign-out' href='#' title='Sign Out' {{action 'logOut'}}>
-					<i class='fa fa-sign-out' aria-hidden='true'></i>
-					<span>Sign out</span>
-				</a>
-			{{/if}}
-		</div> --}}
+		</div>
+
 		<label>/api/v2/users/me</label>
 		<pre class='scrollable {{if isStandalone 'standalone'}}'>
 			<code>

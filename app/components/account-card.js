@@ -71,11 +71,11 @@ export default Ember.Component.extend({
 
 	actions: {
 		switchaccounts: function () {
-			window.localStorage.setItem('selected', JSON.stringify(this.get('account')));
+			window.localStorage.setItem('selectedAccount', JSON.stringify(this.get('account')));
 			this.get('accountManager').setSelected(this.get('account'));
 		},
 		deleteAccount: function (id) {
-			this.get('accountManager').deleteAccount(id);
+			this.get('accountManager').deleteAccount(id, this.get('account').token);
 		},
 	},
 });

@@ -8,14 +8,14 @@ class Account {
 		this.userId = '';
 		this.me = '';
 		this.profilePicUri = '';
-		this.status = ''; //boolean of status of account
+		this.status = ''; //boolean of status of account(active/nota active)
 	}
 
 	getData() {
 		return { token: this.token, env: this.environment, userId: this.userId };
 	}
 
-	inited() {
+	initialize() {
 		let that = this;
 		return new Promise(function (myResolve, myReject) {
 			$.ajax({

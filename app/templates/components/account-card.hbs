@@ -1,4 +1,4 @@
-<div class='account-card {{if active 'active-card' 'removable'}}'>
+<div class='account-card {{if active 'active-card' 'removable'}}' {{action 'switchaccounts'}}>
 	<div class='col-region'>
 		<span>{{env}}</span>
 	</div>
@@ -6,14 +6,17 @@
 		<img src={{profileImg}} alt='profile pic' />
 	</div>
 	<div class='col-info'>
-		<span class='name' title={{me.name}} {{action 'switchaccounts'}}>
+		<span class='name' title={{me.name}}>
 			{{me.name}}
 		</span>
 		<span class='org' title={{me.organization.name}}>
 			{{me.organization.name}}
 		</span>
 	</div>
-	<div class='{{if active '' 'col-remove-button'}} {{if lastAccount 'col-remove-button'}}' {{action 'deleteAccount' me.id}}>
-		<i class='{{if active '' 'fa fa-times remove-button'}} {{if lastAccount 'fa fa-times remove-button'}}'></i>
+	<div class='col-remove-button' {{action 'deleteAccount' me.id}}>
+		<i class='fa fa-times remove-button'></i>
 	</div>
+	{{#if lastAccount}}
+		<i class='fa fa-times remove-button'></i>
+	{{/if}}
 </div>

@@ -1,92 +1,92 @@
 import config from '../config/environment';
 import { purecloudEnvironment } from '../utils/purecloud-environment';
-import { purecloudEnvironmentTld } from '../utils/purecloud-environment';
 import Account from '../utils/account';
 
 export default {
 	name: 'authenticators',
-	featureTogglesToQuery: ['archDevToolsScripting'],
-	environment: 'environment',
+	accounts: 'accounts',
 
 	removeAccount(account) {
-		let accountList;
+		let accountObj;
 		let storage = window.localStorage;
-		let StoredAccounts = storage.getItem('accounts');
-		if (StoredAccounts === 'null' || !StoredAccounts) {
+		let storedAccounts = storage.getItem(this.accounts);
+		if (storedAccounts === 'null' || !storedAccounts) {
 		} else {
-			accountList = JSON.parse(StoredAccounts);
-			for (let i = 0; i < accountList.accounts.length; i++) {
-				if (accountList.accounts[i].token === account.token) {
-					accountList.accounts.splice(i, 1);
+			accountObj = JSON.parse(StoredAccounts);
+			for (let i = 0; i < accountObj.accounts.length; i++) {
+				if (accountObj.accounts[i].token === account.token) {
+					accountObj.accounts.splice(i, 1);
 				}
 			}
-			storage.setItem('accounts', JSON.stringify(accountList));
+			storage.setItem(this.accounts, JSON.stringify(accountObj));
 		}
 	},
 
-	removeinitializedDuplicates() {
-		let accountList;
+	removeInitializedDuplicates() {
+		let accountObj;
 		let storage = window.localStorage;
 		let StoredAccounts = storage.getItem('initialized');
 		if (StoredAccounts === 'null' || !StoredAccounts) {
 		} else {
-			accountList = JSON.parse(StoredAccounts);
+			accountObj = JSON.parse(StoredAccounts);
 			let keepAccount = [];
 			let temp = [];
-			for (let i = accountList.accounts.length - 1; i >= 0; i--) {
-				const userId = accountList.accounts[i].userId;
+			for (let i = accountObj.accounts.length - 1; i >= 0; i--) {
+				const userId = accountObj.accounts[i].userId;
 				if (temp.includes(userId)) {
 					continue;
 				}
 				if (userId && userId !== '') {
 					temp.push(userId);
 				}
-				keepAccount.push(accountList.accounts[i]);
+				keepAccount.push(accountObj.accounts[i]);
 			}
-			accountList.accounts = keepAccount.reverse();
-			storage.setItem('initialized', JSON.stringify(accountList));
+			accountObj.accounts = keepAccount.reverse();
+			storage.setItem('initialized', JSON.stringify(accountObj));
 		}
 	},
 
-	removeDuplicates() {
-		let accountList;
+	removeAccountDuplicates() {
+		let accountObj;
 		let storage = window.localStorage;
-		let StoredAccounts = storage.getItem('accounts');
-		if (StoredAccounts === 'null' || !StoredAccounts) {
+		let storedAccounts = storage.getItem(this.accounts);
+		if (storedAccounts === 'null' || !storedAccounts) {
 		} else {
-			accountList = JSON.parse(StoredAccounts);
+			accountObj = JSON.parse(storedAccounts);
 			let keepAccount = [];
 			let temp = [];
-			for (let i = accountList.accounts.length - 1; i >= 0; i--) {
-				const userId = accountList.accounts[i].userId;
+			for (let i = accountObj.accounts.length - 1; i >= 0; i--) {
+				const userId = accountObj.accounts[i].userId;
 				if (temp.includes(userId) || userId === undefined) {
 					continue;
 				}
 				if (userId) {
 					temp.push(userId);
 				}
-				keepAccount.push(accountList.accounts[i]);
+				keepAccount.push(accountObj.accounts[i]);
 			}
-			accountList.accounts = keepAccount.reverse();
-			storage.setItem('accounts', JSON.stringify(accountList));
+			accountObj.accounts = keepAccount.reverse();
+			storage.setItem(this.accounts, JSON.stringify(accountObj));
 		}
 	},
 
-	initAccount(accountData) {
+	initAccount(accountData, application) {
 		let that = this;
 		let newAccount = new Account(accountData.token, accountData.env);
 
 		try {
 			// Initialize account info
-			newAccount.inited().then(
+			newAccount.initialize().then(
 				function () {
 					let accountsObj = {
 						accounts: [],
 					};
 					let storage = window.localStorage;
-					let storedAccounts = storage.getItem('accounts');
+					let storedAccounts = storage.getItem(that.accounts);
+					let accountsList = JSON.parse(storedAccounts) || [];
+					let acc = accountsList || [];
 					let storedInitialized = storage.getItem('initialized');
-					if (storedAccounts === 'null' || !storedAccounts) {
+					if (!storedAccounts || acc.length === 0) {
 						storage.setItem('selectedAccount', JSON.stringify(newAccount));
 					}
 					if (storedInitialized === 'null' || !storedInitialized) {
@@ -97,10 +97,11 @@ export default {
 						accountsObj = JSON.parse(storedInitialized);
 						accountsObj.accounts.push(newAccount);
 						storage.setItem('initialized', JSON.stringify(accountsObj));
-						that.removeinitializedDuplicates();
+						that.removeInitializedDuplicates();
 						that.addAccountData(newAccount.getData());
-						that.removeDuplicates();
+						that.removeAccountDuplicates();
 					}
+					application.advanceReadiness();
 				},
 				function (error) {
 					console.log(error);
@@ -117,14 +118,14 @@ export default {
 			accounts: [],
 		};
 		let storage = window.localStorage;
-		let StoredAccounts = storage.getItem('accounts');
-		if (StoredAccounts === 'null' || !StoredAccounts) {
+		let storedAccounts = storage.getItem(this.accounts);
+		if (storedAccounts === 'null' || !storedAccounts) {
 			accountsList.accounts.push(account);
-			storage.setItem('accounts', JSON.stringify(accountsList));
+			storage.setItem(this.accounts, JSON.stringify(accountsList));
 		} else {
-			accountsList = JSON.parse(StoredAccounts);
+			accountsList = JSON.parse(storedAccounts);
 			accountsList.accounts.push(account);
-			storage.setItem('accounts', JSON.stringify(accountsList));
+			storage.setItem(this.accounts, JSON.stringify(accountsList));
 		}
 	},
 
@@ -139,17 +140,16 @@ export default {
 
 	initialize: function (application) {
 		application.deferReadiness();
-		let thi = this;
-		let accountsList;
+		let self = this;
+		let accountsObj;
 		let storage = window.localStorage;
-		storage.removeItem('initialized');
-		let storedAccounts = storage.getItem('accounts');
-		accountsList = JSON.parse(storedAccounts) || [];
-		let accounts = accountsList.accounts || [];
-		accounts.forEach(start);
+		let storedAccounts = storage.getItem(this.accounts);
+		accountsObj = JSON.parse(storedAccounts) || [];
+		let accountsList = accountsObj.accounts || [];
+		accountsList.forEach(start);
 
 		function start(accountData) {
-			thi.initAccount(accountData);
+			self.initAccount(accountData, application);
 		}
 
 		//New Login
@@ -160,14 +160,12 @@ export default {
 				let temp = hk.split('=');
 				params[temp[0]] = temp[1];
 			});
-			console.log(params);
 			if (params.access_token) {
-				this.initAccount({ token: params.access_token, env: params.state || 'mypurecloud.com' });
-				window.location.hash = '';
-				document.getElementById('regionModal').style.display = 'none';
-				application.advanceReadiness();
+				this.initAccount({ token: params.access_token, env: params.state }, application);
 			}
-		} else if (!accountsList || accountsList.accounts.length == 0) {
+			document.getElementById('regionModal').style.display = 'none';
+			window.location.hash = '';
+		} else if (!accountsObj || accountsList.length === 0) {
 			var that = this;
 			// Append lower envs
 			const lowerEnvRegex = /inin[dt]ca|localhost|(?:dev|test)-genesys/i;
@@ -183,16 +181,13 @@ export default {
 				document.getElementById('regionModalBody').appendChild(regionButton('DCA', 'inindca.com'));
 				document.getElementById('regionModalBody').appendChild(regionButton('TCA', 'inintca.com'));
 			}
-
 			document.getElementById('regionModal').style.display = 'block';
 			$('.regionButton').on('click', function () {
 				let env = $(this).attr('value');
-
 				that.addAccount(env);
 			});
 		} else {
 			document.getElementById('regionModal').style.display = 'none';
-			application.advanceReadiness();
 		}
 	},
 };

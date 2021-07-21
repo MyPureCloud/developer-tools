@@ -7,21 +7,10 @@ export default Ember.Service.extend({
 	savedAccounts: [],
 	localInitialized: [],
 	selectedAccount: null,
-	finalAccount: false,
-
-	// acc: Ember.computed('initialized', function () {
-	// 	return this.get('initialized');
-	// }),
 
 	getSelected: Ember.observer('selectedAccount', function () {
 		let selectedAccount = this.get('selectedAccount');
 		this.get('purecloud').setSelected(selectedAccount);
-	}),
-
-	getLastAccount: Ember.observer('initialized', function () {
-		if (this.localInitialized.length === 1) {
-			this.set('finalAccount', true);
-		}
 	}),
 
 	init() {
@@ -32,12 +21,10 @@ export default Ember.Service.extend({
 		this.setSelected(selectedAccount);
 		let savedAccountsData = JSON.parse(storage.getItem('accounts'));
 		this.savedAccounts = savedAccountsData.accounts;
-		this.set('accounts', savedAccountsData.accounts);
 	},
 
 	setSelected(account) {
 		let temp = [];
-
 		for (let i = 0; i < this.localInitialized.length; i++) {
 			this.localInitialized[i].status = false;
 			if (this.localInitialized[i].userId === account.userId) {
@@ -51,25 +38,24 @@ export default Ember.Service.extend({
 		let storedInitialized = JSON.parse(window.localStorage.getItem('initialized'));
 		storedInitialized.accounts = temp;
 		window.localStorage.setItem('initialized', JSON.stringify(storedInitialized));
+
+		//Set account as selected account and save in local storage
 		this.set('selectedAccount', account);
 		window.localStorage.setItem('selectedAccount', JSON.stringify(account));
 	},
 
-	deleteAccount(accountId) {
+	deleteAccount(accountId, token) {
 		let tempAccounts = [];
 		let tempInitialized = [];
 		for (let i = 0; i < this.savedAccounts.length; i++) {
-			if (this.savedAccounts[i].userId === accountId) {
+			if (this.savedAccounts[i].userId === accountId && this.localInitialized[i].userId === accountId) {
 				this.savedAccounts.splice(i, 1);
-				tempAccounts = [...this.savedAccounts];
-			}
-		}
-		for (let i = 0; i < this.localInitialized.length; i++) {
-			if (this.localInitialized[i].userId === accountId) {
 				this.localInitialized.splice(i, 1);
+				tempAccounts = [...this.savedAccounts];
 				tempInitialized = [...this.localInitialized];
 			}
 		}
+
 		//Store modified initialized accounts
 		let storedInitialized = JSON.parse(window.localStorage.getItem('initialized'));
 		storedInitialized.accounts = tempInitialized;
@@ -78,8 +64,27 @@ export default Ember.Service.extend({
 
 		//Store modified accounts' data
 		let storedAccountsData = JSON.parse(window.localStorage.getItem('accounts'));
+		console.log(tempAccounts, length);
 		storedAccountsData.accounts = tempAccounts;
 		window.localStorage.setItem('accounts', JSON.stringify(storedAccountsData));
+
+		$.ajax({
+			type: 'DELETE',
+			url: 'https://api.mypurecloud.com/api/v2/tokens/me',
+			contentType: 'application/json',
+			dataType: 'json',
+			headers: {
+				Authorization: 'bearer ' + token,
+			},
+		});
+
+		if (tempAccounts.length == 0) {
+			window.localStorage.removeItem('selectedAccount');
+			window.localStorage.removeItem('accounts');
+			window.location.reload();
+		} else {
+			this.setSelected(tempInitialized[0]); //Assign selected account to another account
+		}
 	},
 
 	addAccount(environment) {
