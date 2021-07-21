@@ -25,10 +25,9 @@ export default {
 	removeInitializedDuplicates() {
 		let accountObj;
 		let storage = window.localStorage;
-		let StoredAccounts = storage.getItem('initialized');
-		if (StoredAccounts === 'null' || !StoredAccounts) {
-		} else {
-			accountObj = JSON.parse(StoredAccounts);
+		let storedAccounts = storage.getItem('initialized');
+		if (storedAccounts !== 'null' || storedAccounts) {
+			accountObj = JSON.parse(storedAccounts);
 			let keepAccount = [];
 			let temp = [];
 			for (let i = accountObj.accounts.length - 1; i >= 0; i--) {
@@ -50,8 +49,7 @@ export default {
 		let accountObj;
 		let storage = window.localStorage;
 		let storedAccounts = storage.getItem(this.accounts);
-		if (storedAccounts === 'null' || !storedAccounts) {
-		} else {
+		if (storedAccounts !== 'null' || storedAccounts) {
 			accountObj = JSON.parse(storedAccounts);
 			let keepAccount = [];
 			let temp = [];
@@ -146,11 +144,9 @@ export default {
 		let storedAccounts = storage.getItem(this.accounts);
 		accountsObj = JSON.parse(storedAccounts) || [];
 		let accountsList = accountsObj.accounts || [];
-		accountsList.forEach(start);
-
-		function start(accountData) {
+		accountsList.forEach((accountData) => {
 			self.initAccount(accountData, application);
-		}
+		});
 
 		//New Login
 		if (window.location.hash) {

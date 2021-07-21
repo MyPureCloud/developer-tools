@@ -3,7 +3,7 @@
 		<span>{{env}}</span>
 	</div>
 	<div class='col-image'>
-		<img src={{profileImg}} alt='profile pic' />
+		<img src={{profileImg}} title='Select Account' alt='profile pic' />
 	</div>
 	<div class='col-info'>
 		<span class='name' title={{me.name}}>
@@ -13,7 +13,7 @@
 			{{me.organization.name}}
 		</span>
 	</div>
-	<div class='col-remove-button' {{action 'deleteAccount' me.id}}>
+	<div class='col-remove-button' title='Delete Account' {{action 'deleteAccount' me.id}}>
 		<i class='fa fa-times remove-button'></i>
 	</div>
 	{{#if lastAccount}}

@@ -68,6 +68,7 @@ export default Ember.Service.extend({
 		storedAccountsData.accounts = tempAccounts;
 		window.localStorage.setItem('accounts', JSON.stringify(storedAccountsData));
 
+		//Purposefully ignored error handling
 		$.ajax({
 			type: 'DELETE',
 			url: 'https://api.mypurecloud.com/api/v2/tokens/me',
