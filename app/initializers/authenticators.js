@@ -162,9 +162,9 @@ export default {
 			});
 			if (params.access_token) {
 				this.initAccount({ token: params.access_token, env: params.state }, application);
+				window.location.hash = '';
 			}
 			document.getElementById('regionModal').style.display = 'none';
-			window.location.hash = '';
 		} else if (!accountsObj || accountsList.length === 0) {
 			var that = this;
 			// Append lower envs
