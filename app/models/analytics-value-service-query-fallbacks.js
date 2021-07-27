@@ -203,8 +203,10 @@ class Fallbacks {
         this.flowAggregate = {
             metrics: [
                 "nFlow",
+                "nFlowMilestone",
                 "nFlowOutcome",
                 "nFlowOutcomeFailed",
+                "oFlowMilestone",
                 "oFlow",
                 "tFlow",
                 "tFlowDisconnect",
@@ -233,6 +235,7 @@ class Fallbacks {
                 "externalOrganizationId",
                 "flaggedReason",
                 "flowId",
+                "flowMilestoneId",
                 "flowName",
                 "flowOutType",
                 "flowOutcome",
@@ -302,6 +305,7 @@ class Fallbacks {
                 "externalOrganizationId",
                 "flaggedReason",
                 "flowId",
+                "flowMilestoneId",
                 "flowName",
                 "flowOutType",
                 "flowOutcome",
