@@ -15,7 +15,13 @@ export default Ember.Component.extend({
 		this.get('accountManager.finalAccount');
 	}),
 
+	//checkboxBoolean: false,
+
+	accountInfo: null,
+
 	profileImg: null,
+
+	checked: null,
 
 	me: null,
 
@@ -67,15 +73,27 @@ export default Ember.Component.extend({
 		this.set('me', account.me);
 		this.set('profileImg', account.profilePicUri);
 		this.env = this.environmentShort(account.environment);
+		this.checked = account.confirmChanges;
+		this.accountInfo = account;
 	},
 
 	actions: {
+		checkAccount: function (account) {
+			let checkboxBoolean;
+			if (this.checked) {
+				checkboxBoolean = false;
+				this.get('accountManager').confirmChanges(account, checkboxBoolean);
+			} else {
+				checkboxBoolean = true;
+				this.get('accountManager').confirmChanges(account, checkboxBoolean);
+			}
+		},
 		switchaccounts: function () {
-			window.localStorage.setItem('selectedAccount', JSON.stringify(this.get('account')));
-			this.get('accountManager').setSelected(this.get('account'));
+			window.localStorage.setItem('selectedAccount', JSON.stringify(this.accountInfo));
+			this.get('accountManager').setSelected(this.accountInfo);
 		},
 		deleteAccount: function (id) {
-			this.get('accountManager').deleteAccount(id, this.get('account').token);
+			this.get('accountManager').deleteAccount(id, this.accountInfo.token);
 		},
 	},
 });

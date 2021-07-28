@@ -5,6 +5,7 @@ import Account from '../utils/account';
 export default {
 	name: 'authenticators',
 	accounts: 'accounts',
+	accountManager: Ember.inject.service(),
 
 	removeAccount(account) {
 		let accountObj;
@@ -12,7 +13,7 @@ export default {
 		let storedAccounts = storage.getItem(this.accounts);
 		if (storedAccounts === 'null' || !storedAccounts) {
 		} else {
-			accountObj = JSON.parse(StoredAccounts);
+			accountObj = JSON.parse(storedAccounts);
 			for (let i = 0; i < accountObj.accounts.length; i++) {
 				if (accountObj.accounts[i].token === account.token) {
 					accountObj.accounts.splice(i, 1);
@@ -141,6 +142,7 @@ export default {
 		let self = this;
 		let accountsObj;
 		let storage = window.localStorage;
+		//storage.removeItem(this.accounts);
 		let storedAccounts = storage.getItem(this.accounts);
 		accountsObj = JSON.parse(storedAccounts) || [];
 		let accountsList = accountsObj.accounts || [];
@@ -159,6 +161,11 @@ export default {
 			if (params.access_token) {
 				this.initAccount({ token: params.access_token, env: params.state }, application);
 				window.location.hash = '';
+			}
+			//Remove hash from url when there are no saved accounts
+			let savedAccounts = window.localStorage.getItem(this.accounts);
+			if (savedAccounts === 'null') {
+				window.location.assign(' ');
 			}
 			document.getElementById('regionModal').style.display = 'none';
 		} else if (!accountsObj || accountsList.length === 0) {

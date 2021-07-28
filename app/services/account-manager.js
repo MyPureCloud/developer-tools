@@ -23,6 +23,25 @@ export default Ember.Service.extend({
 		this.savedAccounts = savedAccountsData.accounts;
 	},
 
+	confirmChanges(account, checkboxBoolean) {
+		let temp = [];
+		for (let i = 0; i < this.localInitialized.length; i++) {
+			if (this.localInitialized[i].userId === account.userId) {
+				this.localInitialized[i].confirmChanges = checkboxBoolean;
+			}
+			if (this.get('selectedAccount').userId === account.userId) {
+				window.localStorage.setItem('selectedAccount', JSON.stringify(this.localInitialized[i]));
+			}
+		}
+
+		temp = [...this.localInitialized];
+		this.set('initialized', temp);
+
+		let storedInitialized = JSON.parse(window.localStorage.getItem('initialized'));
+		storedInitialized.accounts = temp;
+		window.localStorage.setItem('initialized', JSON.stringify(storedInitialized));
+	},
+
 	setSelected(account) {
 		let temp = [];
 		for (let i = 0; i < this.localInitialized.length; i++) {
@@ -64,7 +83,6 @@ export default Ember.Service.extend({
 
 		//Store modified accounts' data
 		let storedAccountsData = JSON.parse(window.localStorage.getItem('accounts'));
-		console.log(tempAccounts, length);
 		storedAccountsData.accounts = tempAccounts;
 		window.localStorage.setItem('accounts', JSON.stringify(storedAccountsData));
 
@@ -82,7 +100,7 @@ export default Ember.Service.extend({
 		if (tempAccounts.length == 0) {
 			window.localStorage.removeItem('selectedAccount');
 			window.localStorage.removeItem('accounts');
-			window.location.reload();
+			window.location.assign(' ');
 		} else {
 			this.setSelected(tempInitialized[0]); //Assign selected account to another account
 		}

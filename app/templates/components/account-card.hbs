@@ -20,3 +20,15 @@
 		<i class='fa fa-times remove-button'></i>
 	{{/if}}
 </div>
+
+{{#if checked}}
+	<div>
+		<input type='checkbox' id='confirmChanges' name='interest' value='music' {{action 'checkAccount' accountInfo on='input'}} checked />
+		<label for='confirmChanges'>Confirm Changes</label>
+	</div>
+{{else}}
+	<div>
+		<input type='checkbox' id='confirmChanges' name='interest' value='music' {{action 'checkAccount' accountInfo on='input'}} />
+		<label for='confirmChanges'>Confirm Changes</label>
+	</div>
+{{/if}}

@@ -9,6 +9,7 @@ class Account {
 		this.me = '';
 		this.profilePicUri = '';
 		this.status = ''; //boolean of status of account(active/nota active)
+		this.confirmChanges = '';
 	}
 
 	getData() {
@@ -29,6 +30,7 @@ class Account {
 				.then((data) => {
 					if (data) {
 						that.status = false;
+						that.confirmChanges = false;
 						that.me = data;
 						that.userId = data.id;
 						that.profilePicUri =
