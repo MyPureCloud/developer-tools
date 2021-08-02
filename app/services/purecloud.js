@@ -5,7 +5,7 @@ const SECURITY_NAME = 'PureCloud OAuth';
 var computed = Ember.computed;
 
 export default Ember.Service.extend({
-	accountManager: Ember.inject.service('accountManager'),
+	accountManager: Ember.inject.service(),
 
 	session: null,
 
@@ -89,20 +89,20 @@ export default Ember.Service.extend({
 		);
 	},
 
-	logout() {
-		console.log('logging out');
-		this.tokensApi()
-			.deleteTokensMe()
-			.then(() => {
-				console.log('token destroyed');
-				window.localStorage.removeItem('purecloud_dev_tools_auth_auth_data');
-				window.localStorage.removeItem('accounts');
-				window.localStorage.removeItem('selected');
-				window.localStorage.removeItem('initiated');
-				platformClient.ApiClient.instance.logout();
-			})
-			.catch(console.error);
-	},
+	// logout() {
+	// 	console.log('logging out');
+	// 	this.tokensApi()
+	// 		.deleteTokensMe()
+	// 		.then(() => {
+	// 			console.log('token destroyed');
+	// 			window.localStorage.removeItem('purecloud_dev_tools_auth_auth_data');
+	// 			window.localStorage.removeItem('accounts');
+	// 			window.localStorage.removeItem('selected');
+	// 			window.localStorage.removeItem('initiated');
+	// 			platformClient.ApiClient.instance.logout();
+	// 		})
+	// 		.catch(console.error);
+	// },
 	me: null,
 	isStandalone: true,
 

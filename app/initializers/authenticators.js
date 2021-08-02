@@ -11,8 +11,7 @@ export default {
 		let accountObj;
 		let storage = window.localStorage;
 		let storedAccounts = storage.getItem(this.accounts);
-		if (storedAccounts === 'null' || !storedAccounts) {
-		} else {
+		if (storedAccounts !== 'null' || storedAccounts) {
 			accountObj = JSON.parse(storedAccounts);
 			for (let i = 0; i < accountObj.accounts.length; i++) {
 				if (accountObj.accounts[i].token === account.token) {
@@ -69,12 +68,12 @@ export default {
 		}
 	},
 
-	initAccount(accountData, application) {
+	initAccount(accountData) {
 		let that = this;
-		let newAccount = new Account(accountData.token, accountData.env);
+		let newAccount = new Account(accountData.token, accountData.env, accountData.confirmChanges);
 
-		try {
-			// Initialize account info
+		// Initialize account info
+		return new Promise(function (myResolve, myReject) {
 			newAccount.initialize().then(
 				function () {
 					let accountsObj = {
@@ -83,11 +82,27 @@ export default {
 					let storage = window.localStorage;
 					let storedAccounts = storage.getItem(that.accounts);
 					let accountsList = JSON.parse(storedAccounts) || [];
-					let acc = accountsList || [];
+					let acc = accountsList.accounts || [];
+
+					let userIds = acc.map(function (account) {
+						return account.userId;
+					});
 					let storedInitialized = storage.getItem('initialized');
+
 					if (!storedAccounts || acc.length === 0) {
 						storage.setItem('selectedAccount', JSON.stringify(newAccount));
+					} else {
+						let selectedAccount = JSON.parse(window.localStorage.getItem('selectedAccount'));
+						if (selectedAccount !== 'null') {
+							if (selectedAccount.userId === newAccount.userId) {
+								storage.setItem('selectedAccount', JSON.stringify(newAccount)); //Keeps saved selected account info up to date
+							}
+							if (!userIds.includes(selectedAccount.userId)) {
+								storage.setItem('selectedAccount', JSON.stringify(newAccount)); //replaces saved expired account
+							}
+						}
 					}
+
 					if (storedInitialized === 'null' || !storedInitialized) {
 						accountsObj.accounts.push(newAccount);
 						storage.setItem('initialized', JSON.stringify(accountsObj));
@@ -95,27 +110,26 @@ export default {
 					} else {
 						accountsObj = JSON.parse(storedInitialized);
 						accountsObj.accounts.push(newAccount);
+						console.log(accountsObj);
 						storage.setItem('initialized', JSON.stringify(accountsObj));
 						that.removeInitializedDuplicates();
 						that.addAccountData(newAccount.getData());
 						that.removeAccountDuplicates();
 					}
-					application.advanceReadiness();
+					myResolve();
 				},
 				function (error) {
 					console.log(error);
-					that.removeAccount(newAccount);
 				}
 			);
-		} catch (err) {
-			console.log(err);
-		}
+		});
 	},
 
 	addAccountData(account) {
 		let accountsList = {
 			accounts: [],
 		};
+
 		let storage = window.localStorage;
 		let storedAccounts = storage.getItem(this.accounts);
 		if (storedAccounts === 'null' || !storedAccounts) {
@@ -142,12 +156,13 @@ export default {
 		let self = this;
 		let accountsObj;
 		let storage = window.localStorage;
-		//storage.removeItem(this.accounts);
+		storage.removeItem('initialized'); //Helps eliminate errors when an account's token expires
 		let storedAccounts = storage.getItem(this.accounts);
 		accountsObj = JSON.parse(storedAccounts) || [];
 		let accountsList = accountsObj.accounts || [];
-		accountsList.forEach((accountData) => {
-			self.initAccount(accountData, application);
+
+		let promises = accountsList.map(function (acc) {
+			return self.initAccount(acc);
 		});
 
 		//New Login
@@ -159,14 +174,15 @@ export default {
 				params[temp[0]] = temp[1];
 			});
 			if (params.access_token) {
-				this.initAccount({ token: params.access_token, env: params.state }, application);
+				promises.push(this.initAccount({ token: params.access_token, env: params.state, confirmChanges: false }));
 				window.location.hash = '';
+			} else if (
+				!Array.isArray(JSON.parse(window.localStorage.getItem(this.accounts)).accounts) ||
+				JSON.parse(window.localStorage.getItem(this.accounts)).accounts.length === 0
+			) {
+				window.location.assign(' '); //Prevents a blank page when a user(with expired token) relaods a page
 			}
-			//Remove hash from url when there are no saved accounts
-			let savedAccounts = window.localStorage.getItem(this.accounts);
-			if (savedAccounts === 'null') {
-				window.location.assign(' ');
-			}
+
 			document.getElementById('regionModal').style.display = 'none';
 		} else if (!accountsObj || accountsList.length === 0) {
 			var that = this;
@@ -189,8 +205,13 @@ export default {
 				let env = $(this).attr('value');
 				that.addAccount(env);
 			});
-		} else {
-			document.getElementById('regionModal').style.display = 'none';
 		}
+
+		Promise.all(promises).then((results) => {
+			//If there are no initialized accounts then application should not start
+			if (results.length > 0) {
+				application.advanceReadiness();
+			}
+		});
 	},
 };

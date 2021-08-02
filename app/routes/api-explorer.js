@@ -5,7 +5,6 @@ import platformClient from 'platformClient';
 export default Ember.Route.extend({
 	purecloud: Ember.inject.service(),
 	analyticsService: Ember.inject.service(),
-	accountManager: Ember.inject.service(),
 
 	init() {
 		this.get('purecloud');

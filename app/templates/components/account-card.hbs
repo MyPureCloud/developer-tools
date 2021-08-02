@@ -1,11 +1,11 @@
-<div class='account-card {{if active 'active-card' 'removable'}}' {{action 'switchaccounts'}}>
+<div class='account-card {{if active 'active-card' 'removable'}}'>
 	<div class='col-region'>
 		<span>{{env}}</span>
 	</div>
-	<div class='col-image'>
+	<div class='col-image' {{action 'switchaccounts'}}>
 		<img src={{profileImg}} title='Select Account' alt='profile pic' />
 	</div>
-	<div class='col-info'>
+	<div class='col-info' {{action 'switchaccounts'}}>
 		<span class='name' title={{me.name}}>
 			{{me.name}}
 		</span>
@@ -13,6 +13,19 @@
 			{{me.organization.name}}
 		</span>
 	</div>
+
+	{{#if checked}}
+		<div class='col-checkbox'>
+			<input type='checkbox' id='confirmChanges' name='confirmSettings' {{action 'checkAccount' accountInfo on='input'}} checked />
+			<label for='confirmChanges'>Confirm Changes</label>
+		</div>
+	{{else}}
+		<div class='col-checkbox'>
+			<input type='checkbox' id='confirmChanges' name='confirmSettings' {{action 'checkAccount' accountInfo on='input'}} />
+			<label for='confirmChanges'>Confirm Changes</label>
+		</div>
+	{{/if}}
+
 	<div class='col-remove-button' title='Delete Account' {{action 'deleteAccount' me.id}}>
 		<i class='fa fa-times remove-button'></i>
 	</div>
@@ -20,15 +33,3 @@
 		<i class='fa fa-times remove-button'></i>
 	{{/if}}
 </div>
-
-{{#if checked}}
-	<div>
-		<input type='checkbox' id='confirmChanges' name='interest' value='music' {{action 'checkAccount' accountInfo on='input'}} checked />
-		<label for='confirmChanges'>Confirm Changes</label>
-	</div>
-{{else}}
-	<div>
-		<input type='checkbox' id='confirmChanges' name='interest' value='music' {{action 'checkAccount' accountInfo on='input'}} />
-		<label for='confirmChanges'>Confirm Changes</label>
-	</div>
-{{/if}}

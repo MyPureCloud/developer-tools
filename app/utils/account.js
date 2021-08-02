@@ -1,19 +1,23 @@
 import config from '../config/environment';
 
 class Account {
-	constructor(token, env) {
+	constructor(token, env, confirmChanges) {
 		this.token = token;
 		this.environment = env;
 		this.profilePicUri = '';
 		this.userId = '';
 		this.me = '';
 		this.profilePicUri = '';
-		this.status = ''; //boolean of status of account(active/nota active)
-		this.confirmChanges = '';
+		this.status = ''; //boolean of account status (active/not active)
+		this.confirmChanges = confirmChanges;
 	}
 
 	getData() {
-		return { token: this.token, env: this.environment, userId: this.userId };
+		return { token: this.token, env: this.environment, userId: this.userId, confirmChanges: this.confirmChanges };
+	}
+
+	static getAccountData(account) {
+		return { token: account.token, env: account.environment, confirmChanges: account.confirmChanges };
 	}
 
 	initialize() {
@@ -30,7 +34,6 @@ class Account {
 				.then((data) => {
 					if (data) {
 						that.status = false;
-						that.confirmChanges = false;
 						that.me = data;
 						that.userId = data.id;
 						that.profilePicUri =

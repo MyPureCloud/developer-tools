@@ -15,8 +15,6 @@ export default Ember.Component.extend({
 		this.get('accountManager.finalAccount');
 	}),
 
-	//checkboxBoolean: false,
-
 	accountInfo: null,
 
 	profileImg: null,
@@ -79,14 +77,9 @@ export default Ember.Component.extend({
 
 	actions: {
 		checkAccount: function (account) {
-			let checkboxBoolean;
-			if (this.checked) {
-				checkboxBoolean = false;
-				this.get('accountManager').confirmChanges(account, checkboxBoolean);
-			} else {
-				checkboxBoolean = true;
-				this.get('accountManager').confirmChanges(account, checkboxBoolean);
-			}
+			let checkboxBoolean = !this.checked;
+			this.get('accountManager').confirmChanges(account, checkboxBoolean);
+			this.set('checked', checkboxBoolean);
 		},
 		switchaccounts: function () {
 			window.localStorage.setItem('selectedAccount', JSON.stringify(this.accountInfo));

@@ -382,6 +382,9 @@
 	justify-content: space-between;
 	align-items: stretch;
 	cursor: default;
+	flex-wrap: wrap;
+	//max-width: 99%;
+	//max-height: 80px;
 
 	&.active-card,
 	&.removable:hover {
@@ -435,6 +438,18 @@
 			width: 40px;
 			border-radius: 40px;
 			float: left;
+			cursor: pointer;
+		}
+	}
+
+	.col-checkbox {
+		border: 3px solid #00000033;
+		flex: none;
+		margin: 0;
+		padding: 7px 7px 0 7px;
+		& > label {
+			margin: 0;
+			padding: 0;
 		}
 	}
 
@@ -493,7 +508,6 @@
 
 .region-selection {
 	text-align: center;
-	//max-width: 35%;
 	width: 250px;
 	position: relative;
 	top: 9px;
@@ -566,7 +580,7 @@
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
-	min-height: 90px;
+	min-height: 100px;
 	max-width: 100%;
 	margin-bottom: 30px;
 	max-height: 100%;

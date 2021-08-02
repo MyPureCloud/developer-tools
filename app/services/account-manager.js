@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import config from '../config/environment';
 import { purecloudEnvironment } from '../utils/purecloud-environment';
+import Account from '../utils/account';
 
 export default Ember.Service.extend({
 	purecloud: Ember.inject.service('purecloud'),
@@ -11,6 +12,7 @@ export default Ember.Service.extend({
 	getSelected: Ember.observer('selectedAccount', function () {
 		let selectedAccount = this.get('selectedAccount');
 		this.get('purecloud').setSelected(selectedAccount);
+		window.location.reload();
 	}),
 
 	init() {
@@ -26,11 +28,15 @@ export default Ember.Service.extend({
 	confirmChanges(account, checkboxBoolean) {
 		let temp = [];
 		for (let i = 0; i < this.localInitialized.length; i++) {
+			let currentConfirmChanges = this.localInitialized[i].confirmChanges;
 			if (this.localInitialized[i].userId === account.userId) {
 				this.localInitialized[i].confirmChanges = checkboxBoolean;
 			}
-			if (this.get('selectedAccount').userId === account.userId) {
-				window.localStorage.setItem('selectedAccount', JSON.stringify(this.localInitialized[i]));
+			if (
+				this.localInitialized[i].userId === this.get('selectedAccount').userId &&
+				currentConfirmChanges !== this.localInitialized[i].confirmChanges
+			) {
+				this.setSelected(this.localInitialized[i]);
 			}
 		}
 
@@ -40,6 +46,15 @@ export default Ember.Service.extend({
 		let storedInitialized = JSON.parse(window.localStorage.getItem('initialized'));
 		storedInitialized.accounts = temp;
 		window.localStorage.setItem('initialized', JSON.stringify(storedInitialized));
+
+		let tempAccounts = temp.map(function (accounts) {
+			return Account.getAccountData(accounts);
+		});
+
+		let storedAccountsData = JSON.parse(window.localStorage.getItem('accounts'));
+		storedAccountsData.accounts = tempAccounts;
+		window.localStorage.setItem('accounts', JSON.stringify(storedAccountsData));
+		window.location.reload();
 	},
 
 	setSelected(account) {
@@ -97,12 +112,12 @@ export default Ember.Service.extend({
 			},
 		});
 
-		if (tempAccounts.length == 0) {
+		if (tempInitialized.length === 0) {
 			window.localStorage.removeItem('selectedAccount');
 			window.localStorage.removeItem('accounts');
 			window.location.assign(' ');
 		} else {
-			this.setSelected(tempInitialized[0]); //Assign selected account to another account
+			this.setSelected(tempInitialized[0]); // Assign another account as selected account
 		}
 	},
 
