@@ -161,7 +161,7 @@ export default {
 		accountsObj = JSON.parse(storedAccounts) || [];
 		let accountsList = accountsObj.accounts || [];
 
-		let promises = accountsList.map(function (acc) {
+		let accountPromises = accountsList.map(function (acc) {
 			return self.initAccount(acc);
 		});
 
@@ -174,7 +174,7 @@ export default {
 				params[temp[0]] = temp[1];
 			});
 			if (params.access_token) {
-				promises.push(this.initAccount({ token: params.access_token, env: params.state, confirmChanges: false }));
+				accountPromises.push(this.initAccount({ token: params.access_token, env: params.state, confirmChanges: false }));
 				window.location.hash = '';
 			} else if (
 				!Array.isArray(JSON.parse(window.localStorage.getItem(this.accounts)).accounts) ||
@@ -207,9 +207,9 @@ export default {
 			});
 		}
 
-		Promise.all(promises).then((results) => {
+		Promise.all(accountPromises).then((initialized) => {
 			//If there are no initialized accounts then application should not start
-			if (results.length > 0) {
+			if (initialized.length > 0) {
 				application.advanceReadiness();
 			}
 		});
