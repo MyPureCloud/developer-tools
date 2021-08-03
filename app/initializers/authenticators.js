@@ -146,9 +146,9 @@ export default {
 	addAccount(environment) {
 		const oauthConfig = config.oauthProps[purecloudEnvironment()];
 		window.location.assign(
-			`https://login.${environment}/oauth/authorize?client_id=${oauthConfig.clientId}&response_type=token&redirect_uri=${encodeURI(
-				oauthConfig.redirect
-			)}&state=${encodeURIComponent(environment)}`
+			`https://login.${environment}/oauth/authorize?client_id=${
+				oauthConfig.clientId
+			}&response_type=token&prompt=login&redirect_uri=${encodeURI(oauthConfig.redirect)}&state=${encodeURIComponent(environment)}`
 		);
 	},
 
