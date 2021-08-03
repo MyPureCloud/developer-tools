@@ -120,6 +120,7 @@ export default {
 				},
 				function (error) {
 					console.log(error);
+					that.removeAccount(newAccount.getData());
 				}
 			);
 		});
