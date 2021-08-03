@@ -12,19 +12,11 @@
 		<span class='org' title={{me.organization.name}}>
 			{{me.organization.name}}
 		</span>
+		<span class='confirm' title='Confirm changes'>
+			<input type='checkbox' id='confirmChanges' name='confirmSettings' title="Prompts for confirmation when using this account for potentially destructive API operations in API Explorer" {{action 'checkAccount' accountInfo on='input'}} checked={{if checked "true" ""}} />
+			<label for='confirmChanges' title="Prompts for confirmation when using this account for potentially destructive API operations in API Explorer">Confirm Changes</label>
+		</span>
 	</div>
-
-	{{#if checked}}
-		<div class='col-checkbox'>
-			<input type='checkbox' id='confirmChanges' name='confirmSettings' {{action 'checkAccount' accountInfo on='input'}} checked />
-			<label for='confirmChanges'>Confirm Changes</label>
-		</div>
-	{{else}}
-		<div class='col-checkbox'>
-			<input type='checkbox' id='confirmChanges' name='confirmSettings' {{action 'checkAccount' accountInfo on='input'}} />
-			<label for='confirmChanges'>Confirm Changes</label>
-		</div>
-	{{/if}}
 
 	<div class='col-remove-button' title='Delete Account' {{action 'deleteAccount' me.id}}>
 		<i class='fa fa-times remove-button'></i>
