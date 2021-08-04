@@ -56,6 +56,12 @@ export default Ember.Component.extend({
 			case 'aps1.pure.cloud':
 				regionShort = 'APS1';
 				break;
+			case 'inindca.com':
+				regionShort = 'DCA';
+				break;
+			case 'inintca.com':
+				regionShort = 'TCA';
+				break;
 			default:
 				regionShort = 'UNK';
 		}

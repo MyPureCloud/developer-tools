@@ -5,26 +5,29 @@
 	<div class='col-image' {{action 'switchaccounts'}}>
 		<img src={{profileImg}} title='Select Account' alt='profile pic' />
 	</div>
-	<div class='col-info' {{action 'switchaccounts'}}>
+	<div class='col-info'>
 		<span class='name' title={{me.name}}>
 			{{me.name}}
 		</span>
 		<span class='org' title={{me.organization.name}}>
 			{{me.organization.name}}
 		</span>
-	</div>
+		<span class='confirm' title='Confirm changes'>
+			<input
+				type='checkbox'
+				id='confirmChanges'
+				name='confirmSettings'
+				title='Prompts for confirmation when using this account for potentially destructive API operations in API Explorer'
+				{{action 'checkAccount' accountInfo on='input'}}
+				checked={{if checked 'true' ''}}
+			/>
+			<label
+				for='confirmChange'
+				title='Prompts for confirmation when using this account for potentially destructive API operations API Explorer'
+			>Confirm Changes</label>
+		</span>
 
-	{{#if checked}}
-		<div class='col-checkbox'>
-			<input type='checkbox' id='confirmChanges' name='confirmSettings' {{action 'checkAccount' accountInfo on='input'}} checked />
-			<label for='confirmChanges'>Confirm Changes</label>
-		</div>
-	{{else}}
-		<div class='col-checkbox'>
-			<input type='checkbox' id='confirmChanges' name='confirmSettings' {{action 'checkAccount' accountInfo on='input'}} />
-			<label for='confirmChanges'>Confirm Changes</label>
-		</div>
-	{{/if}}
+	</div>
 
 	<div class='col-remove-button' title='Delete Account' {{action 'deleteAccount' me.id}}>
 		<i class='fa fa-times remove-button'></i>

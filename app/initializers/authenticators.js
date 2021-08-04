@@ -7,21 +7,6 @@ export default {
 	accounts: 'accounts',
 	accountManager: Ember.inject.service(),
 
-	removeAccount(account) {
-		let accountObj;
-		let storage = window.localStorage;
-		let storedAccounts = storage.getItem(this.accounts);
-		if (storedAccounts !== 'null' || storedAccounts) {
-			accountObj = JSON.parse(storedAccounts);
-			for (let i = 0; i < accountObj.accounts.length; i++) {
-				if (accountObj.accounts[i].token === account.token) {
-					accountObj.accounts.splice(i, 1);
-				}
-			}
-			storage.setItem(this.accounts, JSON.stringify(accountObj));
-		}
-	},
-
 	removeInitializedDuplicates() {
 		let accountObj;
 		let storage = window.localStorage;
@@ -83,11 +68,13 @@ export default {
 					let storedAccounts = storage.getItem(that.accounts);
 					let accountsList = JSON.parse(storedAccounts) || [];
 					let acc = accountsList.accounts || [];
-
+					
 					let userIds = acc.map(function (account) {
 						return account.userId;
 					});
+					
 					let storedInitialized = storage.getItem('initialized');
+					
 
 					if (!storedAccounts || acc.length === 0) {
 						storage.setItem('selectedAccount', JSON.stringify(newAccount));
@@ -95,10 +82,18 @@ export default {
 						let selectedAccount = JSON.parse(window.localStorage.getItem('selectedAccount'));
 						if (selectedAccount !== 'null') {
 							if (selectedAccount.userId === newAccount.userId) {
-								storage.setItem('selectedAccount', JSON.stringify(newAccount)); //Keeps saved selected account info up to date
+								storage.setItem('selectedAccount', JSON.stringify(newAccount)); //Keep saved selected account info up to date
 							}
 							if (!userIds.includes(selectedAccount.userId)) {
 								storage.setItem('selectedAccount', JSON.stringify(newAccount)); //replaces saved expired account
+							}
+						}
+					}
+
+					if (userIds.includes(newAccount.userId)) {
+						for (let i = 0; i < acc.length; i++) {
+							if (acc[i].userId === newAccount.userId) {
+								newAccount.confirmChanges = acc[i].confirmChanges;
 							}
 						}
 					}
@@ -110,7 +105,6 @@ export default {
 					} else {
 						accountsObj = JSON.parse(storedInitialized);
 						accountsObj.accounts.push(newAccount);
-						console.log(accountsObj);
 						storage.setItem('initialized', JSON.stringify(accountsObj));
 						that.removeInitializedDuplicates();
 						that.addAccountData(newAccount.getData());
@@ -119,8 +113,7 @@ export default {
 					myResolve();
 				},
 				function (error) {
-					console.log(error);
-					that.removeAccount(newAccount.getData());
+					that.addAccount(newAccount.environment);
 				}
 			);
 		});
@@ -160,8 +153,9 @@ export default {
 		storage.removeItem('initialized'); //Helps eliminate errors when an account's token expires
 		let storedAccounts = storage.getItem(this.accounts);
 		accountsObj = JSON.parse(storedAccounts) || [];
-		let accountsList = accountsObj.accounts || [];
 
+		let accountsList = accountsObj.accounts || [];
+		
 		let accountPromises = accountsList.map(function (acc) {
 			return self.initAccount(acc);
 		});
@@ -170,18 +164,15 @@ export default {
 		if (window.location.hash) {
 			const hash = window.location.hash.substring(1);
 			var params = {};
-			hash.split('&').map((hk) => {
-				let temp = hk.split('=');
+			hash.split('&').map((hashKey) => {
+				let temp = hashKey.split('=');
 				params[temp[0]] = temp[1];
 			});
 			if (params.access_token) {
 				accountPromises.push(this.initAccount({ token: params.access_token, env: params.state, confirmChanges: false }));
 				window.location.hash = '';
-			} else if (
-				!Array.isArray(JSON.parse(window.localStorage.getItem(this.accounts)).accounts) ||
-				JSON.parse(window.localStorage.getItem(this.accounts)).accounts.length === 0
-			) {
-				window.location.assign(' '); //Prevents a blank page when a user(with expired token) relaods a page
+			} else if (accountsList.length === 0) {
+				window.location.assign(' '); //Sends user to login page when no account is logged in
 			}
 
 			document.getElementById('regionModal').style.display = 'none';

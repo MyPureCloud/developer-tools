@@ -17,7 +17,7 @@ class Account {
 	}
 
 	static getAccountData(account) {
-		return { token: account.token, env: account.environment, confirmChanges: account.confirmChanges };
+		return { token: account.token, env: account.environment, userId:account.userId, confirmChanges: account.confirmChanges };
 	}
 
 	initialize() {
