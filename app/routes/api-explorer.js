@@ -64,6 +64,7 @@ export default Ember.Route.extend({
 			search += '&' + swagger;
 		}
 
+		//let openApiExplorerUrl = `http://localhost:4201/`
 		let openApiExplorerUrl = `https://developer.${siteHost}/openapi-explorer/index.html`;
 
 		if (siteHost === 'ininsca.com') {

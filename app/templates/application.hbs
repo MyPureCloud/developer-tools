@@ -1,16 +1,16 @@
-<nav class="navbar navbar-inverse navbar-fixed-top {{if isStandalone 'standalone'}}">
-    <div class="container-fluid">
-        <div class='navbar-header'>
-            {{#link-to "index" class="navbar-brand"}}
-            <div class="logo"></div>
-            {{/link-to}}
-        </div>
-        <div id="navBar">
-            {{nav-tree}}
-        </div>
-    </div>
+<nav class='navbar navbar-inverse navbar-fixed-top {{if isStandalone 'standalone'}}'>
+	<div class='container-fluid'>
+		<div class='navbar-header'>
+			{{#link-to 'index' class='navbar-brand'}}
+				<div class='logo'></div>
+			{{/link-to}}
+		</div>
+		<div id='navBar'>
+			{{nav-tree}}
+		</div>
+	</div>
 </nav>
-<div id="content" class={{if isStandalone "standalone" "embedded"}}>
-    {{outlet}}
+<div id='content' class={{if isStandalone 'standalone' 'embedded'}}>
+	{{outlet}}
 </div>
 {{pinned-notifications}}
