@@ -20,6 +20,10 @@ class Account {
 		return { token: account.token, env: account.environment, userId:account.userId, confirmChanges: account.confirmChanges };
 	}
 
+	static getConfirmChangeSettings(account){
+		return{userId: account.userId, confirmChange: account.confirmChanges}
+	}
+
 	initialize() {
 		let that = this;
 		return new Promise(function (myResolve, myReject) {

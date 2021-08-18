@@ -30,6 +30,21 @@ export default {
 		}
 	},
 
+	removeAccount(account) {
+		let accountObj;
+		let storage = window.localStorage;
+		let storedAccounts = storage.getItem(this.accounts);
+		if (storedAccounts !== 'null' || storedAccounts) {
+			accountObj = JSON.parse(storedAccounts);
+			for (let i = 0; i < accountObj.accounts.length; i++) {
+				if (accountObj.accounts[i].token === account) {
+					accountObj.accounts.splice(i, 1);
+				}
+			}
+			storage.setItem(this.accounts, JSON.stringify(accountObj));
+		}
+	},
+
 	removeAccountDuplicates() {
 		let accountObj;
 		let storage = window.localStorage;
@@ -65,38 +80,42 @@ export default {
 						accounts: [],
 					};
 					let storage = window.localStorage;
-					let storedAccounts = storage.getItem(that.accounts);
-					let accountsList = JSON.parse(storedAccounts) || [];
-					let acc = accountsList.accounts || [];
-					
-					let userIds = acc.map(function (account) {
+					let accountsList = JSON.parse(storage.getItem(that.accounts)) || [];
+					let accounts = accountsList.accounts || [];
+					let savedCheckboxSettings = JSON.parse(storage.getItem('confirmChanges')) || [];
+					let checkboxSettings = savedCheckboxSettings.accounts || []; 
+
+					let accountIds = accounts.map(function (account) {
 						return account.userId;
 					});
-					
-					let storedInitialized = storage.getItem('initialized');
-					
 
-					if (!storedAccounts || acc.length === 0) {
+					const checkboxSettingsUserIds = checkboxSettings.map(function(account){
+						return account.userId;
+					})
+					
+					if (!accountsList || accounts.length === 0) {
 						storage.setItem('selectedAccount', JSON.stringify(newAccount));
 					} else {
-						let selectedAccount = JSON.parse(window.localStorage.getItem('selectedAccount'));
+						const selectedAccount = JSON.parse(window.localStorage.getItem('selectedAccount'));
 						if (selectedAccount !== 'null') {
 							if (selectedAccount.userId === newAccount.userId) {
 								storage.setItem('selectedAccount', JSON.stringify(newAccount)); //Keep saved selected account info up to date
 							}
-							if (!userIds.includes(selectedAccount.userId)) {
+							if (!accountIds.includes(selectedAccount.userId)) {
 								storage.setItem('selectedAccount', JSON.stringify(newAccount)); //replaces saved expired account
 							}
 						}
 					}
 
-					if (userIds.includes(newAccount.userId)) {
-						for (let i = 0; i < acc.length; i++) {
-							if (acc[i].userId === newAccount.userId) {
-								newAccount.confirmChanges = acc[i].confirmChanges;
+					if (checkboxSettingsUserIds.includes(newAccount.userId)) {
+						for (let i = 0; i < checkboxSettings.length; i++) {
+							if (checkboxSettings[i].userId === newAccount.userId) {
+								newAccount.confirmChanges = checkboxSettings[i].confirmChange;
 							}
 						}
 					}
+
+					const storedInitialized = storage.getItem('initialized');
 
 					if (storedInitialized === 'null' || !storedInitialized) {
 						accountsObj.accounts.push(newAccount);
@@ -113,7 +132,8 @@ export default {
 					myResolve();
 				},
 				function (error) {
-					that.addAccount(newAccount.environment);
+					that.removeAccount(newAccount.token);
+					window.location.reload();
 				}
 			);
 		});
@@ -150,10 +170,9 @@ export default {
 		let self = this;
 		let accountsObj;
 		let storage = window.localStorage;
-		storage.removeItem('initialized'); //Helps eliminate errors when an account's token expires
+		storage.removeItem('initialized'); //Eliminate error when an account's token expires
 		let storedAccounts = storage.getItem(this.accounts);
 		accountsObj = JSON.parse(storedAccounts) || [];
-
 		let accountsList = accountsObj.accounts || [];
 		
 		let accountPromises = accountsList.map(function (acc) {

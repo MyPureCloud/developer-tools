@@ -18,7 +18,7 @@ export default Ember.Service.extend({
 	init() {
 		let storage = window.localStorage;
 		let initializedAccounts = JSON.parse(storage.getItem('initialized'));
-		this.localInitialized = initializedAccounts.accounts;
+		this.localInitialized = this.sortAccounts(initializedAccounts.accounts);
 		let selectedAccount = JSON.parse(storage.getItem('selectedAccount'));
 		this.setSelected(selectedAccount);
 		let savedAccountsData = JSON.parse(storage.getItem('accounts'));
@@ -27,6 +27,7 @@ export default Ember.Service.extend({
 
 	confirmChanges(account, checkboxBoolean) {
 		let temp = [];
+
 		for (let i = 0; i < this.localInitialized.length; i++) {
 			let currentConfirmChanges = this.localInitialized[i].confirmChanges;
 			if (this.localInitialized[i].userId === account.userId) {
@@ -51,10 +52,45 @@ export default Ember.Service.extend({
 			return Account.getAccountData(accounts);
 		});
 
+		let confirmChangeSettings = temp.map(function (accounts){
+			return Account.getConfirmChangeSettings(accounts);
+		})
+
+		this.saveConfirmChangeSettings(confirmChangeSettings);
+
 		let storedAccountsData = JSON.parse(window.localStorage.getItem('accounts'));
 		storedAccountsData.accounts = tempAccounts;
 		window.localStorage.setItem('accounts', JSON.stringify(storedAccountsData));
 		window.location.reload();
+	},
+
+	saveConfirmChangeSettings(confirmChangeSettings){
+		let temp = [];
+		let keepSettings = [];
+		let savedSettings = JSON.parse(window.localStorage.getItem('confirmChanges'));
+		if(savedSettings === null){
+			savedSettings = {accounts:[]};
+			savedSettings.accounts = confirmChangeSettings;
+		}else{
+			//Save new comfirm change settings
+			for(let i = 0; i < confirmChangeSettings.length; i++){
+				savedSettings.accounts.push(confirmChangeSettings[i]);
+			}
+
+			//Remove duplicates
+			for(let i = savedSettings.accounts.length-1; i >= 0; i--){
+				const userId = savedSettings.accounts[i].userId;
+				if(temp.includes(userId)){
+					continue;
+				}
+				if(userId && userId !== ''){
+					temp.push(userId);
+				}
+				keepSettings.push(savedSettings.accounts[i]);
+			}
+			savedSettings.accounts = keepSettings.reverse();
+		}
+		window.localStorage.setItem('confirmChanges', JSON.stringify(savedSettings));		
 	},
 
 	setSelected(account) {
@@ -119,6 +155,20 @@ export default Ember.Service.extend({
 		} else {
 			this.setSelected(tempInitialized[0]); // Assign another account as selected account
 		}
+	},
+
+	sortAccounts(initializedAccounts){
+		let accounts = [...initializedAccounts];
+		let storage = window.localStorage;
+		let selectedAccount = JSON.parse(storage.getItem('selectedAccount'));
+		for(let i = 1; i < accounts.length; i++){
+			if(accounts[i].userId===selectedAccount.userId){
+				let temp = accounts[0];
+				accounts[0] = accounts[i];
+				accounts[i] = temp;
+			}
+		}
+		return accounts;
 	},
 
 	addAccount(environment) {
