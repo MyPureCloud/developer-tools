@@ -117,12 +117,18 @@ export default Ember.Service.extend({
 	deleteAccount(accountId, token) {
 		let tempAccounts = [];
 		let tempInitialized = [];
-		for (let i = 0; i < this.savedAccounts.length; i++) {
-			if (this.savedAccounts[i].userId === accountId && this.localInitialized[i].userId === accountId) {
-				this.savedAccounts.splice(i, 1);
+		//Delete account from initialized accounts
+		for (let i = 0; i < this.localInitialized.length; i++) {
+			if (this.localInitialized[i].userId === accountId) {
 				this.localInitialized.splice(i, 1);
-				tempAccounts = [...this.savedAccounts];
 				tempInitialized = [...this.localInitialized];
+			}
+		}
+		//Delete account from saved accounts
+		for (let i = 0; i < this.savedAccounts.length; i++) {
+			if (this.savedAccounts[i].userId === accountId) {
+				this.savedAccounts.splice(i, 1);
+				tempAccounts = [...this.savedAccounts];
 			}
 		}
 
