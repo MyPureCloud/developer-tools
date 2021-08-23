@@ -11,10 +11,6 @@ export default Ember.Component.extend({
 		return this.get('account').status;
 	}),
 
-	lastAccount: computed('accountManager.finalAccount', function () {
-		this.get('accountManager.finalAccount');
-	}),
-
 	accountInfo: null,
 
 	profileImg: null,
