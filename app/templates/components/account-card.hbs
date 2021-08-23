@@ -1,0 +1,35 @@
+<div class='account-card {{if active 'active-card' 'removable'}}'>
+	<div class='col-region' {{action 'switchaccounts'}}>
+		<span>{{env}}</span>
+	</div>
+	<div class='col-image' {{action 'switchaccounts'}} >
+		<img src={{profileImg}} title='Select Account' alt='profile pic' />
+	</div>
+	<div class='col-info'>
+		<span class='name' title={{me.name}} {{action 'switchaccounts'}}>
+			{{me.name}}
+		</span>
+		<span class='org' title={{me.organization.name}} {{action 'switchaccounts'}}>
+			{{me.organization.name}}
+		</span>
+		<span class='confirm' title='Confirm changes'>
+			<input
+				type='checkbox'
+				id='confirmChanges'
+				name='confirmSettings'
+				title='Prompts for confirmation when using this account for potentially destructive API operations in API Explorer'
+				{{action 'checkAccount' accountInfo on='input'}}
+				checked={{if checked 'true' ''}}
+			/>
+			<label
+				for='confirmChange'
+				title='Prompts for confirmation when using this account for potentially destructive API operations API Explorer'
+			>Confirm Changes</label>
+		</span>
+
+	</div>
+
+	<div class='col-remove-button' title='Delete Account' {{action 'deleteAccount' me.id}}>
+		<i class='fa fa-times remove-button'></i>
+	</div>
+</div>
