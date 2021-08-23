@@ -42,13 +42,11 @@ export default Ember.Service.extend({
 		}
 
 		temp = [...this.localInitialized];
+
+		//Update initialized accounts
 		this.set('initialized', temp);
 
-		let storedInitialized = JSON.parse(window.localStorage.getItem('initialized'));
-		storedInitialized.accounts = temp;
-		window.localStorage.setItem('initialized', JSON.stringify(storedInitialized));
-
-		let tempAccounts = temp.map(function (accounts) {
+		let accountsData = temp.map(function (accounts) {
 			return Account.getAccountData(accounts);
 		});
 
@@ -59,7 +57,7 @@ export default Ember.Service.extend({
 		this.saveConfirmChangeSettings(confirmChangeSettings);
 
 		let storedAccountsData = JSON.parse(window.localStorage.getItem('accounts'));
-		storedAccountsData.accounts = tempAccounts;
+		storedAccountsData.accounts = accountsData;
 		window.localStorage.setItem('accounts', JSON.stringify(storedAccountsData));
 		window.location.reload();
 	},
@@ -104,18 +102,13 @@ export default Ember.Service.extend({
 		temp = [...this.localInitialized];
 		this.set('initialized', temp);
 
-		//store modified initialized accounts in local storage
-		let storedInitialized = JSON.parse(window.localStorage.getItem('initialized'));
-		storedInitialized.accounts = temp;
-		window.localStorage.setItem('initialized', JSON.stringify(storedInitialized));
-
 		//Set account as selected account and save in local storage
 		this.set('selectedAccount', account);
 		window.localStorage.setItem('selectedAccount', JSON.stringify(account));
 	},
 
 	deleteAccount(accountId, token) {
-		let tempAccounts = [];
+		let tempAccountsData = [];
 		let tempInitialized = [];
 		//Delete account from initialized accounts
 		for (let i = 0; i < this.localInitialized.length; i++) {
@@ -128,19 +121,15 @@ export default Ember.Service.extend({
 		for (let i = 0; i < this.savedAccounts.length; i++) {
 			if (this.savedAccounts[i].userId === accountId) {
 				this.savedAccounts.splice(i, 1);
-				tempAccounts = [...this.savedAccounts];
+				tempAccountsData = [...this.savedAccounts];
 			}
 		}
 
-		//Store modified initialized accounts
-		let storedInitialized = JSON.parse(window.localStorage.getItem('initialized'));
-		storedInitialized.accounts = tempInitialized;
 		this.set('initialized', tempInitialized);
-		window.localStorage.setItem('initialized', JSON.stringify(storedInitialized));
 
-		//Store modified accounts' data
+		//Store modified saved accounts
 		let storedAccountsData = JSON.parse(window.localStorage.getItem('accounts'));
-		storedAccountsData.accounts = tempAccounts;
+		storedAccountsData.accounts = tempAccountsData;
 		window.localStorage.setItem('accounts', JSON.stringify(storedAccountsData));
 
 		//Purposefully ignored error handling
@@ -168,7 +157,7 @@ export default Ember.Service.extend({
 		let storage = window.localStorage;
 		let selectedAccount = JSON.parse(storage.getItem('selectedAccount'));
 		for(let i = 1; i < accounts.length; i++){
-			if(accounts[i].userId===selectedAccount.userId){
+			if(accounts[i].userId === selectedAccount.userId){
 				let temp = accounts[0];
 				accounts[0] = accounts[i];
 				accounts[i] = temp;

@@ -1,7 +1,6 @@
 import Ember from 'ember';
 import toolsModules from '../utils/dev-tools-modules';
 import config from '../config/environment';
-import orgauthorizationService from '../services/orgauthorization-service';
 
 var computed = Ember.computed;
 

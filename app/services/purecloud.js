@@ -2,11 +2,8 @@ import Ember from 'ember';
 import platformClient from 'platformClient';
 
 const SECURITY_NAME = 'PureCloud OAuth';
-var computed = Ember.computed;
 
 export default Ember.Service.extend({
-	accountManager: Ember.inject.service(),
-
 	session: null,
 
 	notificationsApi() {

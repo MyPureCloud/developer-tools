@@ -5,7 +5,6 @@ import Account from '../utils/account';
 export default {
 	name: 'authenticators',
 	accounts: 'accounts',
-	accountManager: Ember.inject.service(),
 
 	removeInitializedDuplicates() {
 		let accountObj;
@@ -107,6 +106,7 @@ export default {
 						}
 					}
 
+					//Load saved checkbox setting
 					if (checkboxSettingsUserIds.includes(newAccount.userId)) {
 						for (let i = 0; i < checkboxSettings.length; i++) {
 							if (checkboxSettings[i].userId === newAccount.userId) {
@@ -170,7 +170,7 @@ export default {
 		let self = this;
 		let accountsObj;
 		let storage = window.localStorage;
-		storage.removeItem('initialized'); //Eliminate error when an account's token expires
+		storage.removeItem('initialized');
 		let storedAccounts = storage.getItem(this.accounts);
 		accountsObj = JSON.parse(storedAccounts) || [];
 		let accountsList = accountsObj.accounts || [];
