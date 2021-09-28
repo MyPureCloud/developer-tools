@@ -376,8 +376,9 @@
 	margin: 6px 0 0 0;
 	padding: 6px;
 	border-radius: 0.25rem;
-	border: 1px solid #00000033;
-	background-color: #00000033;
+	border: 1px solid;
+	border-color: #a9a9a990;
+	background-color: #a9a9a990;
 	display: flex;
 	justify-content: space-between;
 	align-items: stretch;
@@ -409,7 +410,7 @@
 
 	.col-region {
 		flex: none;
-		background-color: #00000066;
+		background-color: #808080;
 		border-radius: 0.25rem 0 0 0.25rem;
 		margin: -6px 0 -6px -6px;
 		width: 22px;
@@ -495,12 +496,13 @@
 //Add account
 .account-button {
 	position: relative;
-	min-height: 56px;
+	min-height: 70px;
 	margin: 6px 0 0 0;
 	padding: 6px;
 	border-radius: 0.25rem;
-	border: 1px solid #00000033;
-	background-color: #00000033;
+	border: 1px solid;
+	border-color: #a9a9a990;
+	background-color: #a9a9a990;
 }
 
 .region-selection {
@@ -515,7 +517,7 @@
 		margin-bottom: 6px;
 		font-size: 16px;
 		font-weight: bold;
-		border-bottom: 1px solid #00000033;
+		border-bottom: 1px solid #a9a9a990;
 	}
 
 	.region-list {
@@ -526,7 +528,8 @@
 		.region {
 			flex: none;
 			width: 66px;
-			border: 1px solid #00000033;
+			border: 1px solid;
+			border-color: #a9a9a990;
 			padding: 1px 6px;
 			margin: 2px 6px;
 			text-align: center;
@@ -554,8 +557,18 @@
 .add-account {
 	cursor: pointer;
 	flex: none;
-	border: 1px solid #00000033;
+	border: 1px solid;
+	border-color: #a9a9a990;
 	height: 57px;
+
+	.login-prompt {
+		label {
+			margin: 0 4px !important;
+			padding: 0 !important;
+			font-size: 14px !important;
+			line-height: 10px !important;
+		}
+	}
 
 	.add-icon {
 		font-size: 35px;
@@ -567,7 +580,7 @@
 		font-size: 20px;
 		line-height: 40px;
 		display: inline-block;
-		height: 40px;
+		height: 35px;
 		padding-left: 7px;
 	}
 }

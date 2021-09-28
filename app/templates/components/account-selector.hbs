@@ -4,9 +4,13 @@
 	{{/each}}
 
 	<div>
-		<div class='account-button add-account' title='Add Account' {{action 'toggleRegionSelection'}}>
-			<div class='fa fa-user-plus add-icon'></div>
-			<span class='add-text'>Add Account</span>
+		<div class='account-button add-account' title='Add Account'>
+			<div class='fa fa-user-plus add-icon' {{action 'toggleRegionSelection'}}></div>
+			<span class='add-text' {{action 'toggleRegionSelection'}}>Add Account</span>
+			<div class='login-prompt'><input type='checkbox' id='loginprompt' {{action 'checkLoginPrompt' prompt on='input'}} /><label
+					for='loginprompt'
+					title='Forcefully prompts for login credentials'
+				>Prompt for login?</label></div>
 		</div>
 	</div>
 
