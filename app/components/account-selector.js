@@ -4,6 +4,7 @@ export default Ember.Component.extend({
 	accountManager: Ember.inject.service('accountManager'),
 	showRegions: false,
 	showDevEnv: null,
+	loginPrompt: false,
 
 	init() {
 		this._super(...arguments);
@@ -17,9 +18,11 @@ export default Ember.Component.extend({
 
 	actions: {
 		addAccount(env) {
-			this.get('accountManager').addAccount(env);
+			this.get('accountManager').addAccount(env, this.get('loginPrompt'));
 		},
-
+		checkLoginPrompt: function () {
+			this.set('loginPrompt', !this.get('loginPrompt'));
+		},
 		toggleRegionSelection: function () {
 			this.set('showRegions', !this.showRegions);
 		},

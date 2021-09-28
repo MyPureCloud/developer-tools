@@ -50,9 +50,9 @@ export default Ember.Service.extend({
 			return Account.getAccountData(accounts);
 		});
 
-		let confirmChangeSettings = temp.map(function (accounts){
+		let confirmChangeSettings = temp.map(function (accounts) {
 			return Account.getConfirmChangeSettings(accounts);
-		})
+		});
 
 		this.saveConfirmChangeSettings(confirmChangeSettings);
 
@@ -62,33 +62,33 @@ export default Ember.Service.extend({
 		window.location.reload();
 	},
 
-	saveConfirmChangeSettings(confirmChangeSettings){
+	saveConfirmChangeSettings(confirmChangeSettings) {
 		let temp = [];
 		let keepSettings = [];
 		let savedSettings = JSON.parse(window.localStorage.getItem('confirmChanges'));
-		if(savedSettings === null){
-			savedSettings = {accounts:[]};
+		if (savedSettings === null) {
+			savedSettings = { accounts: [] };
 			savedSettings.accounts = confirmChangeSettings;
-		}else{
+		} else {
 			//Save new comfirm change settings
-			for(let i = 0; i < confirmChangeSettings.length; i++){
+			for (let i = 0; i < confirmChangeSettings.length; i++) {
 				savedSettings.accounts.push(confirmChangeSettings[i]);
 			}
 
 			//Remove duplicates
-			for(let i = savedSettings.accounts.length-1; i >= 0; i--){
+			for (let i = savedSettings.accounts.length - 1; i >= 0; i--) {
 				const userId = savedSettings.accounts[i].userId;
-				if(temp.includes(userId)){
+				if (temp.includes(userId)) {
 					continue;
 				}
-				if(userId && userId !== ''){
+				if (userId && userId !== '') {
 					temp.push(userId);
 				}
 				keepSettings.push(savedSettings.accounts[i]);
 			}
 			savedSettings.accounts = keepSettings.reverse();
 		}
-		window.localStorage.setItem('confirmChanges', JSON.stringify(savedSettings));		
+		window.localStorage.setItem('confirmChanges', JSON.stringify(savedSettings));
 	},
 
 	setSelected(account) {
@@ -152,12 +152,12 @@ export default Ember.Service.extend({
 		}
 	},
 
-	sortAccounts(initializedAccounts){
+	sortAccounts(initializedAccounts) {
 		let accounts = [...initializedAccounts];
 		let storage = window.localStorage;
 		let selectedAccount = JSON.parse(storage.getItem('selectedAccount'));
-		for(let i = 1; i < accounts.length; i++){
-			if(accounts[i].userId === selectedAccount.userId){
+		for (let i = 1; i < accounts.length; i++) {
+			if (accounts[i].userId === selectedAccount.userId) {
 				let temp = accounts[0];
 				accounts[0] = accounts[i];
 				accounts[i] = temp;
@@ -166,12 +166,17 @@ export default Ember.Service.extend({
 		return accounts;
 	},
 
-	addAccount(environment) {
+	addAccount(environment, promptLogin) {
 		const oauthConfig = config.oauthProps[purecloudEnvironment()];
+		let prompt = '&prompt=login';
+		if (!promptLogin) {
+			prompt = '';
+		}
+
 		window.location.assign(
-			`https://login.${environment}/oauth/authorize?client_id=${
-				oauthConfig.clientId
-			}&response_type=token&prompt=login&redirect_uri=${encodeURI(oauthConfig.redirect)}&state=${encodeURIComponent(environment)}`
+			`https://login.${environment}/oauth/authorize?client_id=${oauthConfig.clientId}&response_type=token${prompt}&redirect_uri=${encodeURI(
+				oauthConfig.redirect
+			)}&state=${encodeURIComponent(environment)}`
 		);
 	},
 });
