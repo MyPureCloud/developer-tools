@@ -14,10 +14,11 @@ export default Ember.Service.extend({
 
 		let env = purecloudEnvironmentTld();
 		let me = this.get('purecloud').get('me');
-		let redirect = `https://login.${env}/oauth/authorize?client_id=${oauthConfig.clientId}&response_type=token&state=${encodeURIComponent(env)}&redirect_uri=${oauthConfig.redirect}&target=${orgId}`;
+
+		let redirect = `https://login.${env}/oauth/authorize?client_id=${oauthConfig.clientId}&response_type=token&redirect_uri=${oauthConfig.redirect}&target=${orgId}`;
 		window.location.replace(redirect);
 	},
-	getTrustedOrgs: Ember.observer('purecloud.me', function () {
+	getTrustedOrgs: Ember.observer('purecloud.me', function() {
 		this.orgTrusts.clear();
 
 		let me = this.get('purecloud').get('me');
@@ -35,7 +36,7 @@ export default Ember.Service.extend({
 
 		this.set('isTrustedOrg', me.trustors.length > 0);
 	}),
-	isInTrustedOrg: computed('purecloud.me', function () {
+	isInTrustedOrg: computed('purecloud.me', function() {
 		let me = this.get('purecloud').get('me');
 
 		if (!me) {
@@ -47,5 +48,5 @@ export default Ember.Service.extend({
 		}
 
 		return false;
-	}),
+	})
 });

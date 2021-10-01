@@ -4,11 +4,9 @@ import platformClient from 'platformClient';
 
 export default Ember.Route.extend({
 	purecloud: Ember.inject.service(),
-	accountManager: Ember.inject.service(),
 	analyticsService: Ember.inject.service(),
 
 	init() {
-		this.get('purecloud');
 		let that = this;
 		function receiveMessage(event) {
 			if (event.origin !== 'null' && event.origin !== window.location.origin) {
@@ -64,7 +62,6 @@ export default Ember.Route.extend({
 			search += '&' + swagger;
 		}
 
-		//let openApiExplorerUrl = `http://localhost:4201/`;
 		let openApiExplorerUrl = `https://developer.${siteHost}/openapi-explorer/index.html`;
 
 		if (siteHost === 'ininsca.com') {
@@ -72,12 +69,6 @@ export default Ember.Route.extend({
 			openApiExplorerUrl = `https://apps.${siteHost}/openapi-explorer/`;
 		}
 
-		const selectedAccount = JSON.stringify(this.get('accountManager').get('selectedAccount'));
-
-		return (
-			`${openApiExplorerUrl}${search}#token_type=bearer&access_token=` +
-			platformClient.ApiClient.instance.authData.accessToken +
-			`&account=${encodeURIComponent(selectedAccount)}`
-		);
+		return `${openApiExplorerUrl}${search}#token_type=bearer&access_token=` + platformClient.ApiClient.instance.authData.accessToken;
 	},
 });

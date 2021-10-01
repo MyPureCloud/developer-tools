@@ -62,7 +62,7 @@ function setPresence(presenceId){
   };
 
   // Patch presence
-  presenceApi.getUserPresence(userId, 'PURECLOUD', newPresence);
+  presenceApi.patchUserPresence(userId, 'PURECLOUD', newPresence);
 }
 
 //Start by getting all the presence definitions in the system
