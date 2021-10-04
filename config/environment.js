@@ -49,6 +49,18 @@ module.exports = function (environment) {
 				region: 'dev',
 				architectEnumString: 'archEnums.LOCATIONS.dev',
 			},
+			developeraps1purecloud: {
+				clientId: '96a7d55b-1ed5-4719-9094-08a2a69ca07c',
+				redirect: 'https://developer.aps1.pure.cloud/developer-tools/',
+				region: 'ap-south-1',
+				architectEnumString: 'archEnums.LOCATIONS.prod_ap_south_1',
+			},
+			developeruse2usgovpurecloud: {
+				clientId: '96a7d55b-1ed5-4719-9094-08a2a69ca07c',
+				redirect: 'https://developer.use2.us-gov-pure.cloud/developer-tools/',
+				region: 'us-east-2',
+				architectEnumString: 'archEnums.LOCATIONS.prod_us_east_2',
+			},
 			developerdevgenesyscloud: {
 				clientId: '96a7d55b-1ed5-4719-9094-08a2a69ca07c',
 				redirect: 'https://developer.dev-genesys.cloud/developer-tools/',
@@ -180,6 +192,18 @@ module.exports = function (environment) {
 				redirect: 'https://apps.euw2.pure.cloud/developer-tools/',
 				region: 'us-west-2',
 				architectEnumString: 'archEnums.LOCATIONS.prod_eu_west_2',
+			},
+			appsaps1purecloud: {
+				clientId: '96a7d55b-1ed5-4719-9094-08a2a69ca07c',
+				redirect: 'https://apps.aps1.pure.cloud/developer-tools/',
+				region: 'ap-south-1',
+				architectEnumString: 'archEnums.LOCATIONS.prod_ap_south_1',
+			},
+			appsuse2usgovpurecloud: {
+				clientId: '96a7d55b-1ed5-4719-9094-08a2a69ca07c',
+				redirect: 'https://apps.use2.us-gov-pure.cloud/developer-tools/',
+				region: 'us-east-2',
+				architectEnumString: 'archEnums.LOCATIONS.prod_us_east_2',
 			},
 		},
 	};

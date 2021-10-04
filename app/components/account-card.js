@@ -58,6 +58,8 @@ export default Ember.Component.extend({
 			case 'inintca.com':
 				regionShort = 'TCA';
 				break;
+			case 'use2.us-gov-pure.cloud':
+				regionShort = 'FedRAMP';
 			default:
 				regionShort = 'UNK';
 		}
