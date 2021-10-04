@@ -139,6 +139,7 @@
 							display: inline-block;
 							outline: none;
 							padding: 17px 10px;
+							color: red;
 						}
 
 						.fa-play {
@@ -300,6 +301,7 @@
 		min-height: 400px;
 	}
 	#users-me {
+		//background-color: red;
 		background: @navbar-default-color;
 		border: solid 1px #ddd;
 		display: flex;
@@ -334,6 +336,13 @@
 				font-size: 13px;
 				text-decoration: none;
 			}
+		}
+		& > h3 {
+			position: relative;
+			padding-left: 3px;
+			margin: 0 10px;
+			font-weight: bold;
+			font-family: Helvetica, sans-serif;
 		}
 
 		button {

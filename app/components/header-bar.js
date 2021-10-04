@@ -9,7 +9,7 @@ export default Ember.Component.extend({
 	modules: toolsModules,
 	routing: Ember.inject.service('-routing'),
 	orgauthorizationService: Ember.inject.service(),
-	routeTitle: computed('routing.currentPath', function() {
+	routeTitle: computed('routing.currentPath', function () {
 		let route = this.get('routing').get('currentPath');
 		for (let x = 0; x < toolsModules.length; x++) {
 			let module = toolsModules[x];
@@ -20,21 +20,21 @@ export default Ember.Component.extend({
 
 		return 'Developer Tools';
 	}),
-	me: computed('purecloud.me', function() {
+	me: computed('purecloud.me', function () {
 		return this.get('purecloud').get('me');
 	}),
 
-	meJson: computed('purecloud.me', function() {
+	meJson: computed('purecloud.me', function () {
 		return JSON.stringify(this.get('purecloud').get('me'), null, '  ');
 	}),
 
-	profileImg: computed('purecloud.me', function() {
+	profileImg: computed('purecloud.me', function () {
 		return this.get('purecloud.me') === null || !this.get('purecloud.me.images')
 			? `${config.APP.urlprefix.replace(/\/?$/, '/')}assets/images/profile-default.svg`
 			: this.get('purecloud.me.images.0.imageUri');
 	}),
 
-	isStandalone: computed('purecloud.isStandalone', function() {
+	isStandalone: computed('purecloud.isStandalone', function () {
 		return this.get('purecloud.isStandalone');
 	}),
 
@@ -47,11 +47,11 @@ export default Ember.Component.extend({
 	},
 
 	actions: {
-		toggleMe: function() {
+		toggleMe: function () {
 			this.set('showOrgTrusts', false);
 			this.toggleProperty('showMe');
 		},
-		toggleTrustedOrgs: function() {
+		toggleTrustedOrgs: function () {
 			this.set('showMe', false);
 			this.toggleProperty('showOrgTrusts');
 		},
@@ -64,6 +64,6 @@ export default Ember.Component.extend({
 		switchToHomeOrg() {
 			let me = this.get('purecloud').get('me');
 			this.get('orgauthorizationService').switchToOrg(me.token.homeOrganization.id);
-		}
-	}
+		},
+	},
 });
