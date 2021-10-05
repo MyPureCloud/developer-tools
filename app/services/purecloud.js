@@ -3,7 +3,7 @@ import platformClient from 'platformClient';
 
 const SECURITY_NAME = 'PureCloud OAuth';
 
-export default Ember.Service.extend(Ember.Evented, {
+export default Ember.Service.extend({
 	session: null,
 
 	notificationsApi() {
@@ -85,24 +85,48 @@ export default Ember.Service.extend(Ember.Evented, {
 			['application/json']
 		);
 	},
-	logout() {
-		console.log('logging out');
-		this.tokensApi()
-			.deleteTokensMe()
-			.then(() => {
-				console.log('token destroyed');
-				window.localStorage.removeItem('purecloud_dev_tools_auth_auth_data');
-				window.localStorage.removeItem("environment");
-				platformClient.ApiClient.instance.logout();
-			})
-			.catch(console.error);
-	},
+
+	// logout() {
+	// 	console.log('logging out');
+	// 	this.tokensApi()
+	// 		.deleteTokensMe()
+	// 		.then(() => {
+	// 			console.log('token destroyed');
+	// 			window.localStorage.removeItem('purecloud_dev_tools_auth_auth_data');
+	// 			window.localStorage.removeItem('accounts');
+	// 			window.localStorage.removeItem('selected');
+	// 			window.localStorage.removeItem('initiated');
+	// 			platformClient.ApiClient.instance.logout();
+	// 		})
+	// 		.catch(console.error);
+	// },
 	me: null,
 	isStandalone: true,
 
+	setSelected(selectedAccount) {
+		platformClient.ApiClient.instance.setEnvironment(selectedAccount.environment);
+		platformClient.ApiClient.instance.setAccessToken(selectedAccount.token);
+		this.usersApi()
+			.getUsersMe({
+				expand: ['geolocation', 'station', 'date', 'geolocationsettings', 'organization', 'presencedefinitions', 'token', 'trustors'],
+			})
+			.then((me) => {
+				this.set('me', me);
+				this.set('accessToken', platformClient.ApiClient.instance.authData.accessToken);
+				this.set('environment', platformClient.ApiClient.instance.environment);
+			})
+			.catch((err) => console.error(err));
+	},
+
 	init() {
 		this._super(...arguments);
+		let storage = window.localStorage;
+		let selectedAccount = JSON.parse(storage.getItem('selectedAccount'));
+		platformClient.ApiClient.instance.setEnvironment(selectedAccount.environment);
+		platformClient.ApiClient.instance.setAccessToken(selectedAccount.token);
+
 		this.set('isStandalone', window.location === window.parent.location);
+
 		this.usersApi()
 			.getUsersMe({
 				expand: ['geolocation', 'station', 'date', 'geolocationsettings', 'organization', 'presencedefinitions', 'token', 'trustors'],

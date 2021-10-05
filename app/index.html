@@ -1,107 +1,122 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Developer Tools</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<title>Developer Tools</title>
+		<meta name="description" content="" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <link href="//fonts.googleapis.com/css?family=Lato:400,300,700" rel="stylesheet" type="text/css">
-    <script   src="//code.jquery.com/jquery-1.12.4.min.js"   integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="   crossorigin="anonymous"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.3/ace.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.3/mode-javascript.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.3/mode-json.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.3/ext-language_tools.js"></script>
-    <script type="text/javascript" src="https://www.google-analytics.com/analytics.js"></script>
+		<link href="//fonts.googleapis.com/css?family=Lato:400,300,700" rel="stylesheet" type="text/css" />
+		<script
+			src="//code.jquery.com/jquery-1.12.4.min.js"
+			integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+			crossorigin="anonymous"
+		></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.3/ace.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.3/mode-javascript.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.3/mode-json.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.3/ext-language_tools.js"></script>
+		<script type="text/javascript" src="https://www.google-analytics.com/analytics.js"></script>
 
-    <script type="text/javascript" src="/assets/javascript/windowsizer.js"></script>
+		<script type="text/javascript" src="/assets/javascript/windowsizer.js"></script>
 
-    {{content-for "head"}}
+		{{content-for "head"}}
 
-    <link rel="stylesheet" href="assets/vendor.css">
-    <link rel="stylesheet" href="assets/developer-tools.css">
+		<link rel="stylesheet" href="assets/vendor.css" />
+		<link rel="stylesheet" href="assets/developer-tools.css" />
 
-    <script>
-    $(function () {
-        // $('[data-toggle="tooltip"]').tooltip();
-    })
-    </script>
+		<script>
+			$(function () {
+				// $('[data-toggle="tooltip"]').tooltip();
+			});
+		</script>
 
-    {{content-for "head-footer"}}
-</head>
-<body >
-    {{content-for "body"}}
+		{{content-for "head-footer"}}
+	</head>
+	<body>
+		{{content-for "body"}}
 
-    <script src="assets/vendor.js"></script>
-    <script src="assets/developer-tools.js"></script>
+		<script src="assets/vendor.js"></script>
+		<script src="assets/developer-tools.js"></script>
 
-    {{content-for "body-footer"}}
+		{{content-for "body-footer"}}
 
-    <script id="purecloud-webchat-js"></script>
+		<script id="purecloud-webchat-js"></script>
 
-    <div class="modal" tabindex="-1" role="dialog" id='codeEditorModal'>
-        <div class="modal-dialog modal-dialog-flat">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Javascript Code Editor</h4>
-                </div>
-                <div class="modal-body modal-body-sans-footer">
-                    <p class="lead">Develop and test API calls using the javascript SDK and execute right from the browser.</p>
-                    <p>The variable <code>pureCloudSession</code> is already set and authenticated for you as a PureCloudSession.</p>
-                    <table class="table">
-                        <thead>
-                            <th colspan="2">Keyboard Shortcuts</th>
-                        </thead>
-                        <tr>
-                            <td class="cell-shortcuts">
-                                <kbd>ctrl/alt + space</kbd>
-                            </td>
-                            <td>Use  for code completion including Javascript SDK classes and functions.</td>
-                        </tr>
-                        <tr>
-                            <td class="cell-shortcuts">
-                                <kbd>ctrl/cmd + enter</kbd>
-                            </td>
-                            <td>Execute the code.</td>
-                        </tr>
-                    </table>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+		<div class="modal" tabindex="-1" role="dialog" id="codeEditorModal">
+			<div class="modal-dialog modal-dialog-flat">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title">Javascript Code Editor</h4>
+					</div>
+					<div class="modal-body modal-body-sans-footer">
+						<p class="lead">Develop and test API calls using the javascript SDK and execute right from the browser.</p>
+						<p>The variable <code>pureCloudSession</code> is already set and authenticated for you as a PureCloudSession.</p>
+						<table class="table">
+							<thead>
+								<th colspan="2">Keyboard Shortcuts</th>
+							</thead>
+							<tr>
+								<td class="cell-shortcuts">
+									<kbd>ctrl/alt + space</kbd>
+								</td>
+								<td>Use for code completion including Javascript SDK classes and functions.</td>
+							</tr>
+							<tr>
+								<td class="cell-shortcuts">
+									<kbd>ctrl/cmd + enter</kbd>
+								</td>
+								<td>Execute the code.</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal-dialog -->
+		</div>
+		<!-- /.modal -->
 
-    <div>    
-        <div class="modal" tabindex="-1" id="regionModal" role="dialog" data-backdrop="false" aria-labelledby="regionModal" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-flat">
-                <div class="modal-content">
-                    <div class="modal-header" id="regionModalHeader">
-                        <div class="hero">
-                            <h2>Welcome to the Developer Tools</h2>
-                            <p class="lead">Tools for helping you work with the Genesys Cloud APIs</p>
-                        </div>
-                        <p>You need to authenticate with Genesys Cloud to use this application. Please select your region from below to proceed.</p>
-                    </div>
-                    <div class="modal-body" id="regionModalBody">
-                            <button type="button" class="regionButton" value="mypurecloud.com">US East (mypurecloud.com)</button>
-                            <button type="button" class="regionButton" value="usw2.pure.cloud">US West (usw2.pure.cloud)</button>
-                            <button type="button" class="regionButton" value="cac1.pure.cloud">Canada (cac1.pure.cloud)</button>
-                            <button type="button" class="regionButton" value="mypurecloud.de">EU Central (mypurecloud.de)</button>
-                            <button type="button" class="regionButton" value="mypurecloud.ie">EU West (Ireland) (mypurecloud.ie)</button>
-                            <button type="button" class="regionButton" value="euw2.pure.cloud">EU West (London) (euw2.pure.cloud)</button>
-                            <button type="button" class="regionButton" value="mypurecloud.com.au">APAC South (mypurecloud.com.au)</button>
-                            <button type="button" class="regionButton" value="apne2.pure.cloud">APAC Northeast (Seoul) (apne2.pure.cloud)</button>
-                            <button type="button" class="regionButton" value="mypurecloud.jp">APAC Northeast (Tokyo) (mypurecloud.jp)</button>
-                            <button type="button" class="regionButton" value="aps1.pure.cloud">APAC South (Mumbai) (aps1.pure.cloud)</button>
-                            <button type="button" class="regionButton" value="use2.us-gov-pure.cloud">US East (FedRAMP) (use2.us-gov-pure.cloud)</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</body>
+		<div>
+			<div
+				class="modal"
+				tabindex="-1"
+				id="regionModal"
+				role="dialog"
+				data-backdrop="false"
+				aria-labelledby="regionModal"
+				aria-hidden="true"
+			>
+				<div class="modal-dialog modal-dialog-flat">
+					<div class="modal-content">
+						<div class="modal-header" id="regionModalHeader">
+							<div class="hero">
+								<h2>Welcome to the Developer Tools</h2>
+								<p class="lead">Tools for helping you work with the Genesys Cloud APIs</p>
+							</div>
+							<p>You need to authenticate with Genesys Cloud to use this application. Please select your region from below to proceed.</p>
+						</div>
+						<div class="modal-body" id="regionModalBody">
+							<button type="button" class="regionButton" value="mypurecloud.com">US East (mypurecloud.com)</button>
+							<button type="button" class="regionButton" value="usw2.pure.cloud">US West (usw2.pure.cloud)</button>
+							<button type="button" class="regionButton" value="cac1.pure.cloud">Canada (cac1.pure.cloud)</button>
+							<button type="button" class="regionButton" value="mypurecloud.de">EU Central (mypurecloud.de)</button>
+							<button type="button" class="regionButton" value="mypurecloud.ie">EU West (Ireland) (mypurecloud.ie)</button>
+							<button type="button" class="regionButton" value="euw2.pure.cloud">EU West (London) (euw2.pure.cloud)</button>
+							<button type="button" class="regionButton" value="mypurecloud.com.au">APAC South (mypurecloud.com.au)</button>
+							<button type="button" class="regionButton" value="apne2.pure.cloud">APAC Northeast (Seoul) (apne2.pure.cloud)</button>
+							<button type="button" class="regionButton" value="mypurecloud.jp">APAC Northeast (Tokyo) (mypurecloud.jp)</button>
+							<button type="button" class="regionButton" value="aps1.pure.cloud">APAC South (Mumbai) (aps1.pure.cloud)</button>
+							<button type="button" class="regionButton" value="use2.us-gov-pure.cloud">US East (FedRAMP) (use2.us-gov-pure.cloud)</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
 </html>
