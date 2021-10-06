@@ -82,16 +82,16 @@ export default {
 					let accountsList = JSON.parse(storage.getItem(that.accounts)) || [];
 					let accounts = accountsList.accounts || [];
 					let savedCheckboxSettings = JSON.parse(storage.getItem('confirmChanges')) || [];
-					let checkboxSettings = savedCheckboxSettings.accounts || []; 
+					let checkboxSettings = savedCheckboxSettings.accounts || [];
 
 					let accountIds = accounts.map(function (account) {
 						return account.userId;
 					});
 
-					const checkboxSettingsUserIds = checkboxSettings.map(function(account){
+					const checkboxSettingsUserIds = checkboxSettings.map(function (account) {
 						return account.userId;
-					})
-					
+					});
+
 					if (!accountsList || accounts.length === 0) {
 						storage.setItem('selectedAccount', JSON.stringify(newAccount));
 					} else {
@@ -159,9 +159,9 @@ export default {
 	addAccount(environment) {
 		const oauthConfig = config.oauthProps[purecloudEnvironment()];
 		window.location.assign(
-			`https://login.${environment}/oauth/authorize?client_id=${
-				oauthConfig.clientId
-			}&response_type=token&prompt=login&redirect_uri=${encodeURI(oauthConfig.redirect)}&state=${encodeURIComponent(environment)}`
+			`https://login.${environment}/oauth/authorize?client_id=${oauthConfig.clientId}&response_type=token&redirect_uri=${encodeURI(
+				oauthConfig.redirect
+			)}&state=${encodeURIComponent(environment)}`
 		);
 	},
 
@@ -174,7 +174,7 @@ export default {
 		let storedAccounts = storage.getItem(this.accounts);
 		accountsObj = JSON.parse(storedAccounts) || [];
 		let accountsList = accountsObj.accounts || [];
-		
+
 		let accountPromises = accountsList.map(function (acc) {
 			return self.initAccount(acc);
 		});
