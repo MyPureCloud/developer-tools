@@ -20,7 +20,7 @@ export default Ember.Service.extend({
 
 		var api = self.get('purecloud').notificationsApi();
 
-		api.postNotificationsChannels().then(function(channel) {
+		api.postNotificationsChannels().then(function (channel) {
 			if (!(self.get('isDestroyed') || self.get('isDestroying'))) {
 				const socket = self.get('socketService').socketFor(channel.connectUri);
 
@@ -34,11 +34,15 @@ export default Ember.Service.extend({
 
 		api
 			.getNotificationsAvailabletopics({
-				expand: ['description', 'schema']
+				expand: ['transports,description,schema'],
 			})
-			.then(function(topics) {
+			.then(function (topics) {
 				if (!(self.get('isDestroyed') || self.get('isDestroying'))) {
-					self.set('availableTopics', topics.entities);
+					let updatedTopics = [];
+					if (topics.entities) {
+						updatedTopics = topics.entities.filter((t) => t.transports[0] !== 'EventBridge');
+					}
+					self.set('availableTopics', updatedTopics);
 				}
 			});
 	},
@@ -50,10 +54,10 @@ export default Ember.Service.extend({
 		var api = this.get('purecloud').notificationsApi();
 		api
 			.postNotificationsChannelSubscriptions(this.get('channelId'), [{ id: id }])
-			.then(function() {
+			.then(function () {
 				that.get('idList').pushObject(id);
 			})
-			.catch(function(error) {
+			.catch(function (error) {
 				console.log(error);
 			});
 	},
@@ -62,10 +66,10 @@ export default Ember.Service.extend({
 		var api = this.get('purecloud').notificationsApi();
 		api
 			.putNotificationsChannelSubscriptions(this.get('channelId'), [])
-			.then(function() {
+			.then(function () {
 				that.get('idList').clear();
 			})
-			.catch(function(error) {
+			.catch(function (error) {
 				console.log(error);
 			});
 	},
@@ -85,5 +89,5 @@ export default Ember.Service.extend({
 	},
 	togglePin() {
 		this.toggleProperty('isPinned');
-	}
+	},
 });
