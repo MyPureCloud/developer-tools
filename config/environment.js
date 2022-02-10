@@ -49,6 +49,24 @@ module.exports = function (environment) {
 				region: 'dev',
 				architectEnumString: 'archEnums.LOCATIONS.dev',
 			},
+			developerbetadevgenesyscloud: {
+				clientId: '96a7d55b-1ed5-4719-9094-08a2a69ca07c',
+				redirect: 'https://developer-beta.dev-genesys.cloud/developer-tools/',
+				region: 'dev',
+				architectEnumString: 'archEnums.LOCATIONS.dev',
+			},
+			developerbetatestgenesyscloud: {
+				clientId: '96a7d55b-1ed5-4719-9094-08a2a69ca07c',
+				redirect: 'https://developer-beta.genesys.cloud/developer-tools/',
+				region: 'test',
+				architectEnumString: 'archEnums.LOCATIONS.dev',
+			},
+			developerbetagenesyscloud: {
+				clientId: '96a7d55b-1ed5-4719-9094-08a2a69ca07c',
+				redirect: 'https://developer-beta.genesys.cloud/developer-tools/',
+				region: 'us-east-1',
+				architectEnumString: 'archEnums.LOCATIONS.dev',
+			},
 			developeraps1purecloud: {
 				clientId: '96a7d55b-1ed5-4719-9094-08a2a69ca07c',
 				redirect: 'https://developer.aps1.pure.cloud/developer-tools/',
