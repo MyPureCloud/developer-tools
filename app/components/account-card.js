@@ -60,6 +60,10 @@ export default Ember.Component.extend({
 				break;
 			case 'use2.us-gov-pure.cloud':
 				regionShort = 'FedRAMP';
+				break;
+			case 'sae1.pure.cloud':
+				regionShort = 'SAE1';
+				break;
 			default:
 				regionShort = 'UNK';
 		}
